@@ -117,19 +117,11 @@
 
 
 <ul>
-    <li><div class="all active">全部文章<small>(20)</small></div></li>
+    <li><div class="all active">全部文章<small>(19)</small></div></li>
     
         
             
             <li><div data-rel="Linux">Linux<small>(12)</small></div>
-                
-            </li>
-            
-        
-    
-        
-            
-            <li><div data-rel="Hexo">Hexo<small>(1)</small></div>
                 
             </li>
             
@@ -185,7 +177,7 @@
     </div>
     <div><a style="border-right: 1px solid #fff; width: 49%"  class="about site_url"  href="/about">关于</a><a style="width: 50%"  class="friends">友链</a></div>
 </div>
-<input type="hidden" id="yelog_site_posts_number" value="20">
+<input type="hidden" id="yelog_site_posts_number" value="19">
 
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
@@ -232,7 +224,7 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a href="javascript:" class="color3">network</a>
+        <a href="javascript:" class="color5">hexo</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -280,15 +272,15 @@
     </li>
     
     <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">信号分析</a>
+    </li>
+    
+    <li class="article-tag-list-item">
         <a href="javascript:" class="color4">概率论</a>
     </li>
     
     <li class="article-tag-list-item">
         <a href="javascript:" class="color3">权限</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a href="javascript:" class="color5">信号分析</a>
     </li>
     
     <div class="clearfix"></div>
@@ -305,20 +297,12 @@
             <span class="post-date" title="2019-09-30 20:45:12">2019/09/30</span>
         </a>
         
-        <a  class="Hexo "
+        <a  class="Linux "
            href="/2019/10/01/Github-SSH-Key避免Hexo部署输入密码/"
-           data-tag="blog,ssh"
+           data-tag="blog,ssh,hexo"
            data-author="" >
             <span class="post-title" title="Github SSH Key避免Hexo部署输入密码">Github SSH Key避免Hexo部署输入密码</span>
             <span class="post-date" title="2019-10-01 16:19:16">2019/10/01</span>
-        </a>
-        
-        <a  class="Linux "
-           href="/2019/07/18/Linux杂项/"
-           data-tag="network"
-           data-author="" >
-            <span class="post-title" title="Linux杂项">Linux杂项</span>
-            <span class="post-date" title="2019-07-18 16:37:19">2019/07/18</span>
         </a>
         
         <a  class="Linux "
@@ -426,6 +410,14 @@
         </a>
         
         <a  class="math "
+           href="/2019/07/18/正交函数/"
+           data-tag="信号分析"
+           data-author="" >
+            <span class="post-title" title="正交函数">正交函数</span>
+            <span class="post-date" title="2019-07-18 20:17:03">2019/07/18</span>
+        </a>
+        
+        <a  class="math "
            href="/2019/08/31/样本方差分母为什么是n-1/"
            data-tag="概率论"
            data-author="" >
@@ -439,14 +431,6 @@
            data-author="" >
             <span class="post-title" title="用户权限管理">用户权限管理</span>
             <span class="post-date" title="2019-09-30 23:22:20">2019/09/30</span>
-        </a>
-        
-        <a  class="math "
-           href="/2019/07/18/正交函数/"
-           data-tag="信号分析"
-           data-author="" >
-            <span class="post-title" title="正交函数">正交函数</span>
-            <span class="post-date" title="2019-07-18 20:17:03">2019/07/18</span>
         </a>
         
         <a  class="math "
@@ -495,7 +479,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-10-03 12:38:52'>2019-09-29 12:27</time>
+        创建时间:<time class="date" title='更新时间: 2019-10-03 17:47:36'>2019-09-29 12:27</time>
         
     </div>
     <div class="article-meta">
@@ -536,26 +520,27 @@
 env |grep SHELL
 sh  #可进入shell    
 </code></pre><ol>
-<li><ul>
-<li>通用符号，可以表示任意一个字符（包括空字符）或多个字符组成的字符串  ls -l /bin/e*</li>
-</ul>
-</li>
-<li>? 类似×，但是只能表示单个字符</li>
+<li>* 通用符号，可以表示任意一个字符（包括空字符）或多个字符组成的字符串  ls -l /bin/e*</li>
+<li>? 类似*，但是只能表示单个字符</li>
 <li>[] 制定被显示内容的范围 ls [a-c] 显示a 、b 、c文件夹</li>
 <li>！排除符号 用来指定被屏蔽的部分，需要与[]一起使用  ls [!a-c]  不显示a、b、c文件夹</li>
 <li>; 分隔符号，多个命令分隔  ls;ls -l</li>
 <li><code>命令替代符，成对出现，包含的内容在shell中表示一条命令，并且会被执行，这不是单引号 echo</code>ls -l`  将命令的结果显示出来 </li>
 <li><h1 id="注释符号"><a href="#注释符号" class="headerlink" title="注释符号"></a>注释符号</h1><h1 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h1></li>
-<li><p>别名</p>
-<pre><code> alias hs=&#39;hexo clean &amp;&amp; hexo g &amp;&amp; hexo s&#39;  # 注意等号前后无空格  别名相当与快捷键
-</code></pre></li>
-<li><p>重定向 &gt; 输入（覆盖）  &gt;&gt; 输入追加  &lt; 输出</p>
-<pre><code> ls -l &gt; test.txt  # 把ls 的结果写入test.txt中
+<li>别名<pre><code> # 事实上 .bashrc 是一个shell脚本文件，在用户登录到系统自动运行，可以把想让系统启动时运行的任务写进去
+ alias hs=&#39;hexo clean &amp;&amp; hexo g &amp;&amp; hexo s&#39;  # 注意等号前后无空格  别名相当与快捷键
 </code></pre></li>
 </ol>
 <ol>
+<li><p>重定向 &gt; 输入（覆盖）  &gt;&gt; 输入追加  &lt; 输出  &lt;&lt; 立即文档(here document)</p>
+<pre><code> ls -l &gt; test.txt  # 把ls 的结果写入test.txt中
+ cat &lt;&lt; EOF      #告诉Shell从键盘接受输入 EOF作为结束，然后查看输入内容
+</code></pre></li>
 <li><p>管道  “|”</p>
 <pre><code> ls -l |grep test
+</code></pre></li>
+<li><p>网络</p>
+<pre><code> nmap -sn 10.1.1.1-255   #扫描局域网        
 </code></pre></li>
 </ol>
 <h1 id="下载工具"><a href="#下载工具" class="headerlink" title="下载工具"></a>下载工具</h1><ul>
@@ -581,7 +566,7 @@ sh  #可进入shell
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="杨本泊">杨本泊</a></p>
     <p><span class="copy-title">发布时间:</span>2019-09-29, 12:27:00</p>
-    <p><span class="copy-title">最后更新:</span>2019-10-03, 12:38:52</p>
+    <p><span class="copy-title">最后更新:</span>2019-10-03, 17:47:36</p>
     <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/09/29/shell和下载工具/" title="shell和下载工具">http://yangbenbo.github.io/2019/09/29/shell和下载工具/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
@@ -625,7 +610,7 @@ sh  #可进入shell
     /*作者、标签的自动补全*/
     $(function () {
         $('.search').AutoComplete({
-            'data': ['#数据传输','#blog','#ssh','#network','#program','#文件共享','#gdb','#git','#shell','#下载工具','#simulink','#software','#ubuntu','#vim','#重装系统','#概率论','#权限','#信号分析',],
+            'data': ['#数据传输','#blog','#ssh','#hexo','#program','#文件共享','#gdb','#git','#shell','#下载工具','#simulink','#software','#ubuntu','#vim','#重装系统','#信号分析','#概率论','#权限',],
             'itemHeight': 20,
             'width': 418
         }).AutoComplete('show');

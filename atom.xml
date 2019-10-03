@@ -70,9 +70,9 @@
     <link href="http://yangbenbo.github.io/2019/10/01/SAMBA%E6%9C%8D%E5%8A%A1%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BA/"/>
     <id>http://yangbenbo.github.io/2019/10/01/SAMBA服务简单搭建/</id>
     <published>2019-10-01T13:00:55.000Z</published>
-    <updated>2019-10-03T04:38:52.501Z</updated>
+    <updated>2019-10-03T07:52:19.952Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="SAMBA简介"><a href="#SAMBA简介" class="headerlink" title="SAMBA简介"></a>SAMBA简介</h1><p>Samba是在Linux和UNIX系统上实现SMB协议的一个免费软件，由服务器及客户端程序构成。<br>SMB（Server Messages Block，信息服务块）是一种在局域网上共享文件和打印机的一种通信协议，<br>它为局域网内的不同计算机之间提供文件及打印机等资源的共享服务。</p><p>可以实现Windows和Linux主机之间共享资源互访功能</p><p>实验室小范围使用 直接采用匿名共享资源 简单快捷</p><h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>server 服务器</p><pre><code>sudo apt install samba    # samba-common 会自动安装sudo vi /etc/samba/smb.conf[share]             #共享目录comment=Linux share     #共享目录描述，给自己看的path=/home/share    #共享目录路径public=yeswriteable=yes   #可写browseable=yes  #共享在Windows中网上邻居可见 结合publicguest ok=yes    #允许匿名访问sudo /etc/init.d/samba start  # 开启服务器</code></pre><p>client ubuntu</p><pre><code>sudo apt install smbclientsmbclient -L 10.1.1.20   #查看共享目录smbclient //10.1.1.20/share  # IP地址后接共享目录  访问sudo apt-get install cifs-utils   #下载相应组件sudo mount -t cifs //10.1.1.20/share  /home/yang/share# vi /etc/fstab 开机自动挂载 具有写权限 注意逗号 之前就是用的空格导致不行//10.1.1.20/share    /home/yang/share cifs passward=123,dir_mode=0777,file_mode=0777 0 0  </code></pre><p>client Windows</p><pre><code>&quot;运行&quot;对话框输入\\10.1.1.20 回车选中共享文件夹 右键映射网络驱动器 即可像本地磁盘使用</code></pre><h1 id="服务器开机自启动"><a href="#服务器开机自启动" class="headerlink" title="服务器开机自启动"></a>服务器开机自启动</h1><pre><code>sudo vi /etc/rc.loca/etc/init.d/ssh start # 末尾添加 exit 0 之前/etc/init.d/smbd start    </code></pre><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://blog.csdn.net/qq_43682605/article/details/86562212" target="_blank" rel="noopener">Ubuntu终端访问samba服务器</a>    </li><li><a href="https://www.cnblogs.com/torres-9/p/5880188.html?utm_source=itdadao&amp;utm_medium=referral" target="_blank" rel="noopener">如何配置使Ubuntu启动后samba服务与ssh服务开机自动启动</a></li></ol>]]></content>
+    <content type="html"><![CDATA[<h1 id="SAMBA简介"><a href="#SAMBA简介" class="headerlink" title="SAMBA简介"></a>SAMBA简介</h1><p>Samba是在Linux和UNIX系统上实现SMB协议的一个免费软件，由服务器及客户端程序构成。<br>SMB（Server Messages Block，信息服务块）是一种在局域网上共享文件和打印机的一种通信协议，<br>它为局域网内的不同计算机之间提供文件及打印机等资源的共享服务。</p><p>可以实现Windows和Linux主机之间共享资源互访功能</p><p>实验室小范围使用 直接采用匿名共享资源 简单快捷</p><h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>server 服务器</p><pre><code>sudo apt install samba    # samba-common 会自动安装sudo vi /etc/samba/smb.conf[share]             #共享目录comment=Linux share     #共享目录描述，给自己看的path=/home/share    #共享目录路径public=yeswriteable=yes   #可写browseable=yes  #共享在Windows中网上邻居可见 结合publicguest ok=yes    #允许匿名访问sudo /etc/init.d/samba start  # 开启服务器</code></pre><p>client ubuntu</p><pre><code>sudo apt install smbclientsmbclient -L 10.1.1.20   #查看共享目录smbclient //10.1.1.20/share  # IP地址后接共享目录  访问sudo apt-get install cifs-utils   #下载相应组件sudo mount -t cifs //10.1.1.20/share  /home/yang/share# vi /etc/fstab 开机自动挂载 具有写权限 注意逗号 之前就是用的空格导致不行# cifs 文件系统  0: 备份频度0执行备份(完全备份) 0：fsck检查次序为0(序号为0的最先检查)//10.1.1.20/share    /home/yang/share cifs passward=123,dir_mode=0777,file_mode=0777 0 0  </code></pre><p>client Windows</p><pre><code>&quot;运行&quot;对话框输入\\10.1.1.20 回车选中共享文件夹 右键映射网络驱动器 即可像本地磁盘使用</code></pre><h1 id="服务器开机自启动"><a href="#服务器开机自启动" class="headerlink" title="服务器开机自启动"></a>服务器开机自启动</h1><pre><code>sudo vi /etc/rc.loca/etc/init.d/ssh start # 末尾添加 exit 0 之前/etc/init.d/smbd start    </code></pre><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://blog.csdn.net/qq_43682605/article/details/86562212" target="_blank" rel="noopener">Ubuntu终端访问samba服务器</a>    </li><li><a href="https://www.cnblogs.com/torres-9/p/5880188.html?utm_source=itdadao&amp;utm_medium=referral" target="_blank" rel="noopener">如何配置使Ubuntu启动后samba服务与ssh服务开机自动启动</a></li></ol>]]></content>
     
     <summary type="html">
     
@@ -95,7 +95,7 @@
     <link href="http://yangbenbo.github.io/2019/10/01/Github-SSH-Key%E9%81%BF%E5%85%8DHexo%E9%83%A8%E7%BD%B2%E8%BE%93%E5%85%A5%E5%AF%86%E7%A0%81/"/>
     <id>http://yangbenbo.github.io/2019/10/01/Github-SSH-Key避免Hexo部署输入密码/</id>
     <published>2019-10-01T08:19:16.000Z</published>
-    <updated>2019-10-03T04:38:52.501Z</updated>
+    <updated>2019-10-03T06:14:56.248Z</updated>
     
     <content type="html"><![CDATA[<h1 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h1><p>前提: 已经生成ssh公钥放在github</p><p>修改_config.yaml,将部署方式从https改为ssh</p><pre><code># Deployment## Docs: https://hexo.io/docs/deployment.htmldeploy:  type: git  repository: https://github.com/yangbenbo/yangbenbo.github.io.git  branch: master</code></pre><p>改为</p><pre><code># Deployment## Docs: https://hexo.io/docs/deployment.htmldeploy:  type: git  repository: git@github.com:yangbenbo/yangbenbo.github.io.git  branch: master            </code></pre><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol><li><a href="https://www.cnblogs.com/yaoel/p/5381826.html" target="_blank" rel="noopener">使用Github SSH Key来避免Hexo部署时输入账户密码</a>      </li></ol>]]></content>
     
@@ -110,12 +110,14 @@
     
     </summary>
     
-      <category term="Hexo" scheme="http://yangbenbo.github.io/categories/Hexo/"/>
+      <category term="Linux" scheme="http://yangbenbo.github.io/categories/Linux/"/>
     
     
       <category term="blog" scheme="http://yangbenbo.github.io/tags/blog/"/>
     
       <category term="ssh" scheme="http://yangbenbo.github.io/tags/ssh/"/>
+    
+      <category term="hexo" scheme="http://yangbenbo.github.io/tags/hexo/"/>
     
   </entry>
   
@@ -200,9 +202,9 @@
     <link href="http://yangbenbo.github.io/2019/09/29/ubuntu%E5%B0%8F%E6%8A%80%E5%B7%A7/"/>
     <id>http://yangbenbo.github.io/2019/09/29/ubuntu小技巧/</id>
     <published>2019-09-29T13:11:37.000Z</published>
-    <updated>2019-10-03T04:38:52.501Z</updated>
+    <updated>2019-10-03T09:27:11.073Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="后台运行"><a href="#后台运行" class="headerlink" title="后台运行"></a>后台运行</h1><pre><code>gedit test.txt &amp;   #  &amp;告诉终端后台运行,gedit test.txt  ctrl+Z  #移到后台bg    #返回gedit</code></pre><h1 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h1><pre><code>ps ax | grep samplekill &lt;id&gt;     #终止进程top   #show process and memory usageshift+P   #sort by cpushift+M  #sort by memory</code></pre><h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><pre><code>ctrl + L  #在资源管理器中显示绝对路径</code></pre><ul><li><p>ubuntu 4个工作区 和win10的多桌面一样 ctrl+alt+方向箭头 切换 setting-&gt;appearance-&gt;behavior-&gt;enable workspaces</p></li><li><p>deb文件包含二进制文件、库文件、配置文件、帮助文档<br>ubuntu软件包：二进制包 (Binary Packages)   源码包(Source Packages)<br>Redhat Linux  -&gt; RPM包    ubunut -&gt; Deb包</p></li></ul>]]></content>
+    <content type="html"><![CDATA[<h1 id="后台运行"><a href="#后台运行" class="headerlink" title="后台运行"></a>后台运行</h1><pre><code>gedit test.txt &amp;   #  &amp;告诉终端后台运行,gedit test.txt  ctrl+Z  #移到后台bg    #返回gedit</code></pre><h1 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h1><pre><code>ps ax | grep samplekill &lt;id&gt;     #终止进程top   #show process and memory usageshift+P   #sort by cpushift+M  #sort by memorycron  at #周期任务和临时任务安排</code></pre><h1 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h1><pre><code>nmap -sn 10.1.1.1-255  # 扫描局域网ipnmap -sT -O 10.1.1.20     #扫描主机网络端口 和操作系统  -sT是默认 可以不用namp -p1-5000 10.1.1.20 #扫描1-5000端口</code></pre><h1 id="软件安装路径"><a href="#软件安装路径" class="headerlink" title="软件安装路径"></a>软件安装路径</h1><pre><code>whereis gcc   #查看gcc安装路径which   gcc  #查看gcc运行路径</code></pre><p>rpm</p><pre><code>rpm -ql gcc        #查看gcc相关文件的安装路径rpm -qa | grep gcc #查看有没有安装gccrpm -qa            #查看全部使用rpm安装的软件sudo rpm -ivh xxx.rpm   # install  -e  (to remove)</code></pre><p>deb</p><pre><code>dpkg -L gcc         #查看gcc相关文件的安装路径dpkg -l | grep gcc  #查看有没有安装gccdpkg -l             #查看全部安装包dpkg -i xxx.deb     #install   --remove</code></pre><h1 id="获取命令"><a href="#获取命令" class="headerlink" title="获取命令"></a>获取命令</h1><pre><code>whatis uname    #一行介绍性文字apropos search  #想搜索一个文件又忘了命令  </code></pre><h1 id="文件压缩与归档"><a href="#文件压缩与归档" class="headerlink" title="文件压缩与归档"></a>文件压缩与归档</h1><pre><code>gzip xxx    #压缩工具bzip xxx    #更高效的压缩工具#c:create f:指定归档文件名 v:显示执行过程  提取c -&gt; x# czvf 会在归档之后调用gzip  cjf 调用bzip  短划线- 都是可以省略的tar -cvf shell.tar shell/   dump restore    # 增量备份和回复 但是备份不会注意删除的文件，有可能恢复了删除的cron            # 计划任务配合，自动备份          </code></pre><h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><pre><code>uname    #查看当前系统信息 包括内核ctrl + L #在资源管理器中显示绝对路径su       #切换用户  sudo suwho      #查看当前登录用户df -t ext4     #查看磁盘使用情况dd if=xxx of=xxx    #拷贝 少用</code></pre><h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><ul><li><p>更新linux时候提示无法“由于没有公钥，无法验证下列签名 <em>*</em>”的解决方案</p><pre><code>sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 6AF0E1940624A220 #此处6AF0E1940624A220需要是错误提示的key  </code></pre></li><li><p>ubuntu 4个工作区 和win10的多桌面一样 ctrl+alt+方向箭头 切换 setting-&gt;appearance-&gt;behavior-&gt;enable workspaces</p></li><li><p>deb文件包含二进制文件、库文件、配置文件、帮助文档<br>ubuntu软件包：二进制包 (Binary Packages)   源码包(Source Packages)<br>Redhat Linux  -&gt; RPM包    ubunut -&gt; Deb包</p></li></ul><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://blog.csdn.net/liufuchun111/article/details/80402109" target="_blank" rel="noopener">linux下查看软件安装路径</a></li><li><a href="https://blog.csdn.net/loovejava/article/details/21837935" target="_blank" rel="noopener">更新linux时候提示无法“由于没有公钥，无法验证下列签名 <em>*</em>”的解决方案</a></li></ol>]]></content>
     
     <summary type="html">
     
@@ -224,9 +226,9 @@ gedit test.tx
     <link href="http://yangbenbo.github.io/2019/09/29/shell%E5%92%8C%E4%B8%8B%E8%BD%BD%E5%B7%A5%E5%85%B7/"/>
     <id>http://yangbenbo.github.io/2019/09/29/shell和下载工具/</id>
     <published>2019-09-29T04:27:00.000Z</published>
-    <updated>2019-10-03T04:38:52.501Z</updated>
+    <updated>2019-10-03T09:47:36.003Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="SHELL常用符号"><a href="#SHELL常用符号" class="headerlink" title="SHELL常用符号"></a>SHELL常用符号</h1><pre><code>echo $SHELL      env |grep SHELLsh  #可进入shell    </code></pre><ol><li><ul><li>通用符号，可以表示任意一个字符（包括空字符）或多个字符组成的字符串  ls -l /bin/e*</li></ul></li><li>? 类似×，但是只能表示单个字符</li><li>[] 制定被显示内容的范围 ls [a-c] 显示a 、b 、c文件夹</li><li>！排除符号 用来指定被屏蔽的部分，需要与[]一起使用  ls [!a-c]  不显示a、b、c文件夹</li><li>; 分隔符号，多个命令分隔  ls;ls -l</li><li><code>命令替代符，成对出现，包含的内容在shell中表示一条命令，并且会被执行，这不是单引号 echo</code>ls -l`  将命令的结果显示出来 </li><li><h1 id="注释符号"><a href="#注释符号" class="headerlink" title="注释符号"></a>注释符号</h1><h1 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h1></li><li><p>别名</p><pre><code> alias hs=&#39;hexo clean &amp;&amp; hexo g &amp;&amp; hexo s&#39;  # 注意等号前后无空格  别名相当与快捷键</code></pre></li><li><p>重定向 &gt; 输入（覆盖）  &gt;&gt; 输入追加  &lt; 输出</p><pre><code> ls -l &gt; test.txt  # 把ls 的结果写入test.txt中</code></pre></li></ol><ol><li><p>管道  “|”</p><pre><code> ls -l |grep test</code></pre></li></ol><h1 id="下载工具"><a href="#下载工具" class="headerlink" title="下载工具"></a>下载工具</h1><ul><li>apt</li><li>wget</li><li><p>Transmission   #种子下载</p><pre><code>  wget  -r -np -nd http://10.143.2.9/packages/      递归下载 不遍历父目录  不在本地重新创建目录  wget  -r -np -nd --accept=cpp http://10.143.2.9/packages/      递归下载 不遍历父目录  不在本地重新创建目录 扩展名为cpp的文件  wget -i filename.txt      URL地址放在filename.txt文件，自动下载所有文件  wget -c  ...  断点续传</code></pre></li></ul><h1 id="注释符号-1"><a href="#注释符号-1" class="headerlink" title="注释符号"></a>注释符号</h1>]]></content>
+    <content type="html"><![CDATA[<h1 id="SHELL常用符号"><a href="#SHELL常用符号" class="headerlink" title="SHELL常用符号"></a>SHELL常用符号</h1><pre><code>echo $SHELL      env |grep SHELLsh  #可进入shell    </code></pre><ol><li>* 通用符号，可以表示任意一个字符（包括空字符）或多个字符组成的字符串  ls -l /bin/e*</li><li>? 类似*，但是只能表示单个字符</li><li>[] 制定被显示内容的范围 ls [a-c] 显示a 、b 、c文件夹</li><li>！排除符号 用来指定被屏蔽的部分，需要与[]一起使用  ls [!a-c]  不显示a、b、c文件夹</li><li>; 分隔符号，多个命令分隔  ls;ls -l</li><li><code>命令替代符，成对出现，包含的内容在shell中表示一条命令，并且会被执行，这不是单引号 echo</code>ls -l`  将命令的结果显示出来 </li><li><h1 id="注释符号"><a href="#注释符号" class="headerlink" title="注释符号"></a>注释符号</h1><h1 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h1></li><li>别名<pre><code> # 事实上 .bashrc 是一个shell脚本文件，在用户登录到系统自动运行，可以把想让系统启动时运行的任务写进去 alias hs=&#39;hexo clean &amp;&amp; hexo g &amp;&amp; hexo s&#39;  # 注意等号前后无空格  别名相当与快捷键</code></pre></li></ol><ol><li><p>重定向 &gt; 输入（覆盖）  &gt;&gt; 输入追加  &lt; 输出  &lt;&lt; 立即文档(here document)</p><pre><code> ls -l &gt; test.txt  # 把ls 的结果写入test.txt中 cat &lt;&lt; EOF      #告诉Shell从键盘接受输入 EOF作为结束，然后查看输入内容</code></pre></li><li><p>管道  “|”</p><pre><code> ls -l |grep test</code></pre></li><li><p>网络</p><pre><code> nmap -sn 10.1.1.1-255   #扫描局域网        </code></pre></li></ol><h1 id="下载工具"><a href="#下载工具" class="headerlink" title="下载工具"></a>下载工具</h1><ul><li>apt</li><li>wget</li><li><p>Transmission   #种子下载</p><pre><code>  wget  -r -np -nd http://10.143.2.9/packages/      递归下载 不遍历父目录  不在本地重新创建目录  wget  -r -np -nd --accept=cpp http://10.143.2.9/packages/      递归下载 不遍历父目录  不在本地重新创建目录 扩展名为cpp的文件  wget -i filename.txt      URL地址放在filename.txt文件，自动下载所有文件  wget -c  ...  断点续传</code></pre></li></ul><h1 id="注释符号-1"><a href="#注释符号-1" class="headerlink" title="注释符号"></a>注释符号</h1>]]></content>
     
     <summary type="html">
     
@@ -374,32 +376,6 @@ S^{2}=\frac{1}{n-1} \sum_{i=1}^{n}\left(X_{i}-\overline{X}\right)^{2}=\frac{1}{n
     
     
       <category term="信号分析" scheme="http://yangbenbo.github.io/tags/%E4%BF%A1%E5%8F%B7%E5%88%86%E6%9E%90/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Linux杂项</title>
-    <link href="http://yangbenbo.github.io/2019/07/18/Linux%E6%9D%82%E9%A1%B9/"/>
-    <id>http://yangbenbo.github.io/2019/07/18/Linux杂项/</id>
-    <published>2019-07-18T08:37:19.000Z</published>
-    <updated>2019-10-03T04:38:52.501Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="扫描局域网ip"><a href="#扫描局域网ip" class="headerlink" title="扫描局域网ip"></a>扫描局域网ip</h2><pre><code>nmap -sn 10.1.1.1-255</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;扫描局域网ip&quot;&gt;&lt;a href=&quot;#扫描局域网ip&quot; class=&quot;headerlink&quot; title=&quot;扫描局域网ip&quot;&gt;&lt;/a&gt;扫描局域网ip&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;nmap -sn 10.1.1.1-255
-&lt;/code&gt;&lt;/pre&gt;
-      
-    
-    </summary>
-    
-      <category term="Linux" scheme="http://yangbenbo.github.io/categories/Linux/"/>
-    
-    
-      <category term="network" scheme="http://yangbenbo.github.io/tags/network/"/>
     
   </entry>
   
