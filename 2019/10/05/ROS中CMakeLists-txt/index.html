@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
-  <title>FTP配置和使用 | yangbenbo&#39;s blog</title>
-  <meta name="keywords" content=" 数据传输 ">
-  <meta name="description" content="FTP配置和使用 | yangbenbo&#39;s blog">
+  <title>ROS中CMakeLists.txt | yangbenbo&#39;s blog</title>
+  <meta name="keywords" content=" ROS ">
+  <meta name="description" content="ROS中CMakeLists.txt | yangbenbo&#39;s blog">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="个人简介杨本泊， 就读于武大，目前研究机械臂轨迹规划。 喜欢研究新兴技术和未来发展方向。 最近搭建博客 联系方式 QQ : 2519130844 邮箱 : yangbenbo_whu@qq.com">
 <meta property="og:type" content="website">
@@ -477,9 +477,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-FTP配置和使用" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-ROS中CMakeLists-txt" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">FTP配置和使用</h1>
+        <h1 class="article-title">ROS中CMakeLists.txt</h1>
     
     <div class="article-meta">
         
@@ -494,14 +494,14 @@
         
         <span class="tag">
             
-            <a href="javascript:" class="color5">数据传输</a>
+            <a href="javascript:" class="color4">ROS</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-10-03 12:38:52'>2019-09-30 20:45</time>
+        创建时间:<time class="date" title='更新时间: 2019-10-05 20:27:42'>2019-10-05 19:25</time>
         
     </div>
     <div class="article-meta">
@@ -523,7 +523,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#FTP简介"><span class="toc-text">FTP简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#FTP配置"><span class="toc-text">FTP配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#常用命令"><span class="toc-text">常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#FTP命令"><span class="toc-text">FTP命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关闭FTP"><span class="toc-text">关闭FTP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#上传下载"><span class="toc-text">上传下载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#状态码"><span class="toc-text">状态码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#概述"><span class="toc-text">概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#整体结构"><span class="toc-text">整体结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#软件版本"><span class="toc-text">软件版本</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#软件包名称"><span class="toc-text">软件包名称</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#查找相关CMake包"><span class="toc-text">查找相关CMake包</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#find-package作用"><span class="toc-text">find-package作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么Catkin包是组件形式"><span class="toc-text">为什么Catkin包是组件形式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Boost库"><span class="toc-text">　Boost库</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#catkin-package"><span class="toc-text">　catkin_package()</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#指定构建目标"><span class="toc-text">指定构建目标</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#包含路径和库"><span class="toc-text">包含路径和库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#可执行目标"><span class="toc-text">可执行目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#库目标"><span class="toc-text">库目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#target-link-libraries"><span class="toc-text">target_link_libraries</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#消息、服务和响应"><span class="toc-text">消息、服务和响应</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#使用条件"><span class="toc-text">使用条件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#例子"><span class="toc-text">例子</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#问题"><span class="toc-text">问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#引用"><span class="toc-text">引用</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -538,83 +538,142 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="FTP简介"><a href="#FTP简介" class="headerlink" title="FTP简介"></a>FTP简介</h1><p>文件传输协议(File Transfer Protocol)：传统网络传输协议，主要实现服务器和客户端之间的文件传输</p>
-<h1 id="FTP配置"><a href="#FTP配置" class="headerlink" title="FTP配置"></a>FTP配置</h1><p>匿名用户无法使用ls dir等命令查看文件</p>
-<hr>
-<pre><code>sudo apt-get install vsftpd   #服务器端
-sudo vim /etc/vsftpd.conf     #可以默认 anonymous_enable=YES 可用anonymous作为用户名和密码登录
-sudo /etc/init.d/vsftpd restart  #重启服务
-
-ftp 10.1.1.20   #连接服务器
-</code></pre><p>配置文件:vsftpd.conf   # 测试了一下 感觉默认设置就可以本地用户登录<br>可能需要改/etc/ftpusers  并重启  </p>
-<pre><code>local_root=/home/ftp  # 锁定共享目录 手动添加  可以不用
-local_enable=YES    #本机可以访问
-write_enable=YES    #允许写操作
-
-#chroot_local_user=YES
-chroot_list_enable=YES    # 限制实体用户在自己的主目录设定文件
-# (default follows)
-chroot_list_file=/etc/vsftpd.chroot_list
-sudo vim /etc/vsftpd.chroot_list     # 添加用户名
-sudo vim /etc/ftpusers  #这里面是不能访问ftp的用户  删除对应的
-</code></pre><h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><h2 id="FTP命令"><a href="#FTP命令" class="headerlink" title="FTP命令"></a>FTP命令</h2><pre><code>ftp&gt; ascii # 设定以ASCII方式传送文件(缺省值) 
-ftp&gt; bell  # 每完成一次文件传送,报警提示. 
-ftp&gt; binary # 设定以二进制方式传送文件. 
-ftp&gt; bye  # 终止主机FTP进程,并退出FTP管理方式. 
-ftp&gt; case # 当为ON时,用MGET命令拷贝的文件名到本地机器中,全部转换为小写字母. 
-ftp&gt; cd   # 同UNIX的CD命令. 
-ftp&gt; cdup  # 返回上一级目录. 
-ftp&gt; chmod # 改变远端主机的文件权限. 
-ftp&gt; close # 终止远端的FTP进程,返回到FTP命令状态, 所有的宏定义都被删除. 
-ftp&gt; delete # 删除远端主机中的文件. 
-ftp&gt; dir [remote-directory] [local-file] # 列出当前远端主机目录中的文件.如果有本地文件,就将结果写至本地文件. 
-ftp&gt; get [remote-file] [local-file] # 从远端主机中传送至本地主机中. 
-ftp&gt; help [command] # 输出命令的解释. 
-ftp&gt; lcd # 改变当前本地主机的工作目录,如果缺省,就转到当前用户的HOME目录. 
-ftp&gt; ls [remote-directory] [local-file] # 同DIR. 
-ftp&gt; macdef         # 定义宏命令. 
-ftp&gt; mdelete [remote-files] # 删除一批文件. 
-ftp&gt; mget [remote-files]  # 从远端主机接收一批文件至本地主机. 
-ftp&gt; mkdir directory-name  # 在远端主机中建立目录. 
-ftp&gt; mput local-files # 将本地主机中一批文件传送至远端主机. 
-ftp&gt; open host [port] # 重新建立一个新的连接. 
-ftp&gt; prompt      # 交互提示模式. 
-ftp&gt; put local-file [remote-file] # 将本地一个文件传送至远端主机中. 
-ftp&gt; pwd # 列出当前远端主机目录. 
-ftp&gt; quit # 同BYE. 
-ftp&gt; recv remote-file [local-file] # 同GET. 
-ftp&gt; rename [from] [to]   # 改变远端主机中的文件名. 
-ftp&gt; rmdir directory-name  # 删除远端主机中的目录. 
-ftp&gt; send local-file [remote-file] # 同PUT. 
-ftp&gt; status  # 显示当前FTP的状态. 
-ftp&gt; system  # 显示远端主机系统类型. 
-ftp&gt; user user-name [password] [account] # 重新以别的用户名登录远端主机. 
-ftp&gt; ? [command] # 同HELP. [command]指定需要帮助的命令名称。如果没有指定 command，ftp 将显示全部命令的列表。
-ftp&gt; ! # 从 ftp 子系统退出到外壳。
-</code></pre><h2 id="关闭FTP"><a href="#关闭FTP" class="headerlink" title="关闭FTP"></a>关闭FTP</h2><pre><code>bye
-
-exit
-
-quit
-</code></pre><h2 id="上传下载"><a href="#上传下载" class="headerlink" title="上传下载"></a>上传下载</h2><pre><code>ftp&gt; put /path/readme.txt # 上传 readme.txt 文件
-ftp&gt; mput *.txt      # 可以上传多个文件
-
-ftp&gt; get readme.txt # 下载 readme.txt 文件
-ftp&gt; mget *.txt   # 下载
-</code></pre><p>win10上传下载 命令同Linux</p>
-<pre><code>cmd
-ftp 10.1.1.20
-</code></pre><h2 id="状态码"><a href="#状态码" class="headerlink" title="状态码"></a>状态码</h2><pre><code>•230 - 登录成功
-•200 - 命令执行成功
-•150 - 文件状态正常，开启数据连接端口
-•250 - 目录切换操作完成
-•226 - 关闭数据连接端口，请求的文件操作成功 
-</code></pre><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol>
-<li><a href="https://www.cnblogs.com/feiquan/p/9236768.html" target="_blank" rel="noopener">Linux中ftp的常用命令</a></li>
-<li><ol>
-<li><a href="https://blog.csdn.net/Klein_yang/article/details/84954958" target="_blank" rel="noopener">Ubuntu安装ftp服务</a></li>
+        <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>CMake构建系统通过ROS包中的CMakeList.txt来构建软件包。<br>在catkin 项目中，CMakeList.txt 符合标准的vanilla CMakeList.txt 格式，但稍微有点不同。</p>
+<h1 id="整体结构"><a href="#整体结构" class="headerlink" title="整体结构"></a>整体结构</h1><ol>
+<li>所需CMake版本(cmake_minimum_required)</li>
+<li>软件包名称(project())</li>
+<li>查找构建所需的其他CMake / Catkin软件包(find_package())</li>
+<li>启用Python模块支持(catkin_python_setup())</li>
+<li>消息/服务/动作生成器(add_message_files()，add_service_files()，add_action_files())</li>
+<li>生成消息/服务/动作等自定义消息(generate_messages())</li>
+<li>指定包的构建信息输出(catkin_package())</li>
+<li>要建立的库/可执行文件(add_library()/ add_executable()/ target_link_libraries())</li>
+<li>测试(catkin_add_gtest())</li>
+<li>安装规则(install())</li>
 </ol>
-</li>
+<h1 id="软件版本"><a href="#软件版本" class="headerlink" title="软件版本"></a>软件版本</h1><pre><code>cmake_minimum_required(VERSION 2.8.3)
+</code></pre><h1 id="软件包名称"><a href="#软件包名称" class="headerlink" title="软件包名称"></a>软件包名称</h1><p>可通过变量${PROJECT_NAME}来引用项目名称</p>
+<pre><code>project(robot_brain)    
+</code></pre><h1 id="查找相关CMake包"><a href="#查找相关CMake包" class="headerlink" title="查找相关CMake包"></a>查找相关CMake包</h1><p>指明构建package需要的包，使用catkin_make，所以catkin是必备依赖,在此基础上可能需要其他的包</p>
+<pre><code>find_package(catkin REQUIRED)   
+
+find_package(catkin REQUIRED COMPONENTS nodelet)  #第一种方式 合并写
+
+find_package(catkin REQUIRED)   # 第二种方式 分开写
+find_package(nodelet REQUIRED)
+</code></pre><h2 id="find-package作用"><a href="#find-package作用" class="headerlink" title="find-package作用"></a>find-package作用</h2><p> 如果CMake通过find_package找到一个包，则会自动生成有关包所在路径的CMake环境变量，<br> 环境变量描述了包中头文件的位置，源文件的位置，包所依赖的库文件位置。<br> 这些变量名称以&lt; PACKAGE NAME &gt;_&lt; PROPERTY &gt;的形式出现：</p>
+<ul>
+<li>&lt; NAME &gt;_FOUND - 如果找到库，则设置为true，否则为false</li>
+<li>&lt; NAME &gt; _INCLUDE_DIRS或 _INCLUDES - 这个包输出的头文件目录</li>
+<li>&lt; NAME &gt; _LIBRARIES或 _LIBS - 由包导出的库</li>
+<li>&lt; NAME &gt; _DEFINITIONS - ?</li>
+<li>…</li>
+</ul>
+<h2 id="为什么Catkin包是组件形式"><a href="#为什么Catkin包是组件形式" class="headerlink" title="为什么Catkin包是组件形式"></a>为什么Catkin包是组件形式</h2><p>Catkin的包并不是catkin的真正组成部分。而catkin采用CMake的组件功能，主要是为了节省打字时间。</p>
+<pre><code>#这种方式 会把组件中的包对应的include路径、库导出到catkin前缀的变量中，
+#例如catkin_INCLUDE_DIRS包含多个包的路径
+find_package（catkin REQUIRED COMPONENTS nodelet）
+
+find_package(nodelet REQUIRED)  # 而这种方式 路径和库不会导入catkin变量，而是nodelet_INCLUDE_DIRS之类的
+</code></pre><h2 id="Boost库"><a href="#Boost库" class="headerlink" title="　Boost库"></a>　Boost库</h2><p>如果使用C ++和Boost，则需要用find_package()来找Boost库，并指定Boost中的组件。如果想使用Boost线程，就可以写成：</p>
+<pre><code>find_package（Boost REQUIRED COMPONENTS thread）
+</code></pre><h1 id="catkin-package"><a href="#catkin-package" class="headerlink" title="　catkin_package()"></a>　catkin_package()</h1><p>将catkin特定的信息输出到构建系统上，用于生成pkg配置文件以及CMake文件        </p>
+<ul>
+<li>INCLUDE_DIRS - 导出包的include路径</li>
+<li>LIBRARIES - 导出项目中的库</li>
+<li>CATKIN_DEPENDS - 该项目依赖的其他catkin项目</li>
+<li>DEPENDS - 该项目所依赖的非catkin CMake项目。</li>
+<li><p>CFG_EXTRAS - 其他配置选项</p>
+<pre><code>  catkin_package(
+     INCLUDE_DIRS include
+     LIBRARIES ${PROJECT_NAME}　　　
+     CATKIN_DEPENDS roscpp nodelet
+     DEPENDS eigen opencv)
+</code></pre><p>这表示包文件夹中的文件夹“include”是导出头文件的地方。<br>${PROJECT_NAME}根据project中的内容生成，此处是robot_brain<br>“roscpp”+“nodelet”是用来构建/运行此程序包的catkin包，<br>而“eigen”+“opencv”是用于构建/运行此程序包的非catkin包。   </p>
+<h1 id="指定构建目标"><a href="#指定构建目标" class="headerlink" title="指定构建目标"></a>指定构建目标</h1><h2 id="包含路径和库"><a href="#包含路径和库" class="headerlink" title="包含路径和库"></a>包含路径和库</h2></li>
+</ul>
+<ol>
+<li>include_directories()</li>
+</ol>
+<p>参数应该是调用find_package调用时生成的* _INCLUDE_DIRS变量。<br>如果使用catkin和Boost，那么include_directories()调用应该如下所示：</p>
+<pre><code>include_directories(include ${Boost_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
+</code></pre><p>第一个参数“include”表示包中的include /目录也是路径的一部分。</p>
+<ol>
+<li>link_directories()</li>
+</ol>
+<p>用于添加额外的库路径，但通常不推荐这样做，因为 所有catkin和CMake软件包在find_packaged时都会自动添加链接信息。<br>只需写target_link_libraries()中就可以了。但真要写，就按照下面那样来写：</p>
+<pre><code>link_directories(~/my_libs)
+</code></pre><h2 id="可执行目标"><a href="#可执行目标" class="headerlink" title="可执行目标"></a>可执行目标</h2><p>生成可执行程序对应的源文件</p>
+<pre><code>add_executable(myProgram src/main.cpp src/some_file.cpp)
+</code></pre><h2 id="库目标"><a href="#库目标" class="headerlink" title="库目标"></a>库目标</h2><p>默认的catkin编译产生的共享库</p>
+<pre><code>add_library(${PROJECT_NAME} ${${PROJECT_NAME}_SRCS})　　#指定要构建的库
+</code></pre><h2 id="target-link-libraries"><a href="#target-link-libraries" class="headerlink" title="target_link_libraries"></a>target_link_libraries</h2><p>指定可执行目标链接的库。 通常在add_executable()调用之后完成。<br>如果找不到ros，则添加$ {catkin_LIBRARIES}。</p>
+<pre><code>target_link_libraries(&lt;executableTargetName&gt;, &lt;lib1&gt;, &lt;lib2&gt;, ... &lt;libN&gt;)
+</code></pre><p>大多数情况中不需要使用link_directories()，因为find_package()自动拉入。   </p>
+<h1 id="消息、服务和响应"><a href="#消息、服务和响应" class="headerlink" title="消息、服务和响应"></a>消息、服务和响应</h1><h2 id="使用条件"><a href="#使用条件" class="headerlink" title="使用条件"></a>使用条件</h2><pre><code># CMakeLists.txt
+find_package(catkin REQUIRED COMPONENTS message_generation ...)
+add_message_files(...)
+add_service_files(...)
+add_action_files(...)
+generate_messages(...)
+catkin_package(
+ ...
+ CATKIN_DEPENDS message_runtime ...
+ ...)
+
+# package.xml文件中加上 
+&lt;build_depend&gt;message_generation&lt;/build_depend&gt;
+&lt;run_depend&gt;message_runtime&lt;/run_depend&gt;
+</code></pre><ol>
+<li><p>如果构建的对象依赖于其他需要构建消息/服务/响应的构建对象，<br>则需要向目标catkin_EXPORTED_TARGETS添加明确的依赖关系，<br>以便它们以正确的顺序构建。 这种情况比较常用，除非您的包真的不使用ROS的任何部分。<br>但这种依赖关系不能自动传递。some_target是由add_executable()设置的目标的名称）    </p>
+<pre><code> add_dependencies(some_target${catkin_EXPORTED_TARGETS})
+</code></pre></li>
+<li><p>如果需要构建消息或服务的包以及使用这些消息和/或服务的可执行文件，<br>则需要为自动生成的消息目标创建明确的依赖关系，以便以正确的顺序构建它们。<br>（some_target是由add_executable()设置的目标的名称）</p>
+<pre><code> add_dependencies(some_target ${${PROJECT_NAME}_EXPORTED_TARGETS})    
+</code></pre></li>
+</ol>
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>现在有两个依赖于std_msgs和sensor_msgs的消息MyMessage1.msg和MyMessage2.msg，<br>还有一个自定义服务MyService.srv， message_program是使用这些消息和服务的指令，<br>以及生成不使用自定义消息、服务的程序 do_not_use_local_messages_program 不使用，<br>那么CMakeLists.txt应该写成：</p>
+<pre><code># 构建时依赖项
+find_package(catkin REQUIRED COMPONENTS          
+             message_generation 
+             std_msgs 
+
+# 声明要构建哪些消息
+add_message_files(FILES
+                  MyMessage1.msg
+                  MyMessage2.msg)
+
+# 声明构建哪些服务
+add_service_files(FILES
+                  MyService.srv)
+
+# 声明生成上述消息、服务需要依赖的消息以及服务
+generate_messages(DEPENDENCIES 
+                    std_msgs 
+                    sensor_msgs)
+
+# 声明运行时依赖项
+catkin_package(CATKIN_DEPENDS 
+                message_runtime 
+                std_msgs sensor_msgs)
+
+# 声明构建生成的可执行文件名称以及依赖项
+add_executable(message_program src/main.cpp)
+add_dependencies(message_program ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+# 声明构建不需要使用自定义消息、服务的可执行文件
+add_executable(does_not_use_local_messages_program src/main.cpp)
+add_dependencies(does_not_use_local_messages_program ${catkin_EXPORTED_TARGETS})
+</code></pre><h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><ol>
+<li>之前用矩阵运算c++库:Armadillo 直接作为catkin组件时找不到库</li>
+</ol>
+<p>解决方案：find_package() 把Armadillo单独拿出来 后面需要的地方链接到库 </p>
+<pre><code>find_package(Armadillo 5.4 REQUIRED)
+target_link_libraries(tp_gmr_node ${catkin_LIBRARIES} ${ARMADILLO_LIBRARIES})
+</code></pre><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol>
+<li><a href="https://blog.csdn.net/u013243710/article/details/35795841" target="_blank" rel="noopener">ROS中的CMakeLists.txt</a></li>
+<li><a href="http://wiki.ros.org/catkin/CMakeLists.txt#Finding_Dependent_CMake_Packages" target="_blank" rel="noopener">catkin CMakeLists.txt</a></li>
+<li><a href="https://blog.csdn.net/turboian/article/details/74604052" target="_blank" rel="noopener">ROS下的CMakeList.txt编写</a></li>
 </ol>
 
       
@@ -625,12 +684,12 @@ ftp 10.1.1.20
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>FTP配置和使用</p>
+    <p><span class="copy-title">文章标题:</span>ROS中CMakeLists.txt</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="杨本泊">杨本泊</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-09-30, 20:45:12</p>
-    <p><span class="copy-title">最后更新:</span>2019-10-03, 12:38:52</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/09/30/FTP配置和使用/" title="FTP配置和使用">http://yangbenbo.github.io/2019/09/30/FTP配置和使用/</a>
+    <p><span class="copy-title">发布时间:</span>2019-10-05, 19:25:10</p>
+    <p><span class="copy-title">最后更新:</span>2019-10-05, 20:27:42</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/10/05/ROS中CMakeLists-txt/" title="ROS中CMakeLists.txt">http://yangbenbo.github.io/2019/10/05/ROS中CMakeLists-txt/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>

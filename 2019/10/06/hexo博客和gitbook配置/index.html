@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
-  <title>FTP配置和使用 | yangbenbo&#39;s blog</title>
-  <meta name="keywords" content=" 数据传输 ">
-  <meta name="description" content="FTP配置和使用 | yangbenbo&#39;s blog">
+  <title>hexo博客和gitbook配置 | yangbenbo&#39;s blog</title>
+  <meta name="keywords" content=" blog , hexo , gitbook ">
+  <meta name="description" content="hexo博客和gitbook配置 | yangbenbo&#39;s blog">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="个人简介杨本泊， 就读于武大，目前研究机械臂轨迹规划。 喜欢研究新兴技术和未来发展方向。 最近搭建博客 联系方式 QQ : 2519130844 邮箱 : yangbenbo_whu@qq.com">
 <meta property="og:type" content="website">
@@ -477,9 +477,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-FTP配置和使用" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-hexo博客和gitbook配置" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">FTP配置和使用</h1>
+        <h1 class="article-title">hexo博客和gitbook配置</h1>
     
     <div class="article-meta">
         
@@ -494,14 +494,18 @@
         
         <span class="tag">
             
-            <a href="javascript:" class="color5">数据传输</a>
+            <a href="javascript:" class="color5">blog</a>
+            
+            <a href="javascript:" class="color5">hexo</a>
+            
+            <a href="javascript:" class="color3">gitbook</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-10-03 12:38:52'>2019-09-30 20:45</time>
+        创建时间:<time class="date" title='更新时间: 2019-10-06 10:44:44'>2019-10-06 08:36</time>
         
     </div>
     <div class="article-meta">
@@ -523,7 +527,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#FTP简介"><span class="toc-text">FTP简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#FTP配置"><span class="toc-text">FTP配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#常用命令"><span class="toc-text">常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#FTP命令"><span class="toc-text">FTP命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关闭FTP"><span class="toc-text">关闭FTP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#上传下载"><span class="toc-text">上传下载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#状态码"><span class="toc-text">状态码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#gitbook简介"><span class="toc-text">gitbook简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#环境配置"><span class="toc-text">环境配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用命令"><span class="toc-text">常用命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#定义目录结构"><span class="toc-text">定义目录结构</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#hexo博客搭建"><span class="toc-text">hexo博客搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#踩过的坑"><span class="toc-text">踩过的坑</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#引用"><span class="toc-text">引用</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -538,83 +542,58 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="FTP简介"><a href="#FTP简介" class="headerlink" title="FTP简介"></a>FTP简介</h1><p>文件传输协议(File Transfer Protocol)：传统网络传输协议，主要实现服务器和客户端之间的文件传输</p>
-<h1 id="FTP配置"><a href="#FTP配置" class="headerlink" title="FTP配置"></a>FTP配置</h1><p>匿名用户无法使用ls dir等命令查看文件</p>
-<hr>
-<pre><code>sudo apt-get install vsftpd   #服务器端
-sudo vim /etc/vsftpd.conf     #可以默认 anonymous_enable=YES 可用anonymous作为用户名和密码登录
-sudo /etc/init.d/vsftpd restart  #重启服务
-
-ftp 10.1.1.20   #连接服务器
-</code></pre><p>配置文件:vsftpd.conf   # 测试了一下 感觉默认设置就可以本地用户登录<br>可能需要改/etc/ftpusers  并重启  </p>
-<pre><code>local_root=/home/ftp  # 锁定共享目录 手动添加  可以不用
-local_enable=YES    #本机可以访问
-write_enable=YES    #允许写操作
-
-#chroot_local_user=YES
-chroot_list_enable=YES    # 限制实体用户在自己的主目录设定文件
-# (default follows)
-chroot_list_file=/etc/vsftpd.chroot_list
-sudo vim /etc/vsftpd.chroot_list     # 添加用户名
-sudo vim /etc/ftpusers  #这里面是不能访问ftp的用户  删除对应的
-</code></pre><h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><h2 id="FTP命令"><a href="#FTP命令" class="headerlink" title="FTP命令"></a>FTP命令</h2><pre><code>ftp&gt; ascii # 设定以ASCII方式传送文件(缺省值) 
-ftp&gt; bell  # 每完成一次文件传送,报警提示. 
-ftp&gt; binary # 设定以二进制方式传送文件. 
-ftp&gt; bye  # 终止主机FTP进程,并退出FTP管理方式. 
-ftp&gt; case # 当为ON时,用MGET命令拷贝的文件名到本地机器中,全部转换为小写字母. 
-ftp&gt; cd   # 同UNIX的CD命令. 
-ftp&gt; cdup  # 返回上一级目录. 
-ftp&gt; chmod # 改变远端主机的文件权限. 
-ftp&gt; close # 终止远端的FTP进程,返回到FTP命令状态, 所有的宏定义都被删除. 
-ftp&gt; delete # 删除远端主机中的文件. 
-ftp&gt; dir [remote-directory] [local-file] # 列出当前远端主机目录中的文件.如果有本地文件,就将结果写至本地文件. 
-ftp&gt; get [remote-file] [local-file] # 从远端主机中传送至本地主机中. 
-ftp&gt; help [command] # 输出命令的解释. 
-ftp&gt; lcd # 改变当前本地主机的工作目录,如果缺省,就转到当前用户的HOME目录. 
-ftp&gt; ls [remote-directory] [local-file] # 同DIR. 
-ftp&gt; macdef         # 定义宏命令. 
-ftp&gt; mdelete [remote-files] # 删除一批文件. 
-ftp&gt; mget [remote-files]  # 从远端主机接收一批文件至本地主机. 
-ftp&gt; mkdir directory-name  # 在远端主机中建立目录. 
-ftp&gt; mput local-files # 将本地主机中一批文件传送至远端主机. 
-ftp&gt; open host [port] # 重新建立一个新的连接. 
-ftp&gt; prompt      # 交互提示模式. 
-ftp&gt; put local-file [remote-file] # 将本地一个文件传送至远端主机中. 
-ftp&gt; pwd # 列出当前远端主机目录. 
-ftp&gt; quit # 同BYE. 
-ftp&gt; recv remote-file [local-file] # 同GET. 
-ftp&gt; rename [from] [to]   # 改变远端主机中的文件名. 
-ftp&gt; rmdir directory-name  # 删除远端主机中的目录. 
-ftp&gt; send local-file [remote-file] # 同PUT. 
-ftp&gt; status  # 显示当前FTP的状态. 
-ftp&gt; system  # 显示远端主机系统类型. 
-ftp&gt; user user-name [password] [account] # 重新以别的用户名登录远端主机. 
-ftp&gt; ? [command] # 同HELP. [command]指定需要帮助的命令名称。如果没有指定 command，ftp 将显示全部命令的列表。
-ftp&gt; ! # 从 ftp 子系统退出到外壳。
-</code></pre><h2 id="关闭FTP"><a href="#关闭FTP" class="headerlink" title="关闭FTP"></a>关闭FTP</h2><pre><code>bye
-
-exit
-
-quit
-</code></pre><h2 id="上传下载"><a href="#上传下载" class="headerlink" title="上传下载"></a>上传下载</h2><pre><code>ftp&gt; put /path/readme.txt # 上传 readme.txt 文件
-ftp&gt; mput *.txt      # 可以上传多个文件
-
-ftp&gt; get readme.txt # 下载 readme.txt 文件
-ftp&gt; mget *.txt   # 下载
-</code></pre><p>win10上传下载 命令同Linux</p>
-<pre><code>cmd
-ftp 10.1.1.20
-</code></pre><h2 id="状态码"><a href="#状态码" class="headerlink" title="状态码"></a>状态码</h2><pre><code>•230 - 登录成功
-•200 - 命令执行成功
-•150 - 文件状态正常，开启数据连接端口
-•250 - 目录切换操作完成
-•226 - 关闭数据连接端口，请求的文件操作成功 
-</code></pre><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol>
-<li><a href="https://www.cnblogs.com/feiquan/p/9236768.html" target="_blank" rel="noopener">Linux中ftp的常用命令</a></li>
-<li><ol>
-<li><a href="https://blog.csdn.net/Klein_yang/article/details/84954958" target="_blank" rel="noopener">Ubuntu安装ftp服务</a></li>
-</ol>
+        <p>环境：ubuntu16.04</p>
+<h1 id="gitbook简介"><a href="#gitbook简介" class="headerlink" title="gitbook简介"></a>gitbook简介</h1><p>创作和管理电子书，是目前最流行的开源书籍写作方案<br>gitbook基于Node.js 开发，需要通过 Node.js 包管理工具 NPM 安装</p>
+<p>简单来说Node.js就是运行在服务端的JavaScript<br>npm 常用命令</p>
+<pre><code>npm update &lt;name&gt;   # 更新指定包
+npm install npm -g  # 全局更新自己 
+npm view &lt;package&gt; version  #查看包版本号
+</code></pre><h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><ul>
+<li>nodejs</li>
+<li><p>gitbook</p>
+<pre><code>  sudo apt-get install nodejs   # 可能还需要安装nodejs-legacy 这是因为需要node 但是最好直接使用node升级 文章末尾
+  sudo apt-get install npm
+  sudo npm install gitbook-cli -g   #全局安装
+  # 可能需要安装 ebook-convert    Binary install或者Source install
+  sudo -v &amp;&amp; wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin
+</code></pre><h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><p>  gitbook init    #初始化 生成 README.md SUMMARY.md<br>  gitbook serve   #启动服务 浏览器打开 <a href="http://localhost:4000/" target="_blank" rel="noopener">http://localhost:4000/</a></p>
 </li>
+</ul>
+<h2 id="定义目录结构"><a href="#定义目录结构" class="headerlink" title="定义目录结构"></a>定义目录结构</h2><ol>
+<li>先定义好结构，然后通过gitbook init自动生成目录结构对应的文件夹和Markdown文件</li>
+<li><p>先创建好文件夹和Markdown文件再来编辑目录结构</p>
+<pre><code> # Summary
+
+ * [项目简介](README.md)
+ * [快速开始](docs/快速开始.md)
+  * [环境搭建](docs/环境搭建.md)
+  * [简单使用](docs/简单使用.md)
+ * [学入学习](docs/深入学习) 
+</code></pre></li>
+</ol>
+<h1 id="hexo博客搭建"><a href="#hexo博客搭建" class="headerlink" title="hexo博客搭建"></a>hexo博客搭建</h1><pre><code>sudo apt install nodejs
+sudo apt install npm
+
+sudo npm install n -g
+sudo n stable
+
+sudo npm install hexo-cli
+</code></pre><h2 id="踩过的坑"><a href="#踩过的坑" class="headerlink" title="踩过的坑"></a>踩过的坑</h2><ol>
+<li><p>hexo用着用着报错，提示node版本太低</p>
+<p> 升级node：</p>
+<pre><code> node -v     #查看当前版本
+ sudo npm cache clean -f #清楚node缓存 有时候不用也可以
+ sudo npm install n -g   #安装node版本管理工具n
+ sudo n stable           #安装最新版node
+
+ sudo n 8.9.4            #安装指定版本
+ node -v
+</code></pre></li>
+</ol>
+<h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol>
+<li><a href="https://blog.csdn.net/wirelessqa/article/details/72616471" target="_blank" rel="noopener">GitBook 使用入门</a></li>
+<li><a href="https://blog.csdn.net/tlbaba/article/details/79412433" target="_blank" rel="noopener">node升级的正确方法</a></li>
+<li><a href="https://www.runoob.com/nodejs/nodejs-tutorial.html" target="_blank" rel="noopener">Node.js教程</a></li>
 </ol>
 
       
@@ -625,12 +604,12 @@ ftp 10.1.1.20
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>FTP配置和使用</p>
+    <p><span class="copy-title">文章标题:</span>hexo博客和gitbook配置</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="杨本泊">杨本泊</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-09-30, 20:45:12</p>
-    <p><span class="copy-title">最后更新:</span>2019-10-03, 12:38:52</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/09/30/FTP配置和使用/" title="FTP配置和使用">http://yangbenbo.github.io/2019/09/30/FTP配置和使用/</a>
+    <p><span class="copy-title">发布时间:</span>2019-10-06, 08:36:02</p>
+    <p><span class="copy-title">最后更新:</span>2019-10-06, 10:44:44</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/10/06/hexo博客和gitbook配置/" title="hexo博客和gitbook配置">http://yangbenbo.github.io/2019/10/06/hexo博客和gitbook配置/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>

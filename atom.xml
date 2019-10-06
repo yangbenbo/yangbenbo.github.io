@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yangbenbo.github.io/"/>
-  <updated>2019-10-03T04:38:52.501Z</updated>
+  <updated>2019-10-06T02:44:44.267Z</updated>
   <id>http://yangbenbo.github.io/</id>
   
   <author>
@@ -15,6 +15,61 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>hexo博客和gitbook配置</title>
+    <link href="http://yangbenbo.github.io/2019/10/06/hexo%E5%8D%9A%E5%AE%A2%E5%92%8Cgitbook%E9%85%8D%E7%BD%AE/"/>
+    <id>http://yangbenbo.github.io/2019/10/06/hexo博客和gitbook配置/</id>
+    <published>2019-10-06T00:36:02.000Z</published>
+    <updated>2019-10-06T02:44:44.267Z</updated>
+    
+    <content type="html"><![CDATA[<p>环境：ubuntu16.04</p><h1 id="gitbook简介"><a href="#gitbook简介" class="headerlink" title="gitbook简介"></a>gitbook简介</h1><p>创作和管理电子书，是目前最流行的开源书籍写作方案<br>gitbook基于Node.js 开发，需要通过 Node.js 包管理工具 NPM 安装</p><p>简单来说Node.js就是运行在服务端的JavaScript<br>npm 常用命令</p><pre><code>npm update &lt;name&gt;   # 更新指定包npm install npm -g  # 全局更新自己 npm view &lt;package&gt; version  #查看包版本号</code></pre><h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><ul><li>nodejs</li><li><p>gitbook</p><pre><code>  sudo apt-get install nodejs   # 可能还需要安装nodejs-legacy 这是因为需要node 但是最好直接使用node升级 文章末尾  sudo apt-get install npm  sudo npm install gitbook-cli -g   #全局安装  # 可能需要安装 ebook-convert    Binary install或者Source install  sudo -v &amp;&amp; wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin</code></pre><h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><p>  gitbook init    #初始化 生成 README.md SUMMARY.md<br>  gitbook serve   #启动服务 浏览器打开 <a href="http://localhost:4000/" target="_blank" rel="noopener">http://localhost:4000/</a></p></li></ul><h2 id="定义目录结构"><a href="#定义目录结构" class="headerlink" title="定义目录结构"></a>定义目录结构</h2><ol><li>先定义好结构，然后通过gitbook init自动生成目录结构对应的文件夹和Markdown文件</li><li><p>先创建好文件夹和Markdown文件再来编辑目录结构</p><pre><code> # Summary * [项目简介](README.md) * [快速开始](docs/快速开始.md)  * [环境搭建](docs/环境搭建.md)  * [简单使用](docs/简单使用.md) * [学入学习](docs/深入学习) </code></pre></li></ol><h1 id="hexo博客搭建"><a href="#hexo博客搭建" class="headerlink" title="hexo博客搭建"></a>hexo博客搭建</h1><pre><code>sudo apt install nodejssudo apt install npmsudo npm install n -gsudo n stablesudo npm install hexo-cli</code></pre><h2 id="踩过的坑"><a href="#踩过的坑" class="headerlink" title="踩过的坑"></a>踩过的坑</h2><ol><li><p>hexo用着用着报错，提示node版本太低</p><p> 升级node：</p><pre><code> node -v     #查看当前版本 sudo npm cache clean -f #清楚node缓存 有时候不用也可以 sudo npm install n -g   #安装node版本管理工具n sudo n stable           #安装最新版node sudo n 8.9.4            #安装指定版本 node -v</code></pre></li></ol><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://blog.csdn.net/wirelessqa/article/details/72616471" target="_blank" rel="noopener">GitBook 使用入门</a></li><li><a href="https://blog.csdn.net/tlbaba/article/details/79412433" target="_blank" rel="noopener">node升级的正确方法</a></li><li><a href="https://www.runoob.com/nodejs/nodejs-tutorial.html" target="_blank" rel="noopener">Node.js教程</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;环境：ubuntu16.04&lt;/p&gt;
+&lt;h1 id=&quot;gitbook简介&quot;&gt;&lt;a href=&quot;#gitbook简介&quot; class=&quot;headerlink&quot; title=&quot;gitbook简介&quot;&gt;&lt;/a&gt;gitbook简介&lt;/h1&gt;&lt;p&gt;创作和管理电子书，是目前最流行的开源书籍
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://yangbenbo.github.io/categories/Linux/"/>
+    
+    
+      <category term="blog" scheme="http://yangbenbo.github.io/tags/blog/"/>
+    
+      <category term="hexo" scheme="http://yangbenbo.github.io/tags/hexo/"/>
+    
+      <category term="gitbook" scheme="http://yangbenbo.github.io/tags/gitbook/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ROS中CMakeLists.txt</title>
+    <link href="http://yangbenbo.github.io/2019/10/05/ROS%E4%B8%ADCMakeLists-txt/"/>
+    <id>http://yangbenbo.github.io/2019/10/05/ROS中CMakeLists-txt/</id>
+    <published>2019-10-05T11:25:10.000Z</published>
+    <updated>2019-10-05T12:27:42.169Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>CMake构建系统通过ROS包中的CMakeList.txt来构建软件包。<br>在catkin 项目中，CMakeList.txt 符合标准的vanilla CMakeList.txt 格式，但稍微有点不同。</p><h1 id="整体结构"><a href="#整体结构" class="headerlink" title="整体结构"></a>整体结构</h1><ol><li>所需CMake版本(cmake_minimum_required)</li><li>软件包名称(project())</li><li>查找构建所需的其他CMake / Catkin软件包(find_package())</li><li>启用Python模块支持(catkin_python_setup())</li><li>消息/服务/动作生成器(add_message_files()，add_service_files()，add_action_files())</li><li>生成消息/服务/动作等自定义消息(generate_messages())</li><li>指定包的构建信息输出(catkin_package())</li><li>要建立的库/可执行文件(add_library()/ add_executable()/ target_link_libraries())</li><li>测试(catkin_add_gtest())</li><li>安装规则(install())</li></ol><h1 id="软件版本"><a href="#软件版本" class="headerlink" title="软件版本"></a>软件版本</h1><pre><code>cmake_minimum_required(VERSION 2.8.3)</code></pre><h1 id="软件包名称"><a href="#软件包名称" class="headerlink" title="软件包名称"></a>软件包名称</h1><p>可通过变量${PROJECT_NAME}来引用项目名称</p><pre><code>project(robot_brain)    </code></pre><h1 id="查找相关CMake包"><a href="#查找相关CMake包" class="headerlink" title="查找相关CMake包"></a>查找相关CMake包</h1><p>指明构建package需要的包，使用catkin_make，所以catkin是必备依赖,在此基础上可能需要其他的包</p><pre><code>find_package(catkin REQUIRED)   find_package(catkin REQUIRED COMPONENTS nodelet)  #第一种方式 合并写find_package(catkin REQUIRED)   # 第二种方式 分开写find_package(nodelet REQUIRED)</code></pre><h2 id="find-package作用"><a href="#find-package作用" class="headerlink" title="find-package作用"></a>find-package作用</h2><p> 如果CMake通过find_package找到一个包，则会自动生成有关包所在路径的CMake环境变量，<br> 环境变量描述了包中头文件的位置，源文件的位置，包所依赖的库文件位置。<br> 这些变量名称以&lt; PACKAGE NAME &gt;_&lt; PROPERTY &gt;的形式出现：</p><ul><li>&lt; NAME &gt;_FOUND - 如果找到库，则设置为true，否则为false</li><li>&lt; NAME &gt; _INCLUDE_DIRS或 _INCLUDES - 这个包输出的头文件目录</li><li>&lt; NAME &gt; _LIBRARIES或 _LIBS - 由包导出的库</li><li>&lt; NAME &gt; _DEFINITIONS - ?</li><li>…</li></ul><h2 id="为什么Catkin包是组件形式"><a href="#为什么Catkin包是组件形式" class="headerlink" title="为什么Catkin包是组件形式"></a>为什么Catkin包是组件形式</h2><p>Catkin的包并不是catkin的真正组成部分。而catkin采用CMake的组件功能，主要是为了节省打字时间。</p><pre><code>#这种方式 会把组件中的包对应的include路径、库导出到catkin前缀的变量中，#例如catkin_INCLUDE_DIRS包含多个包的路径find_package（catkin REQUIRED COMPONENTS nodelet）find_package(nodelet REQUIRED)  # 而这种方式 路径和库不会导入catkin变量，而是nodelet_INCLUDE_DIRS之类的</code></pre><h2 id="Boost库"><a href="#Boost库" class="headerlink" title="　Boost库"></a>　Boost库</h2><p>如果使用C ++和Boost，则需要用find_package()来找Boost库，并指定Boost中的组件。如果想使用Boost线程，就可以写成：</p><pre><code>find_package（Boost REQUIRED COMPONENTS thread）</code></pre><h1 id="catkin-package"><a href="#catkin-package" class="headerlink" title="　catkin_package()"></a>　catkin_package()</h1><p>将catkin特定的信息输出到构建系统上，用于生成pkg配置文件以及CMake文件        </p><ul><li>INCLUDE_DIRS - 导出包的include路径</li><li>LIBRARIES - 导出项目中的库</li><li>CATKIN_DEPENDS - 该项目依赖的其他catkin项目</li><li>DEPENDS - 该项目所依赖的非catkin CMake项目。</li><li><p>CFG_EXTRAS - 其他配置选项</p><pre><code>  catkin_package(     INCLUDE_DIRS include     LIBRARIES ${PROJECT_NAME}　　　     CATKIN_DEPENDS roscpp nodelet     DEPENDS eigen opencv)</code></pre><p>这表示包文件夹中的文件夹“include”是导出头文件的地方。<br>${PROJECT_NAME}根据project中的内容生成，此处是robot_brain<br>“roscpp”+“nodelet”是用来构建/运行此程序包的catkin包，<br>而“eigen”+“opencv”是用于构建/运行此程序包的非catkin包。   </p><h1 id="指定构建目标"><a href="#指定构建目标" class="headerlink" title="指定构建目标"></a>指定构建目标</h1><h2 id="包含路径和库"><a href="#包含路径和库" class="headerlink" title="包含路径和库"></a>包含路径和库</h2></li></ul><ol><li>include_directories()</li></ol><p>参数应该是调用find_package调用时生成的* _INCLUDE_DIRS变量。<br>如果使用catkin和Boost，那么include_directories()调用应该如下所示：</p><pre><code>include_directories(include ${Boost_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})</code></pre><p>第一个参数“include”表示包中的include /目录也是路径的一部分。</p><ol><li>link_directories()</li></ol><p>用于添加额外的库路径，但通常不推荐这样做，因为 所有catkin和CMake软件包在find_packaged时都会自动添加链接信息。<br>只需写target_link_libraries()中就可以了。但真要写，就按照下面那样来写：</p><pre><code>link_directories(~/my_libs)</code></pre><h2 id="可执行目标"><a href="#可执行目标" class="headerlink" title="可执行目标"></a>可执行目标</h2><p>生成可执行程序对应的源文件</p><pre><code>add_executable(myProgram src/main.cpp src/some_file.cpp)</code></pre><h2 id="库目标"><a href="#库目标" class="headerlink" title="库目标"></a>库目标</h2><p>默认的catkin编译产生的共享库</p><pre><code>add_library(${PROJECT_NAME} ${${PROJECT_NAME}_SRCS})　　#指定要构建的库</code></pre><h2 id="target-link-libraries"><a href="#target-link-libraries" class="headerlink" title="target_link_libraries"></a>target_link_libraries</h2><p>指定可执行目标链接的库。 通常在add_executable()调用之后完成。<br>如果找不到ros，则添加$ {catkin_LIBRARIES}。</p><pre><code>target_link_libraries(&lt;executableTargetName&gt;, &lt;lib1&gt;, &lt;lib2&gt;, ... &lt;libN&gt;)</code></pre><p>大多数情况中不需要使用link_directories()，因为find_package()自动拉入。   </p><h1 id="消息、服务和响应"><a href="#消息、服务和响应" class="headerlink" title="消息、服务和响应"></a>消息、服务和响应</h1><h2 id="使用条件"><a href="#使用条件" class="headerlink" title="使用条件"></a>使用条件</h2><pre><code># CMakeLists.txtfind_package(catkin REQUIRED COMPONENTS message_generation ...)add_message_files(...)add_service_files(...)add_action_files(...)generate_messages(...)catkin_package( ... CATKIN_DEPENDS message_runtime ... ...)# package.xml文件中加上 &lt;build_depend&gt;message_generation&lt;/build_depend&gt;&lt;run_depend&gt;message_runtime&lt;/run_depend&gt;</code></pre><ol><li><p>如果构建的对象依赖于其他需要构建消息/服务/响应的构建对象，<br>则需要向目标catkin_EXPORTED_TARGETS添加明确的依赖关系，<br>以便它们以正确的顺序构建。 这种情况比较常用，除非您的包真的不使用ROS的任何部分。<br>但这种依赖关系不能自动传递。some_target是由add_executable()设置的目标的名称）    </p><pre><code> add_dependencies(some_target${catkin_EXPORTED_TARGETS})</code></pre></li><li><p>如果需要构建消息或服务的包以及使用这些消息和/或服务的可执行文件，<br>则需要为自动生成的消息目标创建明确的依赖关系，以便以正确的顺序构建它们。<br>（some_target是由add_executable()设置的目标的名称）</p><pre><code> add_dependencies(some_target ${${PROJECT_NAME}_EXPORTED_TARGETS})    </code></pre></li></ol><h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>现在有两个依赖于std_msgs和sensor_msgs的消息MyMessage1.msg和MyMessage2.msg，<br>还有一个自定义服务MyService.srv， message_program是使用这些消息和服务的指令，<br>以及生成不使用自定义消息、服务的程序 do_not_use_local_messages_program 不使用，<br>那么CMakeLists.txt应该写成：</p><pre><code># 构建时依赖项find_package(catkin REQUIRED COMPONENTS                       message_generation              std_msgs # 声明要构建哪些消息add_message_files(FILES                  MyMessage1.msg                  MyMessage2.msg)# 声明构建哪些服务add_service_files(FILES                  MyService.srv)# 声明生成上述消息、服务需要依赖的消息以及服务generate_messages(DEPENDENCIES                     std_msgs                     sensor_msgs)# 声明运行时依赖项catkin_package(CATKIN_DEPENDS                 message_runtime                 std_msgs sensor_msgs)# 声明构建生成的可执行文件名称以及依赖项add_executable(message_program src/main.cpp)add_dependencies(message_program ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})# 声明构建不需要使用自定义消息、服务的可执行文件add_executable(does_not_use_local_messages_program src/main.cpp)add_dependencies(does_not_use_local_messages_program ${catkin_EXPORTED_TARGETS})</code></pre><h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><ol><li>之前用矩阵运算c++库:Armadillo 直接作为catkin组件时找不到库</li></ol><p>解决方案：find_package() 把Armadillo单独拿出来 后面需要的地方链接到库 </p><pre><code>find_package(Armadillo 5.4 REQUIRED)target_link_libraries(tp_gmr_node ${catkin_LIBRARIES} ${ARMADILLO_LIBRARIES})</code></pre><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://blog.csdn.net/u013243710/article/details/35795841" target="_blank" rel="noopener">ROS中的CMakeLists.txt</a></li><li><a href="http://wiki.ros.org/catkin/CMakeLists.txt#Finding_Dependent_CMake_Packages" target="_blank" rel="noopener">catkin CMakeLists.txt</a></li><li><a href="https://blog.csdn.net/turboian/article/details/74604052" target="_blank" rel="noopener">ROS下的CMakeList.txt编写</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot; title=&quot;概述&quot;&gt;&lt;/a&gt;概述&lt;/h1&gt;&lt;p&gt;CMake构建系统通过ROS包中的CMakeList.txt来构建软件包。&lt;br&gt;在catkin 项目中，CMakeList.txt 符合标
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://yangbenbo.github.io/categories/Linux/"/>
+    
+    
+      <category term="ROS" scheme="http://yangbenbo.github.io/tags/ROS/"/>
+    
+  </entry>
   
   <entry>
     <title>gdb调试</title>
@@ -486,36 +541,6 @@ S^{2}=\frac{1}{n-1} \sum_{i=1}^{n}\left(X_{i}-\overline{X}\right)^{2}=\frac{1}{n
       <category term="blog" scheme="http://yangbenbo.github.io/tags/blog/"/>
     
       <category term="program" scheme="http://yangbenbo.github.io/tags/program/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>simulink 实用快捷键</title>
-    <link href="http://yangbenbo.github.io/2019/07/13/simulink%E5%AE%9E%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%94%AE/"/>
-    <id>http://yangbenbo.github.io/2019/07/13/simulink实用快捷键/</id>
-    <published>2019-07-13T13:20:09.000Z</published>
-    <updated>2019-10-03T04:38:52.501Z</updated>
-    
-    <content type="html"><![CDATA[<p>打开模型浏览器： ctrl + shift + L</p><p>视图放大：r</p><p>视图缩小：v</p><p>视图平铺到整个模型：空格/f</p><p>回到默认视图：1</p><p>用鼠标拖动视图：按住q或者p，用鼠标左键按住拖动。这个快捷键在视图比较大时候用到。</p><p>更新模型：ctrl+D</p><p>打开model explorer：ctrl+E</p><p>仿真开始：ctrl+T</p><p>查看simple time： ctrl+J</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;打开模型浏览器： ctrl + shift + L&lt;/p&gt;
-&lt;p&gt;视图放大：r&lt;/p&gt;
-&lt;p&gt;视图缩小：v&lt;/p&gt;
-&lt;p&gt;视图平铺到整个模型：空格/f&lt;/p&gt;
-&lt;p&gt;回到默认视图：1&lt;/p&gt;
-&lt;p&gt;用鼠标拖动视图：按住q或者p，用鼠标左键按住拖动。这个快捷键在视图比较大时候
-      
-    
-    </summary>
-    
-      <category term="software" scheme="http://yangbenbo.github.io/categories/software/"/>
-    
-    
-      <category term="simulink" scheme="http://yangbenbo.github.io/tags/simulink/"/>
     
   </entry>
   
