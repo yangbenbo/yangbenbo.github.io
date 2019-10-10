@@ -239,9 +239,9 @@ b = &amp;#39;opq&amp;#
     <link href="http://yangbenbo.github.io/2019/10/01/Github-SSH-Key%E9%81%BF%E5%85%8DHexo%E9%83%A8%E7%BD%B2%E8%BE%93%E5%85%A5%E5%AF%86%E7%A0%81/"/>
     <id>http://yangbenbo.github.io/2019/10/01/Github-SSH-Key避免Hexo部署输入密码/</id>
     <published>2019-10-01T08:19:16.000Z</published>
-    <updated>2019-10-03T06:14:56.248Z</updated>
+    <updated>2019-10-10T00:40:05.377Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h1><p>前提: 已经生成ssh公钥放在github</p><p>修改_config.yaml,将部署方式从https改为ssh</p><pre><code># Deployment## Docs: https://hexo.io/docs/deployment.htmldeploy:  type: git  repository: https://github.com/yangbenbo/yangbenbo.github.io.git  branch: master</code></pre><p>改为</p><pre><code># Deployment## Docs: https://hexo.io/docs/deployment.htmldeploy:  type: git  repository: git@github.com:yangbenbo/yangbenbo.github.io.git  branch: master            </code></pre><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol><li><a href="https://www.cnblogs.com/yaoel/p/5381826.html" target="_blank" rel="noopener">使用Github SSH Key来避免Hexo部署时输入账户密码</a>      </li></ol>]]></content>
+    <content type="html"><![CDATA[<h1 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h1><p>前提: 已经生成ssh公钥放在github</p><p>修改_config.yaml,将部署方式从https改为ssh</p><pre><code># Deployment## Docs: https://hexo.io/docs/deployment.htmldeploy:  type: git  repository: https://github.com/yangbenbo/yangbenbo.github.io.git  branch: master</code></pre><p>改为</p><pre><code># Deployment## Docs: https://hexo.io/docs/deployment.htmldeploy:  type: git  repository: git@github.com:yangbenbo/yangbenbo.github.io.git  branch: master   </code></pre><h1 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h1><ol><li>ubuntu换内核(kernel)启动 需要重新上传ssh-key              </li></ol><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol><li><a href="https://www.cnblogs.com/yaoel/p/5381826.html" target="_blank" rel="noopener">使用Github SSH Key来避免Hexo部署时输入账户密码</a>      </li></ol>]]></content>
     
     <summary type="html">
     
