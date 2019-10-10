@@ -224,6 +224,10 @@
     <div class="tags-list">
     
     <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">数据传输</a>
+    </li>
+    
+    <li class="article-tag-list-item">
         <a href="javascript:" class="color5">blog</a>
     </li>
     
@@ -236,10 +240,6 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a href="javascript:" class="color5">数据传输</a>
-    </li>
-    
-    <li class="article-tag-list-item">
         <a href="javascript:" class="color3">program</a>
     </li>
     
@@ -248,11 +248,15 @@
     </li>
     
     <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">文件共享</a>
+    </li>
+    
+    <li class="article-tag-list-item">
         <a href="javascript:" class="color4">gdb</a>
     </li>
     
     <li class="article-tag-list-item">
-        <a href="javascript:" class="color5">文件共享</a>
+        <a href="javascript:" class="color4">git</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -265,10 +269,6 @@
     
     <li class="article-tag-list-item">
         <a href="javascript:" class="color5">下载工具</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a href="javascript:" class="color4">git</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -334,19 +334,19 @@
     <nav id="title-list-nav">
         
         <a  class="Linux "
-           href="/2019/10/01/Github-SSH-Key避免Hexo部署输入密码/"
-           data-tag="blog,ssh,hexo"
-           data-author="" >
-            <span class="post-title" title="Github SSH Key避免Hexo部署输入密码">Github SSH Key避免Hexo部署输入密码</span>
-            <span class="post-date" title="2019-10-01 16:19:16">2019/10/01</span>
-        </a>
-        
-        <a  class="Linux "
            href="/2019/09/30/FTP配置和使用/"
            data-tag="数据传输"
            data-author="" >
             <span class="post-title" title="FTP配置和使用">FTP配置和使用</span>
             <span class="post-date" title="2019-09-30 20:45:12">2019/09/30</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/10/01/Github-SSH-Key避免Hexo部署输入密码/"
+           data-tag="blog,ssh,hexo"
+           data-author="" >
+            <span class="post-title" title="Github SSH Key避免Hexo部署输入密码">Github SSH Key避免Hexo部署输入密码</span>
+            <span class="post-date" title="2019-10-01 16:19:16">2019/10/01</span>
         </a>
         
         <a  class="Linux "
@@ -374,6 +374,14 @@
         </a>
         
         <a  class="Linux "
+           href="/2019/10/01/SAMBA服务简单搭建/"
+           data-tag="文件共享"
+           data-author="" >
+            <span class="post-title" title="SAMBA服务简单搭建">SAMBA服务简单搭建</span>
+            <span class="post-date" title="2019-10-01 21:00:55">2019/10/01</span>
+        </a>
+        
+        <a  class="Linux "
            href="/2019/10/03/gdb调试/"
            data-tag="gdb"
            data-author="" >
@@ -382,11 +390,11 @@
         </a>
         
         <a  class="Linux "
-           href="/2019/10/01/SAMBA服务简单搭建/"
-           data-tag="文件共享"
+           href="/2019/07/16/git基本使用/"
+           data-tag="git"
            data-author="" >
-            <span class="post-title" title="SAMBA服务简单搭建">SAMBA服务简单搭建</span>
-            <span class="post-date" title="2019-10-01 21:00:55">2019/10/01</span>
+            <span class="post-title" title="git基本使用">git基本使用</span>
+            <span class="post-date" title="2019-07-16 17:36:13">2019/07/16</span>
         </a>
         
         <a  class="Linux "
@@ -427,14 +435,6 @@
            data-author="" >
             <span class="post-title" title="ubuntu小技巧">ubuntu小技巧</span>
             <span class="post-date" title="2019-09-29 21:11:37">2019/09/29</span>
-        </a>
-        
-        <a  class="Linux "
-           href="/2019/07/16/git基本使用/"
-           data-tag="git"
-           data-author="" >
-            <span class="post-title" title="git基本使用">git基本使用</span>
-            <span class="post-date" title="2019-07-16 17:36:13">2019/07/16</span>
         </a>
         
         <a  class="Linux "
@@ -655,7 +655,7 @@
     /*作者、标签的自动补全*/
     $(function () {
         $('.search').AutoComplete({
-            'data': ['#blog','#ssh','#hexo','#数据传输','#program','#NodeHandle','#gdb','#文件共享','#gitbook','#shell','#下载工具','#git','#software','#ubuntu','#vim','#重装系统','#快捷键','#simulink','#clion','#world','#excel','#概率论','#信号分析','#权限','#ROS','#gcc',],
+            'data': ['#数据传输','#blog','#ssh','#hexo','#program','#NodeHandle','#文件共享','#gdb','#git','#gitbook','#shell','#下载工具','#software','#ubuntu','#vim','#重装系统','#快捷键','#simulink','#clion','#world','#excel','#概率论','#信号分析','#权限','#ROS','#gcc',],
             'itemHeight': 20,
             'width': 418
         }).AutoComplete('show');
