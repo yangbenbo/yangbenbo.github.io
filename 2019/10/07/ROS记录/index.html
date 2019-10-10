@@ -256,11 +256,11 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a href="javascript:" class="color3">gitbook</a>
+        <a href="javascript:" class="color4">git</a>
     </li>
     
     <li class="article-tag-list-item">
-        <a href="javascript:" class="color4">git</a>
+        <a href="javascript:" class="color3">gitbook</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -312,11 +312,11 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a href="javascript:" class="color5">信号分析</a>
+        <a href="javascript:" class="color3">权限</a>
     </li>
     
     <li class="article-tag-list-item">
-        <a href="javascript:" class="color3">权限</a>
+        <a href="javascript:" class="color5">信号分析</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -390,6 +390,14 @@
         </a>
         
         <a  class="Linux "
+           href="/2019/07/16/git基本使用/"
+           data-tag="git"
+           data-author="" >
+            <span class="post-title" title="git基本使用">git基本使用</span>
+            <span class="post-date" title="2019-07-16 17:36:13">2019/07/16</span>
+        </a>
+        
+        <a  class="Linux "
            href="/2019/10/06/hexo博客和gitbook配置/"
            data-tag="blog,hexo,gitbook"
            data-author="" >
@@ -406,14 +414,6 @@
         </a>
         
         <a  class="Linux "
-           href="/2019/07/16/git基本使用/"
-           data-tag="git"
-           data-author="" >
-            <span class="post-title" title="git基本使用">git基本使用</span>
-            <span class="post-date" title="2019-07-16 17:36:13">2019/07/16</span>
-        </a>
-        
-        <a  class="Linux "
            href="/2019/09/29/shell和下载工具/"
            data-tag="shell,下载工具"
            data-author="" >
@@ -422,19 +422,19 @@
         </a>
         
         <a  class="Linux "
-           href="/2019/09/29/ubuntu小技巧/"
-           data-tag=""
-           data-author="" >
-            <span class="post-title" title="ubuntu小技巧">ubuntu小技巧</span>
-            <span class="post-date" title="2019-09-29 21:11:37">2019/09/29</span>
-        </a>
-        
-        <a  class="Linux "
            href="/2019/09/29/ssh远程登录/"
            data-tag="ssh"
            data-author="" >
             <span class="post-title" title="ssh远程登录">ssh远程登录</span>
             <span class="post-date" title="2019-09-29 12:13:36">2019/09/29</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/09/29/ubuntu小技巧/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="ubuntu小技巧">ubuntu小技巧</span>
+            <span class="post-date" title="2019-09-29 21:11:37">2019/09/29</span>
         </a>
         
         <a  class="Linux "
@@ -477,20 +477,20 @@
             <span class="post-date" title="2019-08-31 12:40:25">2019/08/31</span>
         </a>
         
-        <a  class="math "
-           href="/2019/07/18/正交函数/"
-           data-tag="信号分析"
-           data-author="" >
-            <span class="post-title" title="正交函数">正交函数</span>
-            <span class="post-date" title="2019-07-18 20:17:03">2019/07/18</span>
-        </a>
-        
         <a  class="Linux "
            href="/2019/09/30/用户权限管理/"
            data-tag="权限"
            data-author="" >
             <span class="post-title" title="用户权限管理">用户权限管理</span>
             <span class="post-date" title="2019-09-30 23:22:20">2019/09/30</span>
+        </a>
+        
+        <a  class="math "
+           href="/2019/07/18/正交函数/"
+           data-tag="信号分析"
+           data-author="" >
+            <span class="post-title" title="正交函数">正交函数</span>
+            <span class="post-date" title="2019-07-18 20:17:03">2019/07/18</span>
         </a>
         
         <a  class="math "
@@ -555,7 +555,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-10-09 23:52:23'>2019-10-07 11:32</time>
+        创建时间:<time class="date" title='更新时间: 2019-10-10 08:29:57'>2019-10-07 11:32</time>
         
     </div>
     <div class="article-meta">
@@ -655,7 +655,7 @@ searchParam()
      &lt;/node&gt;
  &lt;/launch&gt;
 </code></pre></li>
-<li><p>将别的话题映射到自己的订阅的主题上</p>
+<li><p>将别的话题映射到自己的订阅的主题上<br>特别要注意这种方式的使用　<strong>作用范围很大</strong></p>
 <pre><code> &lt;!-- 已经存在话题moveit_group/joint_states move_group需要订阅joint_states--&gt;
  &lt;launch&gt;
      &lt;remap from=&quot;joint_states&quot; to=&quot;moveit_group/joint_states&quot;/&gt;
@@ -669,8 +669,10 @@ searchParam()
 <p>简单理解：<strong>remap就是把作用范围内的名称直接替换掉 用替换掉的名称对外开放 实现两个话题通信</strong>        </p>
 <h2 id="Failed-to-fetch-current-robot-state"><a href="#Failed-to-fetch-current-robot-state" class="headerlink" title="Failed to fetch current robot state"></a>Failed to fetch current robot state</h2><pre><code>ros::AsyncSpinner async_spinner(6);
 async_spinner.start();
-</code></pre><p>节点初始化时加上这句　异步处理更新回调函数　  </p>
-<h2 id="clion编译经常卡死"><a href="#clion编译经常卡死" class="headerlink" title="clion编译经常卡死"></a>clion编译经常卡死</h2><p>查看内存和cpu使用率都有盈余，后来发现是因为launch了很多节点，关闭就好了  </p>
+
+async_spinner.stop();   #需要关闭的时候用
+</code></pre><p>节点初始化时加上这句　异步处理更新回调函数　感觉可能是moveit内部节点回调函数处理  </p>
+<h2 id="clion编译经常卡死"><a href="#clion编译经常卡死" class="headerlink" title="clion编译经常卡死"></a>clion编译经常卡死</h2><p>查看内存和cpu使用率都有盈余，后来发现是因为launch了很多节点，发布了很多数据，关闭就好了  </p>
 <h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol>
 <li><a href="https://blog.csdn.net/xingdou520/article/details/85686752" target="_blank" rel="noopener">ROS中Remap标签详解,举例说明其两种用法</a></li>
 </ol>
@@ -687,7 +689,7 @@ async_spinner.start();
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="杨本泊">杨本泊</a></p>
     <p><span class="copy-title">发布时间:</span>2019-10-07, 11:32:36</p>
-    <p><span class="copy-title">最后更新:</span>2019-10-09, 23:52:23</p>
+    <p><span class="copy-title">最后更新:</span>2019-10-10, 08:29:57</p>
     <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/10/07/ROS记录/" title="ROS记录">http://yangbenbo.github.io/2019/10/07/ROS记录/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
@@ -731,7 +733,7 @@ async_spinner.start();
     /*作者、标签的自动补全*/
     $(function () {
         $('.search').AutoComplete({
-            'data': ['#数据传输','#blog','#ssh','#hexo','#program','#NodeHandle','#文件共享','#gdb','#gitbook','#git','#shell','#下载工具','#software','#ubuntu','#vim','#重装系统','#快捷键','#simulink','#clion','#world','#excel','#概率论','#信号分析','#权限','#ROS','#gcc',],
+            'data': ['#数据传输','#blog','#ssh','#hexo','#program','#NodeHandle','#文件共享','#gdb','#git','#gitbook','#shell','#下载工具','#software','#ubuntu','#vim','#重装系统','#快捷键','#simulink','#clion','#world','#excel','#概率论','#权限','#信号分析','#ROS','#gcc',],
             'itemHeight': 20,
             'width': 418
         }).AutoComplete('show');
