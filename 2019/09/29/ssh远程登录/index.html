@@ -252,11 +252,11 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a href="javascript:" class="color4">gdb</a>
+        <a href="javascript:" class="color4">git</a>
     </li>
     
     <li class="article-tag-list-item">
-        <a href="javascript:" class="color4">git</a>
+        <a href="javascript:" class="color4">gdb</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -382,19 +382,19 @@
         </a>
         
         <a  class="Linux "
-           href="/2019/10/03/gdb调试/"
-           data-tag="gdb"
-           data-author="" >
-            <span class="post-title" title="gdb调试">gdb调试</span>
-            <span class="post-date" title="2019-10-03 09:09:21">2019/10/03</span>
-        </a>
-        
-        <a  class="Linux "
            href="/2019/07/16/git基本使用/"
            data-tag="git"
            data-author="" >
             <span class="post-title" title="git基本使用">git基本使用</span>
             <span class="post-date" title="2019-07-16 17:36:13">2019/07/16</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/10/03/gdb调试/"
+           data-tag="gdb"
+           data-author="" >
+            <span class="post-title" title="gdb调试">gdb调试</span>
+            <span class="post-date" title="2019-10-03 09:09:21">2019/10/03</span>
         </a>
         
         <a  class="Linux "
@@ -405,20 +405,20 @@
             <span class="post-date" title="2019-10-06 08:36:02">2019/10/06</span>
         </a>
         
-        <a  class="blog "
-           href="/2019/07/16/hexo本地图片配置/"
-           data-tag="blog"
-           data-author="" >
-            <span class="post-title" title="hexo本地图片配置">hexo本地图片配置</span>
-            <span class="post-date" title="2019-07-16 08:45:17">2019/07/16</span>
-        </a>
-        
         <a  class="Linux "
            href="/2019/09/29/shell和下载工具/"
            data-tag="shell,下载工具"
            data-author="" >
             <span class="post-title" title="shell和下载工具">shell和下载工具</span>
             <span class="post-date" title="2019-09-29 12:27:00">2019/09/29</span>
+        </a>
+        
+        <a  class="blog "
+           href="/2019/07/16/hexo本地图片配置/"
+           data-tag="blog"
+           data-author="" >
+            <span class="post-title" title="hexo本地图片配置">hexo本地图片配置</span>
+            <span class="post-date" title="2019-07-16 08:45:17">2019/07/16</span>
         </a>
         
         <a  class="Linux "
@@ -553,7 +553,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-10-10 19:09:10'>2019-09-29 12:13</time>
+        创建时间:<time class="date" title='更新时间: 2019-10-10 19:26:21'>2019-09-29 12:13</time>
         
     </div>
     <div class="article-meta">
@@ -592,6 +592,7 @@
       
         <h1 id="ssh简介"><a href="#ssh简介" class="headerlink" title="ssh简介"></a>ssh简介</h1><p><strong>S</strong>ecure <strong>Sh</strong>ell(SSH) 可以把所有传输的数据进行加密，也能够防止DNS欺骗和IP欺骗。还有一个额外的好处就是传输的数据是经过压缩的，所以可以加快传输的速度。目前已经成为Linux系统的标准配置。</p>
 <p>SSH之所以能够保证安全，原因在于它采用了非对称加密技术(<strong>RSA</strong>)加密了所有传输的数据。</p>
+<p>实现SSH登录需要服务器和客户端各自保存公钥和私钥</p>
 <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><pre><code>sudo apt-get install openssh-client #本地主机运行此条，实际上通常是默认安装client端程序的
 sudo apt-get install openssh-server #服务器运行此条命令安装
 dpkg -l | grep ssh    #查看是否安装对应包
@@ -601,7 +602,8 @@ ps -e | grep ssh    #可以查看服务是否启动
 ssh-keygen -t rsa      #生成公钥私钥
 ssh-copy-id server@10.1.1.20 #把公钥上传服务器 免密登录  
 ssh-copy-id server@10.1.1.20 -i copyed_file_name  #指定复制的文件名  
-</code></pre><h1 id="同一台电脑配置github-gitlab的SSH"><a href="#同一台电脑配置github-gitlab的SSH" class="headerlink" title="同一台电脑配置github gitlab的SSH"></a>同一台电脑配置github gitlab的SSH</h1><ol>
+</code></pre><h1 id="同一台电脑配置github-gitlab的SSH"><a href="#同一台电脑配置github-gitlab的SSH" class="headerlink" title="同一台电脑配置github gitlab的SSH"></a>同一台电脑配置github gitlab的SSH</h1><p>两种方式：ssh-add  或者使用配置文件 下面介绍使用配置文件</p>
+<ol>
 <li><p>生成密钥文件</p>
 <pre><code> ssh-keygen -t rsa -C &#39;1253156159@qq.com&#39; // GitLab
  // Enter file in which to save the key (/Users/tomatoro/.ssh/id_rsa): gitlab_ssh
@@ -636,6 +638,7 @@ ssh-copy-id server@10.1.1.20 -i copyed_file_name  #指定复制的文件名
    Port 22
 </code></pre></li>
 <li>因为在自己的服务器上搭建的局域网gitlab　所以服务器登录和gitlab登录的ip一样，导致不能登录服务器<br> nmap -sT -O 10.1.1.20           //查看ssh端口　默认是22<br> ssh server@10.1.1.20 -p 22      //指定端口就可以了</li>
+<li>测试是否连接<br> ssh -T git@github.com            </li>
 </ol>
 <h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>ssh无秘钥登录报错sign_and_send_pubkey: signing failed: agent refused operation。<br>表示ssh-agent 已经在运行了，但是找不到附加的任何keys，就是说你生成的key，没有附加到ssh-agent上，需要附加一下，执行    </p>
 <pre><code>eval &quot;$(ssh-agent -s)&quot;
@@ -643,6 +646,7 @@ ssh-add
 </code></pre><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol>
 <li><a href="https://blog.csdn.net/li528405176/article/details/82810342" target="_blank" rel="noopener">SSH简介及两种远程登录的方法</a></li>
 <li><a href="https://segmentfault.com/a/1190000020010343" target="_blank" rel="noopener">如何在一台设备上同时配置github和gitlab的SSH</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html" target="_blank" rel="noopener">SSH原理与运用</a></li>
 </ol>
 
       
@@ -657,7 +661,7 @@ ssh-add
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="杨本泊">杨本泊</a></p>
     <p><span class="copy-title">发布时间:</span>2019-09-29, 12:13:36</p>
-    <p><span class="copy-title">最后更新:</span>2019-10-10, 19:09:10</p>
+    <p><span class="copy-title">最后更新:</span>2019-10-10, 19:26:21</p>
     <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/09/29/ssh远程登录/" title="ssh远程登录">http://yangbenbo.github.io/2019/09/29/ssh远程登录/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
@@ -701,7 +705,7 @@ ssh-add
     /*作者、标签的自动补全*/
     $(function () {
         $('.search').AutoComplete({
-            'data': ['#数据传输','#blog','#ssh','#hexo','#program','#NodeHandle','#文件共享','#gdb','#git','#gitbook','#shell','#下载工具','#software','#ubuntu','#vim','#重装系统','#快捷键','#simulink','#clion','#world','#excel','#概率论','#信号分析','#权限','#ROS','#gcc',],
+            'data': ['#数据传输','#blog','#ssh','#hexo','#program','#NodeHandle','#文件共享','#git','#gdb','#gitbook','#shell','#下载工具','#software','#ubuntu','#vim','#重装系统','#快捷键','#simulink','#clion','#world','#excel','#概率论','#信号分析','#权限','#ROS','#gcc',],
             'itemHeight': 20,
             'width': 418
         }).AutoComplete('show');
