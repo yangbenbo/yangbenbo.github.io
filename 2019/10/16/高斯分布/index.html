@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
-  <title>gdb调试 | yangbenbo&#39;s blog</title>
-  <meta name="keywords" content=" gdb ">
-  <meta name="description" content="gdb调试 | yangbenbo&#39;s blog">
+  <title>高斯分布 | yangbenbo&#39;s blog</title>
+  <meta name="keywords" content=" 概率论 ">
+  <meta name="description" content="高斯分布 | yangbenbo&#39;s blog">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="个人简介杨本泊， 就读于武大，目前研究机械臂轨迹规划。 喜欢研究新兴技术和未来发展方向。 最近搭建博客 联系方式 QQ : 2519130844 邮箱 : yangbenbo_whu@qq.com">
 <meta property="og:type" content="website">
@@ -537,9 +537,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-gdb调试" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-高斯分布" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">gdb调试</h1>
+        <h1 class="article-title">高斯分布</h1>
     
     <div class="article-meta">
         
@@ -547,21 +547,21 @@
         
         <span class="book">
             
-                <a href="javascript:" data-rel="Linux">Linux</a>
+                <a href="javascript:" data-rel="math">math</a>
             
         </span>
         
         
         <span class="tag">
             
-            <a href="javascript:" class="color4">gdb</a>
+            <a href="javascript:" class="color4">概率论</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-10-09 19:34:52'>2019-10-03 09:09</time>
+        创建时间:<time class="date" title='更新时间: 2019-10-16 22:46:18'>2019-10-16 13:30</time>
         
     </div>
     <div class="article-meta">
@@ -583,7 +583,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#编译器"><span class="toc-text">编译器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#gdb调试"><span class="toc-text">gdb调试</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#启动"><span class="toc-text">启动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看源代码"><span class="toc-text">查看源代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置断点"><span class="toc-text">设置断点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行程序"><span class="toc-text">运行程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#监视变量"><span class="toc-text">监视变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#临时改变变量"><span class="toc-text">临时改变变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看堆栈"><span class="toc-text">查看堆栈</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ROS中使用"><span class="toc-text">ROS中使用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#rosrun启动gdb"><span class="toc-text">rosrun启动gdb</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#引用"><span class="toc-text">引用</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#高斯分布"><span class="toc-text">高斯分布</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一元高斯分布"><span class="toc-text">一元高斯分布</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#多元高斯分布"><span class="toc-text">多元高斯分布</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#性质"><span class="toc-text">性质</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#引用"><span class="toc-text">引用</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -598,44 +598,18 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="编译器"><a href="#编译器" class="headerlink" title="编译器"></a>编译器</h1><p>gcc(GNU Compiler Collection)</p>
-<pre><code>-c  激活预处理、编译和汇编，生成.o文件
--S  激活预处理和编译，生成.s的汇编代码wenjain
--E  激活预处理，结果输出到标准输出(屏幕)，可结合重定向输出到文件 &gt; pre_test
--g  为调试程序生成相关信息
-
-默认生成a.out文件，可以使用-o 指定输出文件
-</code></pre><p>编译c++：g++  gcc可以编译c++源文件，但是不会自动和c++程序使用的库连接，所以通常使用g++,会自动调用gcc</p>
-<h1 id="gdb调试"><a href="#gdb调试" class="headerlink" title="gdb调试"></a>gdb调试</h1><p>很多命令可以缩写为一个字母   </p>
-<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><pre><code>gcc -g summary.c
-gdb a.out           #二进制文件作为gdb参数就可以了
-</code></pre><h2 id="查看源代码"><a href="#查看源代码" class="headerlink" title="查看源代码"></a>查看源代码</h2><pre><code>l       #list
-search  #reverse-search
-回车      #重复上一指令
-</code></pre><h2 id="设置断点"><a href="#设置断点" class="headerlink" title="设置断点"></a>设置断点</h2><pre><code>b 10  #第10行设置断点
-info break   #查看断点信息
-clear       #清除当前行断点
-</code></pre><h2 id="运行程序"><a href="#运行程序" class="headerlink" title="运行程序"></a>运行程序</h2><pre><code>r
-n   #单步执行程序
-continue    #运行到下一个断点
-s   #step  遇到函数调用会进入函数内部 next不会
-</code></pre><h2 id="监视变量"><a href="#监视变量" class="headerlink" title="监视变量"></a>监视变量</h2><pre><code>print variable  #缩写p  
-watch varialbe    #监视
-</code></pre><h2 id="临时改变变量"><a href="#临时改变变量" class="headerlink" title="临时改变变量"></a>临时改变变量</h2><pre><code>set var i=1 #临时设置i=1
-</code></pre><h2 id="查看堆栈"><a href="#查看堆栈" class="headerlink" title="查看堆栈"></a>查看堆栈</h2><pre><code>bt  #程序调用函数，函数的地址、参数、函数内局部变量都会压入
-</code></pre><h1 id="ROS中使用"><a href="#ROS中使用" class="headerlink" title="ROS中使用"></a>ROS中使用</h1><p>launch文件</p>
-<pre><code>launch-prefix=&quot;xterm -e gdb --args&quot;     //in a separate xterm window
-launch-prefix=&quot;gdb -ex run --args&quot;　　　 //in the same xterm
-</code></pre><p>使用memcheck启动valgrind来检测程序内存泄露　使用callgrind执行性能分析</p>
-<pre><code>launch-prefix=&quot;valgrind&quot;    //valgrind
-</code></pre><p>设置ROS节点core文件转储　　coredump　进程突然崩溃的那一刻的内存快照</p>
-<pre><code>ulimit -c unlimited
-echo 1 &gt; /proc/sys/kernel/core_uses_pid     #将core文件名设置成默认使用进程的pid
-
-gdb  program_name  core_name  #查看core文件　program为编译好的　　/var/core_log
-</code></pre><h1 id="rosrun启动gdb"><a href="#rosrun启动gdb" class="headerlink" title="rosrun启动gdb"></a>rosrun启动gdb</h1><pre><code>rosrun --prefix &#39;gdb -ex run --args&#39; [package_name] [node_name]     
-</code></pre><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol>
-<li><a href="http://wiki.ros.org/roslaunch/Tutorials/Roslaunch%20Nodes%20in%20Valgrind%20or%20GDB" target="_blank" rel="noopener">ros Tutorial Roslaunch Nodes in Valgrind or GDB</a>                  </li>
+        <h1 id="高斯分布"><a href="#高斯分布" class="headerlink" title="高斯分布"></a>高斯分布</h1><p>拉普拉斯中心极限定理(central limit theorem)：对于某些温和的情况，一组随机变量之和(也是随机变量)的概率分布随着合式中项的数量的增加而逐渐趋向高斯分布</p>
+<h3 id="一元高斯分布"><a href="#一元高斯分布" class="headerlink" title="一元高斯分布"></a>一元高斯分布</h3><script type="math/tex; mode=display">
+\mathcal{N}\left(x | \mu, \sigma^{2}\right)=\frac{1}{\left(2 \pi \sigma^{2}\right)^{\frac{1}{2}}} \exp \left\{-\frac{1}{2 \sigma^{2}}(x-\mu)^{2}\right\}</script><h3 id="多元高斯分布"><a href="#多元高斯分布" class="headerlink" title="多元高斯分布"></a>多元高斯分布</h3><script type="math/tex; mode=display">
+\mathcal{N}(\boldsymbol{x} | \boldsymbol{\mu}, \mathbf{\Sigma})=\frac{1}{(2 \pi)^{\frac{D}{2}}} \frac{1}{|\boldsymbol{\Sigma}|^{\frac{1}{2}}} \exp \left\{-\frac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu})^{T} \boldsymbol{\Sigma}^{-1}(\boldsymbol{x}-\boldsymbol{\mu})\right\}</script><h1 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h1><p>高斯分布依赖于下面二次型，即马氏距离</p>
+<script type="math/tex; mode=display">
+\Delta^{2}=(\boldsymbol{x}-\boldsymbol{\mu})^{T} \boldsymbol{\Sigma}^{-1}(\boldsymbol{x}-\boldsymbol{\mu})</script><p>协方差矩阵$\sum $可以取对称矩阵，<strong>任何非对称项都会从指数中消失</strong>（也可以从协方差矩阵定义看）可分解成对角矩阵</p>
+<script type="math/tex; mode=display">
+\begin{aligned} \Delta^{2}=[(\vec{X}-\vec{\mu})]^{\top}\left(Q \Lambda Q^{\top}\right)^{-1}[(\vec{X}-\vec{\mu})] \\=&\left[Q^{\top}(\vec{X}-\vec{\mu})\right]^{\top} \Lambda^{-1}\left[Q^{\top}(\vec{X}-\vec{\mu})\right] \\=&\left[Q^{\top}(\vec{X}-\vec{\mu})\right]^{\top}\left(\Lambda^{-\frac{1}{2}}\right)^{\top} \Lambda^{-\frac{1}{2}}\left[Q^{\top}(\vec{X}-\vec{\mu})\right] \\=&\left[\Lambda^{-\frac{1}{2}} Q^{\top}(\vec{X}-\vec{\mu})\right]^{\top}\left[\Lambda^{-\frac{1}{2}} Q^{\top}(\vec{X}-\vec{\mu})\right] \\=&\left[\left(Q \Lambda^{-\frac{1}{2}}\right)^{\top}(\vec{X}-\vec{\mu})\right]^{\top}\left[\left(Q \Lambda^{-\frac{1}{2}}\right)^{\top}(\vec{X}-\vec{\mu})\right] \\=&\left.\left[\left(\begin{array}{cc}{\frac{1}{\sqrt{\lambda}_{1}}} & {0} \\ {0} & {\frac{1}{\sqrt{\lambda_{2}}}}\end{array}\right]\right)^{\top}(\vec{X}-\vec{\mu})^{\top} \cdot\left[\left(\begin{array}{cc}{\frac{1}{\sqrt{\lambda_{1}}}} & {0} \\ {0} & {\frac{1}{\sqrt{\lambda_{2}}}}\end{array}\right]\right)^{\top}(\vec{X}-\vec{\mu})\right] \end{aligned}</script><p>含义：高斯分布中心在u,平移u之后高斯分布中心到原点，高斯分布椭圆轴拉伸变换成正圆，称一个旋转矩阵，将之前椭圆轴方向旋转到全局坐标系(Oxyz)，特别注意：变换矩阵Q</p>
+<p>椭圆中心u,轴方向：变换矩阵Q的列向量<br><img src="/2019/10/16/高斯分布/高斯分布.png" alt="高斯分布"></p>
+<h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol>
+<li><a href="https://www.microsoft.com/en-us/research/people/cmbishop/" target="_blank" rel="noopener">Pattern Recognition and Machine Learning</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/58987388" target="_blank" rel="noopener">多元高斯分布完全解析</a></li>
 </ol>
 
       
@@ -646,12 +620,12 @@ gdb  program_name  core_name  #查看core文件　program为编译好的　　/v
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>gdb调试</p>
+    <p><span class="copy-title">文章标题:</span>高斯分布</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="杨本泊">杨本泊</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-10-03, 09:09:21</p>
-    <p><span class="copy-title">最后更新:</span>2019-10-09, 19:34:52</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/10/03/gdb调试/" title="gdb调试">http://yangbenbo.github.io/2019/10/03/gdb调试/</a>
+    <p><span class="copy-title">发布时间:</span>2019-10-16, 13:30:27</p>
+    <p><span class="copy-title">最后更新:</span>2019-10-16, 22:46:18</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/10/16/高斯分布/" title="高斯分布">http://yangbenbo.github.io/2019/10/16/高斯分布/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
@@ -661,6 +635,46 @@ gdb  program_name  core_name  #查看core文件　program为编译好的　　/v
 
 
 
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="//cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+<input type="hidden" id="MathJax-js"
+        value="//cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+</input>
     
 
 
