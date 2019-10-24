@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yangbenbo.github.io/"/>
-  <updated>2019-10-20T12:04:30.039Z</updated>
+  <updated>2019-10-24T02:45:08.737Z</updated>
   <id>http://yangbenbo.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>matlab 绘图</title>
+    <link href="http://yangbenbo.github.io/2019/10/24/matlab-%E7%BB%98%E5%9B%BE/"/>
+    <id>http://yangbenbo.github.io/2019/10/24/matlab-绘图/</id>
+    <published>2019-10-24T01:52:50.000Z</published>
+    <updated>2019-10-24T02:45:08.737Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="常用绘图命令"><a href="#常用绘图命令" class="headerlink" title="常用绘图命令"></a>常用绘图命令</h1><h2 id="命令查看"><a href="#命令查看" class="headerlink" title="命令查看"></a>命令查看</h2><p>查看所有画图相关命令</p><pre><code>help graph2dhelp graph3d</code></pre><h2 id="图形窗口"><a href="#图形窗口" class="headerlink" title="图形窗口"></a>图形窗口</h2><pre><code>figure(n)    % 打开窗口nsubplot(m,n,p)   % m行n列窗口第p个</code></pre><h2 id="坐标轴"><a href="#坐标轴" class="headerlink" title="坐标轴"></a>坐标轴</h2><ul><li><p>axis([xmin xmax ymin ymax])</p></li><li><p>axis equal 使x,y轴的单位长度相同</p></li><li><p>axis square 出图为正方形</p></li><li><p>axis off 清除坐标刻度</p></li><li><p>semilogx,semilogy 绘制以x/y轴为对数坐标，以10为底，y/x轴为线性坐标的半对数坐标图形</p></li><li><p>loglog 绘制全对数坐标图，即x,y轴全取对数   </p><h2 id="文字标示"><a href="#文字标示" class="headerlink" title="文字标示"></a>文字标示</h2></li><li>text(x,y,‘字符串’) 在图形的指定坐标（x,y)处表示’字符串’中的内容</li><li>gtext(‘说明文字’）利用鼠标在图形的某一位置标示说明文字。执行完绘图命令后再执行gtext(‘说明文字‘）命令</li><li>title(‘字符串’）图形标题</li><li>xlabel(‘字符串‘),ylabel(‘字符串’),zlabel(‘字符串’)，设置x,y,z轴的坐标轴名称。如需输入特殊文字，用\开头</li><li>legend(‘字符串1’,‘字符串1’,‘字符串1’……）对图形上多条线按照绘图顺序进行说明 <h2 id="栅格"><a href="#栅格" class="headerlink" title="栅格"></a>栅格</h2></li><li>grid 给图形加栅格</li><li>grid on 给坐标系加栅格</li><li>grid off 删除当前坐标系的栅格<h2 id="图形覆盖-保持"><a href="#图形覆盖-保持" class="headerlink" title="图形覆盖/保持"></a>图形覆盖/保持</h2></li><li>hold on 当前图形保持，且下条图形仍然绘制在该张图形上</li><li><p>hold off 新图覆盖旧图 </p><h2 id="视角方向"><a href="#视角方向" class="headerlink" title="视角方向"></a>视角方向</h2></li><li><p>view(az,el)                   给三维空间图形设置观察点的方位角az与仰角el</p></li><li><p>view([az,el])                 同上</p></li><li><p>view([x,y,z])                 将点(x,y,z)设置为视点</p></li><li><p>view(2)                       设置默认的二维形式视点，其中az = 0,el = 90,即从z轴上方观看</p></li><li><p><strong>view(3)</strong>                       设置默认的三维形式视点，其中az = -37.5, ell = 30</p></li><li><p>view(T)                       根据转换矩阵T设置视点，其中T为4*4阶的矩阵，如同用命令viewmtx生成的透视转换矩阵一样（注意：在2014版本中，这条命令好像没了）</p></li><li><p>[az,el]=view                  返回当前的方位角az与仰角el</p></li><li><p>T = view                      返回当前的4*4阶的转换矩阵T</p><h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>  scrsz = get(groot,’ScreenSize’);<br>  figure(‘Position’,[1 scrsz(4)/2 scrsz(3)/2 scrsz(4)/2]);  % 图像框为屏幕左上角1/4<br>  limAxes = [-1.2 0.8 -1.1 0.9];<br>  xx = round(linspace(1,64,nbSamples));   % round 4舍5入<br>  clrmap = colormap(‘jet’);<br>  clrmap = min(clrmap(xx,:),.95);<br>  colPegs = [[.9,.5,.9];[.5,.9,.5]];</p><p>  subplot(1,2,1); hold on; box on; title(‘Demonstrations’);</p><p>  plot(b(1), b(2),’.’,’markersize’,30,’color’,colPegs(1,:)-[.05,.05,.05]);<br>  plot(Data(1,:), Data(2,:),’-‘,’linewidth’,1.5,’color’,clrmap(n,:));</p><p>  axis(limAxes); axis square;<br>  set(gca,’xtick’,[],’ytick’,[]);  % 清除坐标轴刻度 axis off</p></li></ul><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol><li><a href="https://blog.csdn.net/weixin_38452468/article/details/90171772" target="_blank" rel="noopener">Matlab常用绘图命令</a></li><li><a href="https://blog.csdn.net/seamanj/article/details/35790359" target="_blank" rel="noopener">MATLAB中的视角处理</a>     </li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;常用绘图命令&quot;&gt;&lt;a href=&quot;#常用绘图命令&quot; class=&quot;headerlink&quot; title=&quot;常用绘图命令&quot;&gt;&lt;/a&gt;常用绘图命令&lt;/h1&gt;&lt;h2 id=&quot;命令查看&quot;&gt;&lt;a href=&quot;#命令查看&quot; class=&quot;headerlink&quot; title=&quot;命
+      
+    
+    </summary>
+    
+      <category term="software" scheme="http://yangbenbo.github.io/categories/software/"/>
+    
+    
+      <category term="matlab" scheme="http://yangbenbo.github.io/tags/matlab/"/>
+    
+  </entry>
   
   <entry>
     <title>实用小技巧汇总</title>
@@ -519,31 +544,6 @@ S^{2}=\frac{1}{n-1} \sum_{i=1}^{n}\left(X_{i}-\overline{X}\right)^{2}=\frac{1}{n
     
     
       <category term="概率论" scheme="http://yangbenbo.github.io/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>多系统启动盘制作</title>
-    <link href="http://yangbenbo.github.io/2019/07/21/%E5%A4%9A%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E7%9B%98%E5%88%B6%E4%BD%9C/"/>
-    <id>http://yangbenbo.github.io/2019/07/21/多系统启动盘制作/</id>
-    <published>2019-07-21T07:18:56.000Z</published>
-    <updated>2019-10-03T04:38:52.501Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="软件"><a href="#软件" class="headerlink" title="软件"></a>软件</h1><p><a href="http://www.winsetupfromusb.com/supported-sources/" target="_blank" rel="noopener">WinSetupFromUsb</a></p><h1 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h1><p><img src="/2019/07/21/多系统启动盘制作/WinSetup.png" alt="步骤"></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;软件&quot;&gt;&lt;a href=&quot;#软件&quot; class=&quot;headerlink&quot; title=&quot;软件&quot;&gt;&lt;/a&gt;软件&lt;/h1&gt;&lt;p&gt;&lt;a href=&quot;http://www.winsetupfromusb.com/supported-sources/&quot; target=&quot;_b
-      
-    
-    </summary>
-    
-      <category term="systems" scheme="http://yangbenbo.github.io/categories/systems/"/>
-    
-    
-      <category term="重装系统" scheme="http://yangbenbo.github.io/tags/%E9%87%8D%E8%A3%85%E7%B3%BB%E7%BB%9F/"/>
     
   </entry>
   
