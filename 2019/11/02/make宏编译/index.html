@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
-  <title>实用小技巧汇总 | yangbenbo&#39;s blog</title>
-  <meta name="keywords" content=" ps ">
-  <meta name="description" content="实用小技巧汇总 | yangbenbo&#39;s blog">
+  <title>make宏编译 | yangbenbo&#39;s blog</title>
+  <meta name="keywords" content=" make ">
+  <meta name="description" content="make宏编译 | yangbenbo&#39;s blog">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="个人简介杨本泊， 就读于武大，目前研究机械臂轨迹规划。 喜欢研究新兴技术和未来发展方向。 最近搭建博客 联系方式 QQ : 2519130844 邮箱 : yangbenbo_whu@qq.com">
 <meta property="og:type" content="website">
@@ -593,9 +593,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-实用小技巧汇总" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-make宏编译" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">实用小技巧汇总</h1>
+        <h1 class="article-title">make宏编译</h1>
     
     <div class="article-meta">
         
@@ -603,21 +603,21 @@
         
         <span class="book">
             
-                <a href="javascript:" data-rel="software">software</a>
+                <a href="javascript:" data-rel="Linux">Linux</a>
             
         </span>
         
         
         <span class="tag">
             
-            <a href="javascript:" class="color3">ps</a>
+            <a href="javascript:" class="color5">make</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-10-20 20:04:30'>2019-10-20 19:12</time>
+        创建时间:<time class="date" title='更新时间: 2019-11-03 15:40:42'>2019-11-02 22:32</time>
         
     </div>
     <div class="article-meta">
@@ -639,7 +639,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ps统一裁剪图片大小"><span class="toc-text">ps统一裁剪图片大小</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ps矫正扫描件-ppt"><span class="toc-text">ps矫正扫描件　ppt</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#视屏调整大小"><span class="toc-text">视屏调整大小</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#引用"><span class="toc-text">引用</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#语法变量"><span class="toc-text">语法变量</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本语法"><span class="toc-text">基本语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#变量"><span class="toc-text">变量</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#源码安装"><span class="toc-text">源码安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#动态函数库-so-静态函数库-a"><span class="toc-text">动态函数库.so  静态函数库.a</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#检查软件正确性"><span class="toc-text">检查软件正确性</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装问题"><span class="toc-text">安装问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#引用"><span class="toc-text">引用</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -654,31 +654,91 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="ps统一裁剪图片大小"><a href="#ps统一裁剪图片大小" class="headerlink" title="ps统一裁剪图片大小"></a>ps统一裁剪图片大小</h1><ol>
-<li>窗口-&gt;动作　显示动作面板，在历史记录面板里面</li>
-<li>新建动作组　录制动作</li>
-<li>文件-&gt;自动-&gt;批处理</li>
+        <ul>
+<li>简化编译时所需要下达的指令;</li>
+<li>若在编译完成之后,修改了某个原始码文件,<br>则 make 仅会针对被修改了的文件进行编译,其他的 object file不会被更动;</li>
+<li>最后可以依照相依性来更新 (update) 执行档。</li>
+</ul>
+<h1 id="语法变量"><a href="#语法变量" class="headerlink" title="语法变量"></a>语法变量</h1><pre><code>目标(target): 目标文件 1 目标文件 2
+&lt;tab&gt;
+gcc -o 欲建立的执行文件 目标文件 1 目标文件 2
+</code></pre><ul>
+<li>在 makefile 当中的 # 代表批注;</li>
+<li><tab> 需要在命令行 (例如 gcc 这个编译程序指令) 的第一个字符;</tab></li>
+<li>目标 (target) 与相依文件(就是目标文件)之间需以『:』隔开。 </li>
+</ul>
+<p>makefile 示例 两个target<br><strong>$@:代表目前的目标(target)</strong></p>
+<pre><code>    main: main.o haha.o sin_value.o cos_value.o
+        gcc -o main main.o haha.o sin_value.o cos_value.o -lm
+    clean:
+        rm -f main main.o haha.o sin_value.o cos_value.o 
+
+    # 简化重复内容之后如下
+    # $@:代表目前的目标(target)
+    LIBS = -lm
+    OBJS = main.o haha.o sin_value.o cos_value.o
+    main: ${OBJS}
+        gcc -o $@ ${OBJS} ${LIBS}
+    clean:
+        rm -f main ${OBJS}  
+</code></pre><p>调用</p>
+<pre><code>    make  (make main)   #调用main对象
+    make clean          #调用clean
+    make clean main     #先clean 再main
+</code></pre><h2 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h2><ol>
+<li>变量与变量内容以『=』隔开,同时两边可以具有空格;</li>
+<li>变量左边不可以有 <tab> ,例如上面范例的第一行 LIBS 左边不可以是 <tab>;</tab></tab></li>
+<li>变量与变量内容在『=』两边不能具有『:』<br>;</li>
+<li>在习惯上,变数最好是以『大写字母』为主;</li>
+<li>运用变量时,以 ${变量} 或 $(变量) 使用;</li>
+<li>在该 shell 的环境变量是可以被套用的,例如提到的 CFLAGS 这个变数!</li>
+<li><p>在指令列模式也可以给予变量。 </p>
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><p>gcc 在进行编译的行为时,会主动的去读取 CFLAGS 这个环境变量,所以,你可以直接在 shell<br>定义出这个环境变量,也可以在 makefile 文件里面去定义,更可以在指令列当中给予</p>
+<p> CFLAGS=”-Wall” make clean main      #指令中指定 或者在makefile中定义变量<br>环境变量取用规则</p>
+</li>
+<li>make 指令列后面加上的环境变量为优先;</li>
+<li>makefile 里面指定的环境变量第二;</li>
+<li>shell 原本具有的环境变量第三。    </li>
 </ol>
-<p><strong>注意事项</strong>：<br>点击选项打开切换对话开关　可以在处理自动处理工程在裁剪处停止　手动调整裁剪的位置的大小</p>
-<p><img src="/2019/10/20/实用小技巧汇总/切换对话开.png" alt="打开切换对话"> <img src="/2019/10/20/实用小技巧汇总/切换对话关.png" alt="关闭切换对话"></p>
-<h1 id="ps矫正扫描件-ppt"><a href="#ps矫正扫描件-ppt" class="headerlink" title="ps矫正扫描件　ppt"></a>ps矫正扫描件　ppt</h1><p>扫描件</p>
-<ul>
-<li>复制图层　填充为白色　拉直工具(在不改变图像大小的情况下拉直)</li>
-</ul>
-<p>ppt</p>
-<ul>
-<li>透视裁剪 </li>
-</ul>
-<h1 id="视屏调整大小"><a href="#视屏调整大小" class="headerlink" title="视屏调整大小"></a>视屏调整大小</h1><ul>
-<li>premiere 更改视频码率　选可变码率　</li>
-</ul>
-<p>码率：视频码率就是数据传输时单位时间传送的数据位数，一般我们用的单位是kbps即千位每秒。通俗一点的理解就是取样率</p>
-<ul>
-<li>固定码率：　</li>
-<li>可变码率：视频信源本身的高峰信息量是变化的，能按信源本身的信息量去分配，从而有效地利用信息资源。</li>
-</ul>
-<h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol>
-<li><a href="http://www.sohu.com/a/258392499_99914465" target="_blank" rel="noopener">ps实用技能：如何统一裁剪图片大小</a></li>
+<h1 id="源码安装"><a href="#源码安装" class="headerlink" title="源码安装"></a>源码安装</h1><ol>
+<li><p>diff  行对比</p>
+<pre><code> diff -Naur passwd.old passwd.new &gt; passwd.patch    # 生成补丁文件
+ diff /etc/rc0.d/ /etc/rc5.d/                       # 比较布姆下相同文件名
+</code></pre></li>
+<li><p>patch</p>
+<p> 用来更新源码安装的源文件,使用规则</p>
+<pre><code> patch -p 数字 &lt; patch_file
+ patch -R  -p 数字 &lt; patch_file    #回复旧文件
+</code></pre><p> patch_file 第一行写的是这样:</p>
+<pre><code> *** /home/guest/example/expatch.old
+</code></pre><p> 『patch -p0 &lt; patch_file 』时,则更新的文件是『 /home/guest/example/expatch.old 』,</p>
+<p> 『patch -p1 &lt; patch_file』,则更新的文件为『home/guest/example/expatch.old』,</p>
+<p> 『patch -p4 &lt; patch_file』则更新『expatch.old』</p>
+<p> <strong>-pxx 那个 xx 代表『拿掉几个斜线(/)』的意思!</strong>  </p>
+</li>
+<li>cmp 字节对比 可以用来对比binary             <h1 id="动态函数库-so-静态函数库-a"><a href="#动态函数库-so-静态函数库-a" class="headerlink" title="动态函数库.so  静态函数库.a"></a>动态函数库.so  静态函数库.a</h1>将常用到的动态函式库先加载内存当中 (快取, cache),需要 ldconfig 与 /etc/ld.so.conf协助</li>
+<li>首先,我们必须要在 /etc/ld.so.conf 里面写下『 想要读入高速缓存当中的动态函式库所在的目录』,注意喔, 是目录而不是文件;</li>
+<li>接下来则是利用 ldconfig 这个执行档将 /etc/ld.so.conf 的资料读入快取当中;</li>
+<li><p>同时也将数据记录一份在 /etc/ld.so.cache 这个文件当中</p>
+<pre><code> ldconfig [-f conf] [ -C cache]
+ ldconfig [-p]       #列出目前有的所有函式库资料内容 (在 /etc/ld.so.cache 内的资料!)
+</code></pre><p> 将动态函式库所在的目录名称写入<br> /etc/ld.so.conf.d/yourfile.conf 当中,然后执行 ldconfig 就可以  </p>
+</li>
+<li><p>查看可执行binary文件含有的动态函数库</p>
+<pre><code> ldd [-vdr] [filename]      
+</code></pre><h1 id="检查软件正确性"><a href="#检查软件正确性" class="headerlink" title="检查软件正确性"></a>检查软件正确性</h1><p>目前广泛应用的加密机制 MD5 SHA1 SHA256 计算文件的指纹码</p>
+</li>
+</ol>
+<p>md5sum/sha1sum/sha356sum</p>
+<pre><code>md5sum/sha1sum/sha256sum [-bct] filename
+</code></pre><p>可以把Linux上的重要文件进行指纹数据库的建立,然后定期以shell script的方式检查    </p>
+<h1 id="安装问题"><a href="#安装问题" class="headerlink" title="安装问题"></a>安装问题</h1><ol>
+<li>缺少依赖库<br> 查看文件夹下对应的config.log 里面有对应的debug信息</li>
+<li><p>没有那个文件或目录  X11/Intrinsic.h</p>
+<pre><code> yum provides */Intrinsic.h   # 使用了正则表达式 需要头文件属于哪个包 安装就好            
+</code></pre><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1></li>
+<li><a href="http://linux.vbird.org/new_linux.php" target="_blank" rel="noopener">鸟哥Linux基础</a>   </li>
+<li><a href="https://blog.csdn.net/king_on/article/details/7799695" target="_blank" rel="noopener">xpenguins 的安装（问题来源于鸟哥基础篇）</a>        </li>
 </ol>
 
       
@@ -689,12 +749,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>实用小技巧汇总</p>
+    <p><span class="copy-title">文章标题:</span>make宏编译</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="杨本泊">杨本泊</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-10-20, 19:12:25</p>
-    <p><span class="copy-title">最后更新:</span>2019-10-20, 20:04:30</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/10/20/实用小技巧汇总/" title="实用小技巧汇总">http://yangbenbo.github.io/2019/10/20/实用小技巧汇总/</a>
+    <p><span class="copy-title">发布时间:</span>2019-11-02, 22:32:22</p>
+    <p><span class="copy-title">最后更新:</span>2019-11-03, 15:40:42</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/11/02/make宏编译/" title="make宏编译">http://yangbenbo.github.io/2019/11/02/make宏编译/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
