@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yangbenbo.github.io/"/>
-  <updated>2019-11-23T04:12:31.457Z</updated>
+  <updated>2019-12-10T02:22:23.268Z</updated>
   <id>http://yangbenbo.github.io/</id>
   
   <author>
@@ -15,6 +15,137 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>位姿变换矩阵左乘和右乘理解</title>
+    <link href="http://yangbenbo.github.io/2019/12/08/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E7%9F%A9%E9%98%B5%E5%B7%A6%E4%B9%98%E5%92%8C%E5%8F%B3%E4%B9%98%E7%90%86%E8%A7%A3/"/>
+    <id>http://yangbenbo.github.io/2019/12/08/位姿变换矩阵左乘和右乘理解/</id>
+    <published>2019-12-08T03:49:49.000Z</published>
+    <updated>2019-12-10T02:22:23.268Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="旋转矩阵含义"><a href="#旋转矩阵含义" class="headerlink" title="旋转矩阵含义"></a>旋转矩阵含义</h1><p>坐标系中物体的运动：物体运动(变换算子，只涉及到全局坐标系)；坐标系反方向运动</p><ol><li>变换算子   </li><li>位姿描述</li></ol><h1 id="X-Y-Z固定角-算子左乘"><a href="#X-Y-Z固定角-算子左乘" class="headerlink" title="X-Y-Z固定角 算子左乘"></a>X-Y-Z固定角 算子左乘</h1><ol><li><p>可以看作算子对一个向量的不断变换</p><script type="math/tex; mode=display"> _{B}^{A} R_{X Y Z}(\gamma, \beta, \alpha)=R_{Z}(\alpha) R_{Y}(\beta) R_{X}(\gamma)</script><p> <img src="/2019/12/08/位姿变换矩阵左乘和右乘理解/xyz固定角.png" alt="xyz固定角"></p></li><li><p>可用位姿变换和右乘统一</p><p> 坐标系在B中旋转等效为坐标系B向相反方向旋转,比如全局 <script type="math/tex">{R_k}(\theta )</script></p><p> 则有  </p><script type="math/tex; mode=display">{}_A^BR</script><script type="math/tex; mode=display">{}_{B'}^BR = {R_k}{(\theta )^{ - 1}}</script><p> 所以 <script type="math/tex">{}_A^{B'}R = {}_{B'}^B{R^{ - 1}} \cdot {}_A^BR = {R_k}(\theta ) \cdot {}_A^BR</script></p><p> <img src="/2019/12/08/位姿变换矩阵左乘和右乘理解/pose.jpg" alt="位姿描述">      </p></li></ol><h1 id="Z-Y-X欧拉角-右乘"><a href="#Z-Y-X欧拉角-右乘" class="headerlink" title="Z-Y-X欧拉角 右乘"></a>Z-Y-X欧拉角 右乘</h1><p>坐标系描述 </p><script type="math/tex; mode=display">_B^AR = {}_{B'}^AR{}_{B''}^{B'}R{}_B^{B''}R{\text{ = }}{R_Z}(\alpha ){R_Y}(\beta ){R_X}(\gamma )</script><p><img src="/2019/12/08/位姿变换矩阵左乘和右乘理解/zyx欧拉角.png" alt="zyx欧拉角"></p><h1 id="等效角度-轴线"><a href="#等效角度-轴线" class="headerlink" title="等效角度-轴线"></a>等效角度-轴线</h1><ol><li><p>绕通过原点轴线旋转</p><p> 理解成全局坐标系中一向量变换到局部坐标系-》绕z轴旋转-》变回全局坐标系</p><p> $_{B}^{A} R_{k}(\theta)=R^{-1} R_{z}(\theta) R$</p><p> 其中R为将全局坐标系z轴旋转到K轴的变换矩阵</p></li><li><p>绕不通过原点轴线旋转<br> 类似绕通过原点轴线旋转处理方式</p></li></ol><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://book.douban.com/subject/30325317/" target="_blank" rel="noopener">Introduction To Robotics mechanics and control</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;旋转矩阵含义&quot;&gt;&lt;a href=&quot;#旋转矩阵含义&quot; class=&quot;headerlink&quot; title=&quot;旋转矩阵含义&quot;&gt;&lt;/a&gt;旋转矩阵含义&lt;/h1&gt;&lt;p&gt;坐标系中物体的运动：物体运动(变换算子，只涉及到全局坐标系)；坐标系反方向运动&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;变
+      
+    
+    </summary>
+    
+      <category term="math" scheme="http://yangbenbo.github.io/categories/math/"/>
+    
+    
+      <category term="机器人学" scheme="http://yangbenbo.github.io/tags/%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%AD%A6/"/>
+    
+      <category term="位姿变换" scheme="http://yangbenbo.github.io/tags/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>word参考文献交叉引用</title>
+    <link href="http://yangbenbo.github.io/2019/12/04/word%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE%E4%BA%A4%E5%8F%89%E5%BC%95%E7%94%A8/"/>
+    <id>http://yangbenbo.github.io/2019/12/04/word参考文献交叉引用/</id>
+    <published>2019-12-04T00:32:08.000Z</published>
+    <updated>2019-12-04T01:02:40.897Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="word参考文献交叉引用"><a href="#word参考文献交叉引用" class="headerlink" title="word参考文献交叉引用"></a>word参考文献交叉引用</h1><p>参考文献交叉引用可以实现正文中引用链接到参考文献，避免参考文献引用出错</p><ol><li>参考文献排序</li><li><p>插入-&gt; 交叉引用 -&gt; 选择对应的文献</p><p> <img src="/2019/12/04/word参考文献交叉引用/插入.png" alt="交叉引用"></p></li></ol><h2 id="实现-1-5-形式"><a href="#实现-1-5-形式" class="headerlink" title="实现[1-5]形式"></a>实现[1-5]形式</h2><ul><li><p>第一种方式： 插入之后，选择不想出现的部分,然后选择字体-&gt; 隐藏即可</p><p>  <img src="/2019/12/04/word参考文献交叉引用/隐藏.png" alt="隐藏"></p></li><li><p>第二种方式：</p><ol><li><p>插入交叉引用1,5，右击切换域代码</p><pre><code> 导纳控制{ REF _Re26341043 \r \h }{ REF _Ref26341045 \r \h }</code></pre></li><li><p>增加代码</p><pre><code> 导纳控制{ REF _Re26341043 \r \h \#&quot;[0&quot;}{ REF _Ref26341045 \r \h \#&quot;0]&quot;}</code></pre></li><li>更新域代码,添加 “-“, ctrl+shift++ 切换为上标</li></ol></li></ul><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://www.jianshu.com/p/e6f71f8ba19a" target="_blank" rel="noopener">Word|如何使用交叉引用标注参考文献</a>    </li><li><a href="https://jingyan.baidu.com/article/25648fc15c03439191fd0033.html" target="_blank" rel="noopener">word参考文献交叉引用的连续多项引用?</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;word参考文献交叉引用&quot;&gt;&lt;a href=&quot;#word参考文献交叉引用&quot; class=&quot;headerlink&quot; title=&quot;word参考文献交叉引用&quot;&gt;&lt;/a&gt;word参考文献交叉引用&lt;/h1&gt;&lt;p&gt;参考文献交叉引用可以实现正文中引用链接到参考文献，避免参考文
+      
+    
+    </summary>
+    
+      <category term="software" scheme="http://yangbenbo.github.io/categories/software/"/>
+    
+    
+      <category term="word" scheme="http://yangbenbo.github.io/tags/word/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>高效工具</title>
+    <link href="http://yangbenbo.github.io/2019/11/30/%E9%AB%98%E6%95%88%E5%B7%A5%E5%85%B7/"/>
+    <id>http://yangbenbo.github.io/2019/11/30/高效工具/</id>
+    <published>2019-11-30T14:07:24.000Z</published>
+    <updated>2019-11-30T14:10:32.560Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="截图识别公式"><a href="#截图识别公式" class="headerlink" title="截图识别公式"></a>截图识别公式</h1><p><a href="https://mathpix.com/" target="_blank" rel="noopener">mathpix</a> 一款优秀的截图识别公式软件,支持Linux,Windows,Mac,IOS,Android<br>ubuntu 安装</p><pre><code>sudo apt updatesudo apt install snapdsudo snap install mathpix-snipping-tool</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;截图识别公式&quot;&gt;&lt;a href=&quot;#截图识别公式&quot; class=&quot;headerlink&quot; title=&quot;截图识别公式&quot;&gt;&lt;/a&gt;截图识别公式&lt;/h1&gt;&lt;p&gt;&lt;a href=&quot;https://mathpix.com/&quot; target=&quot;_blank&quot; rel=&quot;no
+      
+    
+    </summary>
+    
+      <category term="software" scheme="http://yangbenbo.github.io/categories/software/"/>
+    
+    
+      <category term="efficiency" scheme="http://yangbenbo.github.io/tags/efficiency/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>mathtype常用配置</title>
+    <link href="http://yangbenbo.github.io/2019/11/30/mathtype%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/"/>
+    <id>http://yangbenbo.github.io/2019/11/30/mathtype常用配置/</id>
+    <published>2019-11-30T13:39:27.000Z</published>
+    <updated>2019-11-30T14:03:26.544Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="常用快捷键"><a href="#常用快捷键" class="headerlink" title="常用快捷键"></a>常用快捷键</h1><pre><code>ctrl + L    下标ctrl + H    上标ctrl + B    向量 公式样式  原本快捷键和其他软件冲突了,重新设置新的即可Alt + B     math 样式</code></pre><h1 id="获取公式对应的LaTex格式-方便hexo博客使用"><a href="#获取公式对应的LaTex格式-方便hexo博客使用" class="headerlink" title="获取公式对应的LaTex格式 方便hexo博客使用"></a>获取公式对应的LaTex格式 方便hexo博客使用</h1><ol><li><p>mathtype 复制粘贴选项<br> 选择AMSTex 或者 MathML 2.0(no namespace)<br> <img src="/2019/11/30/mathtype常用配置/mathtype.png" alt="选项">   </p></li><li><p><strong>mathpix</strong> 截图识别公式<br>使用<a href="https://mathpix.com/" target="_blank" rel="noopener">mathpix</a>,简单高效</p></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;常用快捷键&quot;&gt;&lt;a href=&quot;#常用快捷键&quot; class=&quot;headerlink&quot; title=&quot;常用快捷键&quot;&gt;&lt;/a&gt;常用快捷键&lt;/h1&gt;&lt;pre&gt;&lt;code&gt;ctrl + L    下标
+ctrl + H    上标
+ctrl + B    向量 公式样式 
+      
+    
+    </summary>
+    
+      <category term="software" scheme="http://yangbenbo.github.io/categories/software/"/>
+    
+    
+      <category term="equation" scheme="http://yangbenbo.github.io/tags/equation/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>傅里叶变换理解</title>
+    <link href="http://yangbenbo.github.io/2019/11/30/%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2%E7%90%86%E8%A7%A3/"/>
+    <id>http://yangbenbo.github.io/2019/11/30/傅里叶变换理解/</id>
+    <published>2019-11-30T11:38:48.000Z</published>
+    <updated>2019-12-01T08:01:29.216Z</updated>
+    
+    <content type="html"><![CDATA[<p>用正交函数理解傅里叶变换，详细推到请看<a href="https://www.bilibili.com/video/av34364399/?spm_id_from=333.788.videocard.0" target="_blank" rel="noopener">纯干货数学推导_傅里叶级数与傅里叶变换</a></p><h1 id="向量正交"><a href="#向量正交" class="headerlink" title="向量正交"></a>向量正交</h1><p>向量正交：两个向量内积为0</p><math display="block"> <mo>&#x2329;</mo><mstyle mathvariant="bold" mathsize="normal"><mi>a</mi></mstyle><mo>,</mo><mstyle mathvariant="bold" mathsize="normal"><mi>b</mi></mstyle><mo>&#x232A;</mo><mo>=</mo><mn>0</mn></math><p>一个向量可以分解到一组正交基上（坐标系）</p><p>向量a在向量b上的投影长度</p><math display="block"> <mi>c</mi><mo>=</mo><mfrac>  <mrow>   <mo>&#x2329;</mo><mstyle mathvariant="bold" mathsize="normal"><mi>a</mi><mo>,</mo><mi>b</mi></mstyle><mo>&#x232A;</mo></mrow>  <mrow>   <mo>&#x2329;</mo><mstyle mathvariant="bold" mathsize="normal"><mi>b</mi><mo>,</mo><mi>b</mi></mstyle><mo>&#x232A;</mo></mrow> </mfrac></math><p>如果b是坐标轴上的单位向量或者方向沿着坐标轴方向，则c就是对应的坐标</p><h1 id="正交函数"><a href="#正交函数" class="headerlink" title="正交函数"></a>正交函数</h1><p>函数正交：两个函数内积为0</p><math display="block"> <mo>&#x2329;</mo><mi>f</mi><mo>,</mo><mi>g</mi><mo>&#x232A;</mo><mo>=</mo><mn>0</mn></math><p>引入函数内积，在向量内积的基础上变成了积分（对应点的内积），这里是复变函数内积</p><script type="math/tex; mode=display">\left\langle g_{i}, g_{j}\right\rangle=\int_{i_{i}}^{t_{2}} g_{i}(t) \cdot g_{j}^{*}(t) d t</script><p>一个函数f在另一个函数g上的投影</p><script type="math/tex; mode=display">c_{i}=\frac{\left\langle f, g_{i}\right\rangle}{\left\langle g_{i}, g_{i}\right\rangle}=\frac{1}{k_{i}} \int_{t}^{t_{i}} f(t) \cdot g_{i}(t) d t</script><p>一个函数可以分解到一组完备正交函数集合上，三角函数集合和指数函数集合都是完备正交函数集合</p><h2 id="三角函数集合"><a href="#三角函数集合" class="headerlink" title="三角函数集合"></a>三角函数集合</h2><p>三角函数分解</p><script type="math/tex; mode=display">\begin{array}{l}{f(t)=a_{0}+\sum_{n=1}^{+\infty} a_{n} \cos n \omega_{1} t+\sum_{n=1}^{+\infty} b_{n} \sin n \omega_{1} t} \\ {a_{0}=\frac{\langle f, 1\rangle}{\langle 1,1\rangle}=\frac{1}{T_{1}} \int_{t_{0}}^{t_{0}+T_{1}} f(t) d t} \\ {a_{n}=\frac{\left\langle f, \cos n \omega_{1} t\right\rangle}{\left\langle\cos n \omega_{1} t, \cos n \omega_{1} t\right\rangle}=\frac{2}{T_{1}} \int_{t_{0}}^{t_{0}+T_{1}} f(t) \cdot \cos n \omega_{1} t d t} \\ {b_{n}=\frac{\left\langle f, \sin n \omega_{1} t\right\rangle}{\left\langle\sin n \omega_{1} t, \sin n \omega_{1} t\right\rangle}=\frac{2}{T_{1}} \int_{t_{0}}^{t_{0}+T_{1}} f(t) \cdot \sin n \omega_{1} t d t}\end{array}</script><p>其中</p><script type="math/tex; mode=display">\omega_{1}=\frac{2 \pi}{T_{1}}</script><h2 id="指数函数集合"><a href="#指数函数集合" class="headerlink" title="指数函数集合"></a>指数函数集合</h2><p>指数函数分解</p><script type="math/tex; mode=display">\begin{aligned}\left\langle e^{j n \omega_{1} t}, e^{j m \omega_{1} t}\right\rangle &=\int_{t_{0}}^{t_{0}+T_{1}} e^{j n \omega_{1} t} \cdot e^{-j m \omega_{1} t} d t \\ &=\int_{t_{0}}^{t_{0}+T_{1}} e^{j(n-m) \omega_{1} t} d t=\left\{\begin{array}{ll}{T_{1}} & {n=m} \\ {0} & {n \neq m}\end{array}\right.\end{aligned}</script><p>则对应的函数分解为</p><script type="math/tex; mode=display">\begin{array}{l}{f(t)=\sum_{n=-\infty}^{+\infty} F_{n} e^{j n \omega_{1} t}} \\ {F_{n}=\frac{\left\langle f(t), e^{j n \omega_{1} t}\right\rangle}{\left\|e^{j n \omega_{1} t}\right\|_{2}}=\frac{1}{T_{1}} \int_{t_{0}}^{t_{0}+T_{1}} f(t) e^{-j n \omega_{1} t} d t}\end{array}</script><h1 id="傅里叶变换"><a href="#傅里叶变换" class="headerlink" title="傅里叶变换"></a>傅里叶变换</h1><p>周期无穷大，加和变成了积分，时间从0开始到无穷大，如下式所示，内层就是傅里叶变换，外层就是反变换</p><script type="math/tex; mode=display">\begin{array}{l}{f(t)=\sum_{n=-\infty}^{+\infty} \frac{1}{T_{1}} \int_{t_{0}}^{t_{0}+T_{1}} f(t) e^{-j n \omega_{1} t} d t e^{j n \omega_{1} t}} \\ {f(t)=\frac{1}{2 \pi} \int_{-\infty}^{\infty} \int_{0}^{\infty} f(t) e^{-j \omega t} d t e^{j \omega t} d w}\end{array}</script><h1 id="拉式变换"><a href="#拉式变换" class="headerlink" title="拉式变换"></a>拉式变换</h1><p>是傅里叶变换的推广，傅里叶变换是拉式变换在虚轴上的投影，可以看乘的指数部分，拉式变换是复数包含了傅里叶变换的纯虚数</p><script type="math/tex; mode=display">X(s)=\int_{0}^{\infty} x(t) e^{-s t} d t</script><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://blog.csdn.net/Einstellung/article/details/77478203" target="_blank" rel="noopener">正交函数集合</a></li><li><a href="https://www.bilibili.com/video/av34364399/?spm_id_from=333.788.videocard.0" target="_blank" rel="noopener">纯干货数学推导_傅里叶级数与傅里叶变换</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;用正交函数理解傅里叶变换，详细推到请看&lt;a href=&quot;https://www.bilibili.com/video/av34364399/?spm_id_from=333.788.videocard.0&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;纯干
+      
+    
+    </summary>
+    
+      <category term="math" scheme="http://yangbenbo.github.io/categories/math/"/>
+    
+    
+      <category term="傅里叶变换" scheme="http://yangbenbo.github.io/tags/%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2/"/>
+    
+  </entry>
   
   <entry>
     <title>ubuntu解压文件名字无法显示中文(中文乱码)</title>
@@ -422,135 +553,6 @@
     
     
       <category term="gdb" scheme="http://yangbenbo.github.io/tags/gdb/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Linux进程管理</title>
-    <link href="http://yangbenbo.github.io/2019/10/02/Linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/"/>
-    <id>http://yangbenbo.github.io/2019/10/02/Linux进程管理/</id>
-    <published>2019-10-02T01:28:29.000Z</published>
-    <updated>2019-10-03T04:38:52.501Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Linux进程"><a href="#Linux进程" class="headerlink" title="Linux进程"></a>Linux进程</h1><p>Linux是一个多用户多任务的操作系统。init进程是所有进程的发起者和控制者，每个进程<br>都有一个编号，PID(Process ID)，是在当前系统中的运行顺序，init进程在系统运行期间不会消亡或停止</p><h2 id="进程管理常用命令"><a href="#进程管理常用命令" class="headerlink" title="进程管理常用命令"></a>进程管理常用命令</h2><ol><li><p>查看进程状态</p><p> ps aux      #静态查看系统中所有进程信息<br> top         #动态查看  P M T 分别按照CPU Memory Time排序</p></li><li><p>设置优先级 nice [-n][command][arguments]   #优先级-20 - 19 默认为0 -20最高</p><p> nice  —12 processname   #-12<br> renice          #修改优先级</p></li><li><p>终止进程</p><p> kill[-signal] PID   #不带参数默认15 即终止进程<br> kill -l             #查看可选signal<br> kill -CONT  4385    #重新开始进程<br> kill -9 4385        #强制终止<br> kill -STOP 4385     #停止但不退出</p><p> killall [-signal] [processname]  #终止所有名为processname的进程</p></li></ol><h1 id="临时和周期任务安排"><a href="#临时和周期任务安排" class="headerlink" title="临时和周期任务安排"></a>临时和周期任务安排</h1><p>待补充    </p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;Linux进程&quot;&gt;&lt;a href=&quot;#Linux进程&quot; class=&quot;headerlink&quot; title=&quot;Linux进程&quot;&gt;&lt;/a&gt;Linux进程&lt;/h1&gt;&lt;p&gt;Linux是一个多用户多任务的操作系统。init进程是所有进程的发起者和控制者，每个进程&lt;br&gt;都有
-      
-    
-    </summary>
-    
-      <category term="Linux" scheme="http://yangbenbo.github.io/categories/Linux/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>SAMBA服务简单搭建</title>
-    <link href="http://yangbenbo.github.io/2019/10/01/SAMBA%E6%9C%8D%E5%8A%A1%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BA/"/>
-    <id>http://yangbenbo.github.io/2019/10/01/SAMBA服务简单搭建/</id>
-    <published>2019-10-01T13:00:55.000Z</published>
-    <updated>2019-11-03T08:34:37.890Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="SAMBA简介"><a href="#SAMBA简介" class="headerlink" title="SAMBA简介"></a>SAMBA简介</h1><p>Samba是在Linux和UNIX系统上实现SMB协议的一个免费软件，由服务器及客户端程序构成。<br>SMB（Server Messages Block，信息服务块）是一种在局域网上共享文件和打印机的一种通信协议，<br>它为局域网内的不同计算机之间提供文件及打印机等资源的共享服务。</p><p>可以实现Windows和Linux主机之间共享资源互访功能</p><p>实验室小范围使用 直接采用匿名共享资源 简单快捷</p><h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>server 服务器</p><pre><code>sudo apt install samba    # samba-common 会自动安装sudo vi /etc/samba/smb.conf[share]             #共享目录comment=Linux share     #共享目录描述，给自己看的path=/home/share    #共享目录路径public=yeswriteable=yes   #可写browseable=yes  #共享在Windows中网上邻居可见 结合publicguest ok=yes    #允许匿名访问sudo /etc/init.d/samba start  # 开启服务器</code></pre><p>client ubuntu</p><pre><code>sudo apt install smbclientsmbclient -L 10.1.1.20   #查看共享目录smbclient //10.1.1.20/share  # IP地址后接共享目录  访问sudo apt-get install cifs-utils   #下载相应组件sudo mount -t cifs //10.1.1.20/share  /home/yang/share  # 使用这句或者下面一句sudo mount -t cifs -o passward=123,dir_mode=0777,file_mode=0777 //10.1.1.20/share  /home/yang/share  #有写权限 passward 为对应服务器的密码# vi /etc/fstab 开机自动挂载 具有写权限 注意逗号 之前就是用的空格导致不行# cifs 文件系统  备份 0:不需要 1:每天 2:每两天  fsck 0:不需要 1:需要# blkid 查询UUID//10.1.1.20/share    /home/yang/share cifs passward=123,dir_mode=0777,file_mode=0777 0 0  </code></pre><p>client Windows</p><pre><code>&quot;运行&quot;对话框输入\\10.1.1.20 回车选中共享文件夹 右键映射网络驱动器 即可像本地磁盘使用</code></pre><h1 id="服务器开机自启动"><a href="#服务器开机自启动" class="headerlink" title="服务器开机自启动"></a>服务器开机自启动</h1><pre><code>sudo vi /etc/rc.loca/etc/init.d/ssh start # 末尾添加 exit 0 之前/etc/init.d/smbd start    </code></pre><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://blog.csdn.net/qq_43682605/article/details/86562212" target="_blank" rel="noopener">Ubuntu终端访问samba服务器</a>    </li><li><a href="https://www.cnblogs.com/torres-9/p/5880188.html?utm_source=itdadao&amp;utm_medium=referral" target="_blank" rel="noopener">如何配置使Ubuntu启动后samba服务与ssh服务开机自动启动</a></li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;SAMBA简介&quot;&gt;&lt;a href=&quot;#SAMBA简介&quot; class=&quot;headerlink&quot; title=&quot;SAMBA简介&quot;&gt;&lt;/a&gt;SAMBA简介&lt;/h1&gt;&lt;p&gt;Samba是在Linux和UNIX系统上实现SMB协议的一个免费软件，由服务器及客户端程序构成。&lt;b
-      
-    
-    </summary>
-    
-      <category term="Linux" scheme="http://yangbenbo.github.io/categories/Linux/"/>
-    
-    
-      <category term="文件共享" scheme="http://yangbenbo.github.io/tags/%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Github SSH Key避免Hexo部署输入密码</title>
-    <link href="http://yangbenbo.github.io/2019/10/01/Github-SSH-Key%E9%81%BF%E5%85%8DHexo%E9%83%A8%E7%BD%B2%E8%BE%93%E5%85%A5%E5%AF%86%E7%A0%81/"/>
-    <id>http://yangbenbo.github.io/2019/10/01/Github-SSH-Key避免Hexo部署输入密码/</id>
-    <published>2019-10-01T08:19:16.000Z</published>
-    <updated>2019-10-10T00:40:05.377Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h1><p>前提: 已经生成ssh公钥放在github</p><p>修改_config.yaml,将部署方式从https改为ssh</p><pre><code># Deployment## Docs: https://hexo.io/docs/deployment.htmldeploy:  type: git  repository: https://github.com/yangbenbo/yangbenbo.github.io.git  branch: master</code></pre><p>改为</p><pre><code># Deployment## Docs: https://hexo.io/docs/deployment.htmldeploy:  type: git  repository: git@github.com:yangbenbo/yangbenbo.github.io.git  branch: master   </code></pre><h1 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h1><ol><li>ubuntu换内核(kernel)启动 需要重新上传ssh-key              </li></ol><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol><li><a href="https://www.cnblogs.com/yaoel/p/5381826.html" target="_blank" rel="noopener">使用Github SSH Key来避免Hexo部署时输入账户密码</a>      </li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;操作&quot;&gt;&lt;a href=&quot;#操作&quot; class=&quot;headerlink&quot; title=&quot;操作&quot;&gt;&lt;/a&gt;操作&lt;/h1&gt;&lt;p&gt;前提: 已经生成ssh公钥放在github&lt;/p&gt;
-&lt;p&gt;修改_config.yaml,将部署方式从https改为ssh&lt;/p&gt;
-&lt;pre&gt;
-      
-    
-    </summary>
-    
-      <category term="Linux" scheme="http://yangbenbo.github.io/categories/Linux/"/>
-    
-    
-      <category term="blog" scheme="http://yangbenbo.github.io/tags/blog/"/>
-    
-      <category term="ssh" scheme="http://yangbenbo.github.io/tags/ssh/"/>
-    
-      <category term="hexo" scheme="http://yangbenbo.github.io/tags/hexo/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>用户权限管理</title>
-    <link href="http://yangbenbo.github.io/2019/09/30/%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/"/>
-    <id>http://yangbenbo.github.io/2019/09/30/用户权限管理/</id>
-    <published>2019-09-30T15:22:20.000Z</published>
-    <updated>2019-10-03T04:38:52.501Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="用户管理命令"><a href="#用户管理命令" class="headerlink" title="用户管理命令"></a>用户管理命令</h1><h2 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h2><pre><code>adduser     # 交互形式   useraddfinger -l yang     # 显示用户相关信息chfn        # 修改用户个人信息passwd      # 更改密码id          # 显示用户UID GIDusemod      # 修改用户登录信息 用户组gsudo usermod -aG sudo yang      #普通用户添加sudodeluser --remove-all-files yang  # 交互deluser  yang  sudo     # 从sudo组删除用户yanguserdelsu yang     #切换用户cat /etc/passwd #查看所有用户 与管道结合更方便grep</code></pre><h2 id="用户组"><a href="#用户组" class="headerlink" title="用户组"></a>用户组</h2><pre><code>addgroup    #系统用户组groupaddgroups      #显示用户对应的组groupmod    #更改用户组名称 IDdelgroupgroupdel   cat /etc/group  #查看所用用户组 </code></pre><h2 id="权限管理"><a href="#权限管理" class="headerlink" title="权限管理"></a>权限管理</h2><pre><code>chmodchown   #修改文件、目录归属用户或组chgrp   #修改文件或目录的归属组   </code></pre><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;用户管理命令&quot;&gt;&lt;a href=&quot;#用户管理命令&quot; class=&quot;headerlink&quot; title=&quot;用户管理命令&quot;&gt;&lt;/a&gt;用户管理命令&lt;/h1&gt;&lt;h2 id=&quot;用户&quot;&gt;&lt;a href=&quot;#用户&quot; class=&quot;headerlink&quot; title=&quot;用户&quot;&gt;&lt;
-      
-    
-    </summary>
-    
-      <category term="Linux" scheme="http://yangbenbo.github.io/categories/Linux/"/>
-    
-    
-      <category term="权限" scheme="http://yangbenbo.github.io/tags/%E6%9D%83%E9%99%90/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>FTP配置和使用</title>
-    <link href="http://yangbenbo.github.io/2019/09/30/FTP%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BD%BF%E7%94%A8/"/>
-    <id>http://yangbenbo.github.io/2019/09/30/FTP配置和使用/</id>
-    <published>2019-09-30T12:45:12.000Z</published>
-    <updated>2019-10-03T04:38:52.501Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="FTP简介"><a href="#FTP简介" class="headerlink" title="FTP简介"></a>FTP简介</h1><p>文件传输协议(File Transfer Protocol)：传统网络传输协议，主要实现服务器和客户端之间的文件传输</p><h1 id="FTP配置"><a href="#FTP配置" class="headerlink" title="FTP配置"></a>FTP配置</h1><p>匿名用户无法使用ls dir等命令查看文件</p><hr><pre><code>sudo apt-get install vsftpd   #服务器端sudo vim /etc/vsftpd.conf     #可以默认 anonymous_enable=YES 可用anonymous作为用户名和密码登录sudo /etc/init.d/vsftpd restart  #重启服务ftp 10.1.1.20   #连接服务器</code></pre><p>配置文件:vsftpd.conf   # 测试了一下 感觉默认设置就可以本地用户登录<br>可能需要改/etc/ftpusers  并重启  </p><pre><code>local_root=/home/ftp  # 锁定共享目录 手动添加  可以不用local_enable=YES    #本机可以访问write_enable=YES    #允许写操作#chroot_local_user=YESchroot_list_enable=YES    # 限制实体用户在自己的主目录设定文件# (default follows)chroot_list_file=/etc/vsftpd.chroot_listsudo vim /etc/vsftpd.chroot_list     # 添加用户名sudo vim /etc/ftpusers  #这里面是不能访问ftp的用户  删除对应的</code></pre><h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><h2 id="FTP命令"><a href="#FTP命令" class="headerlink" title="FTP命令"></a>FTP命令</h2><pre><code>ftp&gt; ascii # 设定以ASCII方式传送文件(缺省值) ftp&gt; bell  # 每完成一次文件传送,报警提示. ftp&gt; binary # 设定以二进制方式传送文件. ftp&gt; bye  # 终止主机FTP进程,并退出FTP管理方式. ftp&gt; case # 当为ON时,用MGET命令拷贝的文件名到本地机器中,全部转换为小写字母. ftp&gt; cd   # 同UNIX的CD命令. ftp&gt; cdup  # 返回上一级目录. ftp&gt; chmod # 改变远端主机的文件权限. ftp&gt; close # 终止远端的FTP进程,返回到FTP命令状态, 所有的宏定义都被删除. ftp&gt; delete # 删除远端主机中的文件. ftp&gt; dir [remote-directory] [local-file] # 列出当前远端主机目录中的文件.如果有本地文件,就将结果写至本地文件. ftp&gt; get [remote-file] [local-file] # 从远端主机中传送至本地主机中. ftp&gt; help [command] # 输出命令的解释. ftp&gt; lcd # 改变当前本地主机的工作目录,如果缺省,就转到当前用户的HOME目录. ftp&gt; ls [remote-directory] [local-file] # 同DIR. ftp&gt; macdef         # 定义宏命令. ftp&gt; mdelete [remote-files] # 删除一批文件. ftp&gt; mget [remote-files]  # 从远端主机接收一批文件至本地主机. ftp&gt; mkdir directory-name  # 在远端主机中建立目录. ftp&gt; mput local-files # 将本地主机中一批文件传送至远端主机. ftp&gt; open host [port] # 重新建立一个新的连接. ftp&gt; prompt      # 交互提示模式. ftp&gt; put local-file [remote-file] # 将本地一个文件传送至远端主机中. ftp&gt; pwd # 列出当前远端主机目录. ftp&gt; quit # 同BYE. ftp&gt; recv remote-file [local-file] # 同GET. ftp&gt; rename [from] [to]   # 改变远端主机中的文件名. ftp&gt; rmdir directory-name  # 删除远端主机中的目录. ftp&gt; send local-file [remote-file] # 同PUT. ftp&gt; status  # 显示当前FTP的状态. ftp&gt; system  # 显示远端主机系统类型. ftp&gt; user user-name [password] [account] # 重新以别的用户名登录远端主机. ftp&gt; ? [command] # 同HELP. [command]指定需要帮助的命令名称。如果没有指定 command，ftp 将显示全部命令的列表。ftp&gt; ! # 从 ftp 子系统退出到外壳。</code></pre><h2 id="关闭FTP"><a href="#关闭FTP" class="headerlink" title="关闭FTP"></a>关闭FTP</h2><pre><code>byeexitquit</code></pre><h2 id="上传下载"><a href="#上传下载" class="headerlink" title="上传下载"></a>上传下载</h2><pre><code>ftp&gt; put /path/readme.txt # 上传 readme.txt 文件ftp&gt; mput *.txt      # 可以上传多个文件ftp&gt; get readme.txt # 下载 readme.txt 文件ftp&gt; mget *.txt   # 下载</code></pre><p>win10上传下载 命令同Linux</p><pre><code>cmdftp 10.1.1.20</code></pre><h2 id="状态码"><a href="#状态码" class="headerlink" title="状态码"></a>状态码</h2><pre><code>•230 - 登录成功•200 - 命令执行成功•150 - 文件状态正常，开启数据连接端口•250 - 目录切换操作完成•226 - 关闭数据连接端口，请求的文件操作成功 </code></pre><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol><li><a href="https://www.cnblogs.com/feiquan/p/9236768.html" target="_blank" rel="noopener">Linux中ftp的常用命令</a></li><li><ol><li><a href="https://blog.csdn.net/Klein_yang/article/details/84954958" target="_blank" rel="noopener">Ubuntu安装ftp服务</a></li></ol></li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;FTP简介&quot;&gt;&lt;a href=&quot;#FTP简介&quot; class=&quot;headerlink&quot; title=&quot;FTP简介&quot;&gt;&lt;/a&gt;FTP简介&lt;/h1&gt;&lt;p&gt;文件传输协议(File Transfer Protocol)：传统网络传输协议，主要实现服务器和客户端之间的文件传输
-      
-    
-    </summary>
-    
-      <category term="Linux" scheme="http://yangbenbo.github.io/categories/Linux/"/>
-    
-    
-      <category term="数据传输" scheme="http://yangbenbo.github.io/tags/%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93/"/>
     
   </entry>
   
