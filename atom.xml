@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yangbenbo.github.io/"/>
-  <updated>2019-12-14T15:18:16.619Z</updated>
+  <updated>2019-12-16T01:03:03.651Z</updated>
   <id>http://yangbenbo.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>网络基础</title>
+    <link href="http://yangbenbo.github.io/2019/12/15/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/"/>
+    <id>http://yangbenbo.github.io/2019/12/15/网络基础/</id>
+    <published>2019-12-15T14:24:56.000Z</published>
+    <updated>2019-12-16T01:03:03.651Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="CSMA-CD"><a href="#CSMA-CD" class="headerlink" title="CSMA/CD"></a>CSMA/CD</h1><p>乙太网路的传输协定 CSMA/CD (Carrier Sense Multiple Access with Collision Detection) </p><ol><li><p>监听媒体使用情况 (Carrier Sense)：A 主机要发送网路封包前，需要先对网路媒体进行监听，<br>確认没有人在使用后， 才能够发送出讯框；</p></li><li><p>多点传输 (Multiple Access)：A 主机所送出的资料会被集线器复製一份，<br>然后传送给所有连接到此集线器的主机！ 也就是说， A 所送出的资料，<br>B, C, D 三部电脑都能够接收的到！但由於目標是 D 主机，因此 B 与 C 会將此讯框资料丟弃，而 D 则会抓下来处理；</p></li><li><p>碰撞侦测 (Collision Detection)：该讯框资料附有检测能力，<br>若其他主机例如 B 电脑也刚好在同时间发送讯框资料时，<br>那么 A 与 B 送出的资料碰撞在一块 (出车祸) ，此时这些讯框就是损毁，<br>那么 A 与 B 就会各自隨机等待一个时间， 然后重新透过第一步再传送一次该讯框资料。</p></li></ol><p><img src="/2019/12/15/网络基础/csmacd.gif" alt="CSMA/CD连线"></p><p>每张乙太网路卡出厂时，就会赋予一个独一无二的卡號，那就是所谓的 MAC (Media Access Control)</p><ol><li><p>HUB 单纯的是一个 repeater﹐当它从一个 port (和 TCP 协定的 port 不一样﹐这里<br>是指插网路线的接孔)接收信號进来之后﹐会將这个信號原原本本的送到所有其它<br>port 上﹐不管哪些 port 是接到哪一台机器。</p></li><li><p>而 switch 呢﹖它自己有一份 table﹐记录著哪个 port 接到哪些 MAC 位址设备上。<br>当信號从一个 port 进来之后﹐会检查这个 frame 的 destination 是哪个 MAC﹐然<br>后按 table 找到这个 MAC 对应的 port ﹐而仅將信號往这个 port 送﹐其它的 port<br>就不送了。</p></li></ol><h2 id="ip"><a href="#ip" class="headerlink" title="　ip"></a>　ip</h2><ul><li><p>主机号位置全为0    整个网段的地址</p></li><li><p>主机号位置全为1    广播地址</p></li></ul><p>在局域网内可通过ip广播来传递资料,非目标主机会自动丢弃资料</p><p>同一局域网内设置成不同ip网段,广播地址不同造成无法透过广播的方式进行连线,需要路由(router)</p><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://zh.wikipedia.org/wiki/%E8%BD%BD%E6%B3%A2%E4%BE%A6%E5%90%AC%E5%A4%9A%E8%B7%AF%E8%AE%BF%E9%97%AE#CSMA/CD" target="_blank" rel="noopener">载波侦听多路访问</a></li><li><a href="http://linux.vbird.org/linux_server/0110network_basic.php#ps11" target="_blank" rel="noopener">基础网络概念</a> </li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;CSMA-CD&quot;&gt;&lt;a href=&quot;#CSMA-CD&quot; class=&quot;headerlink&quot; title=&quot;CSMA/CD&quot;&gt;&lt;/a&gt;CSMA/CD&lt;/h1&gt;&lt;p&gt;乙太网路的传输协定 CSMA/CD (Carrier Sense Multiple Access w
+      
+    
+    </summary>
+    
+      <category term="internet" scheme="http://yangbenbo.github.io/categories/internet/"/>
+    
+    
+      <category term="网络基础" scheme="http://yangbenbo.github.io/tags/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/"/>
+    
+  </entry>
   
   <entry>
     <title>word排版</title>
@@ -527,31 +552,6 @@ ctrl + B    向量 公式样式
       <category term="hexo" scheme="http://yangbenbo.github.io/tags/hexo/"/>
     
       <category term="gitbook" scheme="http://yangbenbo.github.io/tags/gitbook/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ROS中CMakeLists.txt</title>
-    <link href="http://yangbenbo.github.io/2019/10/05/ROS%E4%B8%ADCMakeLists-txt/"/>
-    <id>http://yangbenbo.github.io/2019/10/05/ROS中CMakeLists-txt/</id>
-    <published>2019-10-05T11:25:10.000Z</published>
-    <updated>2019-10-05T12:27:42.169Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>CMake构建系统通过ROS包中的CMakeList.txt来构建软件包。<br>在catkin 项目中，CMakeList.txt 符合标准的vanilla CMakeList.txt 格式，但稍微有点不同。</p><h1 id="整体结构"><a href="#整体结构" class="headerlink" title="整体结构"></a>整体结构</h1><ol><li>所需CMake版本(cmake_minimum_required)</li><li>软件包名称(project())</li><li>查找构建所需的其他CMake / Catkin软件包(find_package())</li><li>启用Python模块支持(catkin_python_setup())</li><li>消息/服务/动作生成器(add_message_files()，add_service_files()，add_action_files())</li><li>生成消息/服务/动作等自定义消息(generate_messages())</li><li>指定包的构建信息输出(catkin_package())</li><li>要建立的库/可执行文件(add_library()/ add_executable()/ target_link_libraries())</li><li>测试(catkin_add_gtest())</li><li>安装规则(install())</li></ol><h1 id="软件版本"><a href="#软件版本" class="headerlink" title="软件版本"></a>软件版本</h1><pre><code>cmake_minimum_required(VERSION 2.8.3)</code></pre><h1 id="软件包名称"><a href="#软件包名称" class="headerlink" title="软件包名称"></a>软件包名称</h1><p>可通过变量${PROJECT_NAME}来引用项目名称</p><pre><code>project(robot_brain)    </code></pre><h1 id="查找相关CMake包"><a href="#查找相关CMake包" class="headerlink" title="查找相关CMake包"></a>查找相关CMake包</h1><p>指明构建package需要的包，使用catkin_make，所以catkin是必备依赖,在此基础上可能需要其他的包</p><pre><code>find_package(catkin REQUIRED)   find_package(catkin REQUIRED COMPONENTS nodelet)  #第一种方式 合并写find_package(catkin REQUIRED)   # 第二种方式 分开写find_package(nodelet REQUIRED)</code></pre><h2 id="find-package作用"><a href="#find-package作用" class="headerlink" title="find-package作用"></a>find-package作用</h2><p> 如果CMake通过find_package找到一个包，则会自动生成有关包所在路径的CMake环境变量，<br> 环境变量描述了包中头文件的位置，源文件的位置，包所依赖的库文件位置。<br> 这些变量名称以&lt; PACKAGE NAME &gt;_&lt; PROPERTY &gt;的形式出现：</p><ul><li>&lt; NAME &gt;_FOUND - 如果找到库，则设置为true，否则为false</li><li>&lt; NAME &gt; _INCLUDE_DIRS或 _INCLUDES - 这个包输出的头文件目录</li><li>&lt; NAME &gt; _LIBRARIES或 _LIBS - 由包导出的库</li><li>&lt; NAME &gt; _DEFINITIONS - ?</li><li>…</li></ul><h2 id="为什么Catkin包是组件形式"><a href="#为什么Catkin包是组件形式" class="headerlink" title="为什么Catkin包是组件形式"></a>为什么Catkin包是组件形式</h2><p>Catkin的包并不是catkin的真正组成部分。而catkin采用CMake的组件功能，主要是为了节省打字时间。</p><pre><code>#这种方式 会把组件中的包对应的include路径、库导出到catkin前缀的变量中，#例如catkin_INCLUDE_DIRS包含多个包的路径find_package（catkin REQUIRED COMPONENTS nodelet）find_package(nodelet REQUIRED)  # 而这种方式 路径和库不会导入catkin变量，而是nodelet_INCLUDE_DIRS之类的</code></pre><h2 id="Boost库"><a href="#Boost库" class="headerlink" title="　Boost库"></a>　Boost库</h2><p>如果使用C ++和Boost，则需要用find_package()来找Boost库，并指定Boost中的组件。如果想使用Boost线程，就可以写成：</p><pre><code>find_package（Boost REQUIRED COMPONENTS thread）</code></pre><h1 id="catkin-package"><a href="#catkin-package" class="headerlink" title="　catkin_package()"></a>　catkin_package()</h1><p>将catkin特定的信息输出到构建系统上，用于生成pkg配置文件以及CMake文件        </p><ul><li>INCLUDE_DIRS - 导出包的include路径</li><li>LIBRARIES - 导出项目中的库</li><li>CATKIN_DEPENDS - 该项目依赖的其他catkin项目</li><li>DEPENDS - 该项目所依赖的非catkin CMake项目。</li><li><p>CFG_EXTRAS - 其他配置选项</p><pre><code>  catkin_package(     INCLUDE_DIRS include     LIBRARIES ${PROJECT_NAME}　　　     CATKIN_DEPENDS roscpp nodelet     DEPENDS eigen opencv)</code></pre><p>这表示包文件夹中的文件夹“include”是导出头文件的地方。<br>${PROJECT_NAME}根据project中的内容生成，此处是robot_brain<br>“roscpp”+“nodelet”是用来构建/运行此程序包的catkin包，<br>而“eigen”+“opencv”是用于构建/运行此程序包的非catkin包。   </p><h1 id="指定构建目标"><a href="#指定构建目标" class="headerlink" title="指定构建目标"></a>指定构建目标</h1><h2 id="包含路径和库"><a href="#包含路径和库" class="headerlink" title="包含路径和库"></a>包含路径和库</h2></li></ul><ol><li>include_directories()</li></ol><p>参数应该是调用find_package调用时生成的* _INCLUDE_DIRS变量。<br>如果使用catkin和Boost，那么include_directories()调用应该如下所示：</p><pre><code>include_directories(include ${Boost_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})</code></pre><p>第一个参数“include”表示包中的include /目录也是路径的一部分。</p><ol><li>link_directories()</li></ol><p>用于添加额外的库路径，但通常不推荐这样做，因为 所有catkin和CMake软件包在find_packaged时都会自动添加链接信息。<br>只需写target_link_libraries()中就可以了。但真要写，就按照下面那样来写：</p><pre><code>link_directories(~/my_libs)</code></pre><h2 id="可执行目标"><a href="#可执行目标" class="headerlink" title="可执行目标"></a>可执行目标</h2><p>生成可执行程序对应的源文件</p><pre><code>add_executable(myProgram src/main.cpp src/some_file.cpp)</code></pre><h2 id="库目标"><a href="#库目标" class="headerlink" title="库目标"></a>库目标</h2><p>默认的catkin编译产生的共享库</p><pre><code>add_library(${PROJECT_NAME} ${${PROJECT_NAME}_SRCS})　　#指定要构建的库</code></pre><h2 id="target-link-libraries"><a href="#target-link-libraries" class="headerlink" title="target_link_libraries"></a>target_link_libraries</h2><p>指定可执行目标链接的库。 通常在add_executable()调用之后完成。<br>如果找不到ros，则添加$ {catkin_LIBRARIES}。</p><pre><code>target_link_libraries(&lt;executableTargetName&gt;, &lt;lib1&gt;, &lt;lib2&gt;, ... &lt;libN&gt;)</code></pre><p>大多数情况中不需要使用link_directories()，因为find_package()自动拉入。   </p><h1 id="消息、服务和响应"><a href="#消息、服务和响应" class="headerlink" title="消息、服务和响应"></a>消息、服务和响应</h1><h2 id="使用条件"><a href="#使用条件" class="headerlink" title="使用条件"></a>使用条件</h2><pre><code># CMakeLists.txtfind_package(catkin REQUIRED COMPONENTS message_generation ...)add_message_files(...)add_service_files(...)add_action_files(...)generate_messages(...)catkin_package( ... CATKIN_DEPENDS message_runtime ... ...)# package.xml文件中加上 &lt;build_depend&gt;message_generation&lt;/build_depend&gt;&lt;run_depend&gt;message_runtime&lt;/run_depend&gt;</code></pre><ol><li><p>如果构建的对象依赖于其他需要构建消息/服务/响应的构建对象，<br>则需要向目标catkin_EXPORTED_TARGETS添加明确的依赖关系，<br>以便它们以正确的顺序构建。 这种情况比较常用，除非您的包真的不使用ROS的任何部分。<br>但这种依赖关系不能自动传递。some_target是由add_executable()设置的目标的名称）    </p><pre><code> add_dependencies(some_target${catkin_EXPORTED_TARGETS})</code></pre></li><li><p>如果需要构建消息或服务的包以及使用这些消息和/或服务的可执行文件，<br>则需要为自动生成的消息目标创建明确的依赖关系，以便以正确的顺序构建它们。<br>（some_target是由add_executable()设置的目标的名称）</p><pre><code> add_dependencies(some_target ${${PROJECT_NAME}_EXPORTED_TARGETS})    </code></pre></li></ol><h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>现在有两个依赖于std_msgs和sensor_msgs的消息MyMessage1.msg和MyMessage2.msg，<br>还有一个自定义服务MyService.srv， message_program是使用这些消息和服务的指令，<br>以及生成不使用自定义消息、服务的程序 do_not_use_local_messages_program 不使用，<br>那么CMakeLists.txt应该写成：</p><pre><code># 构建时依赖项find_package(catkin REQUIRED COMPONENTS                       message_generation              std_msgs # 声明要构建哪些消息add_message_files(FILES                  MyMessage1.msg                  MyMessage2.msg)# 声明构建哪些服务add_service_files(FILES                  MyService.srv)# 声明生成上述消息、服务需要依赖的消息以及服务generate_messages(DEPENDENCIES                     std_msgs                     sensor_msgs)# 声明运行时依赖项catkin_package(CATKIN_DEPENDS                 message_runtime                 std_msgs sensor_msgs)# 声明构建生成的可执行文件名称以及依赖项add_executable(message_program src/main.cpp)add_dependencies(message_program ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})# 声明构建不需要使用自定义消息、服务的可执行文件add_executable(does_not_use_local_messages_program src/main.cpp)add_dependencies(does_not_use_local_messages_program ${catkin_EXPORTED_TARGETS})</code></pre><h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><ol><li>之前用矩阵运算c++库:Armadillo 直接作为catkin组件时找不到库</li></ol><p>解决方案：find_package() 把Armadillo单独拿出来 后面需要的地方链接到库 </p><pre><code>find_package(Armadillo 5.4 REQUIRED)target_link_libraries(tp_gmr_node ${catkin_LIBRARIES} ${ARMADILLO_LIBRARIES})</code></pre><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://blog.csdn.net/u013243710/article/details/35795841" target="_blank" rel="noopener">ROS中的CMakeLists.txt</a></li><li><a href="http://wiki.ros.org/catkin/CMakeLists.txt#Finding_Dependent_CMake_Packages" target="_blank" rel="noopener">catkin CMakeLists.txt</a></li><li><a href="https://blog.csdn.net/turboian/article/details/74604052" target="_blank" rel="noopener">ROS下的CMakeList.txt编写</a></li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot; title=&quot;概述&quot;&gt;&lt;/a&gt;概述&lt;/h1&gt;&lt;p&gt;CMake构建系统通过ROS包中的CMakeList.txt来构建软件包。&lt;br&gt;在catkin 项目中，CMakeList.txt 符合标
-      
-    
-    </summary>
-    
-      <category term="Linux" scheme="http://yangbenbo.github.io/categories/Linux/"/>
-    
-    
-      <category term="ROS" scheme="http://yangbenbo.github.io/tags/ROS/"/>
     
   </entry>
   
