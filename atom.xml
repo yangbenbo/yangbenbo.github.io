@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yangbenbo.github.io/"/>
-  <updated>2019-12-16T01:03:03.651Z</updated>
+  <updated>2019-12-30T14:54:42.786Z</updated>
   <id>http://yangbenbo.github.io/</id>
   
   <author>
@@ -15,6 +15,111 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>惯性张量</title>
+    <link href="http://yangbenbo.github.io/2019/12/30/%E6%83%AF%E6%80%A7%E5%BC%A0%E9%87%8F/"/>
+    <id>http://yangbenbo.github.io/2019/12/30/惯性张量/</id>
+    <published>2019-12-30T13:39:22.000Z</published>
+    <updated>2019-12-30T14:54:42.786Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="转动惯量"><a href="#转动惯量" class="headerlink" title="转动惯量"></a>转动惯量</h1><p>转动惯量又称惯性矩</p><p>转动惯量是一个物体对于其旋转运动的惯性大小的量度.<br>转动惯量在转动力学中的角色相当于线性动力学中的质量,<br>描述角动量、角速度、力矩和角加速度等数个量之间的关系.</p><h1 id="惯性张量"><a href="#惯性张量" class="headerlink" title="惯性张量"></a>惯性张量</h1><p>直角坐标系${O_{xyz}}$ 中,一个刚体的转动惯量为</p><script type="math/tex; mode=display">\mathbf{I}=\left[\begin{array}{lll}{I_{x x}} & {I_{x y}} & {I_{x z}} \\{I_{y x}} & {I_{y y}} & {I_{y z}} \\{I_{z x}} & {I_{z y}} & {I_{z z}}\end{array}\right]</script><p>其中<strong>转动惯量</strong></p><script type="math/tex; mode=display">\begin{aligned}&I_{x x} \stackrel{\text { def }}{=} \int\left(y^{2}+z^{2}\right) d m\\&I_{y y} \stackrel{\text { def }}{=} \int\left(x^{2}+z^{2}\right) d m\\&I_{z z} \stackrel{\text { def }}{=} \int\left(x^{2}+y^{2}\right) d m\\end{aligned}</script><p>矩阵对角元素,<strong>惯性积</strong>,有时候惯性矩前面没有负号</p><script type="math/tex; mode=display">\begin{aligned}&I_{x y}=I_{y x} \stackrel{\text { def }}{=}-\int x y d m\\&I_{x z}=I_{z x} \stackrel{\text { def }}{=}-\int x z d m\\&I_{y z}=I_{z y} \stackrel{\text { def }}{=}-\int y z d m\\end{aligned}</script><p>选取坐标系姿态使得惯性积为0,则对这个坐标系,惯性张量是对角型的,<br>此坐标系称为惯性主轴,相应的惯性矩为主惯性矩</p><h2 id="伪惯性矩阵"><a href="#伪惯性矩阵" class="headerlink" title="伪惯性矩阵"></a>伪惯性矩阵</h2><script type="math/tex; mode=display">\overline{\mathbf{I}}=\iiint_{V} \mathbf{r r}^{\mathrm{T}} \mathrm{d} m</script><p>式中r为行向量[x y z 1]</p><script type="math/tex; mode=display">\overline{\mathbf{I}}=\iiint_{V}\left[\begin{array}{cccc}{x^{2}} & {x y} & {x z} & {x} \\{x y} & {y^{2}} & {y z} & {y} \\{x z} & {y z} & {z^{2}} & {z} \\{x} & {y} & {z} & {1}\end{array}\right] \mathrm{d} m</script><h2 id="惯性张量性质"><a href="#惯性张量性质" class="headerlink" title="惯性张量性质"></a>惯性张量性质</h2><ol><li>坐标系姿态改变时,若A与C共原点,则$^{A} \mathbf{I}=_{C}^{A} \mathbf{R}^{C} \mathbf{I}_{C}^{A} \mathbf{R}^{\mathrm{T}}$</li><li>惯性张量的特征值和特征向量分别是刚体对应的主惯性矩和惯性主轴</li></ol><p>可用平行移轴矢量形式和定义证明</p><script type="math/tex; mode=display">^{A} \mathbf{I}=^{C} \mathbf{I}+m\left(\mathbf{p}_{c}^{\mathrm{T}} \mathbf{p}_{c} \mathbf{I}_{3}-\mathbf{p}_{c} \mathbf{p}_{c}^{\mathrm{T}}\right)</script><p>式中 Pc为行量 [x y z]</p><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://zh.wikipedia.org/wiki/%E8%BD%89%E5%8B%95%E6%85%A3%E9%87%8F#%E6%85%A3%E6%80%A7%E5%BC%B5%E9%87%8F" target="_blank" rel="noopener">转动惯量</a></li><li>机器人学 建模 控制与视觉 熊友伦 华中科技大学出版社</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;转动惯量&quot;&gt;&lt;a href=&quot;#转动惯量&quot; class=&quot;headerlink&quot; title=&quot;转动惯量&quot;&gt;&lt;/a&gt;转动惯量&lt;/h1&gt;&lt;p&gt;转动惯量又称惯性矩&lt;/p&gt;
+&lt;p&gt;转动惯量是一个物体对于其旋转运动的惯性大小的量度.&lt;br&gt;转动惯量在转动力学中的角色相当于
+      
+    
+    </summary>
+    
+      <category term="math" scheme="http://yangbenbo.github.io/categories/math/"/>
+    
+    
+      <category term="机器人学" scheme="http://yangbenbo.github.io/tags/%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%AD%A6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>拉氏变换</title>
+    <link href="http://yangbenbo.github.io/2019/12/27/%E6%8B%89%E6%B0%8F%E5%8F%98%E6%8D%A2/"/>
+    <id>http://yangbenbo.github.io/2019/12/27/拉氏变换/</id>
+    <published>2019-12-27T06:43:06.000Z</published>
+    <updated>2019-12-27T13:39:09.498Z</updated>
+    
+    <content type="html"><![CDATA[<p>线性时不变系统(LTI)</p><ul><li>线性:满足叠加原理,输出信号为各输入单独对应输出的叠加</li><li>时不变:系统参数不随时间变化,即输入信号时间滞后,输出信号形状不变,时间滞后相同</li></ul><p>求系统在一般输入信号下的响应,把一般输入信号转换分解成简单的基本信号(脉冲信号和指数函数信号),<br>然后由叠加原理得到一般输入的响应.傅里叶变换形式中有指数函数分解,正交函数,够丰富</p><h1 id="卷积响应"><a href="#卷积响应" class="headerlink" title="卷积响应"></a>卷积响应</h1><p>将输入分解成单位脉冲,脉冲响应的和为系统的响应</p><script type="math/tex; mode=display">y(t)=\int_{-\infty}^{\infty} u(\tau) h(t-\tau) d \tau</script><p>变量代换$\tau_{1}=t-\tau$得</p><script type="math/tex; mode=display">y(t)=\int_{\infty}^{-\infty} u\left(t-\tau_{1}\right) h\left(\tau_{1}\right)\left(-d \tau_{1}\right)=\int_{-\infty}^{\infty} h(\tau) u(t-\tau) d \tau</script><h1 id="传递函数"><a href="#传递函数" class="headerlink" title="传递函数"></a>传递函数</h1><p>基本信号指数函数${e^{st}}$作为输入,得到传递函数就是脉冲响应的拉氏变换$H(s)$</p><script type="math/tex; mode=display">\eqalign{  & y(t) = \int_{ - \infty }^\infty  h (\tau )u(t - \tau )d\tau   \cr   & \;\;\;\;\;\; = \int_{ - \infty }^\infty  h (\tau ){e^{s(t - \tau )}}d\tau   \cr   & \;\;\;\;\;\; = \int_{ - \infty }^\infty  h (\tau ){e^{st}}{e^{ - s\tau }}d\tau   \cr   & \;\;\;\;\;\; = \int_{ - \infty }^\infty  h (\tau ){e^{ - s\tau }}d\tau {e^{st}}  \cr   & \;\;\;\;\;\; = H(s){e^{st}} \cr}</script><p><img src="/2019/12/27/拉氏变换/卷积.png" alt="卷积"></p><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://zh.wikipedia.org/wiki/%E7%BA%BF%E6%80%A7%E6%97%B6%E4%B8%8D%E5%8F%98%E7%B3%BB%E7%BB%9F%E7%90%86%E8%AE%BA" target="_blank" rel="noopener">线性时不变系统LTI</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;线性时不变系统(LTI)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;线性:满足叠加原理,输出信号为各输入单独对应输出的叠加&lt;/li&gt;
+&lt;li&gt;时不变:系统参数不随时间变化,即输入信号时间滞后,输出信号形状不变,时间滞后相同&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;求系统在一般输入信号下的响应,把一般输
+      
+    
+    </summary>
+    
+      <category term="math" scheme="http://yangbenbo.github.io/categories/math/"/>
+    
+    
+      <category term="自动控制原理" scheme="http://yangbenbo.github.io/tags/%E8%87%AA%E5%8A%A8%E6%8E%A7%E5%88%B6%E5%8E%9F%E7%90%86/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ubuntu下wps缺少字体</title>
+    <link href="http://yangbenbo.github.io/2019/12/22/ubuntu%E4%B8%8Bwps%E7%BC%BA%E5%B0%91%E5%AD%97%E4%BD%93/"/>
+    <id>http://yangbenbo.github.io/2019/12/22/ubuntu下wps缺少字体/</id>
+    <published>2019-12-22T03:34:17.000Z</published>
+    <updated>2019-12-22T03:44:58.692Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="安装字体"><a href="#安装字体" class="headerlink" title="安装字体"></a>安装字体</h1><ol><li>下载字体<a href="https://github.com/yangbenbo/wps-font-symbols/archive/master.zip" target="_blank" rel="noopener">https://github.com/yangbenbo/wps-font-symbols/archive/master.zip</a></li><li><p>解压并复制到字体文件夹</p><p> unzip wps-font-symbols-master.zip<br> sudo cp -r wps-font-symbols-master /usr//share/fonts/</p></li></ol><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol><li><a href="https://blog.csdn.net/u014241313/article/details/91070843" target="_blank" rel="noopener">Linux Wps 缺少字体</a>    </li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;安装字体&quot;&gt;&lt;a href=&quot;#安装字体&quot; class=&quot;headerlink&quot; title=&quot;安装字体&quot;&gt;&lt;/a&gt;安装字体&lt;/h1&gt;&lt;ol&gt;
+&lt;li&gt;下载字体&lt;a href=&quot;https://github.com/yangbenbo/wps-font-symbo
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://yangbenbo.github.io/categories/Linux/"/>
+    
+    
+      <category term="wps" scheme="http://yangbenbo.github.io/tags/wps/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ROS遇到的问题</title>
+    <link href="http://yangbenbo.github.io/2019/12/21/ROS%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/"/>
+    <id>http://yangbenbo.github.io/2019/12/21/ROS遇到的问题/</id>
+    <published>2019-12-21T03:54:38.000Z</published>
+    <updated>2020-01-01T15:58:50.639Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="终端结束所有节点之后显示仍有节点"><a href="#终端结束所有节点之后显示仍有节点" class="headerlink" title="终端结束所有节点之后显示仍有节点"></a>终端结束所有节点之后显示仍有节点</h1><p>清理node,否则影响查看节点通信</p><pre><code>rosnode listrosnode cleanup</code></pre><h1 id="程序排错"><a href="#程序排错" class="headerlink" title="程序排错"></a>程序排错</h1><p>首先看<strong>循环</strong>,是否调用ros::spinOnce(),对应的数据是否更新</p><p>好几次是因为循环没有更新数据,排错废了不少时间</p><ul><li>没有调用ros::spinOnce(),导致没有处理回调函数,也就没有更新数据</li><li>回调函数处理后的数据是否放入对应变量,有时候用的是中间变量,导致更新的数据没有放进去</li></ul><p>ROS也有异步更新的机制,之前用过,出过一次问题,可以根据需要选择更新的机制</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;终端结束所有节点之后显示仍有节点&quot;&gt;&lt;a href=&quot;#终端结束所有节点之后显示仍有节点&quot; class=&quot;headerlink&quot; title=&quot;终端结束所有节点之后显示仍有节点&quot;&gt;&lt;/a&gt;终端结束所有节点之后显示仍有节点&lt;/h1&gt;&lt;p&gt;清理node,否则影响查看节
+      
+    
+    </summary>
+    
+      <category term="ROS" scheme="http://yangbenbo.github.io/categories/ROS/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>网络基础</title>
@@ -390,9 +495,9 @@ ctrl + B    向量 公式样式
     <link href="http://yangbenbo.github.io/2019/10/20/%E5%AE%9E%E7%94%A8%E5%B0%8F%E6%8A%80%E5%B7%A7%E6%B1%87%E6%80%BB/"/>
     <id>http://yangbenbo.github.io/2019/10/20/实用小技巧汇总/</id>
     <published>2019-10-20T11:12:25.000Z</published>
-    <updated>2019-10-20T12:04:30.039Z</updated>
+    <updated>2019-12-22T03:54:28.371Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="ps统一裁剪图片大小"><a href="#ps统一裁剪图片大小" class="headerlink" title="ps统一裁剪图片大小"></a>ps统一裁剪图片大小</h1><ol><li>窗口-&gt;动作　显示动作面板，在历史记录面板里面</li><li>新建动作组　录制动作</li><li>文件-&gt;自动-&gt;批处理</li></ol><p><strong>注意事项</strong>：<br>点击选项打开切换对话开关　可以在处理自动处理工程在裁剪处停止　手动调整裁剪的位置的大小</p><p><img src="/2019/10/20/实用小技巧汇总/切换对话开.png" alt="打开切换对话"> <img src="/2019/10/20/实用小技巧汇总/切换对话关.png" alt="关闭切换对话"></p><h1 id="ps矫正扫描件-ppt"><a href="#ps矫正扫描件-ppt" class="headerlink" title="ps矫正扫描件　ppt"></a>ps矫正扫描件　ppt</h1><p>扫描件</p><ul><li>复制图层　填充为白色　拉直工具(在不改变图像大小的情况下拉直)</li></ul><p>ppt</p><ul><li>透视裁剪 </li></ul><h1 id="视屏调整大小"><a href="#视屏调整大小" class="headerlink" title="视屏调整大小"></a>视屏调整大小</h1><ul><li>premiere 更改视频码率　选可变码率　</li></ul><p>码率：视频码率就是数据传输时单位时间传送的数据位数，一般我们用的单位是kbps即千位每秒。通俗一点的理解就是取样率</p><ul><li>固定码率：　</li><li>可变码率：视频信源本身的高峰信息量是变化的，能按信源本身的信息量去分配，从而有效地利用信息资源。</li></ul><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="http://www.sohu.com/a/258392499_99914465" target="_blank" rel="noopener">ps实用技能：如何统一裁剪图片大小</a></li></ol>]]></content>
+    <content type="html"><![CDATA[<h1 id="ps统一裁剪图片大小"><a href="#ps统一裁剪图片大小" class="headerlink" title="ps统一裁剪图片大小"></a>ps统一裁剪图片大小</h1><ol><li>窗口-&gt;动作　显示动作面板，在历史记录面板里面</li><li>新建动作组　录制动作</li><li>文件-&gt;自动-&gt;批处理</li></ol><p><strong>注意事项</strong>：<br>点击选项打开切换对话开关　可以在处理自动处理工程在裁剪处停止　手动调整裁剪的位置的大小</p><p><img src="/2019/10/20/实用小技巧汇总/切换对话开.png" alt="打开切换对话"> <img src="/2019/10/20/实用小技巧汇总/切换对话关.png" alt="关闭切换对话"></p><h1 id="ps矫正扫描件-ppt"><a href="#ps矫正扫描件-ppt" class="headerlink" title="ps矫正扫描件　ppt"></a>ps矫正扫描件　ppt</h1><p>扫描件</p><ul><li>复制图层　填充为白色　拉直工具(在不改变图像大小的情况下拉直)</li></ul><p>ppt</p><ul><li>透视裁剪 </li></ul><h1 id="视屏调整大小"><a href="#视屏调整大小" class="headerlink" title="视屏调整大小"></a>视屏调整大小</h1><ul><li>premiere 更改视频码率　选可变码率　</li></ul><p>码率：视频码率就是数据传输时单位时间传送的数据位数，一般我们用的单位是kbps即千位每秒。通俗一点的理解就是取样率</p><ul><li>固定码率：　</li><li>可变码率：视频信源本身的高峰信息量是变化的，能按信源本身的信息量去分配，从而有效地利用信息资源。</li></ul><h1 id="存放小文件到github方便下载"><a href="#存放小文件到github方便下载" class="headerlink" title="存放小文件到github方便下载"></a>存放小文件到github方便下载</h1><p>仓库名网址/archive/master.zip 即可下载仓库内容 不用到仓库地址点击下载</p><p>例如博客 <a href="/2019/12/22/ubuntu下wps缺少字体/" title="ubuntu下wps缺少字体">ubuntu下wps缺少字体</a> 中对应的下载字体<br><a href="https://github.com/yangbenbo/wps-font-symbols/archive/master.zip" target="_blank" rel="noopener">https://github.com/yangbenbo/wps-font-symbols/archive/master.zip</a></p><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="http://www.sohu.com/a/258392499_99914465" target="_blank" rel="noopener">ps实用技能：如何统一裁剪图片大小</a></li></ol>]]></content>
     
     <summary type="html">
     
@@ -434,124 +539,6 @@ ctrl + B    向量 公式样式
     
     
       <category term="概率论" scheme="http://yangbenbo.github.io/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>常用软件快捷键</title>
-    <link href="http://yangbenbo.github.io/2019/10/07/%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6%E5%BF%AB%E6%8D%B7%E9%94%AE/"/>
-    <id>http://yangbenbo.github.io/2019/10/07/常用软件快捷键/</id>
-    <published>2019-10-07T11:57:38.000Z</published>
-    <updated>2019-11-23T07:08:51.833Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="ubuntu"><a href="#ubuntu" class="headerlink" title="ubuntu"></a>ubuntu</h1><p>有的需要自行设置　Setting-&gt;Keyboard-&gt;Shortcuts  </p><ul><li>shift+1 切换到左边工作区　</li><li>ctrl+shift+1 把当前窗口移动到左边工作区 </li><li>shift+2 切换到左边工作区　</li><li>ctrl+shift+2 把当前窗口移动到右边工作区 </li></ul><h1 id="matlab"><a href="#matlab" class="headerlink" title="matlab"></a>matlab</h1><p>字符串拼接</p><pre><code>a = &#39;abc&#39;;b = &#39;opq&#39;;c = [a, b]; title([&#39;New reproductions with GMR r= &#39;,num2str(r_length)]);  //画图title</code></pre><h1 id="simulink"><a href="#simulink" class="headerlink" title="simulink"></a>simulink</h1><p>打开模型浏览器： ctrl + shift + L</p><p>视图放大：r</p><p>视图缩小：v</p><p>视图平铺到整个模型：空格/f</p><p>回到默认视图：1</p><p>用鼠标拖动视图：按住q或者p，用鼠标左键按住拖动。这个快捷键在视图比较大时候用到。</p><p>更新模型：ctrl+D</p><p>打开model explorer：ctrl+E</p><p>仿真开始：ctrl+T</p><p>查看simple time： ctrl+J</p><h1 id="clion"><a href="#clion" class="headerlink" title="clion"></a>clion</h1><p>可以自行添加修改</p><h2 id="debug"><a href="#debug" class="headerlink" title="debug"></a>debug</h2><p>鼠标放在变量上　查看变量值　ctrl+F1</p><p>F9 选择调试程序</p><p>shift+F9  //开始debug</p><p>ctrl+F9  //编译程序</p><p>ctrl+F2  //停止debug</p><p>ctrl+shift+F6    //evalute expression</p><p>ctrl+shift+S     //setting</p><p>ctrl+F8  //设置断点   ctrl+Shift+F8  断点详细设置　可以打开<strong>异常断点</strong>　抛出异常地方地址</p><p>调试的时候可以直接设置变量值</p><p>添加监视　watch</p><p>评估表达　即计算表达式的值　可把表达式值添加到watch ctrl+shift+enter</p><p>调试#define PR(x) cout &lt;&lt; #x”= “&lt;&lt;x&lt;&lt;endl;      之后直接调用  PR(a) 等效于<br>cout&lt;&lt;”a= “&lt;&lt;a&lt;&lt;endl;</p><h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>F5  //运行程序</p><p>F10  //终止程序</p><p>ctrl+Tab+T  //调出clion终端</p><p>ctrl+D  //复制并粘贴对应行</p><p>Esc  //光标退回到程序界面，配合Alt+1 使用</p><p>ctrl+Home  //页面初始位置 End  多结合Ctrl 使用</p><p>ctrl+PageUp  //当前显示页面初始  PageDown</p><p>ctrl+Shift+F  //查找  ctrl+F</p><h1 id="QtCreator"><a href="#QtCreator" class="headerlink" title="QtCreator"></a>QtCreator</h1><ol><li><p>帮助文件：F1 （光标在函数名字或类名上，按 F1 即可跳转到对应帮助文档，查看其详细用法）</p></li><li><p>.h 文件和对应.cpp 文件切换：F4</p></li><li><p>编译并运行：Ctrl + R</p></li><li><p>函数声明和定义(函数调用和定义)切换：F2</p></li><li><p>代码注释取消注释：Ctrl + / （选中代码再按快捷键）</p></li><li><p>字体变大变小：Ctrl + 鼠标滚轮向上向下</p></li><li><p>移动代码：选中所要移动的代码 -&gt; 按住 ctrl + shift -&gt; 键盘方向键</p></li><li><p>查找替换关键字：ctrl + f</p></li><li><p>快速打开代码所在目录：编辑模式下 -&gt; 选中项目文件 -&gt; 右击 -&gt; 选择“显示包含的目录”，即可显示项目所在目录（此方法同样可以打开代码文件所在目录）</p><h1 id="word"><a href="#word" class="headerlink" title="word"></a>word</h1></li></ol><p>Alt+Shift+ +　　　　　　扩展标题下的文本</p><p>Alt+Shift+ -　　　　　　折叠标题下的文本</p><h1 id="excel"><a href="#excel" class="headerlink" title="excel"></a>excel</h1><p>Alt+Enter             换行</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;ubuntu&quot;&gt;&lt;a href=&quot;#ubuntu&quot; class=&quot;headerlink&quot; title=&quot;ubuntu&quot;&gt;&lt;/a&gt;ubuntu&lt;/h1&gt;&lt;p&gt;有的需要自行设置　Setting-&amp;gt;Keyboard-&amp;gt;Shortcuts  &lt;/p&gt;
-&lt;ul&gt;
-      
-    
-    </summary>
-    
-      <category term="software" scheme="http://yangbenbo.github.io/categories/software/"/>
-    
-    
-      <category term="快捷键" scheme="http://yangbenbo.github.io/tags/%E5%BF%AB%E6%8D%B7%E9%94%AE/"/>
-    
-      <category term="simulink" scheme="http://yangbenbo.github.io/tags/simulink/"/>
-    
-      <category term="clion" scheme="http://yangbenbo.github.io/tags/clion/"/>
-    
-      <category term="world" scheme="http://yangbenbo.github.io/tags/world/"/>
-    
-      <category term="excel" scheme="http://yangbenbo.github.io/tags/excel/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ROS记录</title>
-    <link href="http://yangbenbo.github.io/2019/10/07/ROS%E8%AE%B0%E5%BD%95/"/>
-    <id>http://yangbenbo.github.io/2019/10/07/ROS记录/</id>
-    <published>2019-10-07T03:32:36.000Z</published>
-    <updated>2019-10-10T00:29:57.425Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="私有名称"><a href="#私有名称" class="headerlink" title="私有名称"></a>私有名称</h2><p>NodeHandle创建时有自己的命名空间,访问私有名称</p><pre><code>ros::init(argc, argv, &quot;my_node_name&quot;);ros::NodeHandle nh1(&quot;~&quot;);               //    命名空间/my_node_nameros::NodeHandle nh2(&quot;~foo&quot;);            //    命名空间/my_node_name/foo// 可以把这两行换成下面的ros::NodeHandle nh;nh.getParam(&quot;~name&quot;, ... );ros::NodeHandle nh(&quot;~&quot;);nh.getParam(&quot;name&quot;, ... );     //  /my_node_name/name</code></pre><p>常用参数设置</p><pre><code>getParam() param()setParam()deleteParam() hasParam()searchParam()</code></pre><p>如果参数服务器存在/a/b的参数，你的NodeHandle在/a/c工作空间，searchParam()搜索b会得到/a/b.<br>如果/a/c/b参数增加，搜索就会得到/a/c/b参数。</p><h1 id="设置消息级别"><a href="#设置消息级别" class="headerlink" title="设置消息级别"></a>设置消息级别</h1><ol><li><p>源代码加入</p><pre><code> #define ROSCONSOLE_MIN_SEVERITY ROSSONSOLE_SEVERITY_ERROR   //error等级</code></pre></li><li><p>CmakeLists.txt</p><pre><code> add_definition(-ROSCONSOLE_MIN_SEVERITY = ROSSONSOLE_SEVERITY_ERROR)</code></pre></li><li><p>配置文件内容 比较灵活　不需要重新编译</p><pre><code> log4j.logger.ros.package_name=ERROR &lt;env name=&quot;ROSCONSOLE_CONFIG_FILE&quot; value = &quot;$(find package_name)/config/xxx.config&quot; /&gt;                                </code></pre></li><li><p>命名的消息可以单独设置日志级别　名字可以是一个模块或者其他</p><pre><code> ROS_INFO_STREAM_NAMED(&quot;named_msg&quot;, &quot;my message&quot;); log4j.logger.ros.package_name.named_msg=ERROR</code></pre></li><li><p>按条件显示消息和过滤</p><pre><code> ROS_INFO_STREAM_COND(val&lt;0, &quot;my message&quot;); ROS_INFO_STREAM_FILTER()    #暂时用不到　待补充</code></pre></li><li><p>显示消息的方式　单次　可调(频率)　组合</p><pre><code> ROS_INFO_STREAM_ONCE(&quot;my message&quot;); ROS_INFO_STREAM_THROTTLE(2, &quot;my message&quot;);  //每隔两秒输出</code></pre></li><li><p>rqt_console  rqt_logger_level　运行时修改级别  </p><h1 id="出现异常情况-roswtf"><a href="#出现异常情况-roswtf" class="headerlink" title="出现异常情况 roswtf"></a>出现异常情况 roswtf</h1><p>检测功能包所有原件潜在问题    </p><p> roscd package_name<br> roswtf    </p></li><li><p>消息记录</p><pre><code> rosbag record -a   #记录所有 &lt;node pkg=&quot;rosbag&quot; type=&quot;record&quot; name=&quot;bag_record&quot; args=&quot;/topic_name&quot; /&gt;  #消息记录包默认在~/.ros路劲下　除非使用-o(前缀) -O(文件命名) rosbag play xxx.bag</code></pre><h1 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h1><h2 id="remap-重映射"><a href="#remap-重映射" class="headerlink" title="remap 重映射"></a>remap 重映射</h2><p>这个坑了我好久</p></li></ol><p><strong>作用范围</strong>：范围内随后的所有声明(<launch> <node> <group>)</group></node></launch></p><ol><li><p>重命名已经存在的话题</p><pre><code> &lt;!-- 已经存在话题moveit_group/joint_states move_group需要订阅joint_states--&gt; &lt;launch&gt;     &lt;node pkg=&quot;catch_control&quot; type=&quot;joint_state_maintain_node&quot; name=&quot;joined_joint_state_publisher&quot; respawn=&quot;true&quot; output=&quot;screen&quot;&gt;             &lt;remap from=&quot;moveit_group/joint_states&quot; to=&quot;joint_states&quot;/&gt;     &lt;/node&gt; &lt;/launch&gt;</code></pre></li><li><p>将别的话题映射到自己的订阅的主题上<br>特别要注意这种方式的使用　<strong>作用范围很大</strong></p><pre><code> &lt;!-- 已经存在话题moveit_group/joint_states move_group需要订阅joint_states--&gt; &lt;launch&gt;     &lt;remap from=&quot;joint_states&quot; to=&quot;moveit_group/joint_states&quot;/&gt;     &lt;include file=&quot;$(find UR5e_robotiq_moveit_config)/launch/move_group.launch&quot; /&gt; &lt;/launch&gt;</code></pre><p>这种方式还是出现了下面问题　但是用第一种结合异步更新没有出现</p><p> Failed to fetch current robot state</p><p> Didn’t received robot state (joint angles) with recent timestamp within 1 seconds.<br> Check clock synchronization if your are running ROS across multiple machines!       </p></li></ol><p>简单理解：<strong>remap就是把作用范围内的名称直接替换掉 用替换掉的名称对外开放 实现两个话题通信</strong>        </p><h2 id="Failed-to-fetch-current-robot-state"><a href="#Failed-to-fetch-current-robot-state" class="headerlink" title="Failed to fetch current robot state"></a>Failed to fetch current robot state</h2><pre><code>ros::AsyncSpinner async_spinner(6);async_spinner.start();async_spinner.stop();   #需要关闭的时候用</code></pre><p>节点初始化时加上这句　异步处理更新回调函数　感觉可能是moveit内部节点回调函数处理  </p><h2 id="clion编译经常卡死"><a href="#clion编译经常卡死" class="headerlink" title="clion编译经常卡死"></a>clion编译经常卡死</h2><p>查看内存和cpu使用率都有盈余，后来发现是因为launch了很多节点，发布了很多数据，关闭就好了  </p><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://blog.csdn.net/xingdou520/article/details/85686752" target="_blank" rel="noopener">ROS中Remap标签详解,举例说明其两种用法</a></li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;私有名称&quot;&gt;&lt;a href=&quot;#私有名称&quot; class=&quot;headerlink&quot; title=&quot;私有名称&quot;&gt;&lt;/a&gt;私有名称&lt;/h2&gt;&lt;p&gt;NodeHandle创建时有自己的命名空间,访问私有名称&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;ros::init(argc, ar
-      
-    
-    </summary>
-    
-      <category term="Linux" scheme="http://yangbenbo.github.io/categories/Linux/"/>
-    
-      <category term="ROS" scheme="http://yangbenbo.github.io/categories/Linux/ROS/"/>
-    
-    
-      <category term="NodeHandle" scheme="http://yangbenbo.github.io/tags/NodeHandle/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>临时记录</title>
-    <link href="http://yangbenbo.github.io/2019/10/06/%E4%B8%B4%E6%97%B6%E8%AE%B0%E5%BD%95/"/>
-    <id>http://yangbenbo.github.io/2019/10/06/临时记录/</id>
-    <published>2019-10-06T08:35:06.000Z</published>
-    <updated>2019-11-22T12:53:12.962Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="g-编译"><a href="#g-编译" class="headerlink" title="g++编译"></a>g++编译</h1><pre><code>g++ -g -Wall -std=c++11 main.cpp</code></pre><h2 id="常用选项"><a href="#常用选项" class="headerlink" title="常用选项"></a>常用选项</h2><pre><code>-ansi    只支持 ANSI 标准的 C 语法。这一选项将禁止 GNU C 的某些特色， 例如 asm 或 typeof 关键词。-c    只编译并生成目标文件。-DMACRO    以字符串&quot;1&quot;定义 MACRO 宏。-DMACRO=DEFN    以字符串&quot;DEFN&quot;定义 MACRO 宏。-E    只运行 C 预编译器。-g    生成调试信息。GNU 调试器可利用该信息。-IDIRECTORY    指定额外的头文件搜索路径DIRECTORY。-LDIRECTORY    指定额外的函数库搜索路径DIRECTORY。-lLIBRARY    连接时搜索指定的函数库LIBRARY。-m486    针对 486 进行代码优化。-o    FILE 生成指定的输出文件。用在生成可执行文件时。-O0    不进行优化处理。-O    或 -O1 优化生成代码。-O2    进一步优化。-O3    比 -O2 更进一步优化，包括 inline 函数。-shared    生成共享目标文件。通常用在建立共享库时。-static    禁止使用共享连接。-UMACRO    取消对 MACRO 宏的定义。-w    不生成任何警告信息。-Wall    生成所有警告信息。  </code></pre><h2 id="enum-枚举类型"><a href="#enum-枚举类型" class="headerlink" title="enum 枚举类型"></a>enum 枚举类型</h2><p>可以和switch语句很好结合      </p><ol><li><p>声明 enumType 为新的数据类型，称为<strong>枚举</strong>(enumeration) 可用来声明这种类型的变量,就像int a;<br>Monday等为符号常量，<strong>枚举量</strong>，默认0-6<br>也可以定义的类型的时候定义变量(还可以顺带初始化)      </p><pre><code> enum enumType {Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday}; enum enumType {Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday}Weekday = Monday;</code></pre></li><li><p>枚举量赋值给非枚举量，因为枚举量是符号常量，赋值编译器自动把枚举量转换为int</p><pre><code> int a = Monday; int a = Monday + 1;</code></pre></li><li><p>非枚举量强制类型转换 赋值给枚举量</p><pre><code> Weekday = enumType(2);  #但要注意**不要超出枚举取值范围**，超出了不会报错，但是得不到想要的结果</code></pre></li><li><p>自定义枚举常量的值， 这里Monday、Wednesday均被定义为1，则Tuesday=2，Thursday、Friday、Saturday、Sunday的值默认分别为2、3、4、5</p><pre><code> enum enumType {Monday=1, Tuesday, Wednesday=1, Thursday, Friday, Saturday, Sunday};</code></pre><p>注意：指定的值是<strong>整数</strong>,<strong>未被初始化的枚举值的值默认将比其前面的枚举值大1</strong>,<strong>枚举量的值可以相同</strong>        </p></li><li><p>强类型枚举<br>传统c++问题：暴露在外层作用域，如果有相同枚举常量不行</p><pre><code> enum Side{Right,Left}; enum Thing{Wrong,Right}; #强枚举类型 只能使用 Enumeration::VAL1，单独的VAL1没有意义 enum class Enumeration{  VAL1,  VAL2, };</code></pre><h2 id="左值-右值"><a href="#左值-右值" class="headerlink" title="左值 右值"></a>左值 右值</h2></li></ol><ul><li><strong>左值(lvalue)</strong>：指向内存位置的表达式被称为左值表达式。可以出现在赋值号的左边和右边。 如变量</li><li><strong>右值(rvalue)</strong>：存储在内存中某些地址的数值。不能对其进行赋值表达式，只能出现在赋值号右边。如数值型字面值 10<h2 id="变量初始化"><a href="#变量初始化" class="headerlink" title="变量初始化"></a>变量初始化</h2></li></ul><ol><li>局部变量：定义时系统不会对其初始化，需要自行初始化</li><li>全局变量：系统自动初始化为下列值</li></ol><ul><li>int        0</li><li>char        ‘\0’</li><li>float        0</li><li>double    0</li><li>pointer    NULL<h2 id="限定符"><a href="#限定符" class="headerlink" title="限定符"></a>限定符</h2></li></ul><p>限定符    含义</p><ul><li>const    类型的对象在程序执行期间不能被修改改变。</li><li><strong>volatile</strong> 告诉编译器不需要优化volatile声明的变量，让程序可以直接从内存中读取变量。<br>对于一般的变量编译器会对变量进行优化，将内存中的变量值放在寄存器中以加快读写效率，<br>比如编译器发现两次从i读取数据代码之间没有对i操作，优化结果就是直接用上次读到的值，(变量是寄存器变量或者端口数据时容易出错)<br>用了volatile生成的汇编代码就会重新从i的地址读取数据</li></ul><pre><code>    volatile int i=10;      int a = i;      ...      // 其他代码，并未明确告诉编译器，对 i 进行过操作      int b = i;  </code></pre><h2 id="存储类"><a href="#存储类" class="headerlink" title="存储类"></a>存储类</h2><ol><li><strong>auto</strong> 声明变量时根据初始化表达式自动推断该变量的类型、声明函数时函数返回值的占位符。使用少c++11已删除</li><li><strong>register</strong> 变量<strong>可能</strong>在寄存器中，取决于硬件和实现的限制。如果在寄存器中，则不能进行<strong>一元&amp;</strong>运算，因为没有内存位置。用于需要快速访问的量</li><li><p><strong>static</strong> 修饰全局变量：作用域限制在声明它的文件内。 局部变量：保持局部变量的值，只初始化一次</p><ol><li>static数据成员存储在程序静态存储区，独立于该类的任意对象，类对象和类都可以调用</li><li>static数据成员必须在<strong>类外初始化</strong>，不能在类中</li><li>static const int 可以在类定义内部初始化 其他string double 不可以</li></ol></li><li><strong>extern</strong> 提供一个全局变量引用，使用 ‘extern’ 时，对于无法初始化的变量，会把变量名指向一个之前定义过的存储位置。通常用于多个文件夹共享全局变量</li><li><strong>mutable</strong> 使用类对象，mutable成员可以通过const成员函数修改</li><li><strong>thread_local</strong> 使用 thread_local 说明符声明的变量仅可在它在其上创建的线程上访问。 变量在创建线程时创建，并在销毁线程时销毁。 每个线程都有其自己的变量副本。<h2 id="运算符优先级"><a href="#运算符优先级" class="headerlink" title="运算符优先级"></a>运算符优先级</h2>~ : 二进制补码运算<br><img src="/2019/10/06/临时记录/运算符优先级.png" alt="运算符优先级"></li></ol><h2 id="lambda-函数与表达式"><a href="#lambda-函数与表达式" class="headerlink" title="lambda 函数与表达式"></a>lambda 函数与表达式</h2><p>匿名函数</p><pre><code>[capture](parameters)-&gt;return-type{body}</code></pre><p>在Lambda表达式内可以访问当前作用域的变量，这是Lambda表达式的闭包（Closure）行为。可以通过前面的[]来指定：</p><pre><code>    []      // 沒有定义任何变量。使用未定义变量会引发错误。    [x, &amp;y] // x以传值方式传入（默认），y以引用方式传入。    [&amp;]     // 任何被使用到的外部变量都隐式地以引用方式加以引用。    [=]     // 任何被使用到的外部变量都隐式地以传值方式加以引用。 一旦传值 就是常量    [&amp;, x]  // x显式地以传值方式加以引用。其余变量以引用方式加以引用。    [=, &amp;z] // z显式地以引用方式加以引用。其余变量以传值方式加以引用。    //常值传递 copy一份 之后不变    int a=10;    auto func2 = [&amp;]{return a + 1;};    cout &lt;&lt; func1() &lt;&lt; endl;    a++;    cout &lt;&lt; func1() &lt;&lt; endl;    //mutable更改变量值    int a=10;    cout &lt;&lt; [=]()mutable{return ++a;}() &lt;&lt; endl;  //总是一个const函数，不能在函数体内修改非静态成员变量,这里是修改拷贝的参数,参数本身没有改变</code></pre><ol><li>捕捉器，按值传递，相当于在表达式定义那一刻，表达式内就copy了一份变量，而且<strong>值永远不变</strong>，即使外部变量变了，这也不变</li><li>想在表达式内部修改变量的值，添加<strong>mutable</strong> </li></ol><h3 id="qt中的lambda表达式"><a href="#qt中的lambda表达式" class="headerlink" title="qt中的lambda表达式"></a>qt中的lambda表达式</h3><pre><code>QObject::connect(&amp;newspaper, static_cast&lt;void (Newspaper:: *)(const QString &amp;)&gt;(&amp;Newspaper::newPaper),                [=](const QString &amp;name)                 { /* Your code here. */ }                );</code></pre><p>这里实际函数调用的参数是从信号过来的所以不需要再赋值,下面就是调用匿名函数,a赋值为4</p><pre><code>[](int a){cout &lt;&lt; a}(4)                    </code></pre><h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><p>字符串实际上是使用 null 字符 ‘\0’ 终止的一维字符数组，大小比单词多一个</p><p>不需要把 null 字符放在字符串常量的末尾。C++ 编译器会在初始化数组时，自动把 ‘\0’ 放在字符串的末尾。</p><p>建议使用c++ string</p><pre><code>char greeting[6] = {&#39;H&#39;, &#39;e&#39;, &#39;l&#39;, &#39;l&#39;, &#39;o&#39;, &#39;\0&#39;}; char greeting[] = &quot;Hello&quot;;  </code></pre><h2 id="指向指针的指针"><a href="#指向指针的指针" class="headerlink" title="指向指针的指针"></a>指向指针的指针</h2><pre><code>int **var;   **var</code></pre><h2 id="虚继承"><a href="#虚继承" class="headerlink" title="虚继承"></a>虚继承</h2><p>菱形继承 子类多重拷贝：浪费空间，二义性<br>class B C 都继承自class A， 而class D继承自 B和C</p><pre><code>class A {virtual ~A()}    // 有的析构函数不是虚函数class B : virtual public A;class C : virtual public A;class D : public B, public A;</code></pre><p>B C继承了A的数据成员和指向A的指针<br>D继承了B C的数据成员和分别指向B C的指针</p><h2 id="运算符重载"><a href="#运算符重载" class="headerlink" title="运算符重载"></a>运算符重载</h2><pre><code>classname operator++();   //前缀自增classname operator++(int);  //后缀自增 加了int形参区分，形参是0，但在函数体内用不到</code></pre><p>-&gt;类成员访问运算符重载 返回类型必须是指针或者类对象 </p><pre><code>class Ptr{   //...   X * operator-&gt;();};void f(Ptr p ){   p-&gt;m = 10 ; // (p.operator-&gt;())-&gt;m = 10}</code></pre><h2 id="虚函数"><a href="#虚函数" class="headerlink" title="虚函数"></a>虚函数</h2><p>= 0 告诉编译器，函数没有主体，下面的虚函数是纯虚函数。</p><pre><code>virtual int area() = 0;  </code></pre><h2 id="c-STL"><a href="#c-STL" class="headerlink" title="c++ STL"></a>c++ STL</h2><ul><li>Containers(容器)    deque list vector map</li><li>Algorithms(算法)</li><li>iterators(迭代器)    vector<int>::iterator v = vec.begin(); v++; 返回指向向量开头的迭代器              <h2 id="文件和流"><a href="#文件和流" class="headerlink" title="文件和流"></a>文件和流</h2><h3 id="文件输入输出流"><a href="#文件输入输出流" class="headerlink" title="文件输入输出流"></a>文件输入输出流</h3></int></li></ul><ol><li><p>fstream ofstream ifstream</p><pre><code> void open(const char *filename, ios::openmode mode);   //文件流对象的成员函数</code></pre><p> 打开模式</p><ul><li>ios::app    追加模式。所有写入都追加到文件末尾。</li><li>ios::ate    文件打开后定位到文件末尾。</li><li>ios::in    打开文件用于读取。</li><li>ios::out    打开文件用于写入。</li><li>ios::trunc    如果该文件已经存在，其内容将在打开文件之前被截断，即把文件长度设为0。</li><li><p>ios::binary   二进制方式打开，默认打开为文本方式</p><p>常用函数</p><p>  getline(cin, string);   //当然也可以是 fileOgject从文件 ，cin是从键盘  好用 但是可能读取不到最后一行，如果最后一行没有回车<br>  fileObject.getline(buf, size);</p></li></ul></li><li><p>文件位置 istream成员函数seekg  ostream成员函数seekp</p><pre><code> fileObject.seekg(n);    //定位到第n个字节     fileObject.seekg(n, ios::cur);    //当前位置后移n字节 fileObject.seekg(n, ios::end);    //末尾向前n字节 fileObject.seekg(0, ios::end);    //末尾</code></pre></li><li><p>cin.ignore(),默认参数cin.ignore(1,EOF),完整版本是 cin.ignore(int n, char a)<br>从输入流 (cin) 中提取字符，提取的字符被忽略 (ignore)，不被使用。<br>每抛弃一个字符，它都要计数和比较字符：如果计数值达到 n 或者被抛弃的字符是 a，<br>则 cin.ignore()函数执行终止；否则，它继续等待。<br>它的一个常用功能就是用来清除以回车结束的输入缓冲区的内容，<br>消除上一次输入对下一次输入的影响。比如可以这么用：cin.ignore(1024,’\n’)，<br>通常把第一个参数设置得足够大，这样实际上总是只有第二个参数 \n 起作用，<br>所以这一句就是把回车(包括回车)之前的所以字符从输入缓冲(流)中清除出去。</p><pre><code> int a,b; cout&lt;&lt;&quot;input a:&quot;; cin&gt;&gt;a; cin.ignore(1024, &#39;\n&#39;); cout&lt;&lt;&quot;input b:&quot;; cin&gt;&gt;b;</code></pre></li></ol><h3 id="字符串输入输出流"><a href="#字符串输入输出流" class="headerlink" title="字符串输入输出流"></a>字符串输入输出流</h3><p><sstream>直接对内存而不是对文件和标准输出(设备)进行操作</sstream></p><p>stringstream istringstream   ostringstream<br>同样可以使用seekp()移动写指针 seekg()重定位读指针</p><pre><code>//整数转字符串std::ostringstream oss;int name_suffix = 1;oss &lt;&lt; name_suffix;oss.str();       //返回一个新的string对象，替换内置的stringbuf  </code></pre><h2 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h2><ol><li><p>抛出异常</p><pre><code> throw &quot;Division by zero condition!&quot;;   //类型为const char* 的异常 catch(const char* msg)</code></pre></li><li><p>捕获异常</p><pre><code> try {    // 保护代码 }catch( ExceptionName e )    //捕获任何异常  (...) {   // 处理 ExceptionName 异常的代码 }</code></pre><p> <img src="/2019/10/06/临时记录/异常图.png" alt="异常层次图"><br> <img src="/2019/10/06/临时记录/异常表.png" alt="异常说明"></p></li><li>assert() 断言语句 用于开发阶段调试 #define NDEBUG 使其在最终发行软件中失效</li><li><p>定义自己的异常 最好从runtime_error或者logic_error继承<br>不要直接从exception继承(没有提供一个参数类型为std::string的构造函数)</p><pre><code> class MyError : public runtime_error{ public:     MyError(const string&amp; msg = &quot;&quot;) : runtime_error(msg){} }; int main(){     try{         throw MyError(&quot;my message&quot;);     } catch (MyError &amp; x){         cout&lt;&lt; x.what()&lt;&lt;endl;     } } </code></pre></li><li>高级应用  <strong>待续…</strong>   </li></ol><h2 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h2><ul><li>转换很有用，但是在某些情况下，它强制编译器把一个数据看成比他实际更大的类型，占用更多空间，可能会破坏其他数据</li><li>转换就是告诉编译器”忘记类型检查　把它看成其他类型”　编译器不会执行类型检查　引入了漏洞，程序出了问题，首先想到类型转换</li></ul><ol><li><p>C风格</p><pre><code> int a = 200; long b = (long)a; long c = long(a);  //类似于函数调用</code></pre></li><li><p>c++显式转换<br>比较容易发现转换的位置，定位bug</p><p> static_cast</p><pre><code> int a = 200; long b = static_cast&lt;long&gt;(a);  // static_cast&lt;void (QSpinBox::*)(int)&gt;(&amp;QSpinBox::valueChanged);  //qt 函数指针</code></pre><p> const_cast   const 到非const volatile 到非volatile</p><pre><code> const int i=0; int* j = const_cast&lt;int*&gt;(&amp;i);   // 不用转换是不能将赋值给非const指针 volatile int k=0; int* u = const_cast&lt;int*&gt;(&amp;k);            </code></pre><h2 id="继承和组合"><a href="#继承和组合" class="headerlink" title="继承和组合"></a>继承和组合</h2></li><li><p>构造函数初始化列表<br>针对问题：新类的构造函数没有权利访问子对象的私有数据成员，所以不能直接对他们初始化</p><pre><code> //Bar是基类，m是MyType的一个成员对象 MyType::MyType(int i): Bar(i),m(i+1){//...}</code></pre></li></ol><ul><li>自动析构函数调用：虽然常常需要在初始化列表中显式构造函数调用，但是不需要做显式的析构函数调用，因为对于任何类型只有一个析构函数，并且不屈任何参数</li><li>构造函数调用次序是由成员对象在类中声明的次序决定。如果由　初始化列表的次序确定，则会有两个不同构造函数有两种不同调用构造函数顺序，那么析构函数不知道如何逆序调用。</li></ul><h2 id="待续…"><a href="#待续…" class="headerlink" title="待续…"></a><strong>待续…</strong></h2><h2 id="动态内存"><a href="#动态内存" class="headerlink" title="动态内存"></a>动态内存</h2><h2 id="命名空间"><a href="#命名空间" class="headerlink" title="命名空间"></a>命名空间</h2><h2 id="模板"><a href="#模板" class="headerlink" title="模板"></a>模板</h2><h2 id="预处理器"><a href="#预处理器" class="headerlink" title="预处理器"></a>预处理器</h2><h2 id="信号处理"><a href="#信号处理" class="headerlink" title="信号处理"></a>信号处理</h2><h2 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h2><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://blog.csdn.net/Bruce_0712/article/details/54984371" target="_blank" rel="noopener">C++之enum枚举量声明、定义、使用与枚举类详解</a></li><li><a href="https://www.runoob.com/cplusplus/cpp-tutorial.html" target="_blank" rel="noopener">C++ 教程</a></li><li><a href="https://blog.csdn.net/zyx_0604/article/details/80689673" target="_blank" rel="noopener">C++中volatile关键字的使用详解</a></li><li><a href="https://www.cnblogs.com/yyxt/p/4802688.html" target="_blank" rel="noopener">c++中static数据成员，static成员函数</a></li><li><a href="https://blog.csdn.net/iloveyousunna/article/details/78532398" target="_blank" rel="noopener">c++中lambda表达式的用法</a></li><li><a href="https://blog.csdn.net/bxw1992/article/details/77726390" target="_blank" rel="noopener">C++中虚继承的作用及底层实现原理</a></li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;g-编译&quot;&gt;&lt;a href=&quot;#g-编译&quot; class=&quot;headerlink&quot; title=&quot;g++编译&quot;&gt;&lt;/a&gt;g++编译&lt;/h1&gt;&lt;pre&gt;&lt;code&gt;g++ -g -Wall -std=c++11 main.cpp
-&lt;/code&gt;&lt;/pre&gt;&lt;h2 id
-      
-    
-    </summary>
-    
-      <category term="Linux" scheme="http://yangbenbo.github.io/categories/Linux/"/>
-    
-    
-      <category term="gcc" scheme="http://yangbenbo.github.io/tags/gcc/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>hexo博客和gitbook配置</title>
-    <link href="http://yangbenbo.github.io/2019/10/06/hexo%E5%8D%9A%E5%AE%A2%E5%92%8Cgitbook%E9%85%8D%E7%BD%AE/"/>
-    <id>http://yangbenbo.github.io/2019/10/06/hexo博客和gitbook配置/</id>
-    <published>2019-10-06T00:36:02.000Z</published>
-    <updated>2019-12-14T15:19:12.192Z</updated>
-    
-    <content type="html"><![CDATA[<p>环境：ubuntu16.04</p><h1 id="gitbook简介"><a href="#gitbook简介" class="headerlink" title="gitbook简介"></a>gitbook简介</h1><p>创作和管理电子书，是目前最流行的开源书籍写作方案<br>gitbook基于Node.js 开发，需要通过 Node.js 包管理工具 NPM 安装</p><p>简单来说Node.js就是运行在服务端的JavaScript<br>npm 常用命令</p><pre><code>npm update &lt;name&gt;   # 更新指定包npm install npm -g  # 全局更新自己 npm view &lt;package&gt; version  #查看包版本号</code></pre><h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><ul><li>nodejs</li><li><p>gitbook</p><pre><code>  sudo apt-get install nodejs   # 可能还需要安装nodejs-legacy 这是因为需要node 但是最好直接使用node升级 文章末尾  sudo apt-get install npm  sudo npm install gitbook-cli -g   #全局安装  # 可能需要安装 ebook-convert    Binary install或者Source install  sudo -v &amp;&amp; wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin</code></pre><h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><p>  gitbook init    #初始化 生成 README.md SUMMARY.md<br>  gitbook serve   #启动服务 浏览器打开 <a href="http://localhost:4000/" target="_blank" rel="noopener">http://localhost:4000/</a></p></li></ul><h2 id="定义目录结构"><a href="#定义目录结构" class="headerlink" title="定义目录结构"></a>定义目录结构</h2><ol><li>先定义好结构，然后通过gitbook init自动生成目录结构对应的文件夹和Markdown文件</li><li><p>先创建好文件夹和Markdown文件再来编辑目录结构</p><pre><code> # Summary * [项目简介](README.md) * [快速开始](docs/快速开始.md)  * [环境搭建](docs/环境搭建.md)  * [简单使用](docs/简单使用.md) * [学入学习](docs/深入学习) </code></pre></li></ol><h1 id="hexo博客搭建"><a href="#hexo博客搭建" class="headerlink" title="hexo博客搭建"></a>hexo博客搭建</h1><pre><code>sudo apt install nodejssudo apt install npmsudo npm install n -gsudo n stablesudo npm install hexo-cli</code></pre><h2 id="引用自己的文章"><a href="#引用自己的文章" class="headerlink" title="引用自己的文章"></a>引用自己的文章</h2><pre><code>{% post_link 文章文件名（不要后缀） 文章标题（可选） %}    </code></pre><h2 id="踩过的坑"><a href="#踩过的坑" class="headerlink" title="踩过的坑"></a>踩过的坑</h2><ol><li><p>hexo用着用着报错，提示node版本太低</p><p> 升级node：</p><pre><code> node -v     #查看当前版本 sudo npm cache clean -f #清楚node缓存 有时候不用也可以 sudo npm install n -g   #安装node版本管理工具n sudo n stable           #安装最新版node sudo n 8.9.4            #安装指定版本 node -v</code></pre></li></ol><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://blog.csdn.net/wirelessqa/article/details/72616471" target="_blank" rel="noopener">GitBook 使用入门</a></li><li><a href="https://blog.csdn.net/tlbaba/article/details/79412433" target="_blank" rel="noopener">node升级的正确方法</a></li><li><a href="https://www.runoob.com/nodejs/nodejs-tutorial.html" target="_blank" rel="noopener">Node.js教程</a></li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;环境：ubuntu16.04&lt;/p&gt;
-&lt;h1 id=&quot;gitbook简介&quot;&gt;&lt;a href=&quot;#gitbook简介&quot; class=&quot;headerlink&quot; title=&quot;gitbook简介&quot;&gt;&lt;/a&gt;gitbook简介&lt;/h1&gt;&lt;p&gt;创作和管理电子书，是目前最流行的开源书籍
-      
-    
-    </summary>
-    
-      <category term="Linux" scheme="http://yangbenbo.github.io/categories/Linux/"/>
-    
-    
-      <category term="blog" scheme="http://yangbenbo.github.io/tags/blog/"/>
-    
-      <category term="hexo" scheme="http://yangbenbo.github.io/tags/hexo/"/>
-    
-      <category term="gitbook" scheme="http://yangbenbo.github.io/tags/gitbook/"/>
     
   </entry>
   
