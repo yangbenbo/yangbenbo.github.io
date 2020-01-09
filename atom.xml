@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yangbenbo.github.io/"/>
-  <updated>2019-12-30T14:54:42.786Z</updated>
+  <updated>2020-01-09T08:23:13.728Z</updated>
   <id>http://yangbenbo.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ubuntu配置grub,指定默认内核</title>
+    <link href="http://yangbenbo.github.io/2020/01/09/ubuntu%E9%85%8D%E7%BD%AEgrub-%E6%8C%87%E5%AE%9A%E9%BB%98%E8%AE%A4%E5%86%85%E6%A0%B8/"/>
+    <id>http://yangbenbo.github.io/2020/01/09/ubuntu配置grub-指定默认内核/</id>
+    <published>2020-01-09T07:30:29.000Z</published>
+    <updated>2020-01-09T08:23:13.728Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Boot-Loader-grub2"><a href="#Boot-Loader-grub2" class="headerlink" title="Boot Loader: grub2"></a>Boot Loader: grub2</h1><p>BIOS 读完信息后,接下来就是会到第一个开机装置<br>的 MBR 去读取 boot loader.这个 boot loader 可以具有选单功能、直接加载核心文件以及控制权<br>移交的功能等，,系统必须要有 loader 才有办法加载该操作系统的核心就是了.</p><p>由于MBR是整个硬盘的第一个 sector 内的一个区块,充其量整个大小也才 446 bytes 而已.即使<br>是 GPT 也没有很大的扇区来储存 loader 的数据.所以分两个阶段</p><ul><li>执行 boot loader 主程序:在MBR或者boot sector,通常是最小主程序</li><li>主程序加载配置文件: 配置文件在/boot下,读取了文件系统定义数据之后就能够认识文件系统并读取该文件系统的核心</li></ul><h2 id="磁盘分区槽在grub2中的代号"><a href="#磁盘分区槽在grub2中的代号" class="headerlink" title="磁盘分区槽在grub2中的代号"></a>磁盘分区槽在grub2中的代号</h2><p>/boot/grub/grub.cfg  里面有set root=’hd1,gpt5’  指/boot目录挂载的区域</p><p>第一颗『搜寻到的硬盘』代号为：『(hd0)』，而该颗硬盘的第一号分区槽为『(hd0,1)』</p><ul><li>第一颗(MBR):     (hd0) (hd0,msdos1) (hd0,msdos2) (hd0,msdos3)….</li><li>第二颗(GPT):     (hd1) (hd1,gpt1) (hd1,gpt2) (hd1,gpt3)….</li><li>第三颗 (hd2):    (hd2,1) (hd2,2) (hd2,3)….</li></ul><h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><p>修改/etc/default/grub,然后使用updata-grub更新/boot/grub/grub.cfg</p><ol><li><p>数字</p><pre><code> GRUB_DEFAULT=&quot;1&gt; 0&quot;     #表示第二个选单子菜单的第一个  只使用&quot;0&quot; 表示第一个选单</code></pre></li><li><p>ID</p><pre><code> GRUB_DEFAULT=&quot;Advanced options for Ubuntu&gt;Ubuntu, with Linux 4.15.0-74-generic&quot;</code></pre><p> 可通过一下命令查看目前系统选单</p><pre><code> awk -F\&#39; &#39;/menuentry |submenu / {print $1 $2}&#39; /boot/grub/grub.cfg  </code></pre></li><li><p>saved   </p><pre><code>  GRUB_DEFAULT=saved     </code></pre><p> 代表使用 grub2-set-default 来设定哪一个 menuentry 为默认值的意思。通常预设为 0 </p></li></ol><h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><ol><li><p>调用了update-grub之后/boot/grub/grub.cfg并没有改变,查看文件内部发现grub.cfg是需要使用grub-mkconfig</p><pre><code> sudo grub-mkconfig -o /boot/grub/grub.cfg   # 可以先备份一下配置文件</code></pre></li></ol><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://github.com/UniversalRobots/Universal_Robots_ROS_Driver/blob/master/ur_robot_driver/doc/real_time.md" target="_blank" rel="noopener">Setup GRUB to always boot the real-time kernel</a></li><li>鸟哥的Linux私房菜-基础学习篇(第四版)         </li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;Boot-Loader-grub2&quot;&gt;&lt;a href=&quot;#Boot-Loader-grub2&quot; class=&quot;headerlink&quot; title=&quot;Boot Loader: grub2&quot;&gt;&lt;/a&gt;Boot Loader: grub2&lt;/h1&gt;&lt;p&gt;BIOS 读完信
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://yangbenbo.github.io/categories/Linux/"/>
+    
+    
+      <category term="grub" scheme="http://yangbenbo.github.io/tags/grub/"/>
+    
+  </entry>
   
   <entry>
     <title>惯性张量</title>
@@ -514,31 +539,6 @@ ctrl + B    向量 公式样式
     
     
       <category term="ps" scheme="http://yangbenbo.github.io/tags/ps/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>高斯分布</title>
-    <link href="http://yangbenbo.github.io/2019/10/16/%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/"/>
-    <id>http://yangbenbo.github.io/2019/10/16/高斯分布/</id>
-    <published>2019-10-16T05:30:27.000Z</published>
-    <updated>2019-10-23T13:23:07.108Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="高斯分布表达式"><a href="#高斯分布表达式" class="headerlink" title="高斯分布表达式"></a>高斯分布表达式</h1><h3 id="一元高斯分布"><a href="#一元高斯分布" class="headerlink" title="一元高斯分布"></a>一元高斯分布</h3><script type="math/tex; mode=display">\mathcal{N}\left(x | \mu, \sigma^{2}\right)=\frac{1}{\left(2 \pi \sigma^{2}\right)^{\frac{1}{2}}} \exp \left\{-\frac{1}{2 \sigma^{2}}(x-\mu)^{2}\right\}</script><h3 id="多元高斯分布"><a href="#多元高斯分布" class="headerlink" title="多元高斯分布"></a>多元高斯分布</h3><script type="math/tex; mode=display">\mathcal{N}(\boldsymbol{x} | \boldsymbol{\mu}, \mathbf{\Sigma})=\frac{1}{(2 \pi)^{\frac{D}{2}}} \frac{1}{|\boldsymbol{\Sigma}|^{\frac{1}{2}}} \exp \left\{-\frac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu})^{T} \boldsymbol{\Sigma}^{-1}(\boldsymbol{x}-\boldsymbol{\mu})\right\}</script><h1 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h1><p>高斯分布依赖于下面二次型，即马氏距离</p><script type="math/tex; mode=display">\Delta^{2}=(\boldsymbol{x}-\boldsymbol{\mu})^{T} \boldsymbol{\Sigma}^{-1}(\boldsymbol{x}-\boldsymbol{\mu})</script><p>协方差矩阵$\sum $可以取对称矩阵，<strong>任何非对称项都会从指数中消失</strong>（也可以从协方差矩阵定义看）可分解成对角矩阵</p><script type="math/tex; mode=display"></script><p>\begin{array}{l}{\Delta^{2}=[(\vec{X}-\vec{\mu})]^{\top}\left(Q \Lambda Q^{\top}\right)^{-1}[(\vec{X}-\vec{\mu})]} \\ {=\left[Q^{\top}(\vec{X}-\vec{\mu})\right]^{\top} \Lambda^{-1}\left[Q^{\top}(\vec{X}-\vec{\mu})\right]} \\ {=\left[Q^{\top}(\vec{X}-\vec{\mu})\right]^{\top}\left(\Lambda^{-\frac{1}{2}}\right)^{\top} \Lambda^{-\frac{1}{2}}\left[Q^{\top}(\vec{X}-\vec{\mu})\right]} \\ {=\left[\Lambda^{-\frac{1}{2}} Q^{\top}(\vec{X}-\vec{\mu})\right]^{\top}\left[\begin{array}{c}{\Lambda^{-\frac{1}{2}} Q^{\top}(\vec{X}-\vec{\mu})}\end{array}\right]} \\ {=\left[\left(Q \Lambda^{-\frac{1}{2}}\right)^{\top}(\vec{X}-\vec{\mu})\right]^{\top}\left[\left(Q \Lambda^{-\frac{1}{2}}\right)^{\top}(\vec{X}-\vec{\mu})\right]}\end{array}</p><script type="math/tex; mode=display"></script><p>含义：高斯分布中心在u,平移u之后高斯分布中心到原点，高斯分布椭圆轴拉伸变换成正圆，称一个旋转矩阵，将之前椭圆轴方向旋转到全局坐标系(Oxyz)，特别注意：变换矩阵Q</p><p>椭圆中心u,轴方向：变换矩阵Q的列向量<br><img src="/2019/10/16/高斯分布/高斯分布.png" alt="高斯分布"></p><h1 id="条件高斯分布"><a href="#条件高斯分布" class="headerlink" title="条件高斯分布"></a>条件高斯分布</h1><p>多元⾼斯分布的⼀个重要性质是，如果两组变量是联合⾼斯分布，那么以⼀组变量为条件，<br>另⼀组变量同样是⾼斯分布。类似地，任何⼀个变量的边缘分布也是⾼斯分布</p><h2 id="协方差矩阵-amp-精度矩阵-amp-分块矩阵求逆"><a href="#协方差矩阵-amp-精度矩阵-amp-分块矩阵求逆" class="headerlink" title="协方差矩阵&amp;精度矩阵&amp;分块矩阵求逆"></a>协方差矩阵&amp;精度矩阵&amp;分块矩阵求逆</h2><script type="math/tex; mode=display">\Sigma=\left(\begin{array}{cc}{\Sigma_{a a}} & {\Sigma_{a b}} \\ {\Sigma_{b a}} & {\Sigma_{b b}}\end{array}\right), \quad A=\left(\begin{array}{cc}{A_{a}} & {A_{b}} \\ {A_{b a}} & {A_{b b}}\end{array}\right), A=\Sigma^{-}</script><p>分块矩阵求逆</p><script type="math/tex; mode=display">\left(\begin{array}{cc}{\boldsymbol{A}} & {\boldsymbol{B}} \\ {\boldsymbol{C}} & {\boldsymbol{D}}\end{array}\right)^{-1}=\left(\begin{array}{cc}{\boldsymbol{M}} & {-\boldsymbol{M B D}^{-1}} \\ {-\boldsymbol{D}^{-1} \boldsymbol{C M}} & {\boldsymbol{D}^{-1}+\boldsymbol{D}^{-1} \boldsymbol{C M B D}^{-1}}\end{array}\right)</script><p>其中 $M=\left(A-B D^{-1} C\right)^{-}$</p><h2 id="完全平方项"><a href="#完全平方项" class="headerlink" title="完全平方项"></a>完全平方项</h2><p>通过对比二次型找到均值何方差的表达式</p><p>分解式如下</p><script type="math/tex; mode=display">\begin{aligned}-\frac{1}{2}(& \boldsymbol{x}-\boldsymbol{\mu}^{T} \boldsymbol{\Sigma}^{-1}(\boldsymbol{x}-\boldsymbol{\mu})=\\ &-\frac{1}{2}\left(\boldsymbol{x}_{a}-\boldsymbol{\mu}_{a}\right)^{T} \boldsymbol{\Lambda}_{a a}\left(\boldsymbol{x}_{a}-\boldsymbol{\mu}_{a}\right)-\frac{1}{2}\left(\boldsymbol{x}_{a}-\boldsymbol{\mu}_{a}\right)^{T} \boldsymbol{\Lambda}_{a b}\left(\boldsymbol{x}_{b}-\boldsymbol{\mu}_{b}\right) \\ &-\frac{1}{2}\left(\boldsymbol{x}_{b}-\boldsymbol{\mu}_{b}\right)^{T} \boldsymbol{\Lambda}_{b a}\left(\boldsymbol{x}_{a}-\boldsymbol{\mu}_{a}\right)-\frac{1}{2}\left(\boldsymbol{x}_{b}-\boldsymbol{\mu}_{b}\right)^{T} \boldsymbol{\Lambda}_{b b}\left(\boldsymbol{x}_{b}-\boldsymbol{\mu}_{b}\right) \end{aligned}</script><p>二次型</p><script type="math/tex; mode=display">-\frac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu})^{T} \boldsymbol{\Sigma}^{-1}(\boldsymbol{x}-\boldsymbol{\mu})=-\frac{1}{2} \boldsymbol{x}^{T} \boldsymbol{\Sigma}^{-1} \boldsymbol{x}+\boldsymbol{x}^{T} \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}+\text {const}_{-} \text {value}</script><p>条件概率均值和协方差</p><script type="math/tex; mode=display">\begin{array}{l}{\mu_{a b}=\mu_{a}+\Sigma_{a b} \Sigma_{b b}^{-1}\left(x_{b}-\mu_{b}\right)=\mu_{a}-H_{a b}^{-1} A_{b b}\left(x_{b}-\mu_{b}\right)} \\ {\Sigma_{a b}=\Sigma_{a a}-\Sigma_{a b} \Sigma_{b b}^{-1} \Sigma_{b a}=\Lambda_{b b}^{-1}}\end{array}</script><h1 id="边缘高斯分布"><a href="#边缘高斯分布" class="headerlink" title="边缘高斯分布"></a>边缘高斯分布</h1><script type="math/tex; mode=display">p\left(\boldsymbol{x}_{a}\right)=\int p\left(\boldsymbol{x}_{a}, \boldsymbol{x}_{b}\right) \mathrm{d} \boldsymbol{x}_{b}</script><p>分解式对变量Xb积分</p><p>关于Xb的项</p><script type="math/tex; mode=display">-\frac{1}{2} \boldsymbol{x}_{b}^{T} \boldsymbol{\Lambda}_{b b} \boldsymbol{x}_{b}+\boldsymbol{x}_{b}^{T} \boldsymbol{m}=-\frac{1}{2}\left(\boldsymbol{x}_{b}-\boldsymbol{\Lambda}_{b b}^{-1} \boldsymbol{m}\right)^{T} \boldsymbol{\Lambda}_{b b}\left(\boldsymbol{x}_{b}-\boldsymbol{\Lambda}_{b b}^{-1} \boldsymbol{m}\right)+\frac{1}{2} \boldsymbol{m}^{T} \boldsymbol{\Lambda}_{b b}^{-1} \boldsymbol{m}</script><p>其中 $\boldsymbol{m}=\boldsymbol{\Lambda}_{b b} \boldsymbol{\mu}_{b}-\boldsymbol{\Lambda}_{b a}\left(\boldsymbol{x}_{a}-\boldsymbol{\mu}_{a}\right)$<br>容易求得变量的积分 现在看剩余部分变量Xa和常量</p><script type="math/tex; mode=display">\begin{array}{l}{\frac{1}{2}\left[\boldsymbol{A}_{b b} \boldsymbol{\mu}_{b}-\boldsymbol{A}_{b a}\left(\boldsymbol{x}_{a}-\boldsymbol{\mu}_{a}\right)\right]^{T} \boldsymbol{A}_{b b}^{-1}\left[\boldsymbol{A}_{b b} \boldsymbol{\mu}_{b}-\boldsymbol{A}_{b a}\left(\boldsymbol{x}_{a}-\boldsymbol{\mu}_{a}\right)\right]-\frac{1}{2} \boldsymbol{x}_{a}^{T} \boldsymbol{\Lambda}_{a a} \boldsymbol{x}_{a}+\boldsymbol{x}_{a}^{T}\left(\boldsymbol{A}_{a a} \boldsymbol{\mu}_{a}+\boldsymbol{A}_{b b} \boldsymbol{\mu}_{b}\right)+\text {const}_{-} \text {value}} \\ {=-\frac{1}{2} \boldsymbol{x}_{a}^{T}\left(\boldsymbol{A}_{a a}-\boldsymbol{A}_{a b} \boldsymbol{A}_{b b}^{-1} \boldsymbol{h}_{b a}\right) \boldsymbol{x}_{a}+\boldsymbol{x}_{a}^{T}\left(\boldsymbol{A}_{a b} \boldsymbol{A}_{b b}^{-1} \boldsymbol{A}_{b a}\right) \boldsymbol{\mu}_{a}+\text {const}_{-} \text {value }}\end{array}</script><p>通过对比得</p><script type="math/tex; mode=display">\begin{aligned} \mathbb{E}\left[\boldsymbol{x}_{a}\right] &=\boldsymbol{\mu}_{a} \\ \operatorname{cov}\left[\boldsymbol{x}_{a}\right] &=\boldsymbol{\Sigma}_{a a} \end{aligned}</script><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>对联合高斯分布</p><script type="math/tex; mode=display">\begin{array}{l}{\mathcal{N}(\boldsymbol{x} | \boldsymbol{\mu}, \Sigma)} \\ {x=\left(\begin{array}{l}{x_{a}} \\ {x_{b}}\end{array}\right), u=\left(\begin{array}{l}{\boldsymbol{\mu}_{a}} \\ {\boldsymbol{\mu}_{b}}\end{array}\right)} \\ {\boldsymbol{\Sigma}=\left(\begin{array}{cc}{\boldsymbol{\Sigma}_{a a}} & {\boldsymbol{\Sigma}_{a b}} \\ {\boldsymbol{\Sigma}_{b a}} & {\boldsymbol{\Sigma}_{b b}}\end{array}\right), \quad \boldsymbol{A}=\left(\begin{array}{cc}{\boldsymbol{A}_{a a}} & {\boldsymbol{A}_{b b}} \\ {\boldsymbol{A}_{b a}} & {\boldsymbol{A}_{b b}}\end{array}\right), \boldsymbol{A}=\boldsymbol{\Sigma}^{-}}\end{array}</script><p>条件概率</p><script type="math/tex; mode=display">\begin{aligned} p\left(\boldsymbol{x}_{a} | \boldsymbol{x}_{b}\right) &=\mathcal{N}\left(\boldsymbol{x}_{a} | \boldsymbol{\mu}_{a | b}, \mathbf{\Lambda}_{a a}^{-1}\right) \\ \boldsymbol{\mu}_{a | b} &=\boldsymbol{\mu}_{a}-\boldsymbol{\Lambda}_{a a}^{-1} \mathbf{\Lambda}_{a b}\left(\boldsymbol{x}_{b}-\boldsymbol{\mu}_{b}\right) \end{aligned}</script><p>边缘概率</p><script type="math/tex; mode=display">p\left(\boldsymbol{x}_{a}\right)=\mathcal{N}\left(\boldsymbol{x}_{a} | \boldsymbol{\mu}_{a}, \boldsymbol{\Sigma}_{a a}\right)</script><p><img src="/2019/10/16/高斯分布/条件边缘.png" alt="条件概率和边缘概率"></p><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://www.microsoft.com/en-us/research/people/cmbishop/" target="_blank" rel="noopener">Pattern Recognition and Machine Learning</a></li><li><a href="https://zhuanlan.zhihu.com/p/58987388" target="_blank" rel="noopener">多元高斯分布完全解析</a></li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;高斯分布表达式&quot;&gt;&lt;a href=&quot;#高斯分布表达式&quot; class=&quot;headerlink&quot; title=&quot;高斯分布表达式&quot;&gt;&lt;/a&gt;高斯分布表达式&lt;/h1&gt;&lt;h3 id=&quot;一元高斯分布&quot;&gt;&lt;a href=&quot;#一元高斯分布&quot; class=&quot;headerlink&quot; 
-      
-    
-    </summary>
-    
-      <category term="math" scheme="http://yangbenbo.github.io/categories/math/"/>
-    
-    
-      <category term="概率论" scheme="http://yangbenbo.github.io/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/"/>
     
   </entry>
   
