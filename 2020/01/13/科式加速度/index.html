@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
-  <title>word参考文献交叉引用 | yangbenbo&#39;s blog</title>
-  <meta name="keywords" content=" word ">
-  <meta name="description" content="word参考文献交叉引用 | yangbenbo&#39;s blog">
+  <title>科式加速度 | yangbenbo&#39;s blog</title>
+  <meta name="keywords" content=" 加速度 ">
+  <meta name="description" content="科式加速度 | yangbenbo&#39;s blog">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="个人简介杨本泊， 就读于武大，目前研究机械臂轨迹规划。 喜欢研究新兴技术和未来发展方向。 最近搭建博客 联系方式 QQ : 2519130844 邮箱 : yangbenbo_whu@qq.com">
 <meta property="og:type" content="website">
@@ -797,9 +797,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-word参考文献交叉引用" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-科式加速度" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">word参考文献交叉引用</h1>
+        <h1 class="article-title">科式加速度</h1>
     
     <div class="article-meta">
         
@@ -807,21 +807,21 @@
         
         <span class="book">
             
-                <a href="javascript:" data-rel="software">software</a>
+                <a href="javascript:" data-rel="math">math</a>
             
         </span>
         
         
         <span class="tag">
             
-            <a href="javascript:" class="color5">word</a>
+            <a href="javascript:" class="color4">加速度</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-12-04 09:02:40'>2019-12-04 08:32</time>
+        创建时间:<time class="date" title='更新时间: 2020-01-13 10:59:29'>2020-01-13 10:28</time>
         
     </div>
     <div class="article-meta">
@@ -843,7 +843,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#word参考文献交叉引用"><span class="toc-text">word参考文献交叉引用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#实现-1-5-形式"><span class="toc-text">实现[1-5]形式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#引用"><span class="toc-text">引用</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#科里奥利力"><span class="toc-text">科里奥利力</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#例子"><span class="toc-text">例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#坐标轴微分计算"><span class="toc-text">坐标轴微分计算</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#引用"><span class="toc-text">引用</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -858,32 +858,30 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="word参考文献交叉引用"><a href="#word参考文献交叉引用" class="headerlink" title="word参考文献交叉引用"></a>word参考文献交叉引用</h1><p>参考文献交叉引用可以实现正文中引用链接到参考文献，避免参考文献引用出错</p>
-<ol>
-<li>参考文献排序</li>
-<li><p>插入-&gt; 交叉引用 -&gt; 选择对应的文献</p>
-<p> <img src="/2019/12/04/word参考文献交叉引用/插入.png" alt="交叉引用"></p>
-</li>
-</ol>
-<h2 id="实现-1-5-形式"><a href="#实现-1-5-形式" class="headerlink" title="实现[1-5]形式"></a>实现[1-5]形式</h2><ul>
-<li><p>第一种方式： 插入之后，选择不想出现的部分,然后选择字体-&gt; 隐藏即可</p>
-<p>  <img src="/2019/12/04/word参考文献交叉引用/隐藏.png" alt="隐藏"></p>
-</li>
-<li><p>第二种方式：</p>
-<ol>
-<li><p>插入交叉引用1,5，右击切换域代码</p>
-<pre><code> 导纳控制{ REF _Re26341043 \r \h }{ REF _Ref26341045 \r \h }
-</code></pre></li>
-<li><p>增加代码</p>
-<pre><code> 导纳控制{ REF _Re26341043 \r \h \#&quot;[0&quot;}{ REF _Ref26341045 \r \h \#&quot;0]&quot;}
-</code></pre></li>
-<li>更新域代码,添加 “-“, ctrl+shift++ 切换为上标</li>
-</ol>
-</li>
+        <h1 id="科里奥利力"><a href="#科里奥利力" class="headerlink" title="科里奥利力"></a>科里奥利力</h1><p>科里奥利力（英语：Coriolis Force；简称科氏力）是一种惯性力,<br>是对旋转体系中进行直线运动的质点由于惯性相对于旋转体系产生的直线运动的偏移的一种描述.</p>
+<p>绝对加速度计算公式=相对加速度+牵连加速度+科式加速度</p>
+<ul>
+<li>相对加速度:动点相对于动坐标系的加速度</li>
+<li>牵连加速度:动坐标系上与动点重合的点在全局坐标系下的加速度</li>
+<li>科式加速度:动点相对于动坐标系运动产生的加速度</li>
 </ul>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\mathbf{a}_{n} &=\mathbf{a}_{r}+\mathbf{a}_{e}+\mathbf{a}_{c} \\
+&=\mathbf{a}_{r}+\boldsymbol{a} \times \mathbf{r}^{\prime}+\mathbf{\omega} \times\left(\mathbf{\omega} \times \mathbf{r}^{\prime}\right)+2 \mathbf{\omega} \times \mathbf{v}_{r}
+\end{aligned}</script><h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>如图,动点沿着直杆运动,直杆本身旋转运动</p>
+<script type="math/tex; mode=display">
+\begin{array}{ll}
+{a_{e}=\lim _{\Delta t \rightarrow 0} \frac{v_{M 1}-v_{e}}{\Delta t},} & {\frac{d v_{e}}{d t}=\lim _{\Delta t \rightarrow 0} \frac{v_{e}^{\prime}-v_{e}}{\Delta t}} \\
+{a_{r}=\lim _{\Delta t \rightarrow 0} \frac{v_{r 2}-v_{r}}{\Delta t},} & {\frac{d v_{r}}{d t}=\lim _{\Delta t \rightarrow 0} \frac{v_{r}^{\prime}-v_{r}}{\Delta t}}
+\end{array}</script><p>科式加速度产生</p>
+<script type="math/tex; mode=display">
+\frac{d v_{r}}{d t}=a_{r}+\omega_{e} \times v_{r}, \quad \frac{d v_{e}}{d t}=a_{e}+\omega_{e} \times v_{r}</script><p><img src="/2020/01/13/科式加速度/科式加速度.png" alt="科式加速度"></p>
+<h2 id="坐标轴微分计算"><a href="#坐标轴微分计算" class="headerlink" title="坐标轴微分计算"></a>坐标轴微分计算</h2><script type="math/tex; mode=display">
+\frac{d i^{\prime}}{d t}=\omega \times i^{\prime}, \quad \frac{d j^{\prime}}{d t}=\omega \times j^{\prime}, \quad \frac{d k^{\prime}}{d t}=\omega \times k^{\prime}</script><p>直接物理含义推导,把向量平移到起点和旋转轴重合,相当于就是位置的微分,为速度</p>
 <h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol>
-<li><a href="https://www.jianshu.com/p/e6f71f8ba19a" target="_blank" rel="noopener">Word|如何使用交叉引用标注参考文献</a>    </li>
-<li><a href="https://jingyan.baidu.com/article/25648fc15c03439191fd0033.html" target="_blank" rel="noopener">word参考文献交叉引用的连续多项引用?</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%E7%A7%91%E9%87%8C%E5%A5%A5%E5%88%A9%E5%8A%9B" target="_blank" rel="noopener">科里奥利力</a></li>
+<li>理论力学第8版 哈尔滨工业大学理论力学教研室编</li>
 </ol>
 
       
@@ -894,12 +892,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>word参考文献交叉引用</p>
+    <p><span class="copy-title">文章标题:</span>科式加速度</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="杨本泊">杨本泊</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-12-04, 08:32:08</p>
-    <p><span class="copy-title">最后更新:</span>2019-12-04, 09:02:40</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/12/04/word参考文献交叉引用/" title="word参考文献交叉引用">http://yangbenbo.github.io/2019/12/04/word参考文献交叉引用/</a>
+    <p><span class="copy-title">发布时间:</span>2020-01-13, 10:28:27</p>
+    <p><span class="copy-title">最后更新:</span>2020-01-13, 10:59:29</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/01/13/科式加速度/" title="科式加速度">http://yangbenbo.github.io/2020/01/13/科式加速度/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
@@ -909,6 +907,46 @@
 
 
 
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="//cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+<input type="hidden" id="MathJax-js"
+        value="//cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+</input>
     
 
 

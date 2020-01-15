@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yangbenbo.github.io/"/>
-  <updated>2020-01-09T08:23:13.728Z</updated>
+  <updated>2020-01-13T02:59:29.809Z</updated>
   <id>http://yangbenbo.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>科式加速度</title>
+    <link href="http://yangbenbo.github.io/2020/01/13/%E7%A7%91%E5%BC%8F%E5%8A%A0%E9%80%9F%E5%BA%A6/"/>
+    <id>http://yangbenbo.github.io/2020/01/13/科式加速度/</id>
+    <published>2020-01-13T02:28:27.000Z</published>
+    <updated>2020-01-13T02:59:29.809Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="科里奥利力"><a href="#科里奥利力" class="headerlink" title="科里奥利力"></a>科里奥利力</h1><p>科里奥利力（英语：Coriolis Force；简称科氏力）是一种惯性力,<br>是对旋转体系中进行直线运动的质点由于惯性相对于旋转体系产生的直线运动的偏移的一种描述.</p><p>绝对加速度计算公式=相对加速度+牵连加速度+科式加速度</p><ul><li>相对加速度:动点相对于动坐标系的加速度</li><li>牵连加速度:动坐标系上与动点重合的点在全局坐标系下的加速度</li><li>科式加速度:动点相对于动坐标系运动产生的加速度</li></ul><script type="math/tex; mode=display">\begin{aligned}\mathbf{a}_{n} &=\mathbf{a}_{r}+\mathbf{a}_{e}+\mathbf{a}_{c} \\&=\mathbf{a}_{r}+\boldsymbol{a} \times \mathbf{r}^{\prime}+\mathbf{\omega} \times\left(\mathbf{\omega} \times \mathbf{r}^{\prime}\right)+2 \mathbf{\omega} \times \mathbf{v}_{r}\end{aligned}</script><h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>如图,动点沿着直杆运动,直杆本身旋转运动</p><script type="math/tex; mode=display">\begin{array}{ll}{a_{e}=\lim _{\Delta t \rightarrow 0} \frac{v_{M 1}-v_{e}}{\Delta t},} & {\frac{d v_{e}}{d t}=\lim _{\Delta t \rightarrow 0} \frac{v_{e}^{\prime}-v_{e}}{\Delta t}} \\{a_{r}=\lim _{\Delta t \rightarrow 0} \frac{v_{r 2}-v_{r}}{\Delta t},} & {\frac{d v_{r}}{d t}=\lim _{\Delta t \rightarrow 0} \frac{v_{r}^{\prime}-v_{r}}{\Delta t}}\end{array}</script><p>科式加速度产生</p><script type="math/tex; mode=display">\frac{d v_{r}}{d t}=a_{r}+\omega_{e} \times v_{r}, \quad \frac{d v_{e}}{d t}=a_{e}+\omega_{e} \times v_{r}</script><p><img src="/2020/01/13/科式加速度/科式加速度.png" alt="科式加速度"></p><h2 id="坐标轴微分计算"><a href="#坐标轴微分计算" class="headerlink" title="坐标轴微分计算"></a>坐标轴微分计算</h2><script type="math/tex; mode=display">\frac{d i^{\prime}}{d t}=\omega \times i^{\prime}, \quad \frac{d j^{\prime}}{d t}=\omega \times j^{\prime}, \quad \frac{d k^{\prime}}{d t}=\omega \times k^{\prime}</script><p>直接物理含义推导,把向量平移到起点和旋转轴重合,相当于就是位置的微分,为速度</p><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://zh.wikipedia.org/wiki/%E7%A7%91%E9%87%8C%E5%A5%A5%E5%88%A9%E5%8A%9B" target="_blank" rel="noopener">科里奥利力</a></li><li>理论力学第8版 哈尔滨工业大学理论力学教研室编</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;科里奥利力&quot;&gt;&lt;a href=&quot;#科里奥利力&quot; class=&quot;headerlink&quot; title=&quot;科里奥利力&quot;&gt;&lt;/a&gt;科里奥利力&lt;/h1&gt;&lt;p&gt;科里奥利力（英语：Coriolis Force；简称科氏力）是一种惯性力,&lt;br&gt;是对旋转体系中进行直线运动的质点由
+      
+    
+    </summary>
+    
+      <category term="math" scheme="http://yangbenbo.github.io/categories/math/"/>
+    
+    
+      <category term="加速度" scheme="http://yangbenbo.github.io/tags/%E5%8A%A0%E9%80%9F%E5%BA%A6/"/>
+    
+  </entry>
   
   <entry>
     <title>ubuntu配置grub,指定默认内核</title>
@@ -512,33 +537,6 @@ ctrl + B    向量 公式样式
     
     
       <category term="matlab" scheme="http://yangbenbo.github.io/tags/matlab/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>实用小技巧汇总</title>
-    <link href="http://yangbenbo.github.io/2019/10/20/%E5%AE%9E%E7%94%A8%E5%B0%8F%E6%8A%80%E5%B7%A7%E6%B1%87%E6%80%BB/"/>
-    <id>http://yangbenbo.github.io/2019/10/20/实用小技巧汇总/</id>
-    <published>2019-10-20T11:12:25.000Z</published>
-    <updated>2019-12-22T03:54:28.371Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="ps统一裁剪图片大小"><a href="#ps统一裁剪图片大小" class="headerlink" title="ps统一裁剪图片大小"></a>ps统一裁剪图片大小</h1><ol><li>窗口-&gt;动作　显示动作面板，在历史记录面板里面</li><li>新建动作组　录制动作</li><li>文件-&gt;自动-&gt;批处理</li></ol><p><strong>注意事项</strong>：<br>点击选项打开切换对话开关　可以在处理自动处理工程在裁剪处停止　手动调整裁剪的位置的大小</p><p><img src="/2019/10/20/实用小技巧汇总/切换对话开.png" alt="打开切换对话"> <img src="/2019/10/20/实用小技巧汇总/切换对话关.png" alt="关闭切换对话"></p><h1 id="ps矫正扫描件-ppt"><a href="#ps矫正扫描件-ppt" class="headerlink" title="ps矫正扫描件　ppt"></a>ps矫正扫描件　ppt</h1><p>扫描件</p><ul><li>复制图层　填充为白色　拉直工具(在不改变图像大小的情况下拉直)</li></ul><p>ppt</p><ul><li>透视裁剪 </li></ul><h1 id="视屏调整大小"><a href="#视屏调整大小" class="headerlink" title="视屏调整大小"></a>视屏调整大小</h1><ul><li>premiere 更改视频码率　选可变码率　</li></ul><p>码率：视频码率就是数据传输时单位时间传送的数据位数，一般我们用的单位是kbps即千位每秒。通俗一点的理解就是取样率</p><ul><li>固定码率：　</li><li>可变码率：视频信源本身的高峰信息量是变化的，能按信源本身的信息量去分配，从而有效地利用信息资源。</li></ul><h1 id="存放小文件到github方便下载"><a href="#存放小文件到github方便下载" class="headerlink" title="存放小文件到github方便下载"></a>存放小文件到github方便下载</h1><p>仓库名网址/archive/master.zip 即可下载仓库内容 不用到仓库地址点击下载</p><p>例如博客 <a href="/2019/12/22/ubuntu下wps缺少字体/" title="ubuntu下wps缺少字体">ubuntu下wps缺少字体</a> 中对应的下载字体<br><a href="https://github.com/yangbenbo/wps-font-symbols/archive/master.zip" target="_blank" rel="noopener">https://github.com/yangbenbo/wps-font-symbols/archive/master.zip</a></p><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="http://www.sohu.com/a/258392499_99914465" target="_blank" rel="noopener">ps实用技能：如何统一裁剪图片大小</a></li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;ps统一裁剪图片大小&quot;&gt;&lt;a href=&quot;#ps统一裁剪图片大小&quot; class=&quot;headerlink&quot; title=&quot;ps统一裁剪图片大小&quot;&gt;&lt;/a&gt;ps统一裁剪图片大小&lt;/h1&gt;&lt;ol&gt;
-&lt;li&gt;窗口-&amp;gt;动作　显示动作面板，在历史记录面板里面&lt;/li&gt;
-
-      
-    
-    </summary>
-    
-      <category term="software" scheme="http://yangbenbo.github.io/categories/software/"/>
-    
-    
-      <category term="ps" scheme="http://yangbenbo.github.io/tags/ps/"/>
     
   </entry>
   
