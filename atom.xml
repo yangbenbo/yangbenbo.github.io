@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yangbenbo.github.io/"/>
-  <updated>2020-01-13T02:59:29.809Z</updated>
+  <updated>2020-10-27T06:45:29.261Z</updated>
   <id>http://yangbenbo.github.io/</id>
   
   <author>
@@ -17,11 +17,372 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>python基础</title>
+    <link href="http://yangbenbo.github.io/2020/05/22/python%E5%9F%BA%E7%A1%80/"/>
+    <id>http://yangbenbo.github.io/2020/05/22/python基础/</id>
+    <published>2020-05-22T08:52:49.000Z</published>
+    <updated>2020-10-27T06:45:29.261Z</updated>
+    
+    <content type="html"><![CDATA[<p>很多简单模块容易忘,在此记录一下</p><h2 id="基础操作"><a href="#基础操作" class="headerlink" title="基础操作"></a>基础操作</h2><ol><li><p>查看帮助文档</p><pre><code> import os # 主要有3中类型 ,也可以针对具体函数 dir(os) help(os)  os.__doc__</code></pre></li><li><p>查看变量内存地址</p><pre><code> # 需要注意有时候变量的复制是浅拷贝,地址相同的 # 使用pybullet获取机械臂位置就是这样,机械臂运动之后地址才变了 print(id(object))</code></pre></li><li><p>查看当前路径</p><pre><code> import os os.getcwd()</code></pre></li><li><p>copy模块</p><ul><li><p>注意python具有即时复制的功能</p><pre><code>  a = 1  b = a  print(id(a), id(b))  b = 2  print(id(a), id(b))</code></pre></li><li><p>有些模块如numpy没有特别设置不会深拷贝,通常配合copy.deepcopy()</p></li></ul></li><li><p>python3中@<br> 矩阵乘法</p><pre><code> Op    Precedence/associativity    Methods @    Same as *                    __matmul__, __rmatmul__ @=    n/a                            __imatmul__</code></pre></li><li><p>numpy数组交换行列</p><pre><code> a = np.array([[1,2,3],[2,3,4],[1,6,5], [9,3,4]]) a[:,[1,0,2]]</code></pre></li></ol><h2 id="安装模块"><a href="#安装模块" class="headerlink" title="安装模块"></a>安装模块</h2><ol><li><p>常用安装命令</p><pre><code> # 安装 conda环境可以使用conda install xxx pip install package_name pip install package_name==package_version # 更新 pip install -U package_name # 显示模块的信息 pip show package_name # 查看对应包简单信息 pip list |grep package_name # 卸载建议这种方式,不会会有残留文件(针对pip install -e .) pip uninstall package_name  </code></pre></li><li><p>pip install -e . VS python setup.py install</p><pre><code> Editable   pip                    setup.py yes        pip install -e .       python setup.py develop     no         pip install .          python setup.py install   </code></pre></li></ol><ul><li><p>可编辑模式安装(develop,可以在当前文件基础上修改)</p><p>这种方式会在site-packages下创建一个文件指向项目目录,并不会复制对应代码;<br>在项目根目录(setup.py所在)会生成egg-info 文件夹包含这个包的主要信息;<br>查看sys.path会发现里面多了一个项目根目录的路径</p><pre><code>  pip install -e /path/to/your/setup.py  # 项目根目录                  </code></pre></li><li>install 这种方式会在site-packages生成egg文件,里面包含对应的函数和模块,无法修改</li></ul><h2 id="pybullet-结合-ROS"><a href="#pybullet-结合-ROS" class="headerlink" title="pybullet 结合 ROS"></a>pybullet 结合 ROS</h2><p>将pybullet中获取的图像通过变换获得对应的点云图<br><div class="row">    <embed src="OPGL_pointcloud.pdf" width="100%" height="550" type="application/pdf"></div></p><ol><li><p>Image  numpy array to sensor_msgs/Image</p><pre><code> from cv_bridge import CvBridge import numpy as np from sensor_msgs.msg import Image # 确保能都找到正确的opencv2的位置 import sys sys.path.remove(&#39;/opt/ros/kinetic/lib/python2.7/dist-packages&#39;) import cv2 rgb_np_arr, depth_np_arr, seg_mask_np_arr, point_cloud = self.camera.get_camera_frame() bridge = CvBridge() image_message = bridge.cv2_to_imgmsg(rgb_np_arr[:, :, [2, 1, 0, 3]].astype(&#39;uint8&#39;))  # default bgra8</code></pre></li><li><p>Pointcloud numpy to sensor_msgs/PointCloud2     </p><pre><code> import ros_numpy import numpy as np from sensor_msgs.msg import PointCloud2, PointField number = point_cloud.shape[0] * point_cloud.shape[1] point_cloud_arr = point_cloud.reshape([number, 3]) data = np.zeros(number, dtype=[     (&#39;x&#39;, np.float32),     (&#39;y&#39;, np.float32),     (&#39;z&#39;, np.float32) ]) data[&#39;x&#39;] = point_cloud_arr[:, 0] data[&#39;y&#39;] = point_cloud_arr[:, 1] data[&#39;z&#39;] = point_cloud_arr[:, 2] cloud_msg = ros_numpy.msgify(PointCloud2, data) cloud_msg.header.frame_id = &quot;map&quot;</code></pre></li><li><p>pointcloud from image deepth<br> reshape 默认是按行排列, 按列需要order=’F’</p><p> 矩阵求逆 np.linalg.inv(x)</p><p> 矩阵乘积 np.matmul(a, b)</p><pre><code> stepX = 10 stepY = 10 pointCloud = np.empty([np.int(self.img_height/stepY), np.int(self.img_width/stepX), 4]) projectionMatrix = np.asarray(self.projection_matrix).reshape([4,4],order=&#39;F&#39;) viewMatrix = np.asarray(view_matrix).reshape([4,4],order=&#39;F&#39;) tran_pix_world = np.linalg.inv(np.matmul(projectionMatrix, viewMatrix)) for h in range(0, self.img_height, stepY):     for w in range(0, self.img_width, stepX):         x = (2*w - self.img_width)/self.img_width         y = -(2*h - self.img_height)/self.img_height  # be careful！ deepth and its corresponding position         z = 2*depth_np_arr[h,w] - 1         pixPos = np.asarray([x, y, z, 1])         position = np.matmul(tran_pix_world, pixPos)         pointCloud[np.int(h/stepY),np.int(w/stepX),:] = position / position[3]          </code></pre></li></ol><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ol><li><a href="https://www.jb51.cc/python/241778.html" target="_blank" rel="noopener">在virtualenv中设置：<code>pip install -e .</code> vs <code>python setup.py install</code></a></li><li><a href="https://www.jianshu.com/p/9a54e9f3e059" target="_blank" rel="noopener">如何将自己的Python程序打包—setuptools详解</a></li><li><a href="https://blog.csdn.net/qq_35356840/article/details/88557912" target="_blank" rel="noopener">Python Numpy 如何交换两行和两列</a></li><li><a href="http://ksimek.github.io/2012/08/22/extrinsic/" target="_blank" rel="noopener">Dissecting the Camera Matrix, Part 2: The Extrinsic Matrix</a></li><li><a href="https://zhuanlan.zhihu.com/p/73034007" target="_blank" rel="noopener">OpenGL投影矩阵(Projection Matrix)构造方法</a></li><li><a href="https://solarianprogrammer.com/2013/05/22/opengl-101-matrices-projection-view-model/" target="_blank" rel="noopener">OpenGL 101: Matrices - projection, view, model</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;很多简单模块容易忘,在此记录一下&lt;/p&gt;
+&lt;h2 id=&quot;基础操作&quot;&gt;&lt;a href=&quot;#基础操作&quot; class=&quot;headerlink&quot; title=&quot;基础操作&quot;&gt;&lt;/a&gt;基础操作&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;查看帮助文档&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; import
+      
+    
+    </summary>
+    
+      <category term="program" scheme="http://yangbenbo.github.io/categories/program/"/>
+    
+    
+      <category term="python" scheme="http://yangbenbo.github.io/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux + Qt5 + ROS配置Qwtplot3d</title>
+    <link href="http://yangbenbo.github.io/2020/05/12/Linux-Qt5-ROS%E9%85%8D%E7%BD%AEQwtplot3d/"/>
+    <id>http://yangbenbo.github.io/2020/05/12/Linux-Qt5-ROS配置Qwtplot3d/</id>
+    <published>2020-05-12T12:09:33.000Z</published>
+    <updated>2020-09-23T14:42:00.840Z</updated>
+    
+    <content type="html"><![CDATA[<p>qwtplot3D是一个Qt第三方库,在OpenGL基础上封装了一层可以用来三维绘图.</p><h2 id="Qt项目使用QwtPlot3d"><a href="#Qt项目使用QwtPlot3d" class="headerlink" title="　Qt项目使用QwtPlot3d"></a>　Qt项目使用QwtPlot3d</h2><ol><li>安装OpenGL(QwtPlot3d需要OpenGL作为基础)<br> 这一步网上很多教程,我之前装过,这里略过</li><li><p>下载QwtPlot3d压缩包两种选择,建议选a</p><p> a. 下载分支<a href="https://sourceforge.net/p/qwtplot3d/code/HEAD/tree/branches/multiple_curves_0_2_x/" target="_blank" rel="noopener">multiple_curves_0_2_x</a> 可以一个画面绘制多个图形</p><p> b. 下载<a href="https://sourceforge.net/projects/qwtplot3d/" target="_blank" rel="noopener">qwt-plot3d</a> <a href="https://blog.csdn.net/eastonwoo/article/details/37658141" target="_blank" rel="noopener">修改参考</a></p><p> 第一种方式顺利编译</p><p> 第二种方式,出现的问题 </p><pre><code> ‘gluErrorString’ was not declared in this scope err = gluErrorString(errcode);</code></pre><p> 解决方式</p><pre><code>    在include/qwt3d_openglhelper.h这个文件里添加 #include &lt;GL/glu.h&gt;    打开 qwtplot3d.pro , 在最前面输入下面这一句  LIBS += -lGLU            </code></pre></li><li><p>打开qwtplot3d.pro, 选择Release</p><p> 两种方式都可以编译后在编译文件夹找到4个libqwtplot3d.so*文件</p><p> 复制这四个文件到存放lib文件的目录,可以自己指定,我的是</p><pre><code> /opt/qt59/lib/x86_64-linux-gnu/qtcreator/</code></pre></li><li><p>打开qwtplot3d/examples/simpleplot/simpleplot.pro</p><pre><code> # 将第一句改为这二句 其实就是指定刚才生成的动态链接库的位置 # 其实把库文件放在原本指定的位置../../lib也可以编译成功 unix:LIBS += -lqwtplot3d -L../../lib unix:LIBS += -L/opt/qt59/lib/x86_64-linux-gnu/qtcreator/ -lqwtplot3d</code></pre><p> 其他项目使用需要生成的库文件.so 以及头文件 .h(qwtplot3d/include下),<br> simpleplot只用指定库是因为项目中指定了头文件位置</p><p> 运行程序如下<br> <img src="/2020/05/12/Linux-Qt5-ROS配置Qwtplot3d/simpleplot_mult.png" alt="simpleplot">    </p></li></ol><h2 id="ROS-CmakeLists-txt使用QwtPlot3d"><a href="#ROS-CmakeLists-txt使用QwtPlot3d" class="headerlink" title="ROS CmakeLists.txt使用QwtPlot3d"></a>ROS CmakeLists.txt使用QwtPlot3d</h2><pre><code># 把头文件拷贝到include/qwt 下并包含include_directories(${catkin_INCLUDE_DIRS}    include/qwt)# 寻找OpenGL 这是底层库find_package(Qt5 COMPONENTS Core Widgets OpenGL REQUIRED)# 设置库文件路径set(QT_LIBRARIES Qt5::Widgets Qt5::OpenGL)#added# 生成可执行程序并链接库add_executable(qwtdemo  src/traj_graph.cpp)target_link_libraries(qwtdemo ${QT_LIBRARIES} ${catkin_LIBRARIES}    qwtplot3d ) </code></pre><p><strong>特别注意:</strong></p><pre><code>file(GLOB_RECURSE QT_MOC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINKS    include/qtgui/*.hpp include/qtgui/*.h    )        </code></pre><p>这一句如果直接使用<em>.h,则会在建立的包内匹配</em>h(include src…),b方式即使把提供头文件包含进来也没问题,<br>a方式出错 需要排除qwtplot3d提供的头文件 这里我新建了一个文件include/qwt</p><pre><code>#  a方式出错 error: undefined reference to `Qwt3D::SurfacePlot::setResolution(int)&#39;/home/yang/project/cam/test/build/qtgui/include/qwt/moc_qwt3d_surfaceplot.cpp:78: error: undefined reference to `Qwt3D::SurfacePlot::setResolution(int)&#39;</code></pre><p>注意到上面只处理了头文件包含,对于库文件有多种处理方式,库文件又分为静态库和动态库,可参考<a href="https://www.zhihu.com/question/20484931/answer/69553616" target="_blank" rel="noopener">Linux 中的动态链接库和静态链接库是干什么的？</a></p><ol><li><p>指定相对位置(推荐,成功率高)</p><pre><code> # 把库文件.so复制到项目内与src同级目录lib, 然后在CmakeLists.txt指定相对位置 LINK_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/lib)   ## 添加动态库路径</code></pre></li><li><p>指定绝对位置</p><pre><code> # CmakeLists.txt 添加库文件路径(之前存放的路径) LINK_DIRECTORIES(/opt/qt59/lib/x86_64-linux-gnu/qtcreator/)   ## 添加动态库路径</code></pre></li><li><p>添加路径到变量LD_LIBRARY_PATH</p><pre><code> # ~/.bashrc 下添加下面这句,然后重开终端启动qtcreator 但是我没成功 export LD_LIBRARY_PATH=/opt/qt59/lib/x86_64-linux-gnu/qtcreator:${LD_LIBRARY_PATH}</code></pre></li><li><p>修改/etc/ld.so.conf,添加路径,运行sudo ldconfig命令</p><p> 这是一个系统动态链接库路径配置文件,我尝试过/etc/ld.so.conf 添加库文件路径<br> 以及在指定的目录下增加XXX.conf都不行,最后是直接拷贝到包含的一个目录下成功的(/usr/lib/x86_64-linux-gnu/)</p></li></ol><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ol><li><a href="https://blog.csdn.net/qq_41800188/article/details/87891586" target="_blank" rel="noopener">Ubuntu Linux 16.04 LTS + Qt5.5.1 + Qwtplot3d配置安装</a></li><li><a href="https://blog.csdn.net/EastonWoo/article/details/37658141" target="_blank" rel="noopener">QT5 r 加入qwtplot3d 三维库</a></li><li><a href="https://blog.csdn.net/zxh2075/article/details/54629318?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase" target="_blank" rel="noopener">linux下添加动态链接库路径的方法</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;qwtplot3D是一个Qt第三方库,在OpenGL基础上封装了一层可以用来三维绘图.&lt;/p&gt;
+&lt;h2 id=&quot;Qt项目使用QwtPlot3d&quot;&gt;&lt;a href=&quot;#Qt项目使用QwtPlot3d&quot; class=&quot;headerlink&quot; title=&quot;　Qt项目使用QwtP
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://yangbenbo.github.io/categories/Linux/"/>
+    
+    
+      <category term="Qt" scheme="http://yangbenbo.github.io/tags/Qt/"/>
+    
+      <category term="ROS" scheme="http://yangbenbo.github.io/tags/ROS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>mysql</title>
+    <link href="http://yangbenbo.github.io/2020/04/21/mysql/"/>
+    <id>http://yangbenbo.github.io/2020/04/21/mysql/</id>
+    <published>2020-04-21T15:15:25.000Z</published>
+    <updated>2020-09-23T14:42:00.852Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="常用语句"><a href="#常用语句" class="headerlink" title="常用语句"></a>常用语句</h2><pre><code>-- 显示数据库show databases;-- 显示表格show tables;-- 创建一个名称为car的数据库。create database car;-- 使用数据库 caruse car;-- 删除数据库car-- drop database car;-- 显示表格内容select * from tableName;-- 创建表create table brand (id int primary key auto_increment, factory varchar(255), name varchar(255), price int, sum int, sell int, last int);-- 删除brand表-- drop table brand;-- 插入数据insert into brand(factory,name,price,sum, sell, last) values(&#39;一汽大众&#39;, &#39;奥迪A6&#39;, 36, 50, 8, 42);-- 更新数据-- update brand set sell=5 , last=70 where factory=&#39;上海大众&#39; and name=&#39;桑塔纳&#39;;</code></pre><h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><h3 id="无法插入中文"><a href="#无法插入中文" class="headerlink" title="无法插入中文"></a>无法插入中文</h3><ol><li><p>临时修改</p><ul><li><p>查看客户端 编码字符 状态</p><pre><code>  status;  // Client characterset: utf8  #Server characterset 和 Db     characterset 都是utf8</code></pre></li><li><p>查看所有编码字符</p><pre><code>  show variables like&#39;%char%&#39;;</code></pre></li><li><p>修改设置(gbk 也是支持中文)            </p><pre><code>  set character_set_database=utf8;  set character_set_server=utf8;</code></pre></li></ul></li><li><p>永久修改修改配置文件</p><ul><li><p>针对未创建的表</p><pre><code>  sudo vim /etc/mysql/my.cnf  # 末尾添加  [client]  default-character-set=utf8  [mysqld]  character-set-server=utf8</code></pre><p>  /etc/init.d/mysql restart  #重启服务</p></li><li><p>针对已经创建的表</p><pre><code>  alter table `tablename` convert to character set utf8;</code></pre></li></ul></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;常用语句&quot;&gt;&lt;a href=&quot;#常用语句&quot; class=&quot;headerlink&quot; title=&quot;常用语句&quot;&gt;&lt;/a&gt;常用语句&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;-- 显示数据库
+show databases;
+
+-- 显示表格
+show tables;
+
+-- 创建一
+      
+    
+    </summary>
+    
+      <category term="program" scheme="http://yangbenbo.github.io/categories/program/"/>
+    
+    
+      <category term="mysql" scheme="http://yangbenbo.github.io/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>根轨迹</title>
+    <link href="http://yangbenbo.github.io/2020/03/28/%E6%A0%B9%E8%BD%A8%E8%BF%B9/"/>
+    <id>http://yangbenbo.github.io/2020/03/28/根轨迹/</id>
+    <published>2020-03-28T09:02:54.000Z</published>
+    <updated>2020-09-23T14:42:00.864Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="根轨迹定义"><a href="#根轨迹定义" class="headerlink" title="根轨迹定义"></a>根轨迹定义</h1><p>一个基本的反馈系统传递函数为</p><script type="math/tex; mode=display">\frac{Y(s)}{R(s)}=\mathcal{T}(s)=\frac{D_{c}(s) G(s)}{1+D_{c}(s) G(s) H(s)}</script><p>极点为分母等于0时对应的根,换一种方式,求解根在K从0到无穷大对应的轨迹,<br>就可以得到不同K下系统的极点,从而得到系统的脉冲响应函数</p><script type="math/tex; mode=display">1+K L(s)=0 \text { where } L(s)=\frac{b(s)}{a(s)}</script><p><img src="/2020/03/28/根轨迹/close-loop.png" alt="close-loop"></p><p>根轨迹不局限于系统增益K,也可以求解相对于任何在特征方程中线性的参数的根轨迹</p><p>比如在求解K=1是不同c下的根轨迹</p><script type="math/tex; mode=display">1+G(s)=1+\frac{1}{s(s+c)}</script><script type="math/tex; mode=display">1+c \frac{s}{s^{2}+1}=0</script><h1 id="根轨迹准则"><a href="#根轨迹准则" class="headerlink" title="根轨迹准则"></a>根轨迹准则</h1><p>L(s)</p><ul><li>b(s) 极点个数为n 用x表示</li><li>a(s) 零点个数为m 用o表示</li></ul><ol><li><p>n条根轨迹从L(s)极点出发,m条轨迹终止于L(s)零点;<br>n&gt;m,则有n-m条根轨迹从极点指向无穷,反之m-n条轨迹从无穷指向零点</p><p> 从根轨迹公式 $a(s)+K b(s)=0$ 可以得出K=0时,a(s)=0,即为L(s)的极点,K趋向于无穷时,b(s)=0,为L(s)的零点</p></li><li><p>根轨迹在实轴上从左往右奇数点左边有根轨迹.</p><p> 根轨迹方程的一种表示 $L(s)=-\frac{1}{K}$ 从复数相位看左边的相位=右边的相位=180°</p><ul><li>用$\psi_{i}$表示零点对应项在复平面上任意一点对应的相角度,即零点指向对应点构成向量的角度</li><li><p>用$\phi_{i}$表示极点对应项在复平面上任意一点对应的相角度,即极点点指向对应点构成向量的角度</p><script type="math/tex; mode=display">\sum \psi_{i}-\sum \phi_{i}=180^{\circ}+360^{\circ}(l-1)</script><p>为保证相位不难理解实轴上根轨迹需要在奇数点左边<br><img src="/2020/03/28/根轨迹/measureing phase.png" alt="example"></p></li></ul></li><li><p>对于很大的s和K,n-m条根轨迹的渐近线为从实轴上中心点 $s=\alpha$出发的射线,射线角度 $\phi_{l}$ </p><script type="math/tex; mode=display">\begin{aligned} \phi_{l} &=\frac{180^{\circ}+360^{\circ}(l-1)}{n-m}, \quad l=1,2, \ldots, n-m \\ \alpha &=\frac{\sum p_{i}-\sum z_{i}}{n-m} \end{aligned}</script><p> 当K很大时变换根轨迹方程</p><script type="math/tex; mode=display">1+K \frac{\Pi_{i=1}^{m}\left(s-z_{i}\right)}{(s-\alpha)^{n-m} \Pi_{i=1}^{m}\left(s-z_{i}\right)}=0</script><p> 从而得到</p><script type="math/tex; mode=display">\begin{aligned} &(n-m) \alpha+\sum z_{i}=\sum p_{i}\\ &\alpha=\frac{\sum p_{i}-\sum z_{i}}{n-m} \end{aligned}</script></li><li><p>一或多个极点从一个点离开的方向</p><script type="math/tex; mode=display">q \phi_{l, d e p}=\sum \psi_{i}-\sum \phi_{i}-180^{\circ}-360^{\circ}(l-1)</script><p> 可以用一个很靠近极点的点来推导角度,到达零点的方向也可类似推导</p><script type="math/tex; mode=display">q \psi_{l, a r r}=\sum \phi_{i}-\sum \psi_{i}+180^{\circ}+360^{\circ}(l-1)</script><p> 可用于靠近虚轴方向的判断,看是否忘复平面左边走</p></li><li><p>同一个点可以有q个根,从点离开的方向</p><script type="math/tex; mode=display">\frac{180^{\circ}+360^{\circ}(l-1)}{q}</script></li></ol><h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><script type="math/tex; mode=display">H(s)=\frac{s-z}{s-p}</script><ul><li>超前补偿器:|z|&lt;|p|</li><li>滞后补偿器:|p|&lt;|z|<br>可以看补偿器的伯德图来理解</li></ul><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li>Feedback Control of Dynamic Systems by Gene F. Franklin</li><li><a href="https://www.bilibili.com/video/BV1JJ411i7ph?t=498" target="_blank" rel="noopener">DR_CAN自动控制原理</a>         </li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;根轨迹定义&quot;&gt;&lt;a href=&quot;#根轨迹定义&quot; class=&quot;headerlink&quot; title=&quot;根轨迹定义&quot;&gt;&lt;/a&gt;根轨迹定义&lt;/h1&gt;&lt;p&gt;一个基本的反馈系统传递函数为&lt;/p&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\
+      
+    
+    </summary>
+    
+      <category term="math" scheme="http://yangbenbo.github.io/categories/math/"/>
+    
+    
+      <category term="根轨迹" scheme="http://yangbenbo.github.io/tags/%E6%A0%B9%E8%BD%A8%E8%BF%B9/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>排序算法</title>
+    <link href="http://yangbenbo.github.io/2020/03/16/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/"/>
+    <id>http://yangbenbo.github.io/2020/03/16/排序算法/</id>
+    <published>2020-03-16T07:37:00.000Z</published>
+    <updated>2020-09-23T14:42:00.864Z</updated>
+    
+    <content type="html"><![CDATA[<p>常用的排序算法:冒泡,归并,快排</p><h1 id="快排"><a href="#快排" class="headerlink" title="快排"></a>快排</h1><p>快速排序采用分治策略:找到一个轴点,比它小的放在左侧,大的放在右侧,不断划分</p><p>最坏情况O(n^2),大多数情况下平均效率O(nlogn),常系数比其它的小,实际的平均运行时间比同类的更少.<br>但是快速排序无法保证数据之间的相对次序(主要针对重复元素)</p><pre><code>#include &lt;cstdlib&gt;#include &lt;iostream&gt;using namespace std;// [lo hi) sorttemplate &lt;typename T&gt;int partition(T arr[], int lo, int hi){    int index = lo + rand()%(hi-lo);//    swap arr[lo] and arr[index]    T mi = arr[index];    arr[index] = arr[lo];    arr[lo] = mi;    hi--;  // point to last data    // &lt; 勤于交换 相对于&lt;=更好,能较为均衡划分     while(lo &lt; hi){        while(lo &lt; hi){            if(mi &lt; arr[hi]){ hi--; }            else{arr[lo++] = arr[hi]; break;}        }        while(lo &lt; hi){            if(arr[lo] &lt; mi){lo++; }            else{arr[hi--] = arr[lo]; break;}        }    }    arr[lo] = mi;    return lo;}template &lt;typename T&gt;void quicksort(T arr[], int length, int lo, int hi){//    judge the input    if(hi &lt; lo || hi - lo &gt; length|| arr == NULL){        cout &lt;&lt; &quot;invalid input&quot;;        exit(1);    }    if(hi-lo &lt; 2)        return;//    partition and sort    int middle = partition(arr, lo, hi);    quicksort(arr, length, lo, middle);    quicksort(arr, length, middle+1, hi);}// overridetemplate &lt;typename T&gt;void quicksort(T arr[], int length){    quicksort(arr, length, 0, length);}</code></pre><h1 id="归并"><a href="#归并" class="headerlink" title="归并"></a>归并</h1><p>从中间分成两部分,然后分别排序,最后归并<br>每一层递归消耗时间稳定在$\Theta(n)$,共有$\Theta\left(\log _{2} n\right)$层,共计$\Theta(\text {n} 1 \text {ogn})$</p><pre><code>template &lt;typename T&gt;void merge(T arr[], int lo, int middle, int hi){    int len_l = middle - lo;    int len_r = hi - middle;    T *temp_left = new T[len_l];    for(int i=0;i&lt;len_l;i++){temp_left[i] = arr[lo+i]; }    T *temp_right = arr + middle;    T *glo_arr = arr + lo;    for(int i=0,j=0,k=0;j&lt; len_l || k &lt; len_r;){        if(j &lt; len_l &amp;&amp; (temp_left[j] &lt;= temp_right[k] || k == len_r)){glo_arr[i++] = temp_left[j++];}        if(k &lt; len_r &amp;&amp; (temp_right[k] &lt; temp_left[j] || j == len_l)){glo_arr[i++] = temp_right[k++];}    }    delete [] temp_left;}template &lt;typename T&gt;void mergesort(T arr[], int length, int lo, int hi){//    judge the input    if(hi-lo &gt; length || hi&lt;lo){        cout&lt;&lt; &quot;invalid input&quot;;        exit(1);    }    if(hi - lo &lt; 2)        return;    int middle = (lo + hi)&gt;&gt;1;    mergesort(arr, length, lo, middle);    mergesort(arr, length, middle, hi);    merge(arr, lo, middle, hi);}template &lt;typename T&gt;void mergesort(T arr[], int length){    mergesort(arr, length, 0, length);}     </code></pre><h1 id="冒泡"><a href="#冒泡" class="headerlink" title="冒泡"></a>冒泡</h1><p>复杂度O(n^2)</p><pre><code>template &lt;typename T&gt;void bubblesort(T arr[], int length){    for(int i=0;i&lt;length-1;i++){        for(int j=0;j&lt;length-1-i;j++){            if(arr[j] &gt; arr[j+1]){                T temp = arr[j];                arr[j] = arr[j+1];                arr[j+1] = temp;            }        }    }}  </code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;常用的排序算法:冒泡,归并,快排&lt;/p&gt;
+&lt;h1 id=&quot;快排&quot;&gt;&lt;a href=&quot;#快排&quot; class=&quot;headerlink&quot; title=&quot;快排&quot;&gt;&lt;/a&gt;快排&lt;/h1&gt;&lt;p&gt;快速排序采用分治策略:找到一个轴点,比它小的放在左侧,大的放在右侧,不断划分&lt;/p&gt;
+&lt;p&gt;
+      
+    
+    </summary>
+    
+      <category term="program" scheme="http://yangbenbo.github.io/categories/program/"/>
+    
+    
+      <category term="sort" scheme="http://yangbenbo.github.io/tags/sort/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>理解补码</title>
+    <link href="http://yangbenbo.github.io/2020/03/13/%E7%90%86%E8%A7%A3%E8%A1%A5%E7%A0%81/"/>
+    <id>http://yangbenbo.github.io/2020/03/13/理解补码/</id>
+    <published>2020-03-12T23:31:28.000Z</published>
+    <updated>2020-09-23T14:42:00.868Z</updated>
+    
+    <content type="html"><![CDATA[<p>这里取8位有符号数来说明</p><h1 id="原码-反码-补码"><a href="#原码-反码-补码" class="headerlink" title="原码,反码,补码"></a>原码,反码,补码</h1><p>这里针对有符号数</p><ul><li>原码:最高位表示符号,整数为0,负数为1,其余部分为数绝对值的二进制表示.如-3 表示为1000 0011</li><li>反码:正数反码为本身,负数,保留符号位,其余位取反</li><li>补码:整数补码为本身,负数,保留符号位,其余为取反加1</li><li>形式值:将符号位作为实际含义,1000 0001 原码表示-1 ,形式值表示2^7+2^0 (考虑符号位) </li></ul><p>计算机的加减乘除是最基本的运算,需要设计得尽可能简单,设计的初衷就是想用一种编码实现加减 <strong>a-b = a+(-b)</strong></p><ol><li><p>原码,人脑最容易理解的方式,但是计算机不同,需要额外处理符号位是很麻烦,<br> 1-1=0000 0001(原)+1000 0001(原)=1000 0010(原)=-2 这是不符号运算的</p></li><li><p>反码,原码1000 0110 的补码是1111 1001.可以看出负数的补码(形式值)与自身的绝对值之和为1111 1111 (255)<br>这里只看数值运算,结合整数的补码就是本身,反码的实质就是取余运算 %1111 1111 (mod 255),理解可结合下面<a href="https://zh.wikipedia.org/wiki/%E5%8F%8D%E7%A0%81" target="_blank" rel="noopener">这张图</a><br> <img src="/2020/03/13/理解补码/fanma.png" alt="反码"><br> 还有一种理解:不看符号位,对于数值部分取反之后和之前和恒为0111 1111,可以看出是对数值部分取余即%0111 1111(%127).</p><p> 反码存在的问题,</p><ol><li>0 的表示有两种,浪费了一个二进制数 0000 0000(原) 1000 0000(原) 反码分别是0000 0000 和 1111 1111</li><li>无法保证减法运算,如 2-1 = 0000 0010(反) + 1111 1110(反) = 0000 0000(原)<br> 1-1 之类是对的1111 1111(反) = 1000 0000(原) </li></ol></li><li><p>补码,同反码一样,不过多了+1,相当于%256 (1000 0000)</p><ol><li>引入加1之后巧妙解决了0的表示问题,0000 0000(原) 和1000 0000(原)对应的补码都是0000 0000(补)<br> 那现在用1000 0000表示什么数呢? 1000 0000(补) + 0000 0001(补)=1000 0001(补)=1111 1111(原)=-127<br> 所以用1000 0000表示-128,没有对应的原码和反码 所以8为有符号二进制为[-128,127]</li><li><p>保证了减法运算,这里用了<a href="https://zh.wikipedia.org/wiki/%E5%90%8C%E9%A4%98" target="_blank" rel="noopener">同余的性质</a>  </p><script type="math/tex; mode=display">\left.\begin{array}{l}a \equiv b(\bmod m) \\c \equiv d(\bmod m)\end{array}\right\} \Rightarrow\left\{\begin{array}{c}a \pm c \equiv b \pm d(\bmod m) \\a c \equiv b d(\bmod m)\end{array}\right.</script><p> 如(2-1)%256 = (2 + (-1))%256 = (2+(-1%256)) %256 = 1 最后一步%256 是通过高位溢出达到的</p></li><li><p>用补码的第二种解释%128,解释为什么负数补码的补码就是负数本身,因为保留了符号位,数值部分两次取余%128%128为本身<br> 如给定1000 0001(原),则取补码为1111 1111(补),再求补码1000 0001</p></li><li><p>但是为什么反码不对呢?反码也是取余,主要是因为反码0的两种表示方式值相差1</p><p> 0+1 = 1000 0000(原) + 0000 0001(原)=1111 1111(反)+0000 0001(反)=0000 0000=0<br> 即0+1=0;这才是问题所在,0的两种表达方式导致了溢出处理有问题</p></li></ol></li></ol><h1 id="补码性质"><a href="#补码性质" class="headerlink" title="补码性质"></a>补码性质</h1><p>写这里是因为一道剑指offer的题解,很精妙:<a href="https://www.nowcoder.com/profile/9536154/codeBookDetail?submissionId=17465787" target="_blank" rel="noopener">输入一个整数,输出该数二进制表示中1的个数.其中负数用补码表示.</a></p><p>首先需要说明的是数在计算机中存储是用补码的形式</p><p>针对a-1的问题</p><ol><li>首先看正数,a-1 就是a的二进制从右至左第一位1借位,对应位变0,右边的都变成1 如0000 1100 - 1 = 0000 1011</li><li>负数,还是要用到同余 (a-1)%256 = ((a%256)-1)%256 如(-5-1)%256 等式左边=250=右边=1111 1010-1=1111 1001 同正数一样<br><strong>总的来说补码表示的数可以直接按照正数的加减法来运算(包括-1),这也是补码设计的初衷:统一加减法</strong>即计算机运算直接用补码的形式值来计算,输出转换为原码就可以了</li></ol><p>注意:负数右移或者/2左边补1,最小的数是-1(即1111 1111),所以在求一个数有多少位1时不要动这个数,而是移动取的位,比如a &amp; b,是把b左移,而不是把原数右移</p><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ol><li><a href="https://blog.csdn.net/zl10086111/article/details/80907428" target="_blank" rel="noopener">原码、反码、补码知识详细讲解（此作者是我找到的讲的最细最明白的一个）</a></li><li><a href="https://zh.wikipedia.org/wiki/%E4%BA%8C%E8%A3%9C%E6%95%B8" target="_blank" rel="noopener">维基百科:补码</a></li><li><a href="https://zh.wikipedia.org/wiki/%E5%90%8C%E9%A4%98" target="_blank" rel="noopener">同余</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;这里取8位有符号数来说明&lt;/p&gt;
+&lt;h1 id=&quot;原码-反码-补码&quot;&gt;&lt;a href=&quot;#原码-反码-补码&quot; class=&quot;headerlink&quot; title=&quot;原码,反码,补码&quot;&gt;&lt;/a&gt;原码,反码,补码&lt;/h1&gt;&lt;p&gt;这里针对有符号数&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;原码:最
+      
+    
+    </summary>
+    
+      <category term="program" scheme="http://yangbenbo.github.io/categories/program/"/>
+    
+    
+      <category term="补码" scheme="http://yangbenbo.github.io/tags/%E8%A1%A5%E7%A0%81/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>c++ string与c风格字符串</title>
+    <link href="http://yangbenbo.github.io/2020/02/22/c-string%E4%B8%8Ec%E9%A3%8E%E6%A0%BC%E5%AD%97%E7%AC%A6%E4%B8%B2/"/>
+    <id>http://yangbenbo.github.io/2020/02/22/c-string与c风格字符串/</id>
+    <published>2020-02-22T07:08:52.000Z</published>
+    <updated>2020-09-23T14:42:00.848Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><p>字符串实际上是使用 null 字符 ‘\0’ 终止的一维字符数组，大小比单词多一个</p><p>不需要把 null 字符放在字符串常量的末尾。C++ 编译器会在初始化数组时，自动把 ‘\0’ 放在字符串的末尾。</p><p>建议使用c++ string</p><pre><code>char greeting[6] = {&#39;H&#39;, &#39;e&#39;, &#39;l&#39;, &#39;l&#39;, &#39;o&#39;, &#39;\0&#39;}; char greeting[] = &quot;Hello&quot;;  </code></pre><h3 id="c-操作c风格字符串"><a href="#c-操作c风格字符串" class="headerlink" title="c++操作c风格字符串"></a>c++操作c风格字符串</h3><p>复制,连接,查找,比较,<strong>需要#include \<cstring\></cstring\></strong></p><p><strong>strlen(s1)获得的长度不包含空字符’\0’,string类的length()也是一样,</strong></p><pre><code>#include &lt;cstring&gt;  strcpy(s1, s2);   //复制字符串 s2 到字符串 s1strcat(s1, s2);     //连接字符串 s2 到字符串 s1 的末尾strlen(s1);         //返回字符串 s1 的长度 不包含空字符&#39;\0&#39;strcmp(s1, s2);     //如果 s1 和 s2 是相同的，则返回 0；如果 s1&lt;s2 则返回值小于 0；如果 s1&gt;s2 则返回值大于 0strchr(s1, ch);     //返回一个指针，指向字符串 s1 中字符 ch 的第一次出现的位置strstr(s1, s2);     //返回一个指针，指向字符串 s1 中字符串 s2 的第一次出现的位置</code></pre><h3 id="string"><a href="#string" class="headerlink" title="string"></a>string</h3><p>c++ 支持上述所有操作,并增加了功能</p><pre><code> append() -- 在字符串的末尾添加字符 直接用str1+str2也可以 find() -- 在字符串中查找字符串 insert() -- 插入字符 length() -- 返回字符串的长度 不包含空字符&#39;\0&#39; replace() -- 替换字符串 substr() -- 返回某个子字符串 ...</code></pre><h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><ol><li><p>常量字符串不能修改<br> <strong>p指向常量字符串(位于常量存储区),内容不能修改</strong>    </p><pre><code> // p a存放在栈区,&quot;string&quot;字面值存放在常量区 char *p = &quot;string&quot;; //可以访问单个字符p[2] 不能直接更改p[2] = &#39;I&#39; char a[] = &quot;string&quot;; //这里字符数组会把&quot;string&quot;拷贝到栈区,可以直接更改a[2] = &#39;I&#39; </code></pre><p> 一、程序的内存分配</p><ul><li>栈区(stack)：由编译器自动分配释放，存放函数的参数值，局部变量值等；</li><li>堆区(heap)：一般由程序员分配释放，若程序员不释放，程序结束时可能由操作系统OS回收。注意它与数据结构中的堆是两回事，<strong>分配方式倒是类似于链表</strong>； （malloc,new,free,delete）</li><li>全局区(静态区 static)：全局变量和静态变量的存储是放在一块的，初始化的全局变量和静态变量在一块区域，未初始化的全局变量和未初始化的静态变量在相邻的另一块区域。程序结束后由系统释放；</li><li>文字常量区：常量字符串就是放在这里，程序结束后由系统释放；</li><li><p>程序代码区：存放函数体的二进制代码。</p><p>栈区系统分配,速度快,但是程序员无法控制;堆区用起来方便,但是速度慢,容易产生内存碎片</p></li></ul></li></ol><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ol><li><a href="https://blog.csdn.net/Castiellee929/article/details/88628617" target="_blank" rel="noopener">char *p = “abcdefg”； 常量字符串”abcdefg”位于静态存储区，通过p不能修改该字符串常量</a>    </li><li><a href="https://blog.csdn.net/dongfanglanyi/article/details/81386752?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task" target="_blank" rel="noopener">char *p = “abcd”; 和 char a[] = “abcd”的区别</a>    </li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;字符串&quot;&gt;&lt;a href=&quot;#字符串&quot; class=&quot;headerlink&quot; title=&quot;字符串&quot;&gt;&lt;/a&gt;字符串&lt;/h2&gt;&lt;p&gt;字符串实际上是使用 null 字符 ‘\0’ 终止的一维字符数组，大小比单词多一个&lt;/p&gt;
+&lt;p&gt;不需要把 null 字符放在字符串
+      
+    
+    </summary>
+    
+      <category term="program" scheme="http://yangbenbo.github.io/categories/program/"/>
+    
+    
+      <category term="字符串" scheme="http://yangbenbo.github.io/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>雅克比矩阵零空间</title>
+    <link href="http://yangbenbo.github.io/2020/02/19/%E9%9B%85%E5%85%8B%E6%AF%94%E7%9F%A9%E9%98%B5%E9%9B%B6%E7%A9%BA%E9%97%B4/"/>
+    <id>http://yangbenbo.github.io/2020/02/19/雅克比矩阵零空间/</id>
+    <published>2020-02-19T03:10:14.000Z</published>
+    <updated>2020-09-23T14:42:00.880Z</updated>
+    
+    <content type="html"><![CDATA[<p>先来看广义逆阵</p><h1 id="广义逆阵"><a href="#广义逆阵" class="headerlink" title="广义逆阵"></a>广义逆阵</h1><p>广义逆也称为伪逆（pseudoinverse），有些时候，伪逆特指摩尔－彭若斯广义逆(M-P逆)。</p><h2 id="种类"><a href="#种类" class="headerlink" title="种类"></a>种类</h2><p>彭若斯条件</p><script type="math/tex; mode=display">\begin{aligned}&A A^{\mathrm{g}} A=A\\&A^{\mathrm{g}} A A^{\mathrm{g}}=A^{g}\\&\left(A A^{\mathrm{g}}\right)^{\mathrm{T}}=A A^{\mathrm{g}}\\&\left(A^{\mathrm{g}} A\right)^{\mathrm{T}}=A^{\mathrm{g}} A\end{aligned}</script><p>若<script type="math/tex">{A^{\rm{g}}}</script>满足条件1,则为A的广义逆阵;满足条件1和2,则为A的广义反身逆阵;<br>4个条件都满足则为摩尔-彭若斯逆(M-P逆)</p><p>除此之外还有其他广义逆阵包括左侧逆阵,右侧逆阵等</p><h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p>求解线性方程组  </p><script type="math/tex; mode=display">\eqalign{  & Ax = b  \cr   & x = {A^{\rm{g}}}b + \left[ {I - {A^{\rm{g}}}A} \right]w \cr}</script><h2 id="M-P逆"><a href="#M-P逆" class="headerlink" title="M-P逆"></a>M-P逆</h2><p>任意矩阵都存在M-P逆,且唯一,是应用最广泛的一种逆矩阵</p><p>计算方法</p><ol><li><p>满秩分解</p><script type="math/tex; mode=display"> \begin{aligned} \mathbf{A}=\mathbf{B C}, \mathbf{B} \in \mathbf{C}^{n \times r}, \mathbf{C} \in \mathbf{C}^{r \times n}, & \operatorname{rank}(\mathbf{B})=\operatorname{rank}(\mathbf{C})=r \\ \mathbf{A}^{+}=\mathbf{C}^{\mathrm{H}}\left(\mathbf{C} \mathbf{C}^{\mathrm{H}}\right)^{-1}\left(\mathbf{B}^{\mathrm{H}} \mathbf{B}\right)^{-1} \mathbf{B}^{\mathrm{H}} \end{aligned}</script></li><li><p>奇异值分解svd</p><script type="math/tex; mode=display"> \begin{aligned} &A=U\left(\begin{array}{ll} {\Delta} & {0} \\ {0} & {0} \end{array}\right) V^{H}\\ &A^{+}=V\left(\begin{array}{cc} {\Delta^{-1}} & {0} \\ {0} & {0} \end{array}\right)^{\mathrm{H}} U^{H} \end{aligned}</script></li></ol><h1 id="雅克比矩阵零空间"><a href="#雅克比矩阵零空间" class="headerlink" title="雅克比矩阵零空间"></a>雅克比矩阵零空间</h1><p>雅克比矩阵是关节空间到笛卡尔空间(机械臂末端)的映射,求解方程得</p><script type="math/tex; mode=display">\matrix{   {\delta x = J\delta q} \hfill  \cr    {\delta q = {J^\# }\delta x + \left[ {I - {J^\# }J} \right]\delta {q_0}} \hfill  \cr  }</script><p>其中<script type="math/tex">{J^\# }</script>为J的伪逆矩阵,从这里可以看出对于冗余机械臂(此时雅克比矩阵具有零空间)<br>可以在保证末端位置不变的情况下关节运动</p><h2 id="冗余机械臂关节空间力矩"><a href="#冗余机械臂关节空间力矩" class="headerlink" title="冗余机械臂关节空间力矩"></a>冗余机械臂关节空间力矩</h2><p>推导过程在pdf已经很详细了,这里摘取结论,资料出自<a href="https://cs.stanford.edu/groups/manips/teaching/cs327a/" target="_blank" rel="noopener">Advanced Robotic Manipulation</a><br><img src="/2020/02/19/雅克比矩阵零空间/redundancy.png" alt="冗余机械臂关节空间和任务空间"><br><img src="/2020/02/19/雅克比矩阵零空间/velocity_force.png" alt="velocity_force"></p><p>这里需要注意的是关节空间线性方程组求解时选择不同伪逆会有不同结果在pdf里面推导出来的逆是为了保证在对应零空间施加关节力矩不会影响操作空间加速度</p><p><strong>不清楚的是<a href="https://github.com/frankaemika/franka_ros/blob/kinetic-devel/franka_example_controllers/src/cartesian_impedance_example_controller.cpp" target="_blank" rel="noopener">franka笛卡尔空间阻抗控制</a><br>以及这里使用的<a href="https://github.com/frankaemika/franka_ros/blob/kinetic-devel/franka_example_controllers/include/franka_example_controllers/pseudo_inversion.h" target="_blank" rel="noopener">矩阵求伪逆</a>多了一个参数的作用</strong></p><div class="row">    <embed src="Redundancy-19.pdf" width="100%" height="550" type="application/pdf"></div><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://zh.wikipedia.org/zh/%E5%B9%BF%E4%B9%89%E9%80%86%E9%98%B5#cite_note-James-4" target="_blank" rel="noopener">维基百科:广义逆阵</a></li><li><a href="https://blog.csdn.net/u013528298/article/details/80558315" target="_blank" rel="noopener">雅克比矩阵零空间</a></li><li><a href="https://studywolf.wordpress.com/2013/09/17/robot-control-5-controlling-in-the-null-space/" target="_blank" rel="noopener">ROBOT CONTROL PART 5: CONTROLLING IN THE NULL SPACE</a></li><li><a href="https://blog.csdn.net/u013528298/article/details/79952949" target="_blank" rel="noopener">冗余机器人以及雅克比伪逆矩阵</a></li><li><a href="https://cs.stanford.edu/groups/manips/teaching/cs327a/" target="_blank" rel="noopener">斯坦福课程:Advanced Robotic Manipulation</a></li><li>书籍:矩阵论 杨明 刘先忠 华中科技大学出版社</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;先来看广义逆阵&lt;/p&gt;
+&lt;h1 id=&quot;广义逆阵&quot;&gt;&lt;a href=&quot;#广义逆阵&quot; class=&quot;headerlink&quot; title=&quot;广义逆阵&quot;&gt;&lt;/a&gt;广义逆阵&lt;/h1&gt;&lt;p&gt;广义逆也称为伪逆（pseudoinverse），有些时候，伪逆特指摩尔－彭若斯广义逆(M-P逆
+      
+    
+    </summary>
+    
+      <category term="math" scheme="http://yangbenbo.github.io/categories/math/"/>
+    
+    
+      <category term="雅克比矩阵" scheme="http://yangbenbo.github.io/tags/%E9%9B%85%E5%85%8B%E6%AF%94%E7%9F%A9%E9%98%B5/"/>
+    
+      <category term="伪逆" scheme="http://yangbenbo.github.io/tags/%E4%BC%AA%E9%80%86/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>数据结构c++</title>
+    <link href="http://yangbenbo.github.io/2020/02/15/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84c/"/>
+    <id>http://yangbenbo.github.io/2020/02/15/数据结构c/</id>
+    <published>2020-02-15T01:20:59.000Z</published>
+    <updated>2020-09-23T14:42:00.864Z</updated>
+    
+    <content type="html"><![CDATA[<p>常用复杂度:常数,对数,线性,多项式,指数.<br>O(1),O(logn)、O(sqrt(n))、O(n)、O(nlogn)、O(n^2)、和O(2^n)</p><h1 id="输入规模"><a href="#输入规模" class="headerlink" title="输入规模"></a>输入规模</h1><p>对算法复杂度的界定都是相对于输入规模而言.</p><p>严格地说,所谓待计算问题的输入规模,应严格定义为“用以描述输入所需的空间规模”。</p><ol><li><p>例子</p><pre><code> int countOnes(unsigned int n) { //统计整数n癿二迕刢展开中数位1癿总数：O(logn)     int ones = 0; //计数器复位     while (0 &lt; n) { //在n缩减至0乀前，反复地         ones += (1 &amp; n); //检查最低位，若为1则计数         n &gt;&gt;= 1; //右秱一位     }     return ones; //迒回计数 } //等效亍glibc癿内置函数int __builtin_popcount (unsigned int n)</code></pre><p> 现对于n本身数值来说,复杂度为log(n);相对于n的二进制展开的宽度$r=1+\left\lfloor\log _{2} n\right\rfloor$(向下取整),则复杂度为O(r)</p><p> 这里选择后一种表达方式O(r),前一种称为伪对数复杂度        </p></li></ol><h1 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h1><p>Fibonacci数:线性递归</p><pre><code>__int64 fib(int n, __int64&amp; prev) { //计算Fibonacci数列第n顷(线性逑弻版):入口形式fib(n, prev)    if (0 == n) //若刡达逑弻基,则        { prev = 1; return 0; } //直接叏值:fib(-1) = 1, fib(0) = 0        else { //否则        __int64 prevPrev; prev = fib(n - 1, prevPrev); //逑弻计算前两顷        return prevPrev + prev; //其和即为正解      }} //用辅劣发量记弽前一顷,迒回数列癿弼前顷,O(n)</code></pre><p>原二分递归版本中对应于fib(n - 2)的另一次递归,在这里被省略掉了。其对应<br>的解答,可借助形式参数的机制,通过变量prevPrev“调阅”此前的记录直接获得。</p><p>更高效的方式是迭代,这里注意对已经计算出来的变量进行调阅的方式</p><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol><li><a href="https://www.xuetangx.com/courses/course-v1:TsinghuaX+30240184+sp/about?jwt_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvd25lciI6Im5ld194dWV0YW5neCIsInVzZXJfaWQiOjEwODMzMjMzfQ.wmH12o6YjppbHX4TzGdkpjfJHPmG4xSjHlZUBenKAOM&amp;owner=new_xuetangx" target="_blank" rel="noopener">数据结构(c++语言版)第三版_邓俊辉</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;常用复杂度:常数,对数,线性,多项式,指数.&lt;br&gt;O(1),O(logn)、O(sqrt(n))、O(n)、O(nlogn)、O(n^2)、和O(2^n)&lt;/p&gt;
+&lt;h1 id=&quot;输入规模&quot;&gt;&lt;a href=&quot;#输入规模&quot; class=&quot;headerlink&quot; title
+      
+    
+    </summary>
+    
+      <category term="program" scheme="http://yangbenbo.github.io/categories/program/"/>
+    
+    
+      <category term="数据结构" scheme="http://yangbenbo.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>c++ #pragma once</title>
+    <link href="http://yangbenbo.github.io/2020/02/05/c-pragma-once/"/>
+    <id>http://yangbenbo.github.io/2020/02/05/c-pragma-once/</id>
+    <published>2020-02-05T01:59:27.000Z</published>
+    <updated>2020-09-23T14:42:00.848Z</updated>
+    
+    <content type="html"><![CDATA[<p>在C/C++中，在使用预编译指令#include的时候，为了防止重复引用造成二义性，通常有两种方式</p><ol><li><p>#ifndef指令防止代码块重复引用</p><pre><code> #ifndef _CODE_BLOCK #define _CODE_BLOCK // code #endif// _CODE_BLOCK </code></pre><p> 保证同一份文件不会被包含两次，也能够保证不同文件完全相同的内容不会被包含两次<br> <strong>(编译时需要打开头文件才能判定是否有重复定义，因此在编译大型项目时，#ifndef会使得编译时间相对较长)</strong></p></li><li><p>#pragma once指令，在想要保护的文件开头写入</p><pre><code> #pragma once   </code></pre><p> 只能针对一个文件(物理上的一个文件,而不是指内容相同的两个文件),不能针对一个头文件中的一段代码.<br> 如果某个头文件有多份拷贝，此方法不能保证它们不被重复包含。</p><p> 不会出现宏名碰撞引发的奇怪问题，大型项目的编译速度较快</p></li></ol><p>总结: #ifndef更加灵活，兼容性好，#pragma once操作简单，效率高。         </p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;在C/C++中，在使用预编译指令#include的时候，为了防止重复引用造成二义性，通常有两种方式&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;#ifndef指令防止代码块重复引用&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; #ifndef _CODE_BLOCK
+ #define _CODE_B
+      
+    
+    </summary>
+    
+      <category term="program" scheme="http://yangbenbo.github.io/categories/program/"/>
+    
+    
+      <category term="c++" scheme="http://yangbenbo.github.io/tags/c/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>QT坐标系统 </title>
+    <link href="http://yangbenbo.github.io/2020/02/03/QT%E5%9D%90%E6%A0%87%E7%B3%BB%E7%BB%9F/"/>
+    <id>http://yangbenbo.github.io/2020/02/03/QT坐标系统/</id>
+    <published>2020-02-03T09:31:33.000Z</published>
+    <updated>2020-09-23T14:42:00.844Z</updated>
+    
+    <content type="html"><![CDATA[<p>QPaintDevice、QPaintEngine和QPainter是 Qt 绘制系统的三个核心类</p><p>坐标系统，也就是QPaintDevice上面的坐标。默认坐标系统位于设备的左上角，也就是坐标原点 (0, 0)。x 轴方向向右；y 轴方向向下。在基于像素的设备上（比如显示器），坐标的默认单位是像素，在打印机上则是点（1/72 英寸）.</p><p>为了避免获取不到真实的坐标值,建议使用QRectF.这个类的两个函数QRectF::right()和QRectF::bottom()是正确的。</p><p>QPainter是一个状态机.QPainter提供了内置的函数：save()和restore()。save()就是保存下当前状态；restore()则恢复上一次保存的结果。这两个函数必须成对出现：QPainter使用栈来保存数据，每一次save()，将当前状态压入栈顶，restore()则弹出栈顶进行恢复.</p><h1 id="坐标变换"><a href="#坐标变换" class="headerlink" title="坐标变换"></a>坐标变换</h1><p>QPainter:逻辑坐标 QPaintDevice:物理坐标</p><p>QPainter,window代表窗口坐标,viewport代表物理坐标,这两个是映射关系(坐标scale)</p><p>setWindow() 设置窗口,实际绘制窗口;<br>setViewport() 设置物理绘制区域</p><p><strong>QPainter使用的都是逻辑坐标,注意和物理坐标的对应关系</strong></p><p><img src="/2020/02/03/QT坐标系统/coordinate.png" alt="坐标变换关系"></p><p>QPainter传入的是逻辑坐标（也称为世界坐标），逻辑坐标可以通过变换矩阵转换成窗口坐标，窗口坐标通过 window-viewport 转换成物理坐标（也就是设备坐标）.</p><p>整个回执流程可以看成直接在设置的setWindow()里面绘制,可能需要平移旋转绘制坐标系,所得图像经过物理坐标和窗口坐标的缩放比例进行缩放得到</p><pre><code>painter.translate(400, 0); // 绘制用坐标系向右平移 400px</code></pre><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://www.devbean.net/2012/11/qt-study-road-2-coordinate-system/" target="_blank" rel="noopener">坐标系统</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;QPaintDevice、QPaintEngine和QPainter是 Qt 绘制系统的三个核心类&lt;/p&gt;
+&lt;p&gt;坐标系统，也就是QPaintDevice上面的坐标。默认坐标系统位于设备的左上角，也就是坐标原点 (0, 0)。x 轴方向向右；y 轴方向向下。在基于像素的设备
+      
+    
+    </summary>
+    
+      <category term="program" scheme="http://yangbenbo.github.io/categories/program/"/>
+    
+    
+      <category term="qt" scheme="http://yangbenbo.github.io/tags/qt/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>QT事件</title>
+    <link href="http://yangbenbo.github.io/2020/02/01/QT%E4%BA%8B%E4%BB%B6/"/>
+    <id>http://yangbenbo.github.io/2020/02/01/QT事件/</id>
+    <published>2020-02-01T13:46:32.000Z</published>
+    <updated>2020-09-23T14:42:00.844Z</updated>
+    
+    <content type="html"><![CDATA[<p>Qt 的事件是整个 Qt 框架的核心机制之一</p><p>包括很多事件:鼠标事件、键盘事件、大小改变的事件、位置移动的事件等等.</p><p>每个事件都对应一个处理函数 mouseEvent(),keyPressEvent()…</p><p>如此多的事件处理函数,必定有个地方对其分发 event()</p><h1 id="事件处理函数"><a href="#事件处理函数" class="headerlink" title="事件处理函数"></a>事件处理函数</h1><p><strong>当重写事件回调函数时，时刻注意是否需要通过调用父类的同名函数来确保原有实现仍能进行！</strong></p><p>Qt 的事件对象有两个函数：accept()和ignore().一般很少使用</p><ol><li><p>如果一个事件处理函数调用了一个事件对象的accept()函数，<br>这个事件就不会被继续传播给其<strong>父组件</strong>；<br>如果它调用了事件的ignore()函数，Qt 会从其父组件中寻找另外的接受者.</p></li><li><p>事件对象默认是 accept 的，而作为所有组件的父类QWidget的默认实现则是调用ignore()。这么一来，如果你自己实现事件处理函数，不调用QWidget的默认实现，<br>你就等于是接受了事件；如果你要忽略事件，只需调用QWidget的默认实现。</p></li></ol><p><strong>事件的传播是在组件层次上面的,而不是依靠类继承机制.</strong><br>(CustomButtonEx的事件传播给了父组件CustomWidget，而不是它的父类CustomButton)</p><h1 id="事件分发-event"><a href="#事件分发-event" class="headerlink" title="事件分发 event()"></a>事件分发 event()</h1><p>event()不负责事件处理,负责把事件分发给对应的事件处理函数(switch)</p><p>如果返回值为true,并且设置了accept(),那么qt认为这个事件已经处理完毕，<br>不会再将这个事件发送给其它对象，而是会继续处理事件队列中的下一事件。</p><p><strong>注意:在event()函数中，调用事件对象的accept()和ignore()函数是没有作用的，不会影响到事件的传播.</strong></p><p>继承类的event()函数处理之后对应其他事件需要调用父类的的event()函数,否则处理不了其他函数</p><h1 id="事件过滤器-eventFilter"><a href="#事件过滤器-eventFilter" class="headerlink" title="事件过滤器 eventFilter()"></a>事件过滤器 eventFilter()</h1><p>需要先安装对应的事件过滤器</p><pre><code>textEdit-&gt;installEventFilter(this);</code></pre><p>如果一个对象存在多个事件过滤器，那么，最后一个安装的会第一个执行，也就是后进先执行的顺序.    </p><p>返回true则表示过滤,返回false表示不过滤.保险起见需要调用父类的eventFilter()</p><p><strong>注意，如果你在事件过滤器中 delete 了某个接收组件，务必将函数返回值设为 true。否则，<br>Qt 还是会将事件分发给这个接收组件，从而导致程序崩溃.</strong></p><p>事件过滤器和被安装过滤器的组件必须在同一线程，否则，过滤器将不起作用。另外，如果在安装过滤器之后，这两个组件到了不同的线程，那么，只有等到二者重新回到同一线程的时候过滤器才会有效。</p><h1 id="事件处理顺序"><a href="#事件处理顺序" class="headerlink" title="事件处理顺序"></a>事件处理顺序</h1><ol><li>重写paintEvent()、mousePressEvent()等事件处理函数.这是最普通、最简单的形式，同时功能也最简单.</li><li>重写event()函数.event()函数是所有对象的事件入口，QObject和QWidget中的实现，默认是把事件传递给特定的事件处理函数.</li><li>在特定对象上面安装事件过滤器.该过滤器仅过滤该对象接收到的事件.</li><li>在QCoreApplication::instance()上面安装事件过滤器.该过滤器将过滤所有对象的所有事件，<br>因此和notify()函数一样强大，但是它更灵活，因为可以安装多个过滤器.全局的事件过滤器可以看到 disabled 组件上面发出的鼠标事件.<br>全局过滤器有一个问题：只能用在主线程.</li><li>重写QCoreApplication::notify()函数.这是最强大的,和全局事件过滤器一样提供完全控制，<br>并且不受线程的限制.但是全局范围内只能有一个被使用(因为QCoreApplication是单例的).(一般不推荐用`)</li></ol><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://www.devbean.net/2012/10/qt-study-road-2-event-summary/" target="_blank" rel="noopener">Qt 学习之路 2（22）：事件总结</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Qt 的事件是整个 Qt 框架的核心机制之一&lt;/p&gt;
+&lt;p&gt;包括很多事件:鼠标事件、键盘事件、大小改变的事件、位置移动的事件等等.&lt;/p&gt;
+&lt;p&gt;每个事件都对应一个处理函数 mouseEvent(),keyPressEvent()…&lt;/p&gt;
+&lt;p&gt;如此多的事件处理函数,必定
+      
+    
+    </summary>
+    
+      <category term="program" scheme="http://yangbenbo.github.io/categories/program/"/>
+    
+    
+      <category term="qt" scheme="http://yangbenbo.github.io/tags/qt/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>c++中argc argv理解</title>
+    <link href="http://yangbenbo.github.io/2020/01/22/c-%E4%B8%ADargc-argv%E7%90%86%E8%A7%A3/"/>
+    <id>http://yangbenbo.github.io/2020/01/22/c-中argc-argv理解/</id>
+    <published>2020-01-22T09:27:07.000Z</published>
+    <updated>2020-09-23T14:42:00.848Z</updated>
+    
+    <content type="html"><![CDATA[<p>经常发现main函数这样写</p><pre><code>int main(int argc, char *argv[]){}</code></pre><p>先来看关于char的几种类型</p><h1 id="char-char-char-a-char-a"><a href="#char-char-char-a-char-a" class="headerlink" title="char * ,char ** ,char a[ ] ,char *a[ ]"></a><code>char * ,char ** ,char a[ ] ,char *a[ ]</code></h1><pre><code>char * : 指向字符的指针,本质上存储是一个地址,地址中对应的内容为charchar a[ ]:字符数组,数组里面每一个都是一个charchar** a:二级指针,a是一个指向char * 的指针,保存的是char*的地址char *a[ ] :[ ]的优先级高于*,所以首先是一个数组,数组里面元素为指向char *的指针</code></pre><p>c语言没有字符串,用字符数组代替;c语言中字符串常量本质上是一个地址</p><p><strong>C语言中操作字符串是通过它在内存中的存储单元的首地址进行的,这是字符串的终极本质</strong></p><pre><code>char *s;s = &quot;China&quot;;   //&quot;China&quot;字符串常量,存放的是C的地址</code></pre><p><strong>字符指针可以用 间接操作符 *取其内容,也可以用数组的下标形式 [],数组名也可以用 *操作,因为它本身表示一个地址</strong>    </p><h1 id="argc-argv"><a href="#argc-argv" class="headerlink" title="argc argv"></a>argc argv</h1><ol><li>argc为int:运行程序所带参数个数(包括程序本身名字,这点类似Linux下bash编程)</li><li>char* argv[]:存放内容包括 程序绝对路径+程序运行所带参数(全部转化为字符串)</li></ol><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://blog.csdn.net/daiyutage/article/details/8604720" target="_blank" rel="noopener">深入 <code>char * ,char ** ,char a[ ] ,char *a[]</code> 内核</a></li><li>    </li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;经常发现main函数这样写&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;int main(int argc, char *argv[]){}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;先来看关于char的几种类型&lt;/p&gt;
+&lt;h1 id=&quot;char-char-char-a-char-a&quot;&gt;&lt;a hr
+      
+    
+    </summary>
+    
+      <category term="program" scheme="http://yangbenbo.github.io/categories/program/"/>
+    
+    
+      <category term="c++" scheme="http://yangbenbo.github.io/tags/c/"/>
+    
+      <category term="c" scheme="http://yangbenbo.github.io/tags/c/"/>
+    
+  </entry>
+  
+  <entry>
     <title>科式加速度</title>
     <link href="http://yangbenbo.github.io/2020/01/13/%E7%A7%91%E5%BC%8F%E5%8A%A0%E9%80%9F%E5%BA%A6/"/>
     <id>http://yangbenbo.github.io/2020/01/13/科式加速度/</id>
     <published>2020-01-13T02:28:27.000Z</published>
-    <updated>2020-01-13T02:59:29.809Z</updated>
+    <updated>2020-09-23T14:42:00.868Z</updated>
     
     <content type="html"><![CDATA[<h1 id="科里奥利力"><a href="#科里奥利力" class="headerlink" title="科里奥利力"></a>科里奥利力</h1><p>科里奥利力（英语：Coriolis Force；简称科氏力）是一种惯性力,<br>是对旋转体系中进行直线运动的质点由于惯性相对于旋转体系产生的直线运动的偏移的一种描述.</p><p>绝对加速度计算公式=相对加速度+牵连加速度+科式加速度</p><ul><li>相对加速度:动点相对于动坐标系的加速度</li><li>牵连加速度:动坐标系上与动点重合的点在全局坐标系下的加速度</li><li>科式加速度:动点相对于动坐标系运动产生的加速度</li></ul><script type="math/tex; mode=display">\begin{aligned}\mathbf{a}_{n} &=\mathbf{a}_{r}+\mathbf{a}_{e}+\mathbf{a}_{c} \\&=\mathbf{a}_{r}+\boldsymbol{a} \times \mathbf{r}^{\prime}+\mathbf{\omega} \times\left(\mathbf{\omega} \times \mathbf{r}^{\prime}\right)+2 \mathbf{\omega} \times \mathbf{v}_{r}\end{aligned}</script><h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>如图,动点沿着直杆运动,直杆本身旋转运动</p><script type="math/tex; mode=display">\begin{array}{ll}{a_{e}=\lim _{\Delta t \rightarrow 0} \frac{v_{M 1}-v_{e}}{\Delta t},} & {\frac{d v_{e}}{d t}=\lim _{\Delta t \rightarrow 0} \frac{v_{e}^{\prime}-v_{e}}{\Delta t}} \\{a_{r}=\lim _{\Delta t \rightarrow 0} \frac{v_{r 2}-v_{r}}{\Delta t},} & {\frac{d v_{r}}{d t}=\lim _{\Delta t \rightarrow 0} \frac{v_{r}^{\prime}-v_{r}}{\Delta t}}\end{array}</script><p>科式加速度产生</p><script type="math/tex; mode=display">\frac{d v_{r}}{d t}=a_{r}+\omega_{e} \times v_{r}, \quad \frac{d v_{e}}{d t}=a_{e}+\omega_{e} \times v_{r}</script><p><img src="/2020/01/13/科式加速度/科式加速度.png" alt="科式加速度"></p><h2 id="坐标轴微分计算"><a href="#坐标轴微分计算" class="headerlink" title="坐标轴微分计算"></a>坐标轴微分计算</h2><script type="math/tex; mode=display">\frac{d i^{\prime}}{d t}=\omega \times i^{\prime}, \quad \frac{d j^{\prime}}{d t}=\omega \times j^{\prime}, \quad \frac{d k^{\prime}}{d t}=\omega \times k^{\prime}</script><p>直接物理含义推导,把向量平移到起点和旋转轴重合,相当于就是位置的微分,为速度</p><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://zh.wikipedia.org/wiki/%E7%A7%91%E9%87%8C%E5%A5%A5%E5%88%A9%E5%8A%9B" target="_blank" rel="noopener">科里奥利力</a></li><li>理论力学第8版 哈尔滨工业大学理论力学教研室编</li></ol>]]></content>
     
@@ -46,7 +407,7 @@
     <link href="http://yangbenbo.github.io/2020/01/09/ubuntu%E9%85%8D%E7%BD%AEgrub-%E6%8C%87%E5%AE%9A%E9%BB%98%E8%AE%A4%E5%86%85%E6%A0%B8/"/>
     <id>http://yangbenbo.github.io/2020/01/09/ubuntu配置grub-指定默认内核/</id>
     <published>2020-01-09T07:30:29.000Z</published>
-    <updated>2020-01-09T08:23:13.728Z</updated>
+    <updated>2020-09-23T14:42:00.860Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Boot-Loader-grub2"><a href="#Boot-Loader-grub2" class="headerlink" title="Boot Loader: grub2"></a>Boot Loader: grub2</h1><p>BIOS 读完信息后,接下来就是会到第一个开机装置<br>的 MBR 去读取 boot loader.这个 boot loader 可以具有选单功能、直接加载核心文件以及控制权<br>移交的功能等，,系统必须要有 loader 才有办法加载该操作系统的核心就是了.</p><p>由于MBR是整个硬盘的第一个 sector 内的一个区块,充其量整个大小也才 446 bytes 而已.即使<br>是 GPT 也没有很大的扇区来储存 loader 的数据.所以分两个阶段</p><ul><li>执行 boot loader 主程序:在MBR或者boot sector,通常是最小主程序</li><li>主程序加载配置文件: 配置文件在/boot下,读取了文件系统定义数据之后就能够认识文件系统并读取该文件系统的核心</li></ul><h2 id="磁盘分区槽在grub2中的代号"><a href="#磁盘分区槽在grub2中的代号" class="headerlink" title="磁盘分区槽在grub2中的代号"></a>磁盘分区槽在grub2中的代号</h2><p>/boot/grub/grub.cfg  里面有set root=’hd1,gpt5’  指/boot目录挂载的区域</p><p>第一颗『搜寻到的硬盘』代号为：『(hd0)』，而该颗硬盘的第一号分区槽为『(hd0,1)』</p><ul><li>第一颗(MBR):     (hd0) (hd0,msdos1) (hd0,msdos2) (hd0,msdos3)….</li><li>第二颗(GPT):     (hd1) (hd1,gpt1) (hd1,gpt2) (hd1,gpt3)….</li><li>第三颗 (hd2):    (hd2,1) (hd2,2) (hd2,3)….</li></ul><h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><p>修改/etc/default/grub,然后使用updata-grub更新/boot/grub/grub.cfg</p><ol><li><p>数字</p><pre><code> GRUB_DEFAULT=&quot;1&gt; 0&quot;     #表示第二个选单子菜单的第一个  只使用&quot;0&quot; 表示第一个选单</code></pre></li><li><p>ID</p><pre><code> GRUB_DEFAULT=&quot;Advanced options for Ubuntu&gt;Ubuntu, with Linux 4.15.0-74-generic&quot;</code></pre><p> 可通过一下命令查看目前系统选单</p><pre><code> awk -F\&#39; &#39;/menuentry |submenu / {print $1 $2}&#39; /boot/grub/grub.cfg  </code></pre></li><li><p>saved   </p><pre><code>  GRUB_DEFAULT=saved     </code></pre><p> 代表使用 grub2-set-default 来设定哪一个 menuentry 为默认值的意思。通常预设为 0 </p></li></ol><h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><ol><li><p>调用了update-grub之后/boot/grub/grub.cfg并没有改变,查看文件内部发现grub.cfg是需要使用grub-mkconfig</p><pre><code> sudo grub-mkconfig -o /boot/grub/grub.cfg   # 可以先备份一下配置文件</code></pre></li></ol><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://github.com/UniversalRobots/Universal_Robots_ROS_Driver/blob/master/ur_robot_driver/doc/real_time.md" target="_blank" rel="noopener">Setup GRUB to always boot the real-time kernel</a></li><li>鸟哥的Linux私房菜-基础学习篇(第四版)         </li></ol>]]></content>
     
@@ -71,7 +432,7 @@
     <link href="http://yangbenbo.github.io/2019/12/30/%E6%83%AF%E6%80%A7%E5%BC%A0%E9%87%8F/"/>
     <id>http://yangbenbo.github.io/2019/12/30/惯性张量/</id>
     <published>2019-12-30T13:39:22.000Z</published>
-    <updated>2019-12-30T14:54:42.786Z</updated>
+    <updated>2020-09-23T14:42:00.864Z</updated>
     
     <content type="html"><![CDATA[<h1 id="转动惯量"><a href="#转动惯量" class="headerlink" title="转动惯量"></a>转动惯量</h1><p>转动惯量又称惯性矩</p><p>转动惯量是一个物体对于其旋转运动的惯性大小的量度.<br>转动惯量在转动力学中的角色相当于线性动力学中的质量,<br>描述角动量、角速度、力矩和角加速度等数个量之间的关系.</p><h1 id="惯性张量"><a href="#惯性张量" class="headerlink" title="惯性张量"></a>惯性张量</h1><p>直角坐标系${O_{xyz}}$ 中,一个刚体的转动惯量为</p><script type="math/tex; mode=display">\mathbf{I}=\left[\begin{array}{lll}{I_{x x}} & {I_{x y}} & {I_{x z}} \\{I_{y x}} & {I_{y y}} & {I_{y z}} \\{I_{z x}} & {I_{z y}} & {I_{z z}}\end{array}\right]</script><p>其中<strong>转动惯量</strong></p><script type="math/tex; mode=display">\begin{aligned}&I_{x x} \stackrel{\text { def }}{=} \int\left(y^{2}+z^{2}\right) d m\\&I_{y y} \stackrel{\text { def }}{=} \int\left(x^{2}+z^{2}\right) d m\\&I_{z z} \stackrel{\text { def }}{=} \int\left(x^{2}+y^{2}\right) d m\\end{aligned}</script><p>矩阵对角元素,<strong>惯性积</strong>,有时候惯性矩前面没有负号</p><script type="math/tex; mode=display">\begin{aligned}&I_{x y}=I_{y x} \stackrel{\text { def }}{=}-\int x y d m\\&I_{x z}=I_{z x} \stackrel{\text { def }}{=}-\int x z d m\\&I_{y z}=I_{z y} \stackrel{\text { def }}{=}-\int y z d m\\end{aligned}</script><p>选取坐标系姿态使得惯性积为0,则对这个坐标系,惯性张量是对角型的,<br>此坐标系称为惯性主轴,相应的惯性矩为主惯性矩</p><h2 id="伪惯性矩阵"><a href="#伪惯性矩阵" class="headerlink" title="伪惯性矩阵"></a>伪惯性矩阵</h2><script type="math/tex; mode=display">\overline{\mathbf{I}}=\iiint_{V} \mathbf{r r}^{\mathrm{T}} \mathrm{d} m</script><p>式中r为行向量[x y z 1]</p><script type="math/tex; mode=display">\overline{\mathbf{I}}=\iiint_{V}\left[\begin{array}{cccc}{x^{2}} & {x y} & {x z} & {x} \\{x y} & {y^{2}} & {y z} & {y} \\{x z} & {y z} & {z^{2}} & {z} \\{x} & {y} & {z} & {1}\end{array}\right] \mathrm{d} m</script><h2 id="惯性张量性质"><a href="#惯性张量性质" class="headerlink" title="惯性张量性质"></a>惯性张量性质</h2><ol><li>坐标系姿态改变时,若A与C共原点,则$^{A} \mathbf{I}=_{C}^{A} \mathbf{R}^{C} \mathbf{I}_{C}^{A} \mathbf{R}^{\mathrm{T}}$</li><li>惯性张量的特征值和特征向量分别是刚体对应的主惯性矩和惯性主轴</li></ol><p>可用平行移轴矢量形式和定义证明</p><script type="math/tex; mode=display">^{A} \mathbf{I}=^{C} \mathbf{I}+m\left(\mathbf{p}_{c}^{\mathrm{T}} \mathbf{p}_{c} \mathbf{I}_{3}-\mathbf{p}_{c} \mathbf{p}_{c}^{\mathrm{T}}\right)</script><p>式中 Pc为行量 [x y z]</p><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://zh.wikipedia.org/wiki/%E8%BD%89%E5%8B%95%E6%85%A3%E9%87%8F#%E6%85%A3%E6%80%A7%E5%BC%B5%E9%87%8F" target="_blank" rel="noopener">转动惯量</a></li><li>机器人学 建模 控制与视觉 熊友伦 华中科技大学出版社</li></ol>]]></content>
     
@@ -97,7 +458,7 @@
     <link href="http://yangbenbo.github.io/2019/12/27/%E6%8B%89%E6%B0%8F%E5%8F%98%E6%8D%A2/"/>
     <id>http://yangbenbo.github.io/2019/12/27/拉氏变换/</id>
     <published>2019-12-27T06:43:06.000Z</published>
-    <updated>2019-12-27T13:39:09.498Z</updated>
+    <updated>2020-09-23T14:42:00.864Z</updated>
     
     <content type="html"><![CDATA[<p>线性时不变系统(LTI)</p><ul><li>线性:满足叠加原理,输出信号为各输入单独对应输出的叠加</li><li>时不变:系统参数不随时间变化,即输入信号时间滞后,输出信号形状不变,时间滞后相同</li></ul><p>求系统在一般输入信号下的响应,把一般输入信号转换分解成简单的基本信号(脉冲信号和指数函数信号),<br>然后由叠加原理得到一般输入的响应.傅里叶变换形式中有指数函数分解,正交函数,够丰富</p><h1 id="卷积响应"><a href="#卷积响应" class="headerlink" title="卷积响应"></a>卷积响应</h1><p>将输入分解成单位脉冲,脉冲响应的和为系统的响应</p><script type="math/tex; mode=display">y(t)=\int_{-\infty}^{\infty} u(\tau) h(t-\tau) d \tau</script><p>变量代换$\tau_{1}=t-\tau$得</p><script type="math/tex; mode=display">y(t)=\int_{\infty}^{-\infty} u\left(t-\tau_{1}\right) h\left(\tau_{1}\right)\left(-d \tau_{1}\right)=\int_{-\infty}^{\infty} h(\tau) u(t-\tau) d \tau</script><h1 id="传递函数"><a href="#传递函数" class="headerlink" title="传递函数"></a>传递函数</h1><p>基本信号指数函数${e^{st}}$作为输入,得到传递函数就是脉冲响应的拉氏变换$H(s)$</p><script type="math/tex; mode=display">\eqalign{  & y(t) = \int_{ - \infty }^\infty  h (\tau )u(t - \tau )d\tau   \cr   & \;\;\;\;\;\; = \int_{ - \infty }^\infty  h (\tau ){e^{s(t - \tau )}}d\tau   \cr   & \;\;\;\;\;\; = \int_{ - \infty }^\infty  h (\tau ){e^{st}}{e^{ - s\tau }}d\tau   \cr   & \;\;\;\;\;\; = \int_{ - \infty }^\infty  h (\tau ){e^{ - s\tau }}d\tau {e^{st}}  \cr   & \;\;\;\;\;\; = H(s){e^{st}} \cr}</script><p><img src="/2019/12/27/拉氏变换/卷积.png" alt="卷积"></p><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://zh.wikipedia.org/wiki/%E7%BA%BF%E6%80%A7%E6%97%B6%E4%B8%8D%E5%8F%98%E7%B3%BB%E7%BB%9F%E7%90%86%E8%AE%BA" target="_blank" rel="noopener">线性时不变系统LTI</a></li></ol>]]></content>
     
@@ -127,7 +488,7 @@
     <link href="http://yangbenbo.github.io/2019/12/22/ubuntu%E4%B8%8Bwps%E7%BC%BA%E5%B0%91%E5%AD%97%E4%BD%93/"/>
     <id>http://yangbenbo.github.io/2019/12/22/ubuntu下wps缺少字体/</id>
     <published>2019-12-22T03:34:17.000Z</published>
-    <updated>2019-12-22T03:44:58.692Z</updated>
+    <updated>2020-09-23T14:42:00.860Z</updated>
     
     <content type="html"><![CDATA[<h1 id="安装字体"><a href="#安装字体" class="headerlink" title="安装字体"></a>安装字体</h1><ol><li>下载字体<a href="https://github.com/yangbenbo/wps-font-symbols/archive/master.zip" target="_blank" rel="noopener">https://github.com/yangbenbo/wps-font-symbols/archive/master.zip</a></li><li><p>解压并复制到字体文件夹</p><p> unzip wps-font-symbols-master.zip<br> sudo cp -r wps-font-symbols-master /usr//share/fonts/</p></li></ol><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol><li><a href="https://blog.csdn.net/u014241313/article/details/91070843" target="_blank" rel="noopener">Linux Wps 缺少字体</a>    </li></ol>]]></content>
     
@@ -153,9 +514,9 @@
     <link href="http://yangbenbo.github.io/2019/12/21/ROS%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/"/>
     <id>http://yangbenbo.github.io/2019/12/21/ROS遇到的问题/</id>
     <published>2019-12-21T03:54:38.000Z</published>
-    <updated>2020-01-01T15:58:50.639Z</updated>
+    <updated>2020-10-27T06:50:04.790Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="终端结束所有节点之后显示仍有节点"><a href="#终端结束所有节点之后显示仍有节点" class="headerlink" title="终端结束所有节点之后显示仍有节点"></a>终端结束所有节点之后显示仍有节点</h1><p>清理node,否则影响查看节点通信</p><pre><code>rosnode listrosnode cleanup</code></pre><h1 id="程序排错"><a href="#程序排错" class="headerlink" title="程序排错"></a>程序排错</h1><p>首先看<strong>循环</strong>,是否调用ros::spinOnce(),对应的数据是否更新</p><p>好几次是因为循环没有更新数据,排错废了不少时间</p><ul><li>没有调用ros::spinOnce(),导致没有处理回调函数,也就没有更新数据</li><li>回调函数处理后的数据是否放入对应变量,有时候用的是中间变量,导致更新的数据没有放进去</li></ul><p>ROS也有异步更新的机制,之前用过,出过一次问题,可以根据需要选择更新的机制</p>]]></content>
+    <content type="html"><![CDATA[<h1 id="终端结束所有节点之后显示仍有节点"><a href="#终端结束所有节点之后显示仍有节点" class="headerlink" title="终端结束所有节点之后显示仍有节点"></a>终端结束所有节点之后显示仍有节点</h1><p>清理node,否则影响查看节点通信</p><pre><code>rosnode listrosnode cleanup</code></pre><h1 id="程序排错"><a href="#程序排错" class="headerlink" title="程序排错"></a>程序排错</h1><p>首先看<strong>循环</strong>,是否调用ros::spinOnce(),对应的数据是否更新</p><p>好几次是因为循环没有更新数据,排错废了不少时间</p><ul><li>没有调用ros::spinOnce(),导致没有处理回调函数,也就没有更新数据</li><li>回调函数处理后的数据是否放入对应变量,有时候用的是中间变量,导致更新的数据没有放进去</li></ul><p>ROS也有异步更新的机制,之前用过,出过一次问题,可以根据需要选择更新的机制</p><h1 id="KDL和trac-ik库使用"><a href="#KDL和trac-ik库使用" class="headerlink" title="KDL和trac-ik库使用"></a>KDL和trac-ik库使用</h1><p>在ubuntu16+ros kinetic 和ubuntu18+ros melodic中不一样<br>后一版本中需要用于初始化正逆解对象的KDL::Chain一直存在，可作为类成员变量，可能是后一版本中进行了优化，减少了拷贝的次数</p>]]></content>
     
     <summary type="html">
     
@@ -169,6 +530,8 @@
       <category term="ROS" scheme="http://yangbenbo.github.io/categories/ROS/"/>
     
     
+      <category term="ROS" scheme="http://yangbenbo.github.io/tags/ROS/"/>
+    
   </entry>
   
   <entry>
@@ -176,15 +539,15 @@
     <link href="http://yangbenbo.github.io/2019/12/15/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/"/>
     <id>http://yangbenbo.github.io/2019/12/15/网络基础/</id>
     <published>2019-12-15T14:24:56.000Z</published>
-    <updated>2019-12-16T01:03:03.651Z</updated>
+    <updated>2020-09-23T14:42:00.876Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="CSMA-CD"><a href="#CSMA-CD" class="headerlink" title="CSMA/CD"></a>CSMA/CD</h1><p>乙太网路的传输协定 CSMA/CD (Carrier Sense Multiple Access with Collision Detection) </p><ol><li><p>监听媒体使用情况 (Carrier Sense)：A 主机要发送网路封包前，需要先对网路媒体进行监听，<br>確认没有人在使用后， 才能够发送出讯框；</p></li><li><p>多点传输 (Multiple Access)：A 主机所送出的资料会被集线器复製一份，<br>然后传送给所有连接到此集线器的主机！ 也就是说， A 所送出的资料，<br>B, C, D 三部电脑都能够接收的到！但由於目標是 D 主机，因此 B 与 C 会將此讯框资料丟弃，而 D 则会抓下来处理；</p></li><li><p>碰撞侦测 (Collision Detection)：该讯框资料附有检测能力，<br>若其他主机例如 B 电脑也刚好在同时间发送讯框资料时，<br>那么 A 与 B 送出的资料碰撞在一块 (出车祸) ，此时这些讯框就是损毁，<br>那么 A 与 B 就会各自隨机等待一个时间， 然后重新透过第一步再传送一次该讯框资料。</p></li></ol><p><img src="/2019/12/15/网络基础/csmacd.gif" alt="CSMA/CD连线"></p><p>每张乙太网路卡出厂时，就会赋予一个独一无二的卡號，那就是所谓的 MAC (Media Access Control)</p><ol><li><p>HUB 单纯的是一个 repeater﹐当它从一个 port (和 TCP 协定的 port 不一样﹐这里<br>是指插网路线的接孔)接收信號进来之后﹐会將这个信號原原本本的送到所有其它<br>port 上﹐不管哪些 port 是接到哪一台机器。</p></li><li><p>而 switch 呢﹖它自己有一份 table﹐记录著哪个 port 接到哪些 MAC 位址设备上。<br>当信號从一个 port 进来之后﹐会检查这个 frame 的 destination 是哪个 MAC﹐然<br>后按 table 找到这个 MAC 对应的 port ﹐而仅將信號往这个 port 送﹐其它的 port<br>就不送了。</p></li></ol><h2 id="ip"><a href="#ip" class="headerlink" title="　ip"></a>　ip</h2><ul><li><p>主机号位置全为0    整个网段的地址</p></li><li><p>主机号位置全为1    广播地址</p></li></ul><p>在局域网内可通过ip广播来传递资料,非目标主机会自动丢弃资料</p><p>同一局域网内设置成不同ip网段,广播地址不同造成无法透过广播的方式进行连线,需要路由(router)</p><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://zh.wikipedia.org/wiki/%E8%BD%BD%E6%B3%A2%E4%BE%A6%E5%90%AC%E5%A4%9A%E8%B7%AF%E8%AE%BF%E9%97%AE#CSMA/CD" target="_blank" rel="noopener">载波侦听多路访问</a></li><li><a href="http://linux.vbird.org/linux_server/0110network_basic.php#ps11" target="_blank" rel="noopener">基础网络概念</a> </li></ol>]]></content>
+    <content type="html"><![CDATA[<p> TCP/IP 协定家族中，其层阶关係如下<br><img src="/2019/12/15/网络基础/TCPIPfamily.png" alt><br>TCP/IP 的资料流是逐层传递的<br><img src="/2019/12/15/网络基础/TCPIPdata.png" alt></p><p>OSI 7层:前3属网络群组,后4属于使用者群组</p><p>TCP/IP 运作举例</p><ol><li>应用程式阶段：妳打开瀏览器，在瀏览器上面输入网址列，按下 [Enter]。此时网址列与相关资料会被瀏览器包成一个资料， 並向下传给 TCP/IP 的应用层；</li><li>应用层：由应用层提供的 HTTP 通讯协定，將来自瀏览器的资料包起来，並给予一个应用层表头，再向传送层丟去；</li><li>传送层：由於 HTTP 为可靠连线，因此將该资料丟入 TCP 封包內，並给予一个 TCP 封包的表头，向网路层丟去；</li><li>网路层：將 TCP 包裹包进 IP 封包內，再给予一个 IP 表头 (主要就是来源与目標的 IP 囉)，向链结层丟去；</li><li>链结层：如果使用乙太网路时，此时 IP 会依据 CSMA/CD 的標准，包裹到 <strong>MAC</strong> 讯框中，並给予 MAC 表头，再转成位元串后， 利用传输媒体传送到远端主机上。</li></ol><p><strong>IP地址应用于OSI第三层，即网络层，而MAC地址应用在OSI第二层，即数据链路层。</strong><br><img src="/2019/12/15/网络基础/OSI_TCPIP.png" alt="OSI与TCP/IP"></p><h1 id="ARP-RARP"><a href="#ARP-RARP" class="headerlink" title="ARP/RARP"></a>ARP/RARP</h1><ol><li>ARP 协定:Address Resolution Protocol,获取目标IP对应的物理地址,实际传输都是靠物理地址.<br>ARP 是 TCP/IP 设计者利用乙太网的广播性质﹐设计出来的位址解释协定。</li><li>RARP 协定:Reverse Address Resolution Protocol,利用广播,查询网路上其它主机而得到自己的 IP 位址.</li><li>PROXY ARP:代理 (Proxy) ARP 通常用来在路由器上代为回答在它后面的某个网路主机的 ARP 请求。<br>这是一种欺骗手法﹐因为查询端会以为目標主机就是路由器本身﹐但事实上﹐机器是在另一个网路里面。</li></ol><h1 id="IP"><a href="#IP" class="headerlink" title="IP"></a>IP</h1><p><img src="/2019/12/15/网络基础/IPHead.png" alt><br>在局域网内可通过ip广播来传递资料,非目标主机会自动丢弃资料(通过物理地址判断)</p><p>同一局域网内设置成不同ip网段,广播地址不同造成无法透过广播的方式进行连线,需要路由(router)</p><h2 id="IP地址"><a href="#IP地址" class="headerlink" title="IP地址"></a>IP地址</h2><ol><li><p>IP划分<br> <img src="/2019/12/15/网络基础/IPSection.png" alt><br> 127 (即二进位的 01111111) 需要特別一提：它是保留给本机回路测试使用的﹐<br> 它不可以被运用於实际的网路中，其中的 127.0.0.1 则代表任何一台 IP 主机本身.</p><ul><li>主机号位置全为0    整个网段的地址</li><li>主机号位置全为1    广播地址</li></ul></li><li><p>私有IP<br> 住主要用于组建局域网</p><p> 由於 Internet 的爆炸性成长﹐IP 的位址买少见少﹐而且在很多机构里﹐<br> 也不是所有机器都有必要使用註册的 IP 位址。於是﹐我们就在 A﹑B﹑C 这三个层级里面﹐<br> 各划出一些位址范围保留给私有位址所用﹐它们分別是﹕</p><ul><li>10.0.0.0 - 10.255.255.255</li><li>172.16.0.0 - 172.31.255.255</li><li><p>192.168.0.0 - 192.168.255.255</p><p>限制:</p></li><li>私有位址的路由资讯不能对外散播;</li><li>使用私有位址作为来源或目的位址的封包﹐不能透过 Internet 来转送;</li><li>关於私有位址的参考纪录﹐只能限於內部网路使用</li></ul></li><li><p>Subnet:划分子网,从Host ID中借位<br> <img src="/2019/12/15/网络基础/Subnet.png" alt="Subnet"></p></li><li>Supernet:从NET ID中借位使用的是 CIDR (Classless Inter-Domain Routing)技术.可不必理会 IP 的开首字元﹐你可以隨便设定您的 Net Mask 长度。<br> <img src="/2019/12/15/网络基础/Supernet.png" alt="Supernet"></li></ol><h1 id="ICMP"><a href="#ICMP" class="headerlink" title="ICMP"></a>ICMP</h1><p>ICMP 的全名是『 Internet Control Message Protocol, 网际网路讯息控制协定 』。 基本上，ICMP 是一个错误侦测与回报的机制，最大的功能就是可以確保我们网路的连线状態与连线的正確性！</p><p>ICMP 同样是透过 IP 封包来进行资料传送的啦！因为在 Internet 上面有传输能力的就是 IP 封包啊！ </p><p>应用:使用ping 与 traceroute透过 ICMP 封包的辅助来確认与回报网路主机的状態。</p><p>设定防火墙的时候,容易忽略的就是这个 ICMP 的封包(只会记住 TCP/UDP),基本上，ICMP 封包也不应该全部都挡掉喔! </p><h1 id="TCP-UDP"><a href="#TCP-UDP" class="headerlink" title="TCP/UDP"></a>TCP/UDP</h1><p>针对TCP表头,主要注意6个Control FLag.相应的TCP3次握手也主要是从这个来的</p><ul><li>Urgent data:当 URG 被设定为 1 的时候﹐表示紧急资料的封包，接收端需优先处理。</li><li>Acknowledge field significant:当 ACK 为 1 的时候﹐表示此封包的 Acknowledge Number 是有效的﹐也就是用来回应上一个封包。一般都会为 1。一般只有只有第一个封包没有设。</li><li>Push function:如果 PSH 为 1 的时候﹐该封包连同传送缓衝区的其它封包应立即进行传送，而无需等待缓衝区满了才送。接收端必须儘快將此资料交给程式处理。</li><li>Reset:如果 RST 为 1 的时候﹐连线会被马上结束，而无需等待终止確认手续。</li><li>Synchronize sequence number:如果 SYN 为 1 时﹐表示要求双方进行同步处理﹐也就是要求建立连线。</li><li>No more data fro sender (Finish):如果封包的 FIN 为 1 的时候﹐就表示传送结束﹐然后双方发出结束回应﹐进而正式进入 TCP 传送的终止流程。</li></ul><p><img src="/2019/12/15/网络基础/TCPHead.png" alt="TCPHead"><br>Sequence 和 Acknowledge 是 TCP 传送中的重要检测手段.<br><img src="/2019/12/15/网络基础/TCPTrans.png" alt="TCPTrans"><br><img src="/2019/12/15/网络基础/UDPHead.png" alt="UDPHead"><br>TCP 提供的是一个连线导向(Connection Oriented)的可靠传输.<br>UDP 则是一个非连线型(Connectionless)的非可靠传输协定﹐<br>它並不会运用確认机制来保证资料是否正確的被接收、<br>不需要重传遗失的资料、资料的接收可不必按顺序进行、<br>也不提供回传机制来控制资料流的速度。<br>因此﹐ UDP 信息可能会在网路传送过程中丟失﹑重复﹑或不依顺序﹐<br>而且抵达速度也可能比接收端的处理速度还快。</p><ul><li>TCP: 传送可靠,程序可省略可靠机制,但速度慢</li><li>UDP: 传输量大,迅速,但是不可靠,需要程序自行提供可靠机制</li></ul><h1 id="CSMA-CD"><a href="#CSMA-CD" class="headerlink" title="CSMA/CD"></a>CSMA/CD</h1><p>乙太网路的传输协定 CSMA/CD (Carrier Sense Multiple Access with Collision Detection) </p><p>虽然讯框会在整个网段(segment)中用广播的方式传递﹐而且所有节点都会收到讯框﹐<br>然而﹐只有目的位址符合自己实体位址的讯框才会被接收下来。<br>因此，不管上层协定是哪一种(可以是 TCP/IP 也可以是其它)，<br>在底层的传送若是使用 Ethernet 的话，就得使用 <strong>MAC (Media Access Control) </strong>实体位址.</p><ol><li><p>监听媒体使用情况 (Carrier Sense)：A 主机要发送网路封包前，需要先对网路媒体进行监听，<br>確认没有人在使用后， 才能够发送出讯框；</p></li><li><p>多点传输 (Multiple Access)：A 主机所送出的资料会被集线器复製一份，<br>然后传送给所有连接到此集线器的主机！ 也就是说， A 所送出的资料，<br>B, C, D 三部电脑都能够接收的到！但由於目標是 D 主机，因此 B 与 C 会將此讯框资料丟弃，而 D 则会抓下来处理；</p></li><li><p>碰撞侦测 (Collision Detection)：该讯框资料附有检测能力，<br>若其他主机例如 B 电脑也刚好在同时间发送讯框资料时，<br>那么 A 与 B 送出的资料碰撞在一块 (出车祸) ，此时这些讯框就是损毁，<br>那么 A 与 B 就会各自隨机等待一个时间， 然后重新透过第一步再传送一次该讯框资料。</p></li></ol><p><img src="/2019/12/15/网络基础/csmacd.gif" alt="CSMA/CD连线"></p><p>每张乙太网路卡出厂时，就会赋予一个独一无二的卡號，那就是所谓的 MAC (Media Access Control)</p><ol><li><p>HUB 单纯的是一个 repeater﹐当它从一个 port (和 TCP 协定的 port 不一样﹐这里<br>是指插网路线的接孔)接收信號进来之后﹐会將这个信號原原本本的送到所有其它<br>port 上﹐不管哪些 port 是接到哪一台机器。</p></li><li><p>而 switch 呢﹖它自己有一份 table﹐记录著哪个 port 接到哪些 MAC 位址设备上。<br>当信號从一个 port 进来之后﹐会检查这个 frame 的 destination 是哪个 MAC﹐然<br>后按 table 找到这个 MAC 对应的 port ﹐而仅將信號往这个 port 送﹐其它的 port<br>就不送了。</p></li></ol><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://zh.wikipedia.org/wiki/%E8%BD%BD%E6%B3%A2%E4%BE%A6%E5%90%AC%E5%A4%9A%E8%B7%AF%E8%AE%BF%E9%97%AE#CSMA/CD" target="_blank" rel="noopener">载波侦听多路访问</a></li><li><a href="http://linux.vbird.org/linux_server/0110network_basic.php#ps11" target="_blank" rel="noopener">基础网络概念</a></li><li><a href="http://www.study-area.org/network/networkfr2.htm" target="_blank" rel="noopener">网络基础</a> </li></ol>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;h1 id=&quot;CSMA-CD&quot;&gt;&lt;a href=&quot;#CSMA-CD&quot; class=&quot;headerlink&quot; title=&quot;CSMA/CD&quot;&gt;&lt;/a&gt;CSMA/CD&lt;/h1&gt;&lt;p&gt;乙太网路的传输协定 CSMA/CD (Carrier Sense Multiple Access w
+        &lt;p&gt; TCP/IP 协定家族中，其层阶关係如下&lt;br&gt;&lt;img src=&quot;/2019/12/15/网络基础/TCPIPfamily.png&quot; alt&gt;&lt;br&gt;TCP/IP 的资料流是逐层传递的&lt;br&gt;&lt;img src=&quot;/2019/12/15/网络基础/TCPIPdata.pn
       
     
     </summary>
@@ -193,350 +556,6 @@
     
     
       <category term="网络基础" scheme="http://yangbenbo.github.io/tags/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>word排版</title>
-    <link href="http://yangbenbo.github.io/2019/12/14/word%E6%8E%92%E7%89%88/"/>
-    <id>http://yangbenbo.github.io/2019/12/14/word排版/</id>
-    <published>2019-12-14T13:39:40.000Z</published>
-    <updated>2019-12-14T15:18:16.619Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="点-point-pt"><a href="#点-point-pt" class="headerlink" title="点(point,pt)"></a>点(point,pt)</h1><p>是印刷所使用的长度单位，用于表示字型的大小，也用于余白（字距、行距）等其他版面构成要素的长度。</p><p><img src="/2019/12/14/word排版/中文字号.png" alt="中文字号"></p><h1 id="使用word模板样式"><a href="#使用word模板样式" class="headerlink" title="使用word模板样式"></a>使用word模板样式</h1><p>可将模板中的样式导入到需要用的文档</p><p><img src="/2019/12/14/word排版/导出样式.png" alt="导出样式"></p><h1 id="中英文对照"><a href="#中英文对照" class="headerlink" title="中英文对照"></a>中英文对照</h1><p>学术上专业用语对照查询<br><a href="http://dict.cnki.net/dict_result.aspx" target="_blank" rel="noopener">cnki翻译助手</a></p><h1 id="图表"><a href="#图表" class="headerlink" title="图表"></a>图表</h1><p><strong>word中千万不要手动拖动图片大小</strong></p><p>在visio 设置图纸大小和字号(pt)</p><p>mathtype设置好字号，公式、字母直接复制visio中</p><p>图片插入到word后不要拖动调整大小</p><p>ps中同理设置字号，图像大小</p><h1 id="公式"><a href="#公式" class="headerlink" title="公式"></a>公式</h1><p>mathtype 可以插入公式序号 引用(双击公式序号) </p><p>可以先在mathtype设置好格式，存储为样板(10pt)</p><h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><a href="/2019/12/04/word参考文献交叉引用/" title="交叉引用">交叉引用</a><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li>维基百科 <a href="https://zh.wikipedia.org/wiki/%E9%BB%9E_(%E5%8D%B0%E5%88%B7" target="_blank" rel="noopener">点 (印刷)</a>)</li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;点-point-pt&quot;&gt;&lt;a href=&quot;#点-point-pt&quot; class=&quot;headerlink&quot; title=&quot;点(point,pt)&quot;&gt;&lt;/a&gt;点(point,pt)&lt;/h1&gt;&lt;p&gt;是印刷所使用的长度单位，用于表示字型的大小，也用于余白（字距、行距）等其
-      
-    
-    </summary>
-    
-      <category term="software" scheme="http://yangbenbo.github.io/categories/software/"/>
-    
-    
-      <category term="matlab绘图" scheme="http://yangbenbo.github.io/tags/matlab%E7%BB%98%E5%9B%BE/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>位姿变换矩阵左乘和右乘理解</title>
-    <link href="http://yangbenbo.github.io/2019/12/08/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E7%9F%A9%E9%98%B5%E5%B7%A6%E4%B9%98%E5%92%8C%E5%8F%B3%E4%B9%98%E7%90%86%E8%A7%A3/"/>
-    <id>http://yangbenbo.github.io/2019/12/08/位姿变换矩阵左乘和右乘理解/</id>
-    <published>2019-12-08T03:49:49.000Z</published>
-    <updated>2019-12-10T02:22:23.268Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="旋转矩阵含义"><a href="#旋转矩阵含义" class="headerlink" title="旋转矩阵含义"></a>旋转矩阵含义</h1><p>坐标系中物体的运动：物体运动(变换算子，只涉及到全局坐标系)；坐标系反方向运动</p><ol><li>变换算子   </li><li>位姿描述</li></ol><h1 id="X-Y-Z固定角-算子左乘"><a href="#X-Y-Z固定角-算子左乘" class="headerlink" title="X-Y-Z固定角 算子左乘"></a>X-Y-Z固定角 算子左乘</h1><ol><li><p>可以看作算子对一个向量的不断变换</p><script type="math/tex; mode=display"> _{B}^{A} R_{X Y Z}(\gamma, \beta, \alpha)=R_{Z}(\alpha) R_{Y}(\beta) R_{X}(\gamma)</script><p> <img src="/2019/12/08/位姿变换矩阵左乘和右乘理解/xyz固定角.png" alt="xyz固定角"></p></li><li><p>可用位姿变换和右乘统一</p><p> 坐标系在B中旋转等效为坐标系B向相反方向旋转,比如全局 <script type="math/tex">{R_k}(\theta )</script></p><p> 则有  </p><script type="math/tex; mode=display">{}_A^BR</script><script type="math/tex; mode=display">{}_{B'}^BR = {R_k}{(\theta )^{ - 1}}</script><p> 所以 <script type="math/tex">{}_A^{B'}R = {}_{B'}^B{R^{ - 1}} \cdot {}_A^BR = {R_k}(\theta ) \cdot {}_A^BR</script></p><p> <img src="/2019/12/08/位姿变换矩阵左乘和右乘理解/pose.jpg" alt="位姿描述">      </p></li></ol><h1 id="Z-Y-X欧拉角-右乘"><a href="#Z-Y-X欧拉角-右乘" class="headerlink" title="Z-Y-X欧拉角 右乘"></a>Z-Y-X欧拉角 右乘</h1><p>坐标系描述 </p><script type="math/tex; mode=display">_B^AR = {}_{B'}^AR{}_{B''}^{B'}R{}_B^{B''}R{\text{ = }}{R_Z}(\alpha ){R_Y}(\beta ){R_X}(\gamma )</script><p><img src="/2019/12/08/位姿变换矩阵左乘和右乘理解/zyx欧拉角.png" alt="zyx欧拉角"></p><h1 id="等效角度-轴线"><a href="#等效角度-轴线" class="headerlink" title="等效角度-轴线"></a>等效角度-轴线</h1><ol><li><p>绕通过原点轴线旋转</p><p> 理解成全局坐标系中一向量变换到局部坐标系-》绕z轴旋转-》变回全局坐标系</p><p> $_{B}^{A} R_{k}(\theta)=R^{-1} R_{z}(\theta) R$</p><p> 其中R为将全局坐标系z轴旋转到K轴的变换矩阵</p></li><li><p>绕不通过原点轴线旋转<br> 类似绕通过原点轴线旋转处理方式</p></li></ol><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://book.douban.com/subject/30325317/" target="_blank" rel="noopener">Introduction To Robotics mechanics and control</a></li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;旋转矩阵含义&quot;&gt;&lt;a href=&quot;#旋转矩阵含义&quot; class=&quot;headerlink&quot; title=&quot;旋转矩阵含义&quot;&gt;&lt;/a&gt;旋转矩阵含义&lt;/h1&gt;&lt;p&gt;坐标系中物体的运动：物体运动(变换算子，只涉及到全局坐标系)；坐标系反方向运动&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;变
-      
-    
-    </summary>
-    
-      <category term="math" scheme="http://yangbenbo.github.io/categories/math/"/>
-    
-    
-      <category term="机器人学" scheme="http://yangbenbo.github.io/tags/%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%AD%A6/"/>
-    
-      <category term="位姿变换" scheme="http://yangbenbo.github.io/tags/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>word参考文献交叉引用</title>
-    <link href="http://yangbenbo.github.io/2019/12/04/word%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE%E4%BA%A4%E5%8F%89%E5%BC%95%E7%94%A8/"/>
-    <id>http://yangbenbo.github.io/2019/12/04/word参考文献交叉引用/</id>
-    <published>2019-12-04T00:32:08.000Z</published>
-    <updated>2019-12-04T01:02:40.897Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="word参考文献交叉引用"><a href="#word参考文献交叉引用" class="headerlink" title="word参考文献交叉引用"></a>word参考文献交叉引用</h1><p>参考文献交叉引用可以实现正文中引用链接到参考文献，避免参考文献引用出错</p><ol><li>参考文献排序</li><li><p>插入-&gt; 交叉引用 -&gt; 选择对应的文献</p><p> <img src="/2019/12/04/word参考文献交叉引用/插入.png" alt="交叉引用"></p></li></ol><h2 id="实现-1-5-形式"><a href="#实现-1-5-形式" class="headerlink" title="实现[1-5]形式"></a>实现[1-5]形式</h2><ul><li><p>第一种方式： 插入之后，选择不想出现的部分,然后选择字体-&gt; 隐藏即可</p><p>  <img src="/2019/12/04/word参考文献交叉引用/隐藏.png" alt="隐藏"></p></li><li><p>第二种方式：</p><ol><li><p>插入交叉引用1,5，右击切换域代码</p><pre><code> 导纳控制{ REF _Re26341043 \r \h }{ REF _Ref26341045 \r \h }</code></pre></li><li><p>增加代码</p><pre><code> 导纳控制{ REF _Re26341043 \r \h \#&quot;[0&quot;}{ REF _Ref26341045 \r \h \#&quot;0]&quot;}</code></pre></li><li>更新域代码,添加 “-“, ctrl+shift++ 切换为上标</li></ol></li></ul><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://www.jianshu.com/p/e6f71f8ba19a" target="_blank" rel="noopener">Word|如何使用交叉引用标注参考文献</a>    </li><li><a href="https://jingyan.baidu.com/article/25648fc15c03439191fd0033.html" target="_blank" rel="noopener">word参考文献交叉引用的连续多项引用?</a></li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;word参考文献交叉引用&quot;&gt;&lt;a href=&quot;#word参考文献交叉引用&quot; class=&quot;headerlink&quot; title=&quot;word参考文献交叉引用&quot;&gt;&lt;/a&gt;word参考文献交叉引用&lt;/h1&gt;&lt;p&gt;参考文献交叉引用可以实现正文中引用链接到参考文献，避免参考文
-      
-    
-    </summary>
-    
-      <category term="software" scheme="http://yangbenbo.github.io/categories/software/"/>
-    
-    
-      <category term="word" scheme="http://yangbenbo.github.io/tags/word/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>高效工具</title>
-    <link href="http://yangbenbo.github.io/2019/11/30/%E9%AB%98%E6%95%88%E5%B7%A5%E5%85%B7/"/>
-    <id>http://yangbenbo.github.io/2019/11/30/高效工具/</id>
-    <published>2019-11-30T14:07:24.000Z</published>
-    <updated>2019-11-30T14:10:32.560Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="截图识别公式"><a href="#截图识别公式" class="headerlink" title="截图识别公式"></a>截图识别公式</h1><p><a href="https://mathpix.com/" target="_blank" rel="noopener">mathpix</a> 一款优秀的截图识别公式软件,支持Linux,Windows,Mac,IOS,Android<br>ubuntu 安装</p><pre><code>sudo apt updatesudo apt install snapdsudo snap install mathpix-snipping-tool</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;截图识别公式&quot;&gt;&lt;a href=&quot;#截图识别公式&quot; class=&quot;headerlink&quot; title=&quot;截图识别公式&quot;&gt;&lt;/a&gt;截图识别公式&lt;/h1&gt;&lt;p&gt;&lt;a href=&quot;https://mathpix.com/&quot; target=&quot;_blank&quot; rel=&quot;no
-      
-    
-    </summary>
-    
-      <category term="software" scheme="http://yangbenbo.github.io/categories/software/"/>
-    
-    
-      <category term="efficiency" scheme="http://yangbenbo.github.io/tags/efficiency/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>mathtype常用配置</title>
-    <link href="http://yangbenbo.github.io/2019/11/30/mathtype%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/"/>
-    <id>http://yangbenbo.github.io/2019/11/30/mathtype常用配置/</id>
-    <published>2019-11-30T13:39:27.000Z</published>
-    <updated>2019-11-30T14:03:26.544Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="常用快捷键"><a href="#常用快捷键" class="headerlink" title="常用快捷键"></a>常用快捷键</h1><pre><code>ctrl + L    下标ctrl + H    上标ctrl + B    向量 公式样式  原本快捷键和其他软件冲突了,重新设置新的即可Alt + B     math 样式</code></pre><h1 id="获取公式对应的LaTex格式-方便hexo博客使用"><a href="#获取公式对应的LaTex格式-方便hexo博客使用" class="headerlink" title="获取公式对应的LaTex格式 方便hexo博客使用"></a>获取公式对应的LaTex格式 方便hexo博客使用</h1><ol><li><p>mathtype 复制粘贴选项<br> 选择AMSTex 或者 MathML 2.0(no namespace)<br> <img src="/2019/11/30/mathtype常用配置/mathtype.png" alt="选项">   </p></li><li><p><strong>mathpix</strong> 截图识别公式<br>使用<a href="https://mathpix.com/" target="_blank" rel="noopener">mathpix</a>,简单高效</p></li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;常用快捷键&quot;&gt;&lt;a href=&quot;#常用快捷键&quot; class=&quot;headerlink&quot; title=&quot;常用快捷键&quot;&gt;&lt;/a&gt;常用快捷键&lt;/h1&gt;&lt;pre&gt;&lt;code&gt;ctrl + L    下标
-ctrl + H    上标
-ctrl + B    向量 公式样式 
-      
-    
-    </summary>
-    
-      <category term="software" scheme="http://yangbenbo.github.io/categories/software/"/>
-    
-    
-      <category term="equation" scheme="http://yangbenbo.github.io/tags/equation/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>傅里叶变换理解</title>
-    <link href="http://yangbenbo.github.io/2019/11/30/%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2%E7%90%86%E8%A7%A3/"/>
-    <id>http://yangbenbo.github.io/2019/11/30/傅里叶变换理解/</id>
-    <published>2019-11-30T11:38:48.000Z</published>
-    <updated>2019-12-01T08:01:29.216Z</updated>
-    
-    <content type="html"><![CDATA[<p>用正交函数理解傅里叶变换，详细推到请看<a href="https://www.bilibili.com/video/av34364399/?spm_id_from=333.788.videocard.0" target="_blank" rel="noopener">纯干货数学推导_傅里叶级数与傅里叶变换</a></p><h1 id="向量正交"><a href="#向量正交" class="headerlink" title="向量正交"></a>向量正交</h1><p>向量正交：两个向量内积为0</p><math display="block"> <mo>&#x2329;</mo><mstyle mathvariant="bold" mathsize="normal"><mi>a</mi></mstyle><mo>,</mo><mstyle mathvariant="bold" mathsize="normal"><mi>b</mi></mstyle><mo>&#x232A;</mo><mo>=</mo><mn>0</mn></math><p>一个向量可以分解到一组正交基上（坐标系）</p><p>向量a在向量b上的投影长度</p><math display="block"> <mi>c</mi><mo>=</mo><mfrac>  <mrow>   <mo>&#x2329;</mo><mstyle mathvariant="bold" mathsize="normal"><mi>a</mi><mo>,</mo><mi>b</mi></mstyle><mo>&#x232A;</mo></mrow>  <mrow>   <mo>&#x2329;</mo><mstyle mathvariant="bold" mathsize="normal"><mi>b</mi><mo>,</mo><mi>b</mi></mstyle><mo>&#x232A;</mo></mrow> </mfrac></math><p>如果b是坐标轴上的单位向量或者方向沿着坐标轴方向，则c就是对应的坐标</p><h1 id="正交函数"><a href="#正交函数" class="headerlink" title="正交函数"></a>正交函数</h1><p>函数正交：两个函数内积为0</p><math display="block"> <mo>&#x2329;</mo><mi>f</mi><mo>,</mo><mi>g</mi><mo>&#x232A;</mo><mo>=</mo><mn>0</mn></math><p>引入函数内积，在向量内积的基础上变成了积分（对应点的内积），这里是复变函数内积</p><script type="math/tex; mode=display">\left\langle g_{i}, g_{j}\right\rangle=\int_{i_{i}}^{t_{2}} g_{i}(t) \cdot g_{j}^{*}(t) d t</script><p>一个函数f在另一个函数g上的投影</p><script type="math/tex; mode=display">c_{i}=\frac{\left\langle f, g_{i}\right\rangle}{\left\langle g_{i}, g_{i}\right\rangle}=\frac{1}{k_{i}} \int_{t}^{t_{i}} f(t) \cdot g_{i}(t) d t</script><p>一个函数可以分解到一组完备正交函数集合上，三角函数集合和指数函数集合都是完备正交函数集合</p><h2 id="三角函数集合"><a href="#三角函数集合" class="headerlink" title="三角函数集合"></a>三角函数集合</h2><p>三角函数分解</p><script type="math/tex; mode=display">\begin{array}{l}{f(t)=a_{0}+\sum_{n=1}^{+\infty} a_{n} \cos n \omega_{1} t+\sum_{n=1}^{+\infty} b_{n} \sin n \omega_{1} t} \\ {a_{0}=\frac{\langle f, 1\rangle}{\langle 1,1\rangle}=\frac{1}{T_{1}} \int_{t_{0}}^{t_{0}+T_{1}} f(t) d t} \\ {a_{n}=\frac{\left\langle f, \cos n \omega_{1} t\right\rangle}{\left\langle\cos n \omega_{1} t, \cos n \omega_{1} t\right\rangle}=\frac{2}{T_{1}} \int_{t_{0}}^{t_{0}+T_{1}} f(t) \cdot \cos n \omega_{1} t d t} \\ {b_{n}=\frac{\left\langle f, \sin n \omega_{1} t\right\rangle}{\left\langle\sin n \omega_{1} t, \sin n \omega_{1} t\right\rangle}=\frac{2}{T_{1}} \int_{t_{0}}^{t_{0}+T_{1}} f(t) \cdot \sin n \omega_{1} t d t}\end{array}</script><p>其中</p><script type="math/tex; mode=display">\omega_{1}=\frac{2 \pi}{T_{1}}</script><h2 id="指数函数集合"><a href="#指数函数集合" class="headerlink" title="指数函数集合"></a>指数函数集合</h2><p>指数函数分解</p><script type="math/tex; mode=display">\begin{aligned}\left\langle e^{j n \omega_{1} t}, e^{j m \omega_{1} t}\right\rangle &=\int_{t_{0}}^{t_{0}+T_{1}} e^{j n \omega_{1} t} \cdot e^{-j m \omega_{1} t} d t \\ &=\int_{t_{0}}^{t_{0}+T_{1}} e^{j(n-m) \omega_{1} t} d t=\left\{\begin{array}{ll}{T_{1}} & {n=m} \\ {0} & {n \neq m}\end{array}\right.\end{aligned}</script><p>则对应的函数分解为</p><script type="math/tex; mode=display">\begin{array}{l}{f(t)=\sum_{n=-\infty}^{+\infty} F_{n} e^{j n \omega_{1} t}} \\ {F_{n}=\frac{\left\langle f(t), e^{j n \omega_{1} t}\right\rangle}{\left\|e^{j n \omega_{1} t}\right\|_{2}}=\frac{1}{T_{1}} \int_{t_{0}}^{t_{0}+T_{1}} f(t) e^{-j n \omega_{1} t} d t}\end{array}</script><h1 id="傅里叶变换"><a href="#傅里叶变换" class="headerlink" title="傅里叶变换"></a>傅里叶变换</h1><p>周期无穷大，加和变成了积分，时间从0开始到无穷大，如下式所示，内层就是傅里叶变换，外层就是反变换</p><script type="math/tex; mode=display">\begin{array}{l}{f(t)=\sum_{n=-\infty}^{+\infty} \frac{1}{T_{1}} \int_{t_{0}}^{t_{0}+T_{1}} f(t) e^{-j n \omega_{1} t} d t e^{j n \omega_{1} t}} \\ {f(t)=\frac{1}{2 \pi} \int_{-\infty}^{\infty} \int_{0}^{\infty} f(t) e^{-j \omega t} d t e^{j \omega t} d w}\end{array}</script><h1 id="拉式变换"><a href="#拉式变换" class="headerlink" title="拉式变换"></a>拉式变换</h1><p>是傅里叶变换的推广，傅里叶变换是拉式变换在虚轴上的投影，可以看乘的指数部分，拉式变换是复数包含了傅里叶变换的纯虚数</p><script type="math/tex; mode=display">X(s)=\int_{0}^{\infty} x(t) e^{-s t} d t</script><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://blog.csdn.net/Einstellung/article/details/77478203" target="_blank" rel="noopener">正交函数集合</a></li><li><a href="https://www.bilibili.com/video/av34364399/?spm_id_from=333.788.videocard.0" target="_blank" rel="noopener">纯干货数学推导_傅里叶级数与傅里叶变换</a></li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;用正交函数理解傅里叶变换，详细推到请看&lt;a href=&quot;https://www.bilibili.com/video/av34364399/?spm_id_from=333.788.videocard.0&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;纯干
-      
-    
-    </summary>
-    
-      <category term="math" scheme="http://yangbenbo.github.io/categories/math/"/>
-    
-    
-      <category term="傅里叶变换" scheme="http://yangbenbo.github.io/tags/%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ubuntu解压文件名字无法显示中文(中文乱码)</title>
-    <link href="http://yangbenbo.github.io/2019/11/23/ubuntu%E8%A7%A3%E5%8E%8B%E6%96%87%E4%BB%B6%E5%90%8D%E5%AD%97%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E4%B8%AD%E6%96%87-%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/"/>
-    <id>http://yangbenbo.github.io/2019/11/23/ubuntu解压文件名字无法显示中文-中文乱码/</id>
-    <published>2019-11-23T03:23:52.000Z</published>
-    <updated>2019-11-23T04:12:31.457Z</updated>
-    
-    <content type="html"><![CDATA[<ol><li><p>zip解压文件名乱码</p><p> 由于zip格式中并没有指定编码格式，Windows下生成的zip文件中的编码是GBK/GB2312等。因此，导致这些zip文件在Linux下解压时出现乱码问题，因为Linux下的默认编码是UTF8。</p><pre><code> unzip -O gbk xxx.zip         unzip -O gbk xxx.zip -d xxx  ## 解压到指定文件夹    </code></pre></li><li><p>gedit 文件内容乱码 </p><pre><code> gsettings set org.gnome.gedit.preferences.encodings candidate-encodings &quot;[&#39;UTF-8&#39;,&#39;CURRENT&#39;,&#39;GB18030&#39;,&#39;ISO-8859-15&#39;,&#39;UTF-16&#39;]&quot;</code></pre></li><li><p>vim 中文乱码</p><pre><code> # 建议修改本地配置文件 sudo gedit /etc/vim/vimrc   # 系统配置文件 sudo gedit .vimrc   # 本地配置文件 # 增加下面内容 set fileencodings=utf-8,gb2312,gbk,gb18030 set termencoding=utf-8 set encoding=prc        </code></pre></li></ol><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://blog.csdn.net/weixin_40009624/article/details/79019907" target="_blank" rel="noopener">ubuntu 16.4解压中文名文件夹，中文乱码</a>      </li><li><a href="https://blog.csdn.net/w7619370/article/details/53024281" target="_blank" rel="noopener">Ubuntu 16.04 解压缩zip文件中文乱码</a>    </li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;ol&gt;
-&lt;li&gt;&lt;p&gt;zip解压文件名乱码&lt;/p&gt;
-&lt;p&gt; 由于zip格式中并没有指定编码格式，Windows下生成的zip文件中的编码是GBK/GB2312等。因此，导致这些zip文件在Linux下解压时出现乱码问题，因为Linux下的默认编码是UTF8。&lt;/p&gt;
-&lt;pre&gt;
-      
-    
-    </summary>
-    
-      <category term="Linux" scheme="http://yangbenbo.github.io/categories/Linux/"/>
-    
-    
-      <category term="编码" scheme="http://yangbenbo.github.io/tags/%E7%BC%96%E7%A0%81/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>qt记录</title>
-    <link href="http://yangbenbo.github.io/2019/11/22/qt%E7%BA%AA%E8%A6%81/"/>
-    <id>http://yangbenbo.github.io/2019/11/22/qt纪要/</id>
-    <published>2019-11-22T14:23:21.000Z</published>
-    <updated>2019-11-23T12:20:17.437Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="常用函数使用"><a href="#常用函数使用" class="headerlink" title="常用函数使用"></a>常用函数使用</h1><ol><li><p>QString的arg()函数可以自动替换掉QString中出现的占位符。</p><pre><code> QString(&quot;[%1, %2]&quot;).arg(x).arg(y); // 加粗居中 QString(&quot;&lt;center&gt;&lt;h1&gt;Press:(%1, %2)&lt;/h1&gt;&lt;/center&gt;&quot;).arg(QString::number(event-&gt;x()),QString::number(event-&gt;y()));</code></pre></li><li><p>event事件<br> <strong>event()函数主要用于事件的分发</strong></p><p> 事件处理之后一定要调用父类相应事件处理函数,不然信号就不会继续往后穿,或者使用ignore()函数,如果使用accept()函数就相当如接受信号,不继续传</p><p> 事件对象创建完毕后，Qt 将这个事件对象传递给QObject的event()函数。event()函数并不直接处理事件，而是将这些事件对象按照它们不同的类型，分发给不同的事件处理器（event handler）</p><pre><code> bool CustomWidget::event(QEvent *e) {     if (e-&gt;type() == QEvent::KeyPress) {         QKeyEvent *keyEvent = static_cast&lt;QKeyEvent *&gt;(e);//强制类型转换         if (keyEvent-&gt;key() == Qt::Key_Tab) {             qDebug() &lt;&lt; &quot;You press tab.&quot;;             return true;         }     }     return QWidget::event(e);//必要的，重新处理其他事件 }</code></pre><ul><li>如果传入事件被处理,需要返回true,否则返回false,那么 Qt 会认为这个事件已经处理完毕，不会再将这个事件发送给其它对象，而是会继续处理事件队列中的下一事件。</li><li><p>在event()函数中，调用事件对象的accept()和ignore()函数是没有作用的，不会影响到事件的传播。</p><p>可以通过使用QEvent::type()函数可以检查事件的实际类型，其返回值是QEvent::Type类型的枚举。我们处理过自己感兴趣的事件之后，可以直接返回 true，表示我们已经对此事件进行了处理；<strong>对于其它我们不关心的事件，则需要调用父类的event()函数继续转发</strong>，否则这个组件就只能处理我们定义的事件了。</p></li></ul></li><li>绘图<br>Qt 的绘图系统: 使用QPainter在QPainterDevice上进行绘制，它们之间使用QPaintEngine进行通讯（也就是翻译QPainter的指令）。</li></ol><p>绘图设备是指继承QPainterDevice的子类.</p><ul><li>QPixmap   针对屏幕进行了优化,和平台相关,不能对图片进行修改</li><li>QBitmap QBitmap是QPixmap的一个子类，它的色深限定为1(只有两种状态,黑白),可以使用 QPixmap的isQBitmap()函数来确定这个QPixmap是不是一个QBitmap.</li><li>QImage    和平台无关,可以对图片进行修改,可以在线程中绘图,专门为图像的像素级访问做了优化。</li><li>QPicture  保存绘图的状态(<strong>二进制文件</strong>),记录和重现  </li></ul><p>QImage与QPixmap之间的转换:</p><pre><code>    fromImage    toImage             </code></pre>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;常用函数使用&quot;&gt;&lt;a href=&quot;#常用函数使用&quot; class=&quot;headerlink&quot; title=&quot;常用函数使用&quot;&gt;&lt;/a&gt;常用函数使用&lt;/h1&gt;&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;QString的arg()函数可以自动替换掉QString中出现的占位符。&lt;/p&gt;
-&lt;pr
-      
-    
-    </summary>
-    
-      <category term="program" scheme="http://yangbenbo.github.io/categories/program/"/>
-    
-    
-      <category term="qt" scheme="http://yangbenbo.github.io/tags/qt/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>c++函数指针</title>
-    <link href="http://yangbenbo.github.io/2019/11/16/c-%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88/"/>
-    <id>http://yangbenbo.github.io/2019/11/16/c-函数指针/</id>
-    <published>2019-11-16T08:51:52.000Z</published>
-    <updated>2019-11-16T09:35:35.563Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="定义函数指针"><a href="#定义函数指针" class="headerlink" title="定义函数指针"></a>定义函数指针</h1><p>定义一个指针指向一个无参数无返回值的函数</p><pre><code>void (*funcPtr)();</code></pre><p><strong>大多数申明都是以右-左-右动作的方式工作</strong></p><p>针对复杂的定义,最好处理方式是从中间开始向外扩展.<br>“中间开始”(“funcPtr是一个…”),向右(没有东西,被括号挡住了),向左发现”*”(“…指针指向一个…”),向右发现空参数列表(“…没有带参数的函数…”),<br>向左发现void(“funcPtr是一个指针,它指向一个不带参数并返回void的函数)</p><p>这里<em>funcPtr需要括号是避免混淆 有void 指针<br>    void </em>funcPtr();    //一个返回void指针的函数,而不是一个变量</p><h1 id="复杂定义"><a href="#复杂定义" class="headerlink" title="复杂定义"></a>复杂定义</h1><pre><code>void * (*(*fp1)(int))[10];float (*(*fp2)(int,int,float))(int);typedef double (*(*(*fp3)())[10])();fp3 a;    int (*(*fp4())[10])();</code></pre><ul><li>fp1 是一个指向函数的指针,接受int参数,返回一个指向含有10个void指针数组的指针    </li><li>fp2 是一个指向函数的指针,该函数接受int,int,double,返回一个指向函数的指针,该函数接受int,返回float</li><li>fp3 指向函数的指针,该函数无参数,返回一个指向含有10个指向函数指针数组的指针,这些函数不接受参数且返回double 又定义a是ftp3类型的一个</li><li>fp4 是一个返回指针的函数,改指针指向含有10个函数指针的数组,这些函数返回整型值    </li></ul><h1 id="使用函数指针"><a href="#使用函数指针" class="headerlink" title="使用函数指针"></a>使用函数指针</h1><p>函数func()的地址 就是func 或者使用更加明显的语法&amp;func()</p><pre><code>void (*fp)() = func;</code></pre><p>指向函数的指针数组</p><pre><code>#define DF(N) void N() { cout &lt;&lt; &quot;function &quot; #N&quot; called...&quot; &lt;&lt;endl; }DF(a);DF(b);DF(c);void (*func_table[])() = {a,b,c};</code></pre><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://book.douban.com/subject/6558198/" target="_blank" rel="noopener">C++编程思想</a></li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;定义函数指针&quot;&gt;&lt;a href=&quot;#定义函数指针&quot; class=&quot;headerlink&quot; title=&quot;定义函数指针&quot;&gt;&lt;/a&gt;定义函数指针&lt;/h1&gt;&lt;p&gt;定义一个指针指向一个无参数无返回值的函数&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;void (*funcPtr)();
-      
-    
-    </summary>
-    
-      <category term="program" scheme="http://yangbenbo.github.io/categories/program/"/>
-    
-    
-      <category term="c++" scheme="http://yangbenbo.github.io/tags/c/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>make宏编译</title>
-    <link href="http://yangbenbo.github.io/2019/11/02/make%E5%AE%8F%E7%BC%96%E8%AF%91/"/>
-    <id>http://yangbenbo.github.io/2019/11/02/make宏编译/</id>
-    <published>2019-11-02T14:32:22.000Z</published>
-    <updated>2019-11-03T07:40:42.334Z</updated>
-    
-    <content type="html"><![CDATA[<ul><li>简化编译时所需要下达的指令;</li><li>若在编译完成之后,修改了某个原始码文件,<br>则 make 仅会针对被修改了的文件进行编译,其他的 object file不会被更动;</li><li>最后可以依照相依性来更新 (update) 执行档。</li></ul><h1 id="语法变量"><a href="#语法变量" class="headerlink" title="语法变量"></a>语法变量</h1><pre><code>目标(target): 目标文件 1 目标文件 2&lt;tab&gt;gcc -o 欲建立的执行文件 目标文件 1 目标文件 2</code></pre><ul><li>在 makefile 当中的 # 代表批注;</li><li><tab> 需要在命令行 (例如 gcc 这个编译程序指令) 的第一个字符;</tab></li><li>目标 (target) 与相依文件(就是目标文件)之间需以『:』隔开。 </li></ul><p>makefile 示例 两个target<br><strong>$@:代表目前的目标(target)</strong></p><pre><code>    main: main.o haha.o sin_value.o cos_value.o        gcc -o main main.o haha.o sin_value.o cos_value.o -lm    clean:        rm -f main main.o haha.o sin_value.o cos_value.o     # 简化重复内容之后如下    # $@:代表目前的目标(target)    LIBS = -lm    OBJS = main.o haha.o sin_value.o cos_value.o    main: ${OBJS}        gcc -o $@ ${OBJS} ${LIBS}    clean:        rm -f main ${OBJS}  </code></pre><p>调用</p><pre><code>    make  (make main)   #调用main对象    make clean          #调用clean    make clean main     #先clean 再main</code></pre><h2 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h2><ol><li>变量与变量内容以『=』隔开,同时两边可以具有空格;</li><li>变量左边不可以有 <tab> ,例如上面范例的第一行 LIBS 左边不可以是 <tab>;</tab></tab></li><li>变量与变量内容在『=』两边不能具有『:』<br>;</li><li>在习惯上,变数最好是以『大写字母』为主;</li><li>运用变量时,以 ${变量} 或 $(变量) 使用;</li><li>在该 shell 的环境变量是可以被套用的,例如提到的 CFLAGS 这个变数!</li><li><p>在指令列模式也可以给予变量。 </p><h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><p>gcc 在进行编译的行为时,会主动的去读取 CFLAGS 这个环境变量,所以,你可以直接在 shell<br>定义出这个环境变量,也可以在 makefile 文件里面去定义,更可以在指令列当中给予</p><p> CFLAGS=”-Wall” make clean main      #指令中指定 或者在makefile中定义变量<br>环境变量取用规则</p></li><li>make 指令列后面加上的环境变量为优先;</li><li>makefile 里面指定的环境变量第二;</li><li>shell 原本具有的环境变量第三。    </li></ol><h1 id="源码安装"><a href="#源码安装" class="headerlink" title="源码安装"></a>源码安装</h1><ol><li><p>diff  行对比</p><pre><code> diff -Naur passwd.old passwd.new &gt; passwd.patch    # 生成补丁文件 diff /etc/rc0.d/ /etc/rc5.d/                       # 比较布姆下相同文件名</code></pre></li><li><p>patch</p><p> 用来更新源码安装的源文件,使用规则</p><pre><code> patch -p 数字 &lt; patch_file patch -R  -p 数字 &lt; patch_file    #回复旧文件</code></pre><p> patch_file 第一行写的是这样:</p><pre><code> *** /home/guest/example/expatch.old</code></pre><p> 『patch -p0 &lt; patch_file 』时,则更新的文件是『 /home/guest/example/expatch.old 』,</p><p> 『patch -p1 &lt; patch_file』,则更新的文件为『home/guest/example/expatch.old』,</p><p> 『patch -p4 &lt; patch_file』则更新『expatch.old』</p><p> <strong>-pxx 那个 xx 代表『拿掉几个斜线(/)』的意思!</strong>  </p></li><li>cmp 字节对比 可以用来对比binary             <h1 id="动态函数库-so-静态函数库-a"><a href="#动态函数库-so-静态函数库-a" class="headerlink" title="动态函数库.so  静态函数库.a"></a>动态函数库.so  静态函数库.a</h1>将常用到的动态函式库先加载内存当中 (快取, cache),需要 ldconfig 与 /etc/ld.so.conf协助</li><li>首先,我们必须要在 /etc/ld.so.conf 里面写下『 想要读入高速缓存当中的动态函式库所在的目录』,注意喔, 是目录而不是文件;</li><li>接下来则是利用 ldconfig 这个执行档将 /etc/ld.so.conf 的资料读入快取当中;</li><li><p>同时也将数据记录一份在 /etc/ld.so.cache 这个文件当中</p><pre><code> ldconfig [-f conf] [ -C cache] ldconfig [-p]       #列出目前有的所有函式库资料内容 (在 /etc/ld.so.cache 内的资料!)</code></pre><p> 将动态函式库所在的目录名称写入<br> /etc/ld.so.conf.d/yourfile.conf 当中,然后执行 ldconfig 就可以  </p></li><li><p>查看可执行binary文件含有的动态函数库</p><pre><code> ldd [-vdr] [filename]      </code></pre><h1 id="检查软件正确性"><a href="#检查软件正确性" class="headerlink" title="检查软件正确性"></a>检查软件正确性</h1><p>目前广泛应用的加密机制 MD5 SHA1 SHA256 计算文件的指纹码</p></li></ol><p>md5sum/sha1sum/sha356sum</p><pre><code>md5sum/sha1sum/sha256sum [-bct] filename</code></pre><p>可以把Linux上的重要文件进行指纹数据库的建立,然后定期以shell script的方式检查    </p><h1 id="安装问题"><a href="#安装问题" class="headerlink" title="安装问题"></a>安装问题</h1><ol><li>缺少依赖库<br> 查看文件夹下对应的config.log 里面有对应的debug信息</li><li><p>没有那个文件或目录  X11/Intrinsic.h</p><pre><code> yum provides */Intrinsic.h   # 使用了正则表达式 需要头文件属于哪个包 安装就好            </code></pre><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1></li><li><a href="http://linux.vbird.org/new_linux.php" target="_blank" rel="noopener">鸟哥Linux基础</a>   </li><li><a href="https://blog.csdn.net/king_on/article/details/7799695" target="_blank" rel="noopener">xpenguins 的安装（问题来源于鸟哥基础篇）</a>        </li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;ul&gt;
-&lt;li&gt;简化编译时所需要下达的指令;&lt;/li&gt;
-&lt;li&gt;若在编译完成之后,修改了某个原始码文件,&lt;br&gt;则 make 仅会针对被修改了的文件进行编译,其他的 object file不会被更动;&lt;/li&gt;
-&lt;li&gt;最后可以依照相依性来更新 (update) 执行档。&lt;/l
-      
-    
-    </summary>
-    
-      <category term="Linux" scheme="http://yangbenbo.github.io/categories/Linux/"/>
-    
-    
-      <category term="make" scheme="http://yangbenbo.github.io/tags/make/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Linux 正则表达式</title>
-    <link href="http://yangbenbo.github.io/2019/11/02/Linux-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"/>
-    <id>http://yangbenbo.github.io/2019/11/02/Linux-正则表达式/</id>
-    <published>2019-11-02T01:22:39.000Z</published>
-    <updated>2019-11-02T01:44:57.812Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Linux-的正则表达式"><a href="#Linux-的正则表达式" class="headerlink" title="Linux 的正则表达式"></a>Linux 的正则表达式</h1><p>Linux有两套库可以使用POSIX PCRE 前面一种是Linux自带的</p><ol><li><p>分隔符-分隔单词</p><pre><code> \&lt; \&gt; \&lt;[a-z]at\&gt;     # 后面这种行也会被匹配到  %$bat!* </code></pre><p> “单词”指的是两侧由非单词字符分隔的字符串.非单词字符指字母 数字 下划线之外的任何字符</p></li><li><p>位置匹配</p><pre><code> ^a      # a开头 t$      # t结尾</code></pre></li><li><p>重复</p><pre><code> *       重复0次或多次 +       重复1次或多次 ?       重复0次或者1次 {n}     重复n次 {n,}    重复n次或者更多 {n,m}   重复n-m次</code></pre></li><li><p>子表达式-分组</p><pre><code> egrep &quot;(or){2,}&quot;  xx/xx     # or重复2次或更多</code></pre></li><li><p>反义</p><p> 放在[]中,注意与匹配开头的 ^ 区别</p><pre><code> ^[^y]   # 不以字母y开头的所有行</code></pre></li><li><p>分支<br> 正则表达式简单执行”与”的组合 使用| 或者</p><pre><code> ^h|t&amp;   # h开头或者t结尾</code></pre></li><li><p>转义<br> \ 取消所有元字符的特殊含义</p><pre><code> \.  # 匹配.</code></pre></li><li><p>逆向引用</p><p> 子表达式(分组)捕获的内容可以在正则表达式的其他地方使用  使用 \1 表示引用第一个分组捕获内容</p><pre><code> (\&lt;.*\&gt;).?( )*\1    # 表示 匹配 某个单词出现后 紧跟0或1个标点符号以及任意多个空格后再次出现这个单词的行                                        </code></pre></li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;Linux-的正则表达式&quot;&gt;&lt;a href=&quot;#Linux-的正则表达式&quot; class=&quot;headerlink&quot; title=&quot;Linux 的正则表达式&quot;&gt;&lt;/a&gt;Linux 的正则表达式&lt;/h1&gt;&lt;p&gt;Linux有两套库可以使用POSIX PCRE 前面一种是L
-      
-    
-    </summary>
-    
-      <category term="Linux" scheme="http://yangbenbo.github.io/categories/Linux/"/>
-    
-    
-      <category term="正则表达式" scheme="http://yangbenbo.github.io/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>matlab中常见问题</title>
-    <link href="http://yangbenbo.github.io/2019/10/24/matlab%E4%B8%AD%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/"/>
-    <id>http://yangbenbo.github.io/2019/10/24/matlab中常见问题/</id>
-    <published>2019-10-24T11:46:53.000Z</published>
-    <updated>2019-11-07T03:46:06.686Z</updated>
-    
-    <content type="html"><![CDATA[<ol><li><p>matlab中sin(x) sind(x) </p><p> 都是计算正弦的函数　第一个输入单位为弧度　第二个为度</p><p> 对于特殊角的三角函数为有理数的　最好使用sind　很多时候为了保证计算精度会使用符号计算</p><pre><code> sin(pi) = 1.2246e-16 sind(180) = 0 vpa(sind(180),32) = 0.0   % 设置显示精度　32位</code></pre><p> 小数转为有理分式      </p><pre><code> rat(0.3)   </code></pre></li><li>关于reshape<br> reshape是按照列来重新排列 不要想当然 之前一个sigma_cube数据(1667x3 其中每个3x3是一个sigma)就是排错了         </li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;ol&gt;
-&lt;li&gt;&lt;p&gt;matlab中sin(x) sind(x) &lt;/p&gt;
-&lt;p&gt; 都是计算正弦的函数　第一个输入单位为弧度　第二个为度&lt;/p&gt;
-&lt;p&gt; 对于特殊角的三角函数为有理数的　最好使用sind　很多时候为了保证计算精度会使用符号计算&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt; s
-      
-    
-    </summary>
-    
-      <category term="software" scheme="http://yangbenbo.github.io/categories/software/"/>
-    
-    
-      <category term="matlab" scheme="http://yangbenbo.github.io/tags/matlab/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>matlab 绘图</title>
-    <link href="http://yangbenbo.github.io/2019/10/24/matlab-%E7%BB%98%E5%9B%BE/"/>
-    <id>http://yangbenbo.github.io/2019/10/24/matlab-绘图/</id>
-    <published>2019-10-24T01:52:50.000Z</published>
-    <updated>2019-12-14T15:20:09.306Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="常用绘图命令"><a href="#常用绘图命令" class="headerlink" title="常用绘图命令"></a>常用绘图命令</h1><h2 id="命令查看"><a href="#命令查看" class="headerlink" title="命令查看"></a>命令查看</h2><p>查看所有画图相关命令</p><pre><code>help graph2dhelp graph3d</code></pre><h2 id="图形窗口"><a href="#图形窗口" class="headerlink" title="图形窗口"></a>图形窗口</h2><pre><code>figure(n)    % 打开窗口nsubplot(m,n,p)   % m行n列窗口第p个</code></pre><h2 id="坐标轴"><a href="#坐标轴" class="headerlink" title="坐标轴"></a>坐标轴</h2><ul><li><p>axis([xmin xmax ymin ymax])</p></li><li><p>axis equal 使x,y轴的单位长度相同</p></li><li><p>axis square 出图为正方形</p></li><li><p>axis off 清除坐标刻度</p></li><li><p>semilogx,semilogy 绘制以x/y轴为对数坐标，以10为底，y/x轴为线性坐标的半对数坐标图形</p></li><li><p>loglog 绘制全对数坐标图，即x,y轴全取对数   </p><h2 id="文字标示"><a href="#文字标示" class="headerlink" title="文字标示"></a>文字标示</h2></li><li>text(x,y,‘字符串’) 在图形的指定坐标（x,y)处表示’字符串’中的内容</li><li>gtext(‘说明文字’）利用鼠标在图形的某一位置标示说明文字。执行完绘图命令后再执行gtext(‘说明文字‘）命令</li><li>title(‘字符串’）图形标题</li><li>xlabel(‘字符串‘),ylabel(‘字符串’),zlabel(‘字符串’)，设置x,y,z轴的坐标轴名称。如需输入特殊文字，用\开头</li><li>legend(‘字符串1’,‘字符串1’,‘字符串1’……）对图形上多条线按照绘图顺序进行说明 <h2 id="栅格"><a href="#栅格" class="headerlink" title="栅格"></a>栅格</h2></li><li>grid 给图形加栅格</li><li>grid on 给坐标系加栅格</li><li>grid off 删除当前坐标系的栅格</li><li>grid minor  细化栅格<h2 id="图形覆盖-保持"><a href="#图形覆盖-保持" class="headerlink" title="图形覆盖/保持"></a>图形覆盖/保持</h2></li><li>hold on 当前图形保持，且下条图形仍然绘制在该张图形上</li><li><p>hold off 新图覆盖旧图 </p><h2 id="视角方向"><a href="#视角方向" class="headerlink" title="视角方向"></a>视角方向</h2></li><li><p>view(az,el)                   给三维空间图形设置观察点的方位角az与仰角el</p></li><li><p>view([az,el])                 同上</p></li><li><p>view([x,y,z])                 将点(x,y,z)设置为视点</p></li><li><p>view(2)                       设置默认的二维形式视点，其中az = 0,el = 90,即从z轴上方观看</p></li><li><p><strong>view(3)</strong>                       设置默认的三维形式视点，其中az = -37.5, ell = 30</p></li><li><p>view(T)                       根据转换矩阵T设置视点，其中T为4*4阶的矩阵，如同用命令viewmtx生成的透视转换矩阵一样（注意：在2014版本中，这条命令好像没了）</p></li><li><p>[az,el]=view                  返回当前的方位角az与仰角el</p></li><li><p>T = view                      返回当前的4*4阶的转换矩阵T</p></li></ul><h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>例子1</p><pre><code>clc;clear;close all;    % 清除变量　输入　关闭绘图scrsz = get(groot,&#39;ScreenSize&#39;);figure(&#39;Position&#39;,[1 scrsz(4)/2 scrsz(3)/2 scrsz(4)/2]);  % 图像框为屏幕左上角1/4　像素limAxes = [-1.2 0.8 -1.1 0.9];xx = round(linspace(1,64,nbSamples));   % round 4舍5入clrmap = colormap(&#39;jet&#39;);clrmap = min(clrmap(xx,:),.95);colPegs = [[.9,.5,.9];[.5,.9,.5]];subplot(1,2,1); hold on; box on; title(&#39;Demonstrations&#39;);plot(b(1), b(2),&#39;.&#39;,&#39;markersize&#39;,30,&#39;color&#39;,colPegs(1,:)-[.05,.05,.05]);plot(Data(1,:), Data(2,:),&#39;-&#39;,&#39;linewidth&#39;,1.5,&#39;color&#39;,clrmap(n,:));axis(limAxes); axis square; set(gca,&#39;xtick&#39;,[],&#39;ytick&#39;,[]);  % 清除坐标轴刻度 axis off</code></pre><p>例子2</p><pre><code>f = figure;hold on;box on;P1 = plot(x, y,&#39;linewidth&#39;,1.2);P2 = plot(mean_force, 0,&#39;o&#39;,&#39;linewidth&#39;,1.2);   % 均值P3 = plot(threhold, 0,&#39;o&#39;,&#39;linewidth&#39;,1.2);   % 均值axis([0 28 0 0.14]);width = 240;   % 240pt  US letter 双栏 1pt = 1/72inch   1 inch = 25.4mmxlabel(&#39;\fontname{宋体}力模长\fontname{Times New Roman}(N)&#39;,&#39;Fontname&#39;, &#39;Times New Roman&#39;);% xlabel(&#39;Torque $M_x$ (Nm)&#39;,&#39;interpreter&#39;,&#39;latex&#39;,&#39;FontSize&#39;,8); % Latex格式的labelylabel(&#39;\fontname{宋体}概率&#39;,&#39;Fontname&#39;, &#39;Times New Roman&#39;);set(gcf,&#39;unit&#39;,&#39;points&#39;,&#39;PaperUnits&#39;,&#39;points&#39;,&#39;PaperPosition&#39;,[0,0,width,width/5*4],...    &#39;position&#39;,[500 300 width width/5*4],&#39;color&#39;,&#39;w&#39;,&#39;PaperSize&#39;,[width, width/5*4]);set(gca, &#39;Fontsize&#39;, 8);   % 坐标轴句柄，设置坐标轴刻度数字样式L1 = legend([P1 P2 P3],&#39;高斯分布&#39;,&#39;均值&#39;,&#39;阈值&#39;);set(L1,&#39;Location&#39;,&#39;northeast&#39;,&#39;Orientation&#39;,&#39;vertical&#39;,...    &#39;Fontname&#39;, &#39;宋体&#39;,&#39;FontSize&#39;,8,&#39;TextColor&#39;,&#39;black&#39;);% legend 格式% set(gca, &#39;XTick&#39;,0:4:20);  % 设置X轴刻度print(&#39;S:\PbD\graph\Force_threhold_change&#39;,&#39;-djpeg&#39;,&#39;-r600&#39;);</code></pre><p>legend 放置两排 需要鼠标拖动调整位置</p><pre><code>    L1 = legend([P1 P2 P3],&#39;X\fontname{宋体}变扰动力&#39;,&#39;Y\fontname{宋体}变扰动力&#39;,&#39;Z\fontname{宋体}变扰动力&#39;);    set(L1,&#39;Location&#39;,&#39;north&#39;,&#39;Orientation&#39;,&#39;horizontal&#39;,...        &#39;Fontname&#39;, &#39;Times New Roman&#39;,&#39;FontSize&#39;,8,&#39;TextColor&#39;,&#39;black&#39;);% legend 格式    ah=axes(&#39;position&#39;,get(gca,&#39;position&#39;),&#39;visible&#39;,&#39;off&#39;);    L2=legend(ah,[P4 P5 P6],&#39;X\fontname{宋体}恒扰动力&#39;,&#39;Y\fontname{宋体}恒扰动力&#39;,...        &#39;Z\fontname{宋体}恒扰动力&#39;,&#39;orientation&#39;,&#39;horizontal&#39;,&#39;location&#39;,&#39;north&#39;);    set(L2,    &#39;Fontname&#39;, &#39;Times New Roman&#39;,&#39;FontSize&#39;,8,&#39;TextColor&#39;,&#39;black&#39;);% legend 格式    set(L1,&#39;box&#39;,&#39;off&#39;);        % 根据需要可以去除legend边框    set(L2,&#39;box&#39;,&#39;off&#39;);</code></pre><p>去除图框白边    </p><pre><code>    set(gca,&#39;looseInset&#39;,[0 0 0 0]);       % 缩放坐标轴 去除图框白边 三维图不是很好用</code></pre><p>设置label等对象位置两种方式</p><pre><code>    x = xlabel(&#39;\fontname{宋体}力模长\fontname{Times New Roman}(N)&#39;);    set(x,&#39;Position&#39;,[0.1,0.1])    xlabel(&#39;\fontname{宋体}力模长\fontname{Times New Roman}(N)&#39;,&#39;Position&#39;,[0.1,0.1]);</code></pre><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol><li><a href="https://blog.csdn.net/weixin_38452468/article/details/90171772" target="_blank" rel="noopener">Matlab常用绘图命令</a></li><li><a href="https://blog.csdn.net/seamanj/article/details/35790359" target="_blank" rel="noopener">MATLAB中的视角处理</a>     </li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;常用绘图命令&quot;&gt;&lt;a href=&quot;#常用绘图命令&quot; class=&quot;headerlink&quot; title=&quot;常用绘图命令&quot;&gt;&lt;/a&gt;常用绘图命令&lt;/h1&gt;&lt;h2 id=&quot;命令查看&quot;&gt;&lt;a href=&quot;#命令查看&quot; class=&quot;headerlink&quot; title=&quot;命
-      
-    
-    </summary>
-    
-      <category term="software" scheme="http://yangbenbo.github.io/categories/software/"/>
-    
-    
-      <category term="matlab" scheme="http://yangbenbo.github.io/tags/matlab/"/>
     
   </entry>
   
