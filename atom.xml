@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yangbenbo.github.io/"/>
-  <updated>2020-10-27T06:45:29.261Z</updated>
+  <updated>2020-11-10T06:08:12.355Z</updated>
   <id>http://yangbenbo.github.io/</id>
   
   <author>
@@ -15,6 +15,57 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>python 装饰器</title>
+    <link href="http://yangbenbo.github.io/2020/11/10/python-%E8%A3%85%E9%A5%B0%E5%99%A8/"/>
+    <id>http://yangbenbo.github.io/2020/11/10/python-装饰器/</id>
+    <published>2020-11-10T06:00:30.000Z</published>
+    <updated>2020-11-10T06:08:12.355Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="python装饰器-property"><a href="#python装饰器-property" class="headerlink" title="python装饰器 @property"></a>python装饰器 @property</h2><p>绑定属性时有时候我们只想只读类的属性值,或者有限制的更改类的属性值</p><p>可以使用get()和set()方法,但是略显复杂,使用装饰器可以更简单,python内置的@property装饰器负责把方法变成属性调用</p><pre><code>class Student(object):    @property    def score(self):        return self._score    @score.setter    def score(self, value):        if not isinstance(value, int):            raise ValueError(&#39;score must be an integer!&#39;)        if value &lt; 0 or value &gt; 100:            raise ValueError(&#39;score must between 0 ~ 100!&#39;)        self._score = value</code></pre><p>把getter方法变成属性时只需要@property,@score.setter负责把setter方法变成属性赋值,对于只读属性可只定义getter方法</p><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ol><li><a href="https://www.liaoxuefeng.com/wiki/1016959663602400/1017502538658208" target="_blank" rel="noopener">廖雪峰python教程 使用@property</a>             </li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;python装饰器-property&quot;&gt;&lt;a href=&quot;#python装饰器-property&quot; class=&quot;headerlink&quot; title=&quot;python装饰器 @property&quot;&gt;&lt;/a&gt;python装饰器 @property&lt;/h2&gt;&lt;p&gt;绑定属性
+      
+    
+    </summary>
+    
+      <category term="program" scheme="http://yangbenbo.github.io/categories/program/"/>
+    
+    
+      <category term="python" scheme="http://yangbenbo.github.io/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>解决conda和ros库不兼容问题,libapr-1.so.0：对‘uuid_generate@UUID_1.0’未定义的引用</title>
+    <link href="http://yangbenbo.github.io/2020/11/10/%E8%A7%A3%E5%86%B3libapr-1-so-0%EF%BC%9A%E5%AF%B9%E2%80%98uuid-generate-UUID-1-0%E2%80%99%E6%9C%AA%E5%AE%9A%E4%B9%89%E7%9A%84%E5%BC%95%E7%94%A8/"/>
+    <id>http://yangbenbo.github.io/2020/11/10/解决libapr-1-so-0：对‘uuid-generate-UUID-1-0’未定义的引用/</id>
+    <published>2020-11-10T03:05:40.000Z</published>
+    <updated>2020-11-10T03:35:05.667Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="主要是因为conda和ros兼容的问题"><a href="#主要是因为conda和ros兼容的问题" class="headerlink" title="主要是因为conda和ros兼容的问题"></a>主要是因为conda和ros兼容的问题</h2><ol><li>问题关键词： <strong>libapr-1.so.0</strong>和<strong>uuid</strong></li><li><p>locate第一个关键词: </p><pre><code> $ locate libapr-1.so.0  /usr/lib/x86_64-linux-gnu/libapr-1.so.0 /usr/lib/x86_64-linux-gnu/libapr-1.so.0.5.2</code></pre></li><li><p>查看该库对第二个关键字的依赖包位置</p><pre><code> $ ldd /usr/lib/x86_64-linux-gnu/libapr-1.so.0 |grep uuid libuuid.so.1 =&gt; /lib/x86_64-linux-gnu/libuuid.so.1 (0x00007f3588aab000)</code></pre><p> 这是ros系统所使用的库依赖，报错是因为anaconda中也有libuuid.so.1,但是版本不同</p></li><li><p>locate第二个关键词</p><pre><code>$ locate libuuid.so.1  /home/yang/anaconda3/envs/franka/lib/libuuid.so.1/home/yang/anaconda3/envs/franka/lib/libuuid.so.1.0.0/home/yang/anaconda3/lib/libuuid.so.1/home/yang/anaconda3/lib/libuuid.so.1.0.0/home/yang/anaconda3/pkgs/libuuid-1.0.3-h1bed415_2/lib/libuuid.so.1/home/yang/anaconda3/pkgs/libuuid-1.0.3-h1bed415_2/lib/libuuid.so.1.0.0/lib/i386-linux-gnu/libuuid.so.1/lib/i386-linux-gnu/libuuid.so.1.3.0/lib/x86_64-linux-gnu/libuuid.so.1/lib/x86_64-linux-gnu/libuuid.so.1.3.0/snap/core/10126/lib/x86_64-linux-gnu/libuuid.so.1/snap/core/10126/lib/x86_64-linux-gnu/libuuid.so.1.3.0/snap/core/10185/lib/x86_64-linux-gnu/libuuid.so.1/snap/core/10185/lib/x86_64-linux-gnu/libuuid.so.1.3.0</code></pre><p>可以看出,ros使用的是/lib/x86_64-linux-gnu/libuuid.so.1,由于anaconda的存在,我使用的库是/home/yang/anaconda3/envs/franka/lib/libuuid.so.1<br>对比两个版本</p><pre><code>$ ll /lib/x86_64-linux-gnu/ |grep uuid   lrwxrwxrwx  1 root root      16 Jan 27  2020 libuuid.so.1 -&gt; libuuid.so.1.3.0-rw-r--r--  1 root root   18976 Jan 27  2020 libuuid.so.1.3.0$ ll ~/anaconda3/envs/franka/lib |grep uuid-rw-rw-r--  3 yang yang    26398 Jan 12  2018 libuuid.a-rwxrwxr-x  1 yang yang      978 Nov  9 16:05 libuuid.la*lrwxrwxrwx  1 yang yang       16 Nov  9 16:05 libuuid.so -&gt; libuuid.so.1.0.0*lrwxrwxrwx  1 root root       34 Nov 10 09:35 libuuid.so.1 -&gt; libuuid.so.1.0.0*-rwxrwxr-x  3 yang yang    18472 Jan 12  2018 libuuid.so.1.0.0*可以看出系统库是1.3.0版本,anaconda使用的是1.0.0版本</code></pre></li><li><p>把anaconda库链接到系统的库(比较简单,可以先把anaconda对应库备份一下,也可以考虑升级anaconda对应库,但是我没找到)</p><pre><code> mv ~/anaconda3/envs/franka/lib/libuuid.so.1 ~/anaconda3/envs/franka/lib/libuuid.so.1.back        sudo ln -s /lib/x86_64-linux-gnu/libuuid.so.1 ~/anaconda3/envs/franka/lib/libuuid.so.1</code></pre></li></ol><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ol><li><a href="https://blog.csdn.net/qq_36013249/article/details/103311001" target="_blank" rel="noopener">解决libapr-1.so.0：对‘uuid_generate@UUID_1.0’未定义的引用</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;主要是因为conda和ros兼容的问题&quot;&gt;&lt;a href=&quot;#主要是因为conda和ros兼容的问题&quot; class=&quot;headerlink&quot; title=&quot;主要是因为conda和ros兼容的问题&quot;&gt;&lt;/a&gt;主要是因为conda和ros兼容的问题&lt;/h2&gt;&lt;ol&gt;
+
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://yangbenbo.github.io/categories/Linux/"/>
+    
+    
+      <category term="anaconda" scheme="http://yangbenbo.github.io/tags/anaconda/"/>
+    
+  </entry>
   
   <entry>
     <title>python基础</title>
@@ -506,56 +557,6 @@ show tables;
     
     
       <category term="wps" scheme="http://yangbenbo.github.io/tags/wps/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ROS遇到的问题</title>
-    <link href="http://yangbenbo.github.io/2019/12/21/ROS%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/"/>
-    <id>http://yangbenbo.github.io/2019/12/21/ROS遇到的问题/</id>
-    <published>2019-12-21T03:54:38.000Z</published>
-    <updated>2020-10-27T06:50:04.790Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="终端结束所有节点之后显示仍有节点"><a href="#终端结束所有节点之后显示仍有节点" class="headerlink" title="终端结束所有节点之后显示仍有节点"></a>终端结束所有节点之后显示仍有节点</h1><p>清理node,否则影响查看节点通信</p><pre><code>rosnode listrosnode cleanup</code></pre><h1 id="程序排错"><a href="#程序排错" class="headerlink" title="程序排错"></a>程序排错</h1><p>首先看<strong>循环</strong>,是否调用ros::spinOnce(),对应的数据是否更新</p><p>好几次是因为循环没有更新数据,排错废了不少时间</p><ul><li>没有调用ros::spinOnce(),导致没有处理回调函数,也就没有更新数据</li><li>回调函数处理后的数据是否放入对应变量,有时候用的是中间变量,导致更新的数据没有放进去</li></ul><p>ROS也有异步更新的机制,之前用过,出过一次问题,可以根据需要选择更新的机制</p><h1 id="KDL和trac-ik库使用"><a href="#KDL和trac-ik库使用" class="headerlink" title="KDL和trac-ik库使用"></a>KDL和trac-ik库使用</h1><p>在ubuntu16+ros kinetic 和ubuntu18+ros melodic中不一样<br>后一版本中需要用于初始化正逆解对象的KDL::Chain一直存在，可作为类成员变量，可能是后一版本中进行了优化，减少了拷贝的次数</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;终端结束所有节点之后显示仍有节点&quot;&gt;&lt;a href=&quot;#终端结束所有节点之后显示仍有节点&quot; class=&quot;headerlink&quot; title=&quot;终端结束所有节点之后显示仍有节点&quot;&gt;&lt;/a&gt;终端结束所有节点之后显示仍有节点&lt;/h1&gt;&lt;p&gt;清理node,否则影响查看节
-      
-    
-    </summary>
-    
-      <category term="ROS" scheme="http://yangbenbo.github.io/categories/ROS/"/>
-    
-    
-      <category term="ROS" scheme="http://yangbenbo.github.io/tags/ROS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>网络基础</title>
-    <link href="http://yangbenbo.github.io/2019/12/15/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/"/>
-    <id>http://yangbenbo.github.io/2019/12/15/网络基础/</id>
-    <published>2019-12-15T14:24:56.000Z</published>
-    <updated>2020-09-23T14:42:00.876Z</updated>
-    
-    <content type="html"><![CDATA[<p> TCP/IP 协定家族中，其层阶关係如下<br><img src="/2019/12/15/网络基础/TCPIPfamily.png" alt><br>TCP/IP 的资料流是逐层传递的<br><img src="/2019/12/15/网络基础/TCPIPdata.png" alt></p><p>OSI 7层:前3属网络群组,后4属于使用者群组</p><p>TCP/IP 运作举例</p><ol><li>应用程式阶段：妳打开瀏览器，在瀏览器上面输入网址列，按下 [Enter]。此时网址列与相关资料会被瀏览器包成一个资料， 並向下传给 TCP/IP 的应用层；</li><li>应用层：由应用层提供的 HTTP 通讯协定，將来自瀏览器的资料包起来，並给予一个应用层表头，再向传送层丟去；</li><li>传送层：由於 HTTP 为可靠连线，因此將该资料丟入 TCP 封包內，並给予一个 TCP 封包的表头，向网路层丟去；</li><li>网路层：將 TCP 包裹包进 IP 封包內，再给予一个 IP 表头 (主要就是来源与目標的 IP 囉)，向链结层丟去；</li><li>链结层：如果使用乙太网路时，此时 IP 会依据 CSMA/CD 的標准，包裹到 <strong>MAC</strong> 讯框中，並给予 MAC 表头，再转成位元串后， 利用传输媒体传送到远端主机上。</li></ol><p><strong>IP地址应用于OSI第三层，即网络层，而MAC地址应用在OSI第二层，即数据链路层。</strong><br><img src="/2019/12/15/网络基础/OSI_TCPIP.png" alt="OSI与TCP/IP"></p><h1 id="ARP-RARP"><a href="#ARP-RARP" class="headerlink" title="ARP/RARP"></a>ARP/RARP</h1><ol><li>ARP 协定:Address Resolution Protocol,获取目标IP对应的物理地址,实际传输都是靠物理地址.<br>ARP 是 TCP/IP 设计者利用乙太网的广播性质﹐设计出来的位址解释协定。</li><li>RARP 协定:Reverse Address Resolution Protocol,利用广播,查询网路上其它主机而得到自己的 IP 位址.</li><li>PROXY ARP:代理 (Proxy) ARP 通常用来在路由器上代为回答在它后面的某个网路主机的 ARP 请求。<br>这是一种欺骗手法﹐因为查询端会以为目標主机就是路由器本身﹐但事实上﹐机器是在另一个网路里面。</li></ol><h1 id="IP"><a href="#IP" class="headerlink" title="IP"></a>IP</h1><p><img src="/2019/12/15/网络基础/IPHead.png" alt><br>在局域网内可通过ip广播来传递资料,非目标主机会自动丢弃资料(通过物理地址判断)</p><p>同一局域网内设置成不同ip网段,广播地址不同造成无法透过广播的方式进行连线,需要路由(router)</p><h2 id="IP地址"><a href="#IP地址" class="headerlink" title="IP地址"></a>IP地址</h2><ol><li><p>IP划分<br> <img src="/2019/12/15/网络基础/IPSection.png" alt><br> 127 (即二进位的 01111111) 需要特別一提：它是保留给本机回路测试使用的﹐<br> 它不可以被运用於实际的网路中，其中的 127.0.0.1 则代表任何一台 IP 主机本身.</p><ul><li>主机号位置全为0    整个网段的地址</li><li>主机号位置全为1    广播地址</li></ul></li><li><p>私有IP<br> 住主要用于组建局域网</p><p> 由於 Internet 的爆炸性成长﹐IP 的位址买少见少﹐而且在很多机构里﹐<br> 也不是所有机器都有必要使用註册的 IP 位址。於是﹐我们就在 A﹑B﹑C 这三个层级里面﹐<br> 各划出一些位址范围保留给私有位址所用﹐它们分別是﹕</p><ul><li>10.0.0.0 - 10.255.255.255</li><li>172.16.0.0 - 172.31.255.255</li><li><p>192.168.0.0 - 192.168.255.255</p><p>限制:</p></li><li>私有位址的路由资讯不能对外散播;</li><li>使用私有位址作为来源或目的位址的封包﹐不能透过 Internet 来转送;</li><li>关於私有位址的参考纪录﹐只能限於內部网路使用</li></ul></li><li><p>Subnet:划分子网,从Host ID中借位<br> <img src="/2019/12/15/网络基础/Subnet.png" alt="Subnet"></p></li><li>Supernet:从NET ID中借位使用的是 CIDR (Classless Inter-Domain Routing)技术.可不必理会 IP 的开首字元﹐你可以隨便设定您的 Net Mask 长度。<br> <img src="/2019/12/15/网络基础/Supernet.png" alt="Supernet"></li></ol><h1 id="ICMP"><a href="#ICMP" class="headerlink" title="ICMP"></a>ICMP</h1><p>ICMP 的全名是『 Internet Control Message Protocol, 网际网路讯息控制协定 』。 基本上，ICMP 是一个错误侦测与回报的机制，最大的功能就是可以確保我们网路的连线状態与连线的正確性！</p><p>ICMP 同样是透过 IP 封包来进行资料传送的啦！因为在 Internet 上面有传输能力的就是 IP 封包啊！ </p><p>应用:使用ping 与 traceroute透过 ICMP 封包的辅助来確认与回报网路主机的状態。</p><p>设定防火墙的时候,容易忽略的就是这个 ICMP 的封包(只会记住 TCP/UDP),基本上，ICMP 封包也不应该全部都挡掉喔! </p><h1 id="TCP-UDP"><a href="#TCP-UDP" class="headerlink" title="TCP/UDP"></a>TCP/UDP</h1><p>针对TCP表头,主要注意6个Control FLag.相应的TCP3次握手也主要是从这个来的</p><ul><li>Urgent data:当 URG 被设定为 1 的时候﹐表示紧急资料的封包，接收端需优先处理。</li><li>Acknowledge field significant:当 ACK 为 1 的时候﹐表示此封包的 Acknowledge Number 是有效的﹐也就是用来回应上一个封包。一般都会为 1。一般只有只有第一个封包没有设。</li><li>Push function:如果 PSH 为 1 的时候﹐该封包连同传送缓衝区的其它封包应立即进行传送，而无需等待缓衝区满了才送。接收端必须儘快將此资料交给程式处理。</li><li>Reset:如果 RST 为 1 的时候﹐连线会被马上结束，而无需等待终止確认手续。</li><li>Synchronize sequence number:如果 SYN 为 1 时﹐表示要求双方进行同步处理﹐也就是要求建立连线。</li><li>No more data fro sender (Finish):如果封包的 FIN 为 1 的时候﹐就表示传送结束﹐然后双方发出结束回应﹐进而正式进入 TCP 传送的终止流程。</li></ul><p><img src="/2019/12/15/网络基础/TCPHead.png" alt="TCPHead"><br>Sequence 和 Acknowledge 是 TCP 传送中的重要检测手段.<br><img src="/2019/12/15/网络基础/TCPTrans.png" alt="TCPTrans"><br><img src="/2019/12/15/网络基础/UDPHead.png" alt="UDPHead"><br>TCP 提供的是一个连线导向(Connection Oriented)的可靠传输.<br>UDP 则是一个非连线型(Connectionless)的非可靠传输协定﹐<br>它並不会运用確认机制来保证资料是否正確的被接收、<br>不需要重传遗失的资料、资料的接收可不必按顺序进行、<br>也不提供回传机制来控制资料流的速度。<br>因此﹐ UDP 信息可能会在网路传送过程中丟失﹑重复﹑或不依顺序﹐<br>而且抵达速度也可能比接收端的处理速度还快。</p><ul><li>TCP: 传送可靠,程序可省略可靠机制,但速度慢</li><li>UDP: 传输量大,迅速,但是不可靠,需要程序自行提供可靠机制</li></ul><h1 id="CSMA-CD"><a href="#CSMA-CD" class="headerlink" title="CSMA/CD"></a>CSMA/CD</h1><p>乙太网路的传输协定 CSMA/CD (Carrier Sense Multiple Access with Collision Detection) </p><p>虽然讯框会在整个网段(segment)中用广播的方式传递﹐而且所有节点都会收到讯框﹐<br>然而﹐只有目的位址符合自己实体位址的讯框才会被接收下来。<br>因此，不管上层协定是哪一种(可以是 TCP/IP 也可以是其它)，<br>在底层的传送若是使用 Ethernet 的话，就得使用 <strong>MAC (Media Access Control) </strong>实体位址.</p><ol><li><p>监听媒体使用情况 (Carrier Sense)：A 主机要发送网路封包前，需要先对网路媒体进行监听，<br>確认没有人在使用后， 才能够发送出讯框；</p></li><li><p>多点传输 (Multiple Access)：A 主机所送出的资料会被集线器复製一份，<br>然后传送给所有连接到此集线器的主机！ 也就是说， A 所送出的资料，<br>B, C, D 三部电脑都能够接收的到！但由於目標是 D 主机，因此 B 与 C 会將此讯框资料丟弃，而 D 则会抓下来处理；</p></li><li><p>碰撞侦测 (Collision Detection)：该讯框资料附有检测能力，<br>若其他主机例如 B 电脑也刚好在同时间发送讯框资料时，<br>那么 A 与 B 送出的资料碰撞在一块 (出车祸) ，此时这些讯框就是损毁，<br>那么 A 与 B 就会各自隨机等待一个时间， 然后重新透过第一步再传送一次该讯框资料。</p></li></ol><p><img src="/2019/12/15/网络基础/csmacd.gif" alt="CSMA/CD连线"></p><p>每张乙太网路卡出厂时，就会赋予一个独一无二的卡號，那就是所谓的 MAC (Media Access Control)</p><ol><li><p>HUB 单纯的是一个 repeater﹐当它从一个 port (和 TCP 协定的 port 不一样﹐这里<br>是指插网路线的接孔)接收信號进来之后﹐会將这个信號原原本本的送到所有其它<br>port 上﹐不管哪些 port 是接到哪一台机器。</p></li><li><p>而 switch 呢﹖它自己有一份 table﹐记录著哪个 port 接到哪些 MAC 位址设备上。<br>当信號从一个 port 进来之后﹐会检查这个 frame 的 destination 是哪个 MAC﹐然<br>后按 table 找到这个 MAC 对应的 port ﹐而仅將信號往这个 port 送﹐其它的 port<br>就不送了。</p></li></ol><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://zh.wikipedia.org/wiki/%E8%BD%BD%E6%B3%A2%E4%BE%A6%E5%90%AC%E5%A4%9A%E8%B7%AF%E8%AE%BF%E9%97%AE#CSMA/CD" target="_blank" rel="noopener">载波侦听多路访问</a></li><li><a href="http://linux.vbird.org/linux_server/0110network_basic.php#ps11" target="_blank" rel="noopener">基础网络概念</a></li><li><a href="http://www.study-area.org/network/networkfr2.htm" target="_blank" rel="noopener">网络基础</a> </li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt; TCP/IP 协定家族中，其层阶关係如下&lt;br&gt;&lt;img src=&quot;/2019/12/15/网络基础/TCPIPfamily.png&quot; alt&gt;&lt;br&gt;TCP/IP 的资料流是逐层传递的&lt;br&gt;&lt;img src=&quot;/2019/12/15/网络基础/TCPIPdata.pn
-      
-    
-    </summary>
-    
-      <category term="internet" scheme="http://yangbenbo.github.io/categories/internet/"/>
-    
-    
-      <category term="网络基础" scheme="http://yangbenbo.github.io/tags/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/"/>
     
   </entry>
   
