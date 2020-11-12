@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yangbenbo.github.io/"/>
-  <updated>2020-11-10T06:08:12.355Z</updated>
+  <updated>2020-11-12T00:49:32.212Z</updated>
   <id>http://yangbenbo.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>电脑小问题记录</title>
+    <link href="http://yangbenbo.github.io/2020/11/12/%E7%94%B5%E8%84%91%E5%B0%8F%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/"/>
+    <id>http://yangbenbo.github.io/2020/11/12/电脑小问题记录/</id>
+    <published>2020-11-12T00:43:35.000Z</published>
+    <updated>2020-11-12T00:49:32.212Z</updated>
+    
+    <content type="html"><![CDATA[<p>电脑的问题有时候是硬件问题,需要细心排查</p><h2 id="电脑无法正常启动"><a href="#电脑无法正常启动" class="headerlink" title="电脑无法正常启动"></a>电脑无法正常启动</h2><ol><li>电脑上电之后马上自己断电,如此反复<br> 把线头紧一下,内存条拿下来擦一下就可以了,可能是线头送了或者之前打扫的时候灰尘太大影响的主板</li><li>双系统电脑开机之后没有ubuntu grub启动项选项,直接进入ubuntu,进系统前显示屏一直没有信号输入<br> 电脑显示器插头松了.另一种可能是需要把内存条拿下来擦一下    </li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;电脑的问题有时候是硬件问题,需要细心排查&lt;/p&gt;
+&lt;h2 id=&quot;电脑无法正常启动&quot;&gt;&lt;a href=&quot;#电脑无法正常启动&quot; class=&quot;headerlink&quot; title=&quot;电脑无法正常启动&quot;&gt;&lt;/a&gt;电脑无法正常启动&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;电脑上电之后马上自己断电
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://yangbenbo.github.io/categories/Linux/"/>
+    
+    
+      <category term="软硬件" scheme="http://yangbenbo.github.io/tags/%E8%BD%AF%E7%A1%AC%E4%BB%B6/"/>
+    
+  </entry>
   
   <entry>
     <title>python 装饰器</title>
@@ -531,32 +558,6 @@ show tables;
     
     
       <category term="自动控制原理" scheme="http://yangbenbo.github.io/tags/%E8%87%AA%E5%8A%A8%E6%8E%A7%E5%88%B6%E5%8E%9F%E7%90%86/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ubuntu下wps缺少字体</title>
-    <link href="http://yangbenbo.github.io/2019/12/22/ubuntu%E4%B8%8Bwps%E7%BC%BA%E5%B0%91%E5%AD%97%E4%BD%93/"/>
-    <id>http://yangbenbo.github.io/2019/12/22/ubuntu下wps缺少字体/</id>
-    <published>2019-12-22T03:34:17.000Z</published>
-    <updated>2020-09-23T14:42:00.860Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="安装字体"><a href="#安装字体" class="headerlink" title="安装字体"></a>安装字体</h1><ol><li>下载字体<a href="https://github.com/yangbenbo/wps-font-symbols/archive/master.zip" target="_blank" rel="noopener">https://github.com/yangbenbo/wps-font-symbols/archive/master.zip</a></li><li><p>解压并复制到字体文件夹</p><p> unzip wps-font-symbols-master.zip<br> sudo cp -r wps-font-symbols-master /usr//share/fonts/</p></li></ol><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol><li><a href="https://blog.csdn.net/u014241313/article/details/91070843" target="_blank" rel="noopener">Linux Wps 缺少字体</a>    </li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;安装字体&quot;&gt;&lt;a href=&quot;#安装字体&quot; class=&quot;headerlink&quot; title=&quot;安装字体&quot;&gt;&lt;/a&gt;安装字体&lt;/h1&gt;&lt;ol&gt;
-&lt;li&gt;下载字体&lt;a href=&quot;https://github.com/yangbenbo/wps-font-symbo
-      
-    
-    </summary>
-    
-      <category term="Linux" scheme="http://yangbenbo.github.io/categories/Linux/"/>
-    
-    
-      <category term="wps" scheme="http://yangbenbo.github.io/tags/wps/"/>
     
   </entry>
   
