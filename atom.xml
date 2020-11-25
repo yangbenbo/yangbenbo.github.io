@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yangbenbo.github.io/"/>
-  <updated>2020-11-24T00:53:10.466Z</updated>
+  <updated>2020-11-25T09:23:26.485Z</updated>
   <id>http://yangbenbo.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>四元数</title>
+    <link href="http://yangbenbo.github.io/2020/11/25/%E5%9B%9B%E5%85%83%E6%95%B0/"/>
+    <id>http://yangbenbo.github.io/2020/11/25/四元数/</id>
+    <published>2020-11-25T07:36:23.000Z</published>
+    <updated>2020-11-25T09:23:26.485Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="四元数"><a href="#四元数" class="headerlink" title="四元数"></a>四元数</h1><p>四元数是由爱尔兰数学家威廉·卢云·哈密顿在1843年创立出的数学概念.速度更快、提供平滑插值、有效避免万向锁问题、存储空间较小.</p><script type="math/tex; mode=display">q=a+b i+c j+d k \quad(a, b, c, d \in \mathbb{R})</script><p>其中</p><script type="math/tex; mode=display">i^{2}=j^{2}=k^{2}=i j k=-1</script><h2 id="罗德里格旋转公式-Rodrigues’-rotation-formula"><a href="#罗德里格旋转公式-Rodrigues’-rotation-formula" class="headerlink" title="罗德里格旋转公式(Rodrigues’ rotation formula)"></a>罗德里格旋转公式(Rodrigues’ rotation formula)</h2><p>罗德里格旋转公式是在给定转轴和旋转角度后,旋转一个向量的有效算法.公式如下,具体推导参考图片(<a href="https://commons.wikimedia.org/w/index.php?curid=43943835" target="_blank" rel="noopener">By Maschen - Own work, CC0</a>)</p><p><img src="/2020/11/25/四元数/rodrigues_rotation_formula.svg" alt="rodrigues rotation formula"></p><script type="math/tex; mode=display">\mathbf{v}_{\mathrm{rot}}=\mathbf{v} \cos \theta+(\mathbf{k} \times \mathbf{v}) \sin \theta+\mathbf{k}(\mathbf{k} \cdot \mathbf{v})(1-\cos \theta)</script><h2 id="四元数基本运算"><a href="#四元数基本运算" class="headerlink" title="四元数基本运算"></a>四元数基本运算</h2><ul><li><p>模长</p><script type="math/tex; mode=display">  \|q\|=\sqrt{a^{2}+b^{2}+c^{2}+d^{2}}</script></li><li><p>加减法</p><script type="math/tex; mode=display">  q_{1} \pm q_{2}=[s \pm t, \mathbf{v} \pm \mathbf{u}]</script></li><li><p>乘法<br>  对任意四元数 $q_{1}=[s, \mathbf{v}], q_{2}=[t, \mathbf{u}]$ 有</p><script type="math/tex; mode=display">  q_{1} q_{2}=[s t-\mathbf{v} \cdot \mathbf{u}, s \mathbf{u}+t \mathbf{v}+\mathbf{v} \times \mathbf{u}]</script></li><li><p>逆</p><script type="math/tex; mode=display">  q^{-1}=\frac{q^{*}}{\|q\|^{2}}</script><script type="math/tex; mode=display">  q_{1}^{*} q_{2}^{*}=\left(q_{2} q_{1}\right)^{*}</script></li><li><p>旋转公式</p><script type="math/tex; mode=display">  v^{\prime}=q v q^{*}=q v q^{-1}</script><p>  可借助罗德里格旋转公式,分别对垂直旋转轴和平行旋转轴的向量进行旋转.</p><p>  或者借助$\mathbf{a} \times(\mathbf{b} \times \mathbf{c})=(\mathbf{a} \cdot \mathbf{c}) \mathbf{b}-(\mathbf{a} \cdot \mathbf{b}) \mathbf{c}$直接推导</p><script type="math/tex; mode=display">  q v q^{*}=[0, \cos (\theta) \mathbf{v}+(1-\cos (\theta))(\mathbf{u} \cdot \mathbf{v}) \mathbf{u}+\sin (\theta)(\mathbf{u} \times \mathbf{v})]</script><p>  注意:可以证明<strong>即使v不是实部为0的纯四元数,旋转公式所得结果的向量部分也相同</strong></p></li></ul><h2 id="双倍覆盖"><a href="#双倍覆盖" class="headerlink" title="双倍覆盖"></a>双倍覆盖</h2><p>四元数q与-q表示同一个旋转,轴正方向旋转$\theta $,与反方向旋转$2\pi  - \theta $等价</p><h2 id="四元数插值"><a href="#四元数插值" class="headerlink" title="四元数插值"></a>四元数插值</h2><ol><li><p>两个四元数之间中间变换<br> 两个四元数之间的中间变换可以通过对空间中一个向量的变换来理解.<br> 四元数${q_0}$到${q_1}$的变换</p><script type="math/tex; mode=display"> \begin{aligned} \Delta q &=q_{1} q_{0}^{*} \\ &=\left[\cos \left(\theta_{1}\right), \sin \left(\theta_{1}\right) \mathbf{u}_{1}\right]\left[\cos \left(\theta_{0}\right),-\sin \left(\theta_{0}\right) \mathbf{u}_{0}\right] \\ &=\left[\cos \left(\theta_{0}\right) \cos \left(\theta_{1}\right)-\left(\sin \left(\theta_{1}\right) \mathbf{u}_{1}\right) \cdot\left(-\sin \left(\theta_{0}\right) \mathbf{u}_{0}\right), \ldots\right] \\ &=\left[\cos \left(\theta_{0}\right) \cos \left(\theta_{1}\right)+\left(\sin \left(\theta_{1}\right) \mathbf{u}_{1}\right) \cdot\left(\sin \left(\theta_{0}\right) \mathbf{u}_{0}\right), \ldots\right] \end{aligned}</script><p> $\Delta q$的角度看实部就可以了,实部就是两个四元数的点乘${q_0} \cdot {q_1}$的结果,由于两个都是单位四元数,所以中间变换$\Delta q$在三维空间中实际旋转的角度就是两个四元数之间夹角的两倍</p></li><li><p>常用插值算法</p><ul><li>正规化线性插值（Normalized Linear Interpolation）,沿着直线进行差值,在差值角度比较大会出现角速度不均匀</li><li><p>球面线性插值 ( Spherical Linear Interpolation), 最常用的姿态差值算法, 运算会多一点,较慢, 小角度通常选用Nlerp,效果差不多, 还能避免除以0的错误, 实际算法中可以检测四元数之间的夹角, 小角度用Nlerp,大角度用Slerp</p><p><strong>同时由于双倍覆盖的问题,在进行姿态插值时需要先计算两个四元数之间夹角是否大于90°,如果大于可以把其中一个四元素反转,即-q</strong>       </p></li></ul></li></ol><h2 id="四元数在不同坐标系下变换"><a href="#四元数在不同坐标系下变换" class="headerlink" title="四元数在不同坐标系下变换"></a>四元数在不同坐标系下变换</h2><ol><li><p>求${q}$姿态对应坐标系下z轴在极坐标系下的表示如下,只需要把全局坐标系中z轴(0,0,1)进行对应变换就可以(同旋转矩阵一样,可以理解为旋转算子或者姿态)</p><script type="math/tex; mode=display">q \cdot z \cdot {q^ * }</script></li><li><p>求两个四元素之间的中间变换对应的轴,比如${q_1}$到${q_0}$,</p><p> ${q_0}q_1^*$,然后取出旋转轴就可以.如果想把轴转换到${q_0}$坐标系下,则旋转回来再提取轴</p><p> 另外在<a href="https://github.com/frankaemika/franka_ros/blob/kinetic-devel/franka_example_controllers/src/cartesian_impedance_example_controller.cpp" target="_blank" rel="noopener">franka程序</a>    中看到换了成了$q_0^ * {q_1}$ ,然后增加负号并旋转变换到基坐标系下,这里推导<strong>只针对向量部分</strong>,即旋转轴,借助前面的结论<strong>普通四元数与纯四元数使用旋转公式后向量部分同</strong><br> 这里还使用了单位四元数的共轭就是逆,即把向量部分取负号</p><script type="math/tex; mode=display">{q_0}( - q_0^ * {q_1})q_0^ *  = {q_0}{(q_0^ * {q_1})^{ - 1}}q_0^ *  = {q_0}q_1^ * {q_0}q_0^ *  = {q_0}q_1^ *</script></li></ol><h2 id="四元数可视化"><a href="#四元数可视化" class="headerlink" title="四元数可视化"></a>四元数可视化</h2><p>参考3blue1brown的教程,四元数变换可以理解为对四维空间的变换然后投影到三维空间成我们见到的.</p><p>变换的形象理解是拉伸和旋转,考虑一个四元数对另一个四元数的作用(变换),简单理解就是对四元数的基1,i,j,k作用看效果</p><ul><li>把位于原点的1拉伸到四元数乘子所在位置</li><li>绕轴旋转对应的角度</li></ul><p>文章:<a href="https://eater.net/quaternions" target="_blank" rel="noopener">Visualizing quaternions</a></p><p>视频:</p><ul><li><a href="https://www.bilibili.com/video/BV1SW411y7W1?from=search&amp;seid=14501682529068922403" target="_blank" rel="noopener">四元数的可视化</a></li><li><a href="https://www.bilibili.com/video/BV1Lt411U7og?from=search&amp;seid=14501682529068922403" target="_blank" rel="noopener">四元数和三维转动，可互动的探索式视频（请看链接）</a></li></ul><h2 id="重点参考"><a href="#重点参考" class="headerlink" title="重点参考"></a>重点参考</h2><p>文章内有对四元数的详细介绍,四元数插值部分也讲得非常清楚</p><div class="row">    <embed src="quaternion.pdf" width="100%" height="550" type="application/pdf"></div><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ol><li><a href="https://zh.wikipedia.org/wiki/%E5%9B%9B%E5%85%83%E6%95%B8" target="_blank" rel="noopener">四元数</a></li><li><a href="https://zh.wikipedia.org/wiki/%E7%BD%97%E5%BE%B7%E9%87%8C%E6%A0%BC%E6%97%8B%E8%BD%AC%E5%85%AC%E5%BC%8F" target="_blank" rel="noopener">罗德里格旋转公式</a></li><li><a href="https://mp.weixin.qq.com/s?__biz=MzI1MTA3MjA2Nw==&amp;mid=2650216092&amp;idx=1&amp;sn=7f99fc0bc70293a3c5719ca864ece4ca&amp;chksm=f1fb2db0c68ca4a674760ce8c8bda1c3c4c6bcace1def7bb6eb132bc14c916669fb736377296&amp;mpshare=1&amp;scene=23&amp;srcid=1125JzIIUJ2yJphL2dc91Yay&amp;sharer_sharetime=1606291414222&amp;sharer_shareid=e4ca836a049d31ddd8c4060a9b422e51#rd" target="_blank" rel="noopener">干货 | 欧拉角，四元数？晕头转向的空间姿态表示法（下篇）</a></li><li><a href="https://krasjet.github.io/quaternion/" target="_blank" rel="noopener">quaternion by krasjet</a></li><li><a href="https://www.qiujiawei.com/understanding-quaternions/" target="_blank" rel="noopener">Understanding Quaternions 中文翻译《理解四元数》</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;四元数&quot;&gt;&lt;a href=&quot;#四元数&quot; class=&quot;headerlink&quot; title=&quot;四元数&quot;&gt;&lt;/a&gt;四元数&lt;/h1&gt;&lt;p&gt;四元数是由爱尔兰数学家威廉·卢云·哈密顿在1843年创立出的数学概念.速度更快、提供平滑插值、有效避免万向锁问题、存储空间较小.&lt;/
+      
+    
+    </summary>
+    
+      <category term="math" scheme="http://yangbenbo.github.io/categories/math/"/>
+    
+    
+      <category term="四元数" scheme="http://yangbenbo.github.io/tags/%E5%9B%9B%E5%85%83%E6%95%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>逆运动学</title>
@@ -530,31 +555,6 @@ show tables;
     
     
       <category term="加速度" scheme="http://yangbenbo.github.io/tags/%E5%8A%A0%E9%80%9F%E5%BA%A6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ubuntu配置grub,指定默认内核</title>
-    <link href="http://yangbenbo.github.io/2020/01/09/ubuntu%E9%85%8D%E7%BD%AEgrub-%E6%8C%87%E5%AE%9A%E9%BB%98%E8%AE%A4%E5%86%85%E6%A0%B8/"/>
-    <id>http://yangbenbo.github.io/2020/01/09/ubuntu配置grub-指定默认内核/</id>
-    <published>2020-01-09T07:30:29.000Z</published>
-    <updated>2020-09-23T14:42:00.860Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Boot-Loader-grub2"><a href="#Boot-Loader-grub2" class="headerlink" title="Boot Loader: grub2"></a>Boot Loader: grub2</h1><p>BIOS 读完信息后,接下来就是会到第一个开机装置<br>的 MBR 去读取 boot loader.这个 boot loader 可以具有选单功能、直接加载核心文件以及控制权<br>移交的功能等，,系统必须要有 loader 才有办法加载该操作系统的核心就是了.</p><p>由于MBR是整个硬盘的第一个 sector 内的一个区块,充其量整个大小也才 446 bytes 而已.即使<br>是 GPT 也没有很大的扇区来储存 loader 的数据.所以分两个阶段</p><ul><li>执行 boot loader 主程序:在MBR或者boot sector,通常是最小主程序</li><li>主程序加载配置文件: 配置文件在/boot下,读取了文件系统定义数据之后就能够认识文件系统并读取该文件系统的核心</li></ul><h2 id="磁盘分区槽在grub2中的代号"><a href="#磁盘分区槽在grub2中的代号" class="headerlink" title="磁盘分区槽在grub2中的代号"></a>磁盘分区槽在grub2中的代号</h2><p>/boot/grub/grub.cfg  里面有set root=’hd1,gpt5’  指/boot目录挂载的区域</p><p>第一颗『搜寻到的硬盘』代号为：『(hd0)』，而该颗硬盘的第一号分区槽为『(hd0,1)』</p><ul><li>第一颗(MBR):     (hd0) (hd0,msdos1) (hd0,msdos2) (hd0,msdos3)….</li><li>第二颗(GPT):     (hd1) (hd1,gpt1) (hd1,gpt2) (hd1,gpt3)….</li><li>第三颗 (hd2):    (hd2,1) (hd2,2) (hd2,3)….</li></ul><h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><p>修改/etc/default/grub,然后使用updata-grub更新/boot/grub/grub.cfg</p><ol><li><p>数字</p><pre><code> GRUB_DEFAULT=&quot;1&gt; 0&quot;     #表示第二个选单子菜单的第一个  只使用&quot;0&quot; 表示第一个选单</code></pre></li><li><p>ID</p><pre><code> GRUB_DEFAULT=&quot;Advanced options for Ubuntu&gt;Ubuntu, with Linux 4.15.0-74-generic&quot;</code></pre><p> 可通过一下命令查看目前系统选单</p><pre><code> awk -F\&#39; &#39;/menuentry |submenu / {print $1 $2}&#39; /boot/grub/grub.cfg  </code></pre></li><li><p>saved   </p><pre><code>  GRUB_DEFAULT=saved     </code></pre><p> 代表使用 grub2-set-default 来设定哪一个 menuentry 为默认值的意思。通常预设为 0 </p></li></ol><h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><ol><li><p>调用了update-grub之后/boot/grub/grub.cfg并没有改变,查看文件内部发现grub.cfg是需要使用grub-mkconfig</p><pre><code> sudo grub-mkconfig -o /boot/grub/grub.cfg   # 可以先备份一下配置文件</code></pre></li></ol><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://github.com/UniversalRobots/Universal_Robots_ROS_Driver/blob/master/ur_robot_driver/doc/real_time.md" target="_blank" rel="noopener">Setup GRUB to always boot the real-time kernel</a></li><li>鸟哥的Linux私房菜-基础学习篇(第四版)         </li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;Boot-Loader-grub2&quot;&gt;&lt;a href=&quot;#Boot-Loader-grub2&quot; class=&quot;headerlink&quot; title=&quot;Boot Loader: grub2&quot;&gt;&lt;/a&gt;Boot Loader: grub2&lt;/h1&gt;&lt;p&gt;BIOS 读完信
-      
-    
-    </summary>
-    
-      <category term="Linux" scheme="http://yangbenbo.github.io/categories/Linux/"/>
-    
-    
-      <category term="grub" scheme="http://yangbenbo.github.io/tags/grub/"/>
     
   </entry>
   
