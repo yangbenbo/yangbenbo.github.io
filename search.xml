@@ -136,6 +136,40 @@ ftp 10.1.1.20
       </tags>
   </entry>
   <entry>
+    <title>Github SSH Key避免Hexo部署输入密码</title>
+    <url>/2019/10/01/Github-SSH-Key%E9%81%BF%E5%85%8DHexo%E9%83%A8%E7%BD%B2%E8%BE%93%E5%85%A5%E5%AF%86%E7%A0%81/</url>
+    <content><![CDATA[<h1 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h1><p>前提: 已经生成ssh公钥放在github</p>
+<p>修改_config.yaml,将部署方式从https改为ssh</p>
+<pre><code># Deployment
+## Docs: https://hexo.io/docs/deployment.html
+deploy:
+  type: git
+  repository: https://github.com/yangbenbo/yangbenbo.github.io.git
+  branch: master
+</code></pre><p>改为</p>
+<pre><code># Deployment
+## Docs: https://hexo.io/docs/deployment.html
+deploy:
+  type: git
+  repository: git@github.com:yangbenbo/yangbenbo.github.io.git
+  branch: master   
+</code></pre><h1 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h1><ol>
+<li>ubuntu换内核(kernel)启动 需要重新上传ssh-key              </li>
+</ol>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol>
+<li><a href="https://www.cnblogs.com/yaoel/p/5381826.html" target="_blank" rel="noopener">使用Github SSH Key来避免Hexo部署时输入账户密码</a>      </li>
+</ol>
+]]></content>
+      <categories>
+        <category>Blog</category>
+      </categories>
+      <tags>
+        <tag>blog</tag>
+        <tag>ssh</tag>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux + Qt5 + ROS配置Qwtplot3d</title>
     <url>/2020/05/12/Linux-Qt5-ROS%E9%85%8D%E7%BD%AEQwtplot3d/</url>
     <content><![CDATA[<p>qwtplot3D是一个Qt第三方库,在OpenGL基础上封装了一层可以用来三维绘图.</p>
@@ -213,40 +247,6 @@ target_link_libraries(qwtdemo ${QT_LIBRARIES} ${catkin_LIBRARIES}
       <tags>
         <tag>Qt</tag>
         <tag>ROS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Github SSH Key避免Hexo部署输入密码</title>
-    <url>/2019/10/01/Github-SSH-Key%E9%81%BF%E5%85%8DHexo%E9%83%A8%E7%BD%B2%E8%BE%93%E5%85%A5%E5%AF%86%E7%A0%81/</url>
-    <content><![CDATA[<h1 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h1><p>前提: 已经生成ssh公钥放在github</p>
-<p>修改_config.yaml,将部署方式从https改为ssh</p>
-<pre><code># Deployment
-## Docs: https://hexo.io/docs/deployment.html
-deploy:
-  type: git
-  repository: https://github.com/yangbenbo/yangbenbo.github.io.git
-  branch: master
-</code></pre><p>改为</p>
-<pre><code># Deployment
-## Docs: https://hexo.io/docs/deployment.html
-deploy:
-  type: git
-  repository: git@github.com:yangbenbo/yangbenbo.github.io.git
-  branch: master   
-</code></pre><h1 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h1><ol>
-<li>ubuntu换内核(kernel)启动 需要重新上传ssh-key              </li>
-</ol>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol>
-<li><a href="https://www.cnblogs.com/yaoel/p/5381826.html" target="_blank" rel="noopener">使用Github SSH Key来避免Hexo部署时输入账户密码</a>      </li>
-</ol>
-]]></content>
-      <categories>
-        <category>Blog</category>
-      </categories>
-      <tags>
-        <tag>blog</tag>
-        <tag>ssh</tag>
-        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -339,76 +339,6 @@ deploy:
       <categories>
         <category>Linux</category>
       </categories>
-  </entry>
-  <entry>
-    <title>QT事件</title>
-    <url>/2020/02/01/QT%E4%BA%8B%E4%BB%B6/</url>
-    <content><![CDATA[<p>Qt 的事件是整个 Qt 框架的核心机制之一</p>
-<p>包括很多事件:鼠标事件、键盘事件、大小改变的事件、位置移动的事件等等.</p>
-<p>每个事件都对应一个处理函数 mouseEvent(),keyPressEvent()…</p>
-<p>如此多的事件处理函数,必定有个地方对其分发 event()</p>
-<h1 id="事件处理函数"><a href="#事件处理函数" class="headerlink" title="事件处理函数"></a>事件处理函数</h1><p><strong>当重写事件回调函数时，时刻注意是否需要通过调用父类的同名函数来确保原有实现仍能进行！</strong></p>
-<p>Qt 的事件对象有两个函数：accept()和ignore().一般很少使用</p>
-<ol>
-<li><p>如果一个事件处理函数调用了一个事件对象的accept()函数，<br>这个事件就不会被继续传播给其<strong>父组件</strong>；<br>如果它调用了事件的ignore()函数，Qt 会从其父组件中寻找另外的接受者.</p>
-</li>
-<li><p>事件对象默认是 accept 的，而作为所有组件的父类QWidget的默认实现则是调用ignore()。这么一来，如果你自己实现事件处理函数，不调用QWidget的默认实现，<br>你就等于是接受了事件；如果你要忽略事件，只需调用QWidget的默认实现。</p>
-</li>
-</ol>
-<p><strong>事件的传播是在组件层次上面的,而不是依靠类继承机制.</strong><br>(CustomButtonEx的事件传播给了父组件CustomWidget，而不是它的父类CustomButton)</p>
-<h1 id="事件分发-event"><a href="#事件分发-event" class="headerlink" title="事件分发 event()"></a>事件分发 event()</h1><p>event()不负责事件处理,负责把事件分发给对应的事件处理函数(switch)</p>
-<p>如果返回值为true,并且设置了accept(),那么qt认为这个事件已经处理完毕，<br>不会再将这个事件发送给其它对象，而是会继续处理事件队列中的下一事件。</p>
-<p><strong>注意:在event()函数中，调用事件对象的accept()和ignore()函数是没有作用的，不会影响到事件的传播.</strong></p>
-<p>继承类的event()函数处理之后对应其他事件需要调用父类的的event()函数,否则处理不了其他函数</p>
-<h1 id="事件过滤器-eventFilter"><a href="#事件过滤器-eventFilter" class="headerlink" title="事件过滤器 eventFilter()"></a>事件过滤器 eventFilter()</h1><p>需要先安装对应的事件过滤器</p>
-<pre><code>textEdit-&gt;installEventFilter(this);
-</code></pre><p>如果一个对象存在多个事件过滤器，那么，最后一个安装的会第一个执行，也就是后进先执行的顺序.    </p>
-<p>返回true则表示过滤,返回false表示不过滤.保险起见需要调用父类的eventFilter()</p>
-<p><strong>注意，如果你在事件过滤器中 delete 了某个接收组件，务必将函数返回值设为 true。否则，<br>Qt 还是会将事件分发给这个接收组件，从而导致程序崩溃.</strong></p>
-<p>事件过滤器和被安装过滤器的组件必须在同一线程，否则，过滤器将不起作用。另外，如果在安装过滤器之后，这两个组件到了不同的线程，那么，只有等到二者重新回到同一线程的时候过滤器才会有效。</p>
-<h1 id="事件处理顺序"><a href="#事件处理顺序" class="headerlink" title="事件处理顺序"></a>事件处理顺序</h1><ol>
-<li>重写paintEvent()、mousePressEvent()等事件处理函数.这是最普通、最简单的形式，同时功能也最简单.</li>
-<li>重写event()函数.event()函数是所有对象的事件入口，QObject和QWidget中的实现，默认是把事件传递给特定的事件处理函数.</li>
-<li>在特定对象上面安装事件过滤器.该过滤器仅过滤该对象接收到的事件.</li>
-<li>在QCoreApplication::instance()上面安装事件过滤器.该过滤器将过滤所有对象的所有事件，<br>因此和notify()函数一样强大，但是它更灵活，因为可以安装多个过滤器.全局的事件过滤器可以看到 disabled 组件上面发出的鼠标事件.<br>全局过滤器有一个问题：只能用在主线程.</li>
-<li>重写QCoreApplication::notify()函数.这是最强大的,和全局事件过滤器一样提供完全控制，<br>并且不受线程的限制.但是全局范围内只能有一个被使用(因为QCoreApplication是单例的).(一般不推荐用`)</li>
-</ol>
-<h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol>
-<li><a href="https://www.devbean.net/2012/10/qt-study-road-2-event-summary/" target="_blank" rel="noopener">Qt 学习之路 2（22）：事件总结</a></li>
-</ol>
-]]></content>
-      <categories>
-        <category>Program</category>
-      </categories>
-      <tags>
-        <tag>qt</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>QT坐标系统 </title>
-    <url>/2020/02/03/QT%E5%9D%90%E6%A0%87%E7%B3%BB%E7%BB%9F/</url>
-    <content><![CDATA[<p>QPaintDevice、QPaintEngine和QPainter是 Qt 绘制系统的三个核心类</p>
-<p>坐标系统，也就是QPaintDevice上面的坐标。默认坐标系统位于设备的左上角，也就是坐标原点 (0, 0)。x 轴方向向右；y 轴方向向下。在基于像素的设备上（比如显示器），坐标的默认单位是像素，在打印机上则是点（1/72 英寸）.</p>
-<p>为了避免获取不到真实的坐标值,建议使用QRectF.这个类的两个函数QRectF::right()和QRectF::bottom()是正确的。</p>
-<p>QPainter是一个状态机.QPainter提供了内置的函数：save()和restore()。save()就是保存下当前状态；restore()则恢复上一次保存的结果。这两个函数必须成对出现：QPainter使用栈来保存数据，每一次save()，将当前状态压入栈顶，restore()则弹出栈顶进行恢复.</p>
-<h1 id="坐标变换"><a href="#坐标变换" class="headerlink" title="坐标变换"></a>坐标变换</h1><p>QPainter:逻辑坐标 QPaintDevice:物理坐标</p>
-<p>QPainter,window代表窗口坐标,viewport代表物理坐标,这两个是映射关系(坐标scale)</p>
-<p>setWindow() 设置窗口,实际绘制窗口;<br>setViewport() 设置物理绘制区域</p>
-<p><strong>QPainter使用的都是逻辑坐标,注意和物理坐标的对应关系</strong></p>
-<p><img src="/2020/02/03/QT坐标系统/coordinate.png" alt="坐标变换关系"></p>
-<p>QPainter传入的是逻辑坐标（也称为世界坐标），逻辑坐标可以通过变换矩阵转换成窗口坐标，窗口坐标通过 window-viewport 转换成物理坐标（也就是设备坐标）.</p>
-<p>整个回执流程可以看成直接在设置的setWindow()里面绘制,可能需要平移旋转绘制坐标系,所得图像经过物理坐标和窗口坐标的缩放比例进行缩放得到</p>
-<pre><code>painter.translate(400, 0); // 绘制用坐标系向右平移 400px
-</code></pre><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol>
-<li><a href="https://www.devbean.net/2012/11/qt-study-road-2-coordinate-system/" target="_blank" rel="noopener">坐标系统</a></li>
-</ol>
-]]></content>
-      <categories>
-        <category>Program</category>
-      </categories>
-      <tags>
-        <tag>qt</tag>
-      </tags>
   </entry>
   <entry>
     <title>Markdown语法</title>
@@ -565,65 +495,73 @@ _strong_
       </tags>
   </entry>
   <entry>
-    <title>ROS遇到的问题</title>
-    <url>/2019/12/21/ROS%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<h1 id="终端结束所有节点之后显示仍有节点"><a href="#终端结束所有节点之后显示仍有节点" class="headerlink" title="终端结束所有节点之后显示仍有节点"></a>终端结束所有节点之后显示仍有节点</h1><p>清理node,否则影响查看节点通信</p>
-<pre><code>rosnode list
-rosnode cleanup
-</code></pre><h1 id="程序排错"><a href="#程序排错" class="headerlink" title="程序排错"></a>程序排错</h1><p>首先看<strong>循环</strong>,是否调用ros::spinOnce(),对应的数据是否更新</p>
-<p>好几次是因为循环没有更新数据,排错废了不少时间</p>
-<ul>
-<li>没有调用ros::spinOnce(),导致没有处理回调函数,也就没有更新数据</li>
-<li>回调函数处理后的数据是否放入对应变量,有时候用的是中间变量,导致更新的数据没有放进去</li>
-</ul>
-<p>ROS也有异步更新的机制,之前用过,出过一次问题,可以根据需要选择更新的机制</p>
-<h1 id="KDL和trac-ik库使用"><a href="#KDL和trac-ik库使用" class="headerlink" title="KDL和trac-ik库使用"></a>KDL和trac-ik库使用</h1><p>在ubuntu16+ros kinetic 和ubuntu18+ros melodic中不一样<br>后一版本中需要用于初始化正逆解对象的KDL::Chain一直存在，可作为类成员变量，可能是后一版本中进行了优化，减少了拷贝的次数</p>
-<h1 id="远程通信"><a href="#远程通信" class="headerlink" title="远程通信"></a>远程通信</h1><p>When a ROS node advertises a topic, it provides a hostname:port combination (a URI) that other nodes will contact when they want to subscribe to that topic.<br><strong>It is important that the hostname that a node provides can be used by all other nodes to contact it.</strong><br>注意需要知道相互的主机名到ip的映射,否则可能会有问题,有一次没配置主机名的映射,从机可以获取主机的会话题信息,但是无法连接上主机的server</p>
-<p>例子:remote为主机名master,本地主机名为slave</p>
-<pre><code>hostname    # 查看本机主机名 hostname
-# 修改ip映射 主机加上从机的hostname 和 ip
-# 从机加上主机的hostname 和 ip    
-sudo vim /etc/hosts 
-
-# 修改ros 环境变量
-vim ~/.bashrc
-# 主机 增加 如下  localhost可以直接使用ip或者主机名(master,slave)
-export ROS_HOSTNAME=localhost
-export ROS_MASTER_URI=http://localhost:11311
-# 从机增加如下
-export ROS_HOSTNAME=localhost
-export ROS_MASTER_URI=http://master:11311
-</code></pre><h2 id="rosrun-rqt-tui-rqt-gui-报错-segfaults"><a href="#rosrun-rqt-tui-rqt-gui-报错-segfaults" class="headerlink" title="rosrun rqt_tui rqt_gui 报错 segfaults"></a>rosrun rqt_tui rqt_gui 报错 segfaults</h2><p>问题描述:<br>可以使用<code>rqt</code>打开,但是无法使用<code>rosru rqt_gui rqt_gui</code>打开,导致无法使用easy-hand-eye标定包</p>
-<p>通过查阅<a href="https://github.com/ros-visualization/rqt/issues/114" target="_blank" rel="noopener">rqt segfaults on kinetic #114</a><br><a href="https://answers.ros.org/question/253655/rqt-segmentation-fault-following-tutorials/" target="_blank" rel="noopener">rqt segmentation fault following tutorials</a><br>得知问题主要是PyQt version的原因,所以试过了链接中的方法,都不太行,最后是卸载了qt5*,然后重新安装rqt_gui,发现只要安装rqt之后就无法通过<code>rosrun</code>的方式打开`</p>
-<pre><code>sudo apt remove qt5*
-sudo apt install ros-kinetic-rqt-gui
-</code></pre><h2 id="“Failed-to-fetch-current-robot-state”-when-running-getCurrentPose-1187"><a href="#“Failed-to-fetch-current-robot-state”-when-running-getCurrentPose-1187" class="headerlink" title="“Failed to fetch current robot state” when running getCurrentPose #1187"></a>“Failed to fetch current robot state” when running getCurrentPose #1187</h2><p>描述:使用moveit的时候出现无法获取机械臂当前状态信息k</p>
-<p>解决方案:</p>
-<pre><code>// 异步处理回调函数,处理更新
-ros::AsyncSpinner spinner(1); 
-spinner.start();
-</code></pre><h2 id="多个工作空间activate-即Sourcing-from-multiple-workspaces"><a href="#多个工作空间activate-即Sourcing-from-multiple-workspaces" class="headerlink" title="多个工作空间activate,即Sourcing from multiple workspaces"></a>多个工作空间<code>activate</code>,即<code>Sourcing from multiple workspaces</code></h2><p>描述,想要多个ROS空间的环境变量同时工作</p>
-<ul>
-<li>如果使用clion编译则可以不用管,直接source cmake-build-debug/devel/setup.bash</li>
-<li><p>使用<code>catkin</code>编译则需要注意空间<a href="https://answers.ros.org/question/205976/sourcing-from-multiple-workspaces/" target="_blank" rel="noopener">Sourcing from multiple workspaces</a><br><code>catkin_make</code> 第一次运行会生成<code>devel</code>文件夹,并创建<code>setup.bash</code>,这个文件会覆盖所有其他已经被<code>source</code>的空间(除了ROS本身的安装空间),如果需要多个空间同时<code>active</code><br><strong>注意只需要在第一次编译的时候移除文件夹devel,然后重编译.之后改动就正常编译就行</strong></p>
-<pre><code>  # 需要新加空间的地方
-  catkin_make
-  rm -rf devel/
-  catkin_make
-  source devel/setup.bash
-</code></pre></li>
-</ul>
-<h2 id="实时性"><a href="#实时性" class="headerlink" title="实时性"></a>实时性</h2><p>可以调整CPU频率，intel的cpu默认省电模式，频率较低，可能会导致延时大<br>使用cpufreq，参考<a href="https://frankaemika.github.io/docs/troubleshooting.html" target="_blank" rel="noopener">franka操作</a></p>
-<h2 id="Gazebo第一次加载太慢"><a href="#Gazebo第一次加载太慢" class="headerlink" title="　Gazebo第一次加载太慢"></a>　Gazebo第一次加载太慢</h2><p>把<a href="https://bitbucket.org/osrf/gazebo_models/downloads/" target="_blank" rel="noopener">模型</a>放在指定目录下 <code>~/.gazebo/models</code> 下保证模型顺利加载</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ol>
-<li><a href="http://wiki.ros.org/ROS/NetworkSetup" target="_blank" rel="noopener">ROSNetworkSetup</a>             </li>
+    <title>QT事件</title>
+    <url>/2020/02/01/QT%E4%BA%8B%E4%BB%B6/</url>
+    <content><![CDATA[<p>Qt 的事件是整个 Qt 框架的核心机制之一</p>
+<p>包括很多事件:鼠标事件、键盘事件、大小改变的事件、位置移动的事件等等.</p>
+<p>每个事件都对应一个处理函数 mouseEvent(),keyPressEvent()…</p>
+<p>如此多的事件处理函数,必定有个地方对其分发 event()</p>
+<h1 id="事件处理函数"><a href="#事件处理函数" class="headerlink" title="事件处理函数"></a>事件处理函数</h1><p><strong>当重写事件回调函数时，时刻注意是否需要通过调用父类的同名函数来确保原有实现仍能进行！</strong></p>
+<p>Qt 的事件对象有两个函数：accept()和ignore().一般很少使用</p>
+<ol>
+<li><p>如果一个事件处理函数调用了一个事件对象的accept()函数，<br>这个事件就不会被继续传播给其<strong>父组件</strong>；<br>如果它调用了事件的ignore()函数，Qt 会从其父组件中寻找另外的接受者.</p>
+</li>
+<li><p>事件对象默认是 accept 的，而作为所有组件的父类QWidget的默认实现则是调用ignore()。这么一来，如果你自己实现事件处理函数，不调用QWidget的默认实现，<br>你就等于是接受了事件；如果你要忽略事件，只需调用QWidget的默认实现。</p>
+</li>
+</ol>
+<p><strong>事件的传播是在组件层次上面的,而不是依靠类继承机制.</strong><br>(CustomButtonEx的事件传播给了父组件CustomWidget，而不是它的父类CustomButton)</p>
+<h1 id="事件分发-event"><a href="#事件分发-event" class="headerlink" title="事件分发 event()"></a>事件分发 event()</h1><p>event()不负责事件处理,负责把事件分发给对应的事件处理函数(switch)</p>
+<p>如果返回值为true,并且设置了accept(),那么qt认为这个事件已经处理完毕，<br>不会再将这个事件发送给其它对象，而是会继续处理事件队列中的下一事件。</p>
+<p><strong>注意:在event()函数中，调用事件对象的accept()和ignore()函数是没有作用的，不会影响到事件的传播.</strong></p>
+<p>继承类的event()函数处理之后对应其他事件需要调用父类的的event()函数,否则处理不了其他函数</p>
+<h1 id="事件过滤器-eventFilter"><a href="#事件过滤器-eventFilter" class="headerlink" title="事件过滤器 eventFilter()"></a>事件过滤器 eventFilter()</h1><p>需要先安装对应的事件过滤器</p>
+<pre><code>textEdit-&gt;installEventFilter(this);
+</code></pre><p>如果一个对象存在多个事件过滤器，那么，最后一个安装的会第一个执行，也就是后进先执行的顺序.    </p>
+<p>返回true则表示过滤,返回false表示不过滤.保险起见需要调用父类的eventFilter()</p>
+<p><strong>注意，如果你在事件过滤器中 delete 了某个接收组件，务必将函数返回值设为 true。否则，<br>Qt 还是会将事件分发给这个接收组件，从而导致程序崩溃.</strong></p>
+<p>事件过滤器和被安装过滤器的组件必须在同一线程，否则，过滤器将不起作用。另外，如果在安装过滤器之后，这两个组件到了不同的线程，那么，只有等到二者重新回到同一线程的时候过滤器才会有效。</p>
+<h1 id="事件处理顺序"><a href="#事件处理顺序" class="headerlink" title="事件处理顺序"></a>事件处理顺序</h1><ol>
+<li>重写paintEvent()、mousePressEvent()等事件处理函数.这是最普通、最简单的形式，同时功能也最简单.</li>
+<li>重写event()函数.event()函数是所有对象的事件入口，QObject和QWidget中的实现，默认是把事件传递给特定的事件处理函数.</li>
+<li>在特定对象上面安装事件过滤器.该过滤器仅过滤该对象接收到的事件.</li>
+<li>在QCoreApplication::instance()上面安装事件过滤器.该过滤器将过滤所有对象的所有事件，<br>因此和notify()函数一样强大，但是它更灵活，因为可以安装多个过滤器.全局的事件过滤器可以看到 disabled 组件上面发出的鼠标事件.<br>全局过滤器有一个问题：只能用在主线程.</li>
+<li>重写QCoreApplication::notify()函数.这是最强大的,和全局事件过滤器一样提供完全控制，<br>并且不受线程的限制.但是全局范围内只能有一个被使用(因为QCoreApplication是单例的).(一般不推荐用`)</li>
+</ol>
+<h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol>
+<li><a href="https://www.devbean.net/2012/10/qt-study-road-2-event-summary/" target="_blank" rel="noopener">Qt 学习之路 2（22）：事件总结</a></li>
 </ol>
 ]]></content>
       <categories>
-        <category>ROS</category>
+        <category>Program</category>
       </categories>
       <tags>
-        <tag>ROS</tag>
+        <tag>qt</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>QT坐标系统 </title>
+    <url>/2020/02/03/QT%E5%9D%90%E6%A0%87%E7%B3%BB%E7%BB%9F/</url>
+    <content><![CDATA[<p>QPaintDevice、QPaintEngine和QPainter是 Qt 绘制系统的三个核心类</p>
+<p>坐标系统，也就是QPaintDevice上面的坐标。默认坐标系统位于设备的左上角，也就是坐标原点 (0, 0)。x 轴方向向右；y 轴方向向下。在基于像素的设备上（比如显示器），坐标的默认单位是像素，在打印机上则是点（1/72 英寸）.</p>
+<p>为了避免获取不到真实的坐标值,建议使用QRectF.这个类的两个函数QRectF::right()和QRectF::bottom()是正确的。</p>
+<p>QPainter是一个状态机.QPainter提供了内置的函数：save()和restore()。save()就是保存下当前状态；restore()则恢复上一次保存的结果。这两个函数必须成对出现：QPainter使用栈来保存数据，每一次save()，将当前状态压入栈顶，restore()则弹出栈顶进行恢复.</p>
+<h1 id="坐标变换"><a href="#坐标变换" class="headerlink" title="坐标变换"></a>坐标变换</h1><p>QPainter:逻辑坐标 QPaintDevice:物理坐标</p>
+<p>QPainter,window代表窗口坐标,viewport代表物理坐标,这两个是映射关系(坐标scale)</p>
+<p>setWindow() 设置窗口,实际绘制窗口;<br>setViewport() 设置物理绘制区域</p>
+<p><strong>QPainter使用的都是逻辑坐标,注意和物理坐标的对应关系</strong></p>
+<p><img src="/2020/02/03/QT坐标系统/coordinate.png" alt="坐标变换关系"></p>
+<p>QPainter传入的是逻辑坐标（也称为世界坐标），逻辑坐标可以通过变换矩阵转换成窗口坐标，窗口坐标通过 window-viewport 转换成物理坐标（也就是设备坐标）.</p>
+<p>整个回执流程可以看成直接在设置的setWindow()里面绘制,可能需要平移旋转绘制坐标系,所得图像经过物理坐标和窗口坐标的缩放比例进行缩放得到</p>
+<pre><code>painter.translate(400, 0); // 绘制用坐标系向右平移 400px
+</code></pre><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol>
+<li><a href="https://www.devbean.net/2012/11/qt-study-road-2-coordinate-system/" target="_blank" rel="noopener">坐标系统</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>Program</category>
+      </categories>
+      <tags>
+        <tag>qt</tag>
       </tags>
   </entry>
   <entry>
@@ -753,6 +691,68 @@ async_spinner.stop();   #需要关闭的时候用
       </categories>
       <tags>
         <tag>NodeHandle</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ROS遇到的问题</title>
+    <url>/2019/12/21/ROS%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="终端结束所有节点之后显示仍有节点"><a href="#终端结束所有节点之后显示仍有节点" class="headerlink" title="终端结束所有节点之后显示仍有节点"></a>终端结束所有节点之后显示仍有节点</h1><p>清理node,否则影响查看节点通信</p>
+<pre><code>rosnode list
+rosnode cleanup
+</code></pre><h1 id="程序排错"><a href="#程序排错" class="headerlink" title="程序排错"></a>程序排错</h1><p>首先看<strong>循环</strong>,是否调用ros::spinOnce(),对应的数据是否更新</p>
+<p>好几次是因为循环没有更新数据,排错废了不少时间</p>
+<ul>
+<li>没有调用ros::spinOnce(),导致没有处理回调函数,也就没有更新数据</li>
+<li>回调函数处理后的数据是否放入对应变量,有时候用的是中间变量,导致更新的数据没有放进去</li>
+</ul>
+<p>ROS也有异步更新的机制,之前用过,出过一次问题,可以根据需要选择更新的机制</p>
+<h1 id="KDL和trac-ik库使用"><a href="#KDL和trac-ik库使用" class="headerlink" title="KDL和trac-ik库使用"></a>KDL和trac-ik库使用</h1><p>在ubuntu16+ros kinetic 和ubuntu18+ros melodic中不一样<br>后一版本中需要用于初始化正逆解对象的KDL::Chain一直存在，可作为类成员变量，可能是后一版本中进行了优化，减少了拷贝的次数</p>
+<h1 id="远程通信"><a href="#远程通信" class="headerlink" title="远程通信"></a>远程通信</h1><p>When a ROS node advertises a topic, it provides a hostname:port combination (a URI) that other nodes will contact when they want to subscribe to that topic.<br><strong>It is important that the hostname that a node provides can be used by all other nodes to contact it.</strong><br>注意需要知道相互的主机名到ip的映射,否则可能会有问题,有一次没配置主机名的映射,从机可以获取主机的会话题信息,但是无法连接上主机的server</p>
+<p>例子:remote为主机名master,本地主机名为slave</p>
+<pre><code>hostname    # 查看本机主机名 hostname
+# 修改ip映射 主机加上从机的hostname 和 ip
+# 从机加上主机的hostname 和 ip    
+sudo vim /etc/hosts 
+
+# 修改ros 环境变量
+vim ~/.bashrc
+# 主机 增加 如下  localhost可以直接使用ip或者主机名(master,slave)
+export ROS_HOSTNAME=localhost
+export ROS_MASTER_URI=http://localhost:11311
+# 从机增加如下
+export ROS_HOSTNAME=localhost
+export ROS_MASTER_URI=http://master:11311
+</code></pre><h2 id="rosrun-rqt-tui-rqt-gui-报错-segfaults"><a href="#rosrun-rqt-tui-rqt-gui-报错-segfaults" class="headerlink" title="rosrun rqt_tui rqt_gui 报错 segfaults"></a>rosrun rqt_tui rqt_gui 报错 segfaults</h2><p>问题描述:<br>可以使用<code>rqt</code>打开,但是无法使用<code>rosru rqt_gui rqt_gui</code>打开,导致无法使用easy-hand-eye标定包</p>
+<p>通过查阅<a href="https://github.com/ros-visualization/rqt/issues/114" target="_blank" rel="noopener">rqt segfaults on kinetic #114</a><br><a href="https://answers.ros.org/question/253655/rqt-segmentation-fault-following-tutorials/" target="_blank" rel="noopener">rqt segmentation fault following tutorials</a><br>得知问题主要是PyQt version的原因,所以试过了链接中的方法,都不太行,最后是卸载了qt5*,然后重新安装rqt_gui,发现只要安装rqt之后就无法通过<code>rosrun</code>的方式打开`</p>
+<pre><code>sudo apt remove qt5*
+sudo apt install ros-kinetic-rqt-gui
+</code></pre><h2 id="“Failed-to-fetch-current-robot-state”-when-running-getCurrentPose-1187"><a href="#“Failed-to-fetch-current-robot-state”-when-running-getCurrentPose-1187" class="headerlink" title="“Failed to fetch current robot state” when running getCurrentPose #1187"></a>“Failed to fetch current robot state” when running getCurrentPose #1187</h2><p>描述:使用moveit的时候出现无法获取机械臂当前状态信息k</p>
+<p>解决方案:</p>
+<pre><code>// 异步处理回调函数,处理更新
+ros::AsyncSpinner spinner(1); 
+spinner.start();
+</code></pre><h2 id="多个工作空间activate-即Sourcing-from-multiple-workspaces"><a href="#多个工作空间activate-即Sourcing-from-multiple-workspaces" class="headerlink" title="多个工作空间activate,即Sourcing from multiple workspaces"></a>多个工作空间<code>activate</code>,即<code>Sourcing from multiple workspaces</code></h2><p>描述,想要多个ROS空间的环境变量同时工作</p>
+<ul>
+<li>如果使用clion编译则可以不用管,直接source cmake-build-debug/devel/setup.bash</li>
+<li><p>使用<code>catkin</code>编译则需要注意空间<a href="https://answers.ros.org/question/205976/sourcing-from-multiple-workspaces/" target="_blank" rel="noopener">Sourcing from multiple workspaces</a><br><code>catkin_make</code> 第一次运行会生成<code>devel</code>文件夹,并创建<code>setup.bash</code>,这个文件会覆盖所有其他已经被<code>source</code>的空间(除了ROS本身的安装空间),如果需要多个空间同时<code>active</code><br><strong>注意只需要在第一次编译的时候移除文件夹devel,然后重编译.之后改动就正常编译就行</strong></p>
+<pre><code>  # 需要新加空间的地方
+  catkin_make
+  rm -rf devel/
+  catkin_make
+  source devel/setup.bash
+</code></pre></li>
+</ul>
+<h2 id="实时性"><a href="#实时性" class="headerlink" title="实时性"></a>实时性</h2><p>可以调整CPU频率，intel的cpu默认省电模式，频率较低，可能会导致延时大<br>使用cpufreq，参考<a href="https://frankaemika.github.io/docs/troubleshooting.html" target="_blank" rel="noopener">franka操作</a></p>
+<h2 id="Gazebo第一次加载太慢"><a href="#Gazebo第一次加载太慢" class="headerlink" title="　Gazebo第一次加载太慢"></a>　Gazebo第一次加载太慢</h2><p>把<a href="https://bitbucket.org/osrf/gazebo_models/downloads/" target="_blank" rel="noopener">模型</a>放在指定目录下 <code>~/.gazebo/models</code> 下保证模型顺利加载</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ol>
+<li><a href="http://wiki.ros.org/ROS/NetworkSetup" target="_blank" rel="noopener">ROSNetworkSetup</a>             </li>
+</ol>
+]]></content>
+      <categories>
+        <category>ROS</category>
+      </categories>
+      <tags>
+        <tag>ROS</tag>
       </tags>
   </entry>
   <entry>
@@ -1427,26 +1427,6 @@ print(&#39;S:\PbD\graph\Force_threhold_change&#39;,&#39;-djpeg&#39;,&#39;-r600&#
       </tags>
   </entry>
   <entry>
-    <title>pyhton 代码规范</title>
-    <url>/2020/12/12/pyhton-%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/</url>
-    <content><![CDATA[<h2 id="编码风格"><a href="#编码风格" class="headerlink" title="编码风格"></a>编码风格</h2><ol>
-<li>缩进<br> 缩进必须使用4个空格，而不是tab，否则容易出现pylint:<code>bad-indentation.</code><br> vscode可以将tab转化为空格<br> F1 -&gt; 输入indentation space -&gt; 回车  (查看是空格还是tab可以通过选中对应行或者全选)</li>
-</ol>
-<h2 id="c-vscode-自动格式化"><a href="#c-vscode-自动格式化" class="headerlink" title="c++  vscode 自动格式化"></a>c++  vscode 自动格式化</h2><ul>
-<li><p>设置 -&gt; 搜索 clang format -&gt; 在Clang_format_path 中输入</p>
-<pre><code>  { BasedOnStyle: Google, UseTab: Never, IndentWidth: 4, TabWidth: 4, BreakBeforeBraces: Custom, AllowShortIfStatementsOnASingleLine: false, IndentCaseLabels: false, ColumnLimit: 100, AccessModifierOffset: -3 }
-</code></pre></li>
-<li>设置 -&gt; 搜索 save format -&gt; 勾选Format on Save</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Program</category>
-      </categories>
-      <tags>
-        <tag>代码规范</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>mysql</title>
     <url>/2020/04/21/mysql/</url>
     <content><![CDATA[<h2 id="常用语句"><a href="#常用语句" class="headerlink" title="常用语句"></a>常用语句</h2><pre><code>-- 显示数据库
@@ -1518,6 +1498,26 @@ insert into brand(factory,name,price,sum, sell, last) values(&#39;一汽大众&#
       </categories>
       <tags>
         <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>pyhton 代码规范</title>
+    <url>/2020/12/12/pyhton-%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/</url>
+    <content><![CDATA[<h2 id="编码风格"><a href="#编码风格" class="headerlink" title="编码风格"></a>编码风格</h2><ol>
+<li>缩进<br> 缩进必须使用4个空格，而不是tab，否则容易出现pylint:<code>bad-indentation.</code><br> vscode可以将tab转化为空格<br> F1 -&gt; 输入indentation space -&gt; 回车  (查看是空格还是tab可以通过选中对应行或者全选)</li>
+</ol>
+<h2 id="c-vscode-自动格式化"><a href="#c-vscode-自动格式化" class="headerlink" title="c++  vscode 自动格式化"></a>c++  vscode 自动格式化</h2><ul>
+<li><p>设置 -&gt; 搜索 clang format -&gt; 在Clang_format_path 中输入</p>
+<pre><code>  { BasedOnStyle: Google, UseTab: Never, IndentWidth: 4, TabWidth: 4, BreakBeforeBraces: Custom, AllowShortIfStatementsOnASingleLine: false, IndentCaseLabels: false, ColumnLimit: 100, AccessModifierOffset: -3 }
+</code></pre></li>
+<li>设置 -&gt; 搜索 save format -&gt; 勾选Format on Save</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Program</category>
+      </categories>
+      <tags>
+        <tag>代码规范</tag>
       </tags>
   </entry>
   <entry>
@@ -2509,46 +2509,6 @@ total++;
       </tags>
   </entry>
   <entry>
-    <title>实用小技巧汇总</title>
-    <url>/2019/10/20/%E5%AE%9E%E7%94%A8%E5%B0%8F%E6%8A%80%E5%B7%A7%E6%B1%87%E6%80%BB/</url>
-    <content><![CDATA[<h1 id="ps统一裁剪图片大小"><a href="#ps统一裁剪图片大小" class="headerlink" title="ps统一裁剪图片大小"></a>ps统一裁剪图片大小</h1><ol>
-<li>窗口-&gt;动作　显示动作面板，在历史记录面板里面</li>
-<li>新建动作组　录制动作</li>
-<li>文件-&gt;自动-&gt;批处理</li>
-</ol>
-<p><strong>注意事项</strong>：<br>点击选项打开切换对话开关　可以在处理自动处理工程在裁剪处停止　手动调整裁剪的位置的大小</p>
-<p><img src="/2019/10/20/实用小技巧汇总/切换对话开.png" alt="打开切换对话"> <img src="/2019/10/20/实用小技巧汇总/切换对话关.png" alt="关闭切换对话"></p>
-<h1 id="ps矫正扫描件-ppt"><a href="#ps矫正扫描件-ppt" class="headerlink" title="ps矫正扫描件　ppt"></a>ps矫正扫描件　ppt</h1><p>扫描件</p>
-<ul>
-<li>复制图层　填充为白色　拉直工具(在不改变图像大小的情况下拉直)</li>
-</ul>
-<p>ppt</p>
-<ul>
-<li>透视裁剪 </li>
-</ul>
-<h1 id="视屏调整大小"><a href="#视屏调整大小" class="headerlink" title="视屏调整大小"></a>视屏调整大小</h1><ul>
-<li>premiere 更改视频码率　选可变码率　</li>
-</ul>
-<p>码率：视频码率就是数据传输时单位时间传送的数据位数，一般我们用的单位是kbps即千位每秒。通俗一点的理解就是取样率</p>
-<ul>
-<li>固定码率：　</li>
-<li>可变码率：视频信源本身的高峰信息量是变化的，能按信源本身的信息量去分配，从而有效地利用信息资源。</li>
-</ul>
-<h1 id="存放小文件到github方便下载"><a href="#存放小文件到github方便下载" class="headerlink" title="存放小文件到github方便下载"></a>存放小文件到github方便下载</h1><p>仓库名网址/archive/master.zip 即可下载仓库内容 不用到仓库地址点击下载</p>
-<p>例如博客 <a href="/2019/12/22/ubuntu下wps缺少字体/" title="ubuntu下wps缺少字体">ubuntu下wps缺少字体</a> 中对应的下载字体<br><a href="https://github.com/yangbenbo/wps-font-symbols/archive/master.zip" target="_blank" rel="noopener">https://github.com/yangbenbo/wps-font-symbols/archive/master.zip</a></p>
-<h1 id="markdown文件转pdf"><a href="#markdown文件转pdf" class="headerlink" title="markdown文件转pdf"></a>markdown文件转pdf</h1><p>安装chorme插件<a href="https://chrome.google.com/webstore/search/markdown?hl=en-US" target="_blank" rel="noopener">Markdown Preview Plus</a>,<br><strong>在插件detail中打开权限:Allow access to file URLs</strong>,然后浏览器打开文件即可预览,然后直接打印为pdf,注意需要选择A4或其他需要的类型</p>
-<h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol>
-<li><a href="http://www.sohu.com/a/258392499_99914465" target="_blank" rel="noopener">ps实用技能：如何统一裁剪图片大小</a></li>
-</ol>
-]]></content>
-      <categories>
-        <category>Software</category>
-      </categories>
-      <tags>
-        <tag>ps</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>惯性张量</title>
     <url>/2019/12/30/%E6%83%AF%E6%80%A7%E5%BC%A0%E9%87%8F/</url>
     <content><![CDATA[<h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><ul>
@@ -2645,6 +2605,46 @@ total++;
       </tags>
   </entry>
   <entry>
+    <title>实用小技巧汇总</title>
+    <url>/2019/10/20/%E5%AE%9E%E7%94%A8%E5%B0%8F%E6%8A%80%E5%B7%A7%E6%B1%87%E6%80%BB/</url>
+    <content><![CDATA[<h1 id="ps统一裁剪图片大小"><a href="#ps统一裁剪图片大小" class="headerlink" title="ps统一裁剪图片大小"></a>ps统一裁剪图片大小</h1><ol>
+<li>窗口-&gt;动作　显示动作面板，在历史记录面板里面</li>
+<li>新建动作组　录制动作</li>
+<li>文件-&gt;自动-&gt;批处理</li>
+</ol>
+<p><strong>注意事项</strong>：<br>点击选项打开切换对话开关　可以在处理自动处理工程在裁剪处停止　手动调整裁剪的位置的大小</p>
+<p><img src="/2019/10/20/实用小技巧汇总/切换对话开.png" alt="打开切换对话"> <img src="/2019/10/20/实用小技巧汇总/切换对话关.png" alt="关闭切换对话"></p>
+<h1 id="ps矫正扫描件-ppt"><a href="#ps矫正扫描件-ppt" class="headerlink" title="ps矫正扫描件　ppt"></a>ps矫正扫描件　ppt</h1><p>扫描件</p>
+<ul>
+<li>复制图层　填充为白色　拉直工具(在不改变图像大小的情况下拉直)</li>
+</ul>
+<p>ppt</p>
+<ul>
+<li>透视裁剪 </li>
+</ul>
+<h1 id="视屏调整大小"><a href="#视屏调整大小" class="headerlink" title="视屏调整大小"></a>视屏调整大小</h1><ul>
+<li>premiere 更改视频码率　选可变码率　</li>
+</ul>
+<p>码率：视频码率就是数据传输时单位时间传送的数据位数，一般我们用的单位是kbps即千位每秒。通俗一点的理解就是取样率</p>
+<ul>
+<li>固定码率：　</li>
+<li>可变码率：视频信源本身的高峰信息量是变化的，能按信源本身的信息量去分配，从而有效地利用信息资源。</li>
+</ul>
+<h1 id="存放小文件到github方便下载"><a href="#存放小文件到github方便下载" class="headerlink" title="存放小文件到github方便下载"></a>存放小文件到github方便下载</h1><p>仓库名网址/archive/master.zip 即可下载仓库内容 不用到仓库地址点击下载</p>
+<p>例如博客 <a href="/2019/12/22/ubuntu下wps缺少字体/" title="ubuntu下wps缺少字体">ubuntu下wps缺少字体</a> 中对应的下载字体<br><a href="https://github.com/yangbenbo/wps-font-symbols/archive/master.zip" target="_blank" rel="noopener">https://github.com/yangbenbo/wps-font-symbols/archive/master.zip</a></p>
+<h1 id="markdown文件转pdf"><a href="#markdown文件转pdf" class="headerlink" title="markdown文件转pdf"></a>markdown文件转pdf</h1><p>安装chorme插件<a href="https://chrome.google.com/webstore/search/markdown?hl=en-US" target="_blank" rel="noopener">Markdown Preview Plus</a>,<br><strong>在插件detail中打开权限:Allow access to file URLs</strong>,然后浏览器打开文件即可预览,然后直接打印为pdf,注意需要选择A4或其他需要的类型</p>
+<h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol>
+<li><a href="http://www.sohu.com/a/258392499_99914465" target="_blank" rel="noopener">ps实用技能：如何统一裁剪图片大小</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>Software</category>
+      </categories>
+      <tags>
+        <tag>ps</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>拉氏变换</title>
     <url>/2019/12/27/%E6%8B%89%E6%B0%8F%E5%8F%98%E6%8D%A2/</url>
     <content><![CDATA[<!-- @import "[TOC]" {cmd="toc" depthFrom=2 depthTo=3 orderedList=false} -->
@@ -2735,6 +2735,116 @@ h(t)=\frac{\omega_{n}}{\sqrt{1-\zeta^{2}}} e^{-\sigma t}\left(\sin \omega_{d} t\
       </categories>
       <tags>
         <tag>自动控制原理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>排序算法</title>
+    <url>/2020/03/16/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[<p>常用的排序算法:冒泡,归并,快排</p>
+<h1 id="快排"><a href="#快排" class="headerlink" title="快排"></a>快排</h1><p>快速排序采用分治策略:找到一个轴点,比它小的放在左侧,大的放在右侧,不断划分</p>
+<p>最坏情况O(n^2),大多数情况下平均效率O(nlogn),常系数比其它的小,实际的平均运行时间比同类的更少.<br>但是快速排序无法保证数据之间的相对次序(主要针对重复元素)</p>
+<pre><code>#include &lt;cstdlib&gt;
+#include &lt;iostream&gt;
+using namespace std;
+
+// [lo hi) sort
+template &lt;typename T&gt;
+int partition(T arr[], int lo, int hi){
+    int index = lo + rand()%(hi-lo);
+//    swap arr[lo] and arr[index]
+    T mi = arr[index];
+    arr[index] = arr[lo];
+    arr[lo] = mi;
+    hi--;  // point to last data
+    // &lt; 勤于交换 相对于&lt;=更好,能较为均衡划分 
+    while(lo &lt; hi){
+        while(lo &lt; hi){
+            if(mi &lt; arr[hi]){ hi--; }
+            else{arr[lo++] = arr[hi]; break;}
+        }
+        while(lo &lt; hi){
+            if(arr[lo] &lt; mi){lo++; }
+            else{arr[hi--] = arr[lo]; break;}
+        }
+    }
+    arr[lo] = mi;
+    return lo;
+}
+
+template &lt;typename T&gt;
+void quicksort(T arr[], int length, int lo, int hi){
+//    judge the input
+    if(hi &lt; lo || hi - lo &gt; length|| arr == NULL){
+        cout &lt;&lt; &quot;invalid input&quot;;
+        exit(1);
+    }
+    if(hi-lo &lt; 2)
+        return;
+//    partition and sort
+    int middle = partition(arr, lo, hi);
+    quicksort(arr, length, lo, middle);
+    quicksort(arr, length, middle+1, hi);
+}
+
+// override
+template &lt;typename T&gt;
+void quicksort(T arr[], int length){
+    quicksort(arr, length, 0, length);
+}
+</code></pre><h1 id="归并"><a href="#归并" class="headerlink" title="归并"></a>归并</h1><p>从中间分成两部分,然后分别排序,最后归并<br>每一层递归消耗时间稳定在$\Theta(n)$,共有$\Theta\left(\log _{2} n\right)$层,共计$\Theta(\text {n} 1 \text {ogn})$</p>
+<pre><code>template &lt;typename T&gt;
+void merge(T arr[], int lo, int middle, int hi){
+    int len_l = middle - lo;
+    int len_r = hi - middle;
+    T *temp_left = new T[len_l];
+    for(int i=0;i&lt;len_l;i++){temp_left[i] = arr[lo+i]; }
+    T *temp_right = arr + middle;
+    T *glo_arr = arr + lo;
+    for(int i=0,j=0,k=0;j&lt; len_l || k &lt; len_r;){
+        if(j &lt; len_l &amp;&amp; (temp_left[j] &lt;= temp_right[k] || k == len_r)){glo_arr[i++] = temp_left[j++];}
+        if(k &lt; len_r &amp;&amp; (temp_right[k] &lt; temp_left[j] || j == len_l)){glo_arr[i++] = temp_right[k++];}
+    }
+    delete [] temp_left;
+}
+
+template &lt;typename T&gt;
+void mergesort(T arr[], int length, int lo, int hi){
+//    judge the input
+    if(hi-lo &gt; length || hi&lt;lo){
+        cout&lt;&lt; &quot;invalid input&quot;;
+        exit(1);
+    }
+    if(hi - lo &lt; 2)
+        return;
+    int middle = (lo + hi)&gt;&gt;1;
+    mergesort(arr, length, lo, middle);
+    mergesort(arr, length, middle, hi);
+    merge(arr, lo, middle, hi);
+}
+
+template &lt;typename T&gt;
+void mergesort(T arr[], int length){
+    mergesort(arr, length, 0, length);
+}     
+</code></pre><h1 id="冒泡"><a href="#冒泡" class="headerlink" title="冒泡"></a>冒泡</h1><p>复杂度O(n^2)</p>
+<pre><code>template &lt;typename T&gt;
+void bubblesort(T arr[], int length){
+    for(int i=0;i&lt;length-1;i++){
+        for(int j=0;j&lt;length-1-i;j++){
+            if(arr[j] &gt; arr[j+1]){
+                T temp = arr[j];
+                arr[j] = arr[j+1];
+                arr[j+1] = temp;
+            }
+        }
+    }
+}  
+</code></pre>]]></content>
+      <categories>
+        <category>Program</category>
+      </categories>
+      <tags>
+        <tag>sort</tag>
       </tags>
   </entry>
   <entry>
@@ -2869,116 +2979,6 @@ N_{i}=^{c_{i}} I \dot{\omega}_{i}+\omega_{i} \times^{c_{i}} I \omega_{i}
       </categories>
       <tags>
         <tag>机器人学</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>排序算法</title>
-    <url>/2020/03/16/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[<p>常用的排序算法:冒泡,归并,快排</p>
-<h1 id="快排"><a href="#快排" class="headerlink" title="快排"></a>快排</h1><p>快速排序采用分治策略:找到一个轴点,比它小的放在左侧,大的放在右侧,不断划分</p>
-<p>最坏情况O(n^2),大多数情况下平均效率O(nlogn),常系数比其它的小,实际的平均运行时间比同类的更少.<br>但是快速排序无法保证数据之间的相对次序(主要针对重复元素)</p>
-<pre><code>#include &lt;cstdlib&gt;
-#include &lt;iostream&gt;
-using namespace std;
-
-// [lo hi) sort
-template &lt;typename T&gt;
-int partition(T arr[], int lo, int hi){
-    int index = lo + rand()%(hi-lo);
-//    swap arr[lo] and arr[index]
-    T mi = arr[index];
-    arr[index] = arr[lo];
-    arr[lo] = mi;
-    hi--;  // point to last data
-    // &lt; 勤于交换 相对于&lt;=更好,能较为均衡划分 
-    while(lo &lt; hi){
-        while(lo &lt; hi){
-            if(mi &lt; arr[hi]){ hi--; }
-            else{arr[lo++] = arr[hi]; break;}
-        }
-        while(lo &lt; hi){
-            if(arr[lo] &lt; mi){lo++; }
-            else{arr[hi--] = arr[lo]; break;}
-        }
-    }
-    arr[lo] = mi;
-    return lo;
-}
-
-template &lt;typename T&gt;
-void quicksort(T arr[], int length, int lo, int hi){
-//    judge the input
-    if(hi &lt; lo || hi - lo &gt; length|| arr == NULL){
-        cout &lt;&lt; &quot;invalid input&quot;;
-        exit(1);
-    }
-    if(hi-lo &lt; 2)
-        return;
-//    partition and sort
-    int middle = partition(arr, lo, hi);
-    quicksort(arr, length, lo, middle);
-    quicksort(arr, length, middle+1, hi);
-}
-
-// override
-template &lt;typename T&gt;
-void quicksort(T arr[], int length){
-    quicksort(arr, length, 0, length);
-}
-</code></pre><h1 id="归并"><a href="#归并" class="headerlink" title="归并"></a>归并</h1><p>从中间分成两部分,然后分别排序,最后归并<br>每一层递归消耗时间稳定在$\Theta(n)$,共有$\Theta\left(\log _{2} n\right)$层,共计$\Theta(\text {n} 1 \text {ogn})$</p>
-<pre><code>template &lt;typename T&gt;
-void merge(T arr[], int lo, int middle, int hi){
-    int len_l = middle - lo;
-    int len_r = hi - middle;
-    T *temp_left = new T[len_l];
-    for(int i=0;i&lt;len_l;i++){temp_left[i] = arr[lo+i]; }
-    T *temp_right = arr + middle;
-    T *glo_arr = arr + lo;
-    for(int i=0,j=0,k=0;j&lt; len_l || k &lt; len_r;){
-        if(j &lt; len_l &amp;&amp; (temp_left[j] &lt;= temp_right[k] || k == len_r)){glo_arr[i++] = temp_left[j++];}
-        if(k &lt; len_r &amp;&amp; (temp_right[k] &lt; temp_left[j] || j == len_l)){glo_arr[i++] = temp_right[k++];}
-    }
-    delete [] temp_left;
-}
-
-template &lt;typename T&gt;
-void mergesort(T arr[], int length, int lo, int hi){
-//    judge the input
-    if(hi-lo &gt; length || hi&lt;lo){
-        cout&lt;&lt; &quot;invalid input&quot;;
-        exit(1);
-    }
-    if(hi - lo &lt; 2)
-        return;
-    int middle = (lo + hi)&gt;&gt;1;
-    mergesort(arr, length, lo, middle);
-    mergesort(arr, length, middle, hi);
-    merge(arr, lo, middle, hi);
-}
-
-template &lt;typename T&gt;
-void mergesort(T arr[], int length){
-    mergesort(arr, length, 0, length);
-}     
-</code></pre><h1 id="冒泡"><a href="#冒泡" class="headerlink" title="冒泡"></a>冒泡</h1><p>复杂度O(n^2)</p>
-<pre><code>template &lt;typename T&gt;
-void bubblesort(T arr[], int length){
-    for(int i=0;i&lt;length-1;i++){
-        for(int j=0;j&lt;length-1-i;j++){
-            if(arr[j] &gt; arr[j+1]){
-                T temp = arr[j];
-                arr[j] = arr[j+1];
-                arr[j+1] = temp;
-            }
-        }
-    }
-}  
-</code></pre>]]></content>
-      <categories>
-        <category>Program</category>
-      </categories>
-      <tags>
-        <tag>sort</tag>
       </tags>
   </entry>
   <entry>
@@ -3259,6 +3259,38 @@ lsattr  filename    #查看文件隐藏属性
       </tags>
   </entry>
   <entry>
+    <title>矩生成函数</title>
+    <url>/2019/09/01/%E7%9F%A9%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/</url>
+    <content><![CDATA[<h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><p>参考维基百科 <a href="https://zh.wikipedia.org/wiki/%E7%9F%A9%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B8" target="_blank" rel="noopener">Moment Generating Functions</a></p>
+<h1 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h1><ol>
+<li><p>LetX bearandomvariableswhosem.g.f.ψ(t)isfiniteforallvaluesoft insomeopen<br>interval around the point t = 0. Then, for each integer n &gt; 0, the nth moment of X,<br>E(Xn), is finite and equals the nth derivative ψ(n)(t) at t = 0. That is, E(Xn) = ψ(n)(0)<br>for n = 1, 2, . . . .</p>
+<script type="math/tex; mode=display">
+\begin{aligned} \psi^{(n)}(0) &=\left[\frac{d^{n}}{d t^{n}} E\left(e^{t X}\right)\right]_{t=0}=E\left[\left(\frac{d^{n}}{d t^{n}} e^{t X}\right)_{t=0}\right] \\ &=E\left[\left(X^{n} e^{t X}\right)_{t=0}\right]=E\left(X^{n}\right) \end{aligned}</script><p>或者通过维基百科上的式子求导更容易理解</p>
+<script type="math/tex; mode=display">
+\begin{aligned} M_{X}(t) &=\int_{-\infty}^{\infty} e^{t x} f(x) \mathrm{d} x \\ &=\int_{-\infty}^{\infty}\left(1+t x+\frac{t^{2} x^{2}}{2 !}+\cdots\right) f(x) \mathrm{d} x \\ &=1+t m_{1}+\frac{t^{2} m_{2}}{2 !}+\cdots \end{aligned}</script></li>
+<li><p>Let <strong>X</strong> be a random variable for which the m.g.f. is ψ 1 ; let<strong>Y = aX + b</strong>, where a and b<br>are given constants; and let ψ 2 denote the m.g.f. of Y. Then for every value of t such<br>that ψ 1 (at) is finite,</p>
+<script type="math/tex; mode=display">
+\psi_{2}(t)=e^{b t} \psi_{1}(a t)</script></li>
+<li><p>Suppose that X1 , . . . , Xn are n independent random variables; and for i = 1, . . . , n,<br>letψi denote the m.g.f.of X .Let<strong>Y =X1 + . . . +Xn</strong>,and let the m.g.f.of Y be denoted<br>by ψ. Then for every value of t such that ψi(t) is finite for i = 1, . . . , n,</p>
+<script type="math/tex; mode=display">
+\psi(t)=\prod_{i=1}^{n} \psi_{i}(t)</script></li>
+<li><p>If the m.g.f.’s of two random variables X1 and X2 are finite and identical for all values<br>of t in an open interval around the point t = 0, then the probability distributions of<br>X1 and X2 must be identical.<br>两个随机变量t=0领域内矩生成函数一样，那么他们的概率分布也是一样的。</p>
+</li>
+</ol>
+<h1 id="高斯分布相关"><a href="#高斯分布相关" class="headerlink" title="高斯分布相关"></a>高斯分布相关</h1><p>高斯分布的矩生成函数可以结合上面定理4证明高斯分布很多其他性质</p>
+<script type="math/tex; mode=display">
+\psi(t)=\exp \left(\mu t+\frac{1}{2} \sigma^{2} t^{2}\right) \quad \text { for }-\infty<t<\infty</script><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol>
+<li>书籍： <a href="https://book.douban.com/subject/4130410/" target="_blank" rel="noopener">Probability and Statistics 第四版 by Morris H. DeGroot</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>Math</category>
+      </categories>
+      <tags>
+        <tag>概率论</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>科式加速度</title>
     <url>/2020/01/13/%E7%A7%91%E5%BC%8F%E5%8A%A0%E9%80%9F%E5%BA%A6/</url>
     <content><![CDATA[<h1 id="科里奥利力"><a href="#科里奥利力" class="headerlink" title="科里奥利力"></a>科里奥利力</h1><p>科里奥利力（英语：Coriolis Force；简称科氏力）是一种惯性力,<br>是对旋转体系中进行直线运动的质点由于惯性相对于旋转体系产生的直线运动的偏移的一种描述.</p>
@@ -3292,38 +3324,6 @@ lsattr  filename    #查看文件隐藏属性
       </categories>
       <tags>
         <tag>加速度</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>矩生成函数</title>
-    <url>/2019/09/01/%E7%9F%A9%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/</url>
-    <content><![CDATA[<h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><p>参考维基百科 <a href="https://zh.wikipedia.org/wiki/%E7%9F%A9%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B8" target="_blank" rel="noopener">Moment Generating Functions</a></p>
-<h1 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h1><ol>
-<li><p>LetX bearandomvariableswhosem.g.f.ψ(t)isfiniteforallvaluesoft insomeopen<br>interval around the point t = 0. Then, for each integer n &gt; 0, the nth moment of X,<br>E(Xn), is finite and equals the nth derivative ψ(n)(t) at t = 0. That is, E(Xn) = ψ(n)(0)<br>for n = 1, 2, . . . .</p>
-<script type="math/tex; mode=display">
-\begin{aligned} \psi^{(n)}(0) &=\left[\frac{d^{n}}{d t^{n}} E\left(e^{t X}\right)\right]_{t=0}=E\left[\left(\frac{d^{n}}{d t^{n}} e^{t X}\right)_{t=0}\right] \\ &=E\left[\left(X^{n} e^{t X}\right)_{t=0}\right]=E\left(X^{n}\right) \end{aligned}</script><p>或者通过维基百科上的式子求导更容易理解</p>
-<script type="math/tex; mode=display">
-\begin{aligned} M_{X}(t) &=\int_{-\infty}^{\infty} e^{t x} f(x) \mathrm{d} x \\ &=\int_{-\infty}^{\infty}\left(1+t x+\frac{t^{2} x^{2}}{2 !}+\cdots\right) f(x) \mathrm{d} x \\ &=1+t m_{1}+\frac{t^{2} m_{2}}{2 !}+\cdots \end{aligned}</script></li>
-<li><p>Let <strong>X</strong> be a random variable for which the m.g.f. is ψ 1 ; let<strong>Y = aX + b</strong>, where a and b<br>are given constants; and let ψ 2 denote the m.g.f. of Y. Then for every value of t such<br>that ψ 1 (at) is finite,</p>
-<script type="math/tex; mode=display">
-\psi_{2}(t)=e^{b t} \psi_{1}(a t)</script></li>
-<li><p>Suppose that X1 , . . . , Xn are n independent random variables; and for i = 1, . . . , n,<br>letψi denote the m.g.f.of X .Let<strong>Y =X1 + . . . +Xn</strong>,and let the m.g.f.of Y be denoted<br>by ψ. Then for every value of t such that ψi(t) is finite for i = 1, . . . , n,</p>
-<script type="math/tex; mode=display">
-\psi(t)=\prod_{i=1}^{n} \psi_{i}(t)</script></li>
-<li><p>If the m.g.f.’s of two random variables X1 and X2 are finite and identical for all values<br>of t in an open interval around the point t = 0, then the probability distributions of<br>X1 and X2 must be identical.<br>两个随机变量t=0领域内矩生成函数一样，那么他们的概率分布也是一样的。</p>
-</li>
-</ol>
-<h1 id="高斯分布相关"><a href="#高斯分布相关" class="headerlink" title="高斯分布相关"></a>高斯分布相关</h1><p>高斯分布的矩生成函数可以结合上面定理4证明高斯分布很多其他性质</p>
-<script type="math/tex; mode=display">
-\psi(t)=\exp \left(\mu t+\frac{1}{2} \sigma^{2} t^{2}\right) \quad \text { for }-\infty<t<\infty</script><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol>
-<li>书籍： <a href="https://book.douban.com/subject/4130410/" target="_blank" rel="noopener">Probability and Statistics 第四版 by Morris H. DeGroot</a></li>
-</ol>
-]]></content>
-      <categories>
-        <category>Math</category>
-      </categories>
-      <tags>
-        <tag>概率论</tag>
       </tags>
   </entry>
   <entry>
@@ -3847,6 +3847,17 @@ add_dependencies(your_library ${catkin_EXPORTED_TARGETS})
     #git push -u origin --tags
     # 如果本体仓库已经存在 需要先rename
     git remote rename origin old-origin
+</code></pre><p>建立本地和远程分支<strong>映射关系</strong>后,使用<code>git push</code>或者<code>git pull</code> 时就不必每次都要指定从远程的哪个分支拉取合并和推送到远程的哪个分支了。</p>
+<pre><code>    # 从远程仓库拉取所有分支
+    git branch        # 查看所有本地分支
+    git branch -r    # 查看所有远程分支
+    git branch -a    # 查看所有分支
+    # 本地新建分支x,并自动切换到x,建立了本地和远程分支的映射关系
+    git checkout -b 本地分支名x origin/远程分支名x
+    # 第二种方式 不会和远程分支建立映射关系,也需要手动checkout到x
+    git fetch origin 远程分支名x:本地分支名x
+    # 查看映射关系
+    git branch -vv
 </code></pre><h3 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h3><pre><code>    git branch   # 查看分支
     git branch &lt;name&gt;  # 创建分支
     git checkout &lt;name&gt;   # 切换分支
@@ -3948,6 +3959,7 @@ git push -u origin --tags
 <li><a href="https://blog.csdn.net/zong596568821xp/article/details/87341933" target="_blank" rel="noopener">Python之pyc文件作用及生成方法</a></li>
 <li><a href="https://www.cnblogs.com/smile-fanyin/p/10827438.html" target="_blank" rel="noopener">git commit -m与-am的区别</a></li>
 <li><a href="https://www.cnblogs.com/endless-code/p/11173886.html" target="_blank" rel="noopener">Git使用小技巧之多个远程仓库</a></li>
+<li><a href="https://blog.csdn.net/tterminator/article/details/78108550" target="_blank" rel="noopener">git拉取远程分支并创建本地分支</a></li>
 </ol>
 ]]></content>
       <categories>
