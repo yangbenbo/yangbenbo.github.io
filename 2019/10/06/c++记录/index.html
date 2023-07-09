@@ -1,0 +1,1724 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <title>c++记录 | yangbenbo&#39;s blog</title>
+  <meta name="keywords" content=" c++ ">
+  <meta name="description" content="c++记录 | yangbenbo&#39;s blog">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="个人简介杨本泊， 武汉大学先进机器人与智能控制实验室 机器人算法开发 喜欢研究新兴技术和未来发展方向。 最近更新博客 读书 联系方式 QQ : 2519130844 邮箱 : yangbenbo@whu.edu.cn">
+<meta property="og:type" content="website">
+<meta property="og:title" content="博主">
+<meta property="og:url" content="http://yangbenbo.github.io/about/index.html">
+<meta property="og:site_name" content="yangbenbo&#39;s blog">
+<meta property="og:description" content="个人简介杨本泊， 武汉大学先进机器人与智能控制实验室 机器人算法开发 喜欢研究新兴技术和未来发展方向。 最近更新博客 读书 联系方式 QQ : 2519130844 邮箱 : yangbenbo@whu.edu.cn">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2023-07-09T08:38:00.867Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="博主">
+<meta name="twitter:description" content="个人简介杨本泊， 武汉大学先进机器人与智能控制实验室 机器人算法开发 喜欢研究新兴技术和未来发展方向。 最近更新博客 读书 联系方式 QQ : 2519130844 邮箱 : yangbenbo@whu.edu.cn">
+
+
+<link rel="icon" href="/img/weiZhuang.png">
+
+<link href="/css/style.css?v=1" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1" rel="stylesheet">
+
+<link href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+<link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="/js/jquery.autocomplete.min.js?v=1"></script>
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+<script src="/js/iconfont.js?v=1"></script>
+
+</head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="false">
+  <input class="theme_blog_path" value>
+</div>
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/" class="avatar_target">
+    <img class="avatar" src="/img/weiZhuang.png" />
+</a>
+<div class="author">
+    <span>杨本泊</span>
+</div>
+
+<div class="icon">
+    
+        
+        <a title="rss" href="/atom.xml" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-rss"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="github" href="https://github.com/yangbenbo" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-github"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+    
+        
+    
+        
+    
+        
+        <a title="oschina" href="https://my.oschina.net/" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-oschina"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+    
+        
+        <a title="email" href="mailto:yangbenbo@whu.edu.cn" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-email"></use>
+                </svg>
+            
+        </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li><div class="all active">全部文章<small>(68)</small></div></li>
+    
+        
+            
+            <li><div data-rel="Linux">Linux<small>(20)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="Blog">Blog<small>(3)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="ROS">ROS<small>(4)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="Program">Program<small>(16)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="Software">Software<small>(8)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="Math">Math<small>(15)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="Systems">Systems<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="Internet">Internet<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+    
+    
+    
+    
+    </div>
+    <div><a style="border-right: 1px solid #fff; width: 49%"  class="about site_url"  href="/about">关于</a><a style="width: 50%"  class="friends">友链</a></div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="68">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="back-title-list"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="http://yelog.org/">叶落阁</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <form onkeydown="if(event.keyCode==13){return false;}">
+        <input class="search" type="text" placeholder="以 in: 开头进行全文搜索" autocomplete="off"id="local-search-input" >
+        <i class="cross"></i>
+        <span>
+            <label for="tagswitch">Tags:</label>
+            <input id="tagswitch" type="checkbox" style="display: none" />
+            <i id="tagsWitchIcon"></i>
+        </span>
+    </form>
+    <div class="tags-list">
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">数据传输</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">blog</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">ssh</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">hexo</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">DNS</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">正则表达式</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color3">Qt</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">ROS</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color3">program</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color3">qt</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">NodeHandle</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">文件共享</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">c++</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">字符串</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">gdb</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color2">c</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color3">gitbook</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">git</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">make</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color2">matlab</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">equation</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">mysql</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">代码规范</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color2">python</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">shell</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">下载工具</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">software</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color2">ubuntu</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">grub</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color3">编码</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">vim</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">word</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">matlab绘图</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">机器人学</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">位姿变换</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">傅里叶变换</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">卡尔曼滤波</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">四元数</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">重装系统</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">多线程</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color3">ps</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">快捷键</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">simulink</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">clion</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">world</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">excel</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color2">自动控制原理</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">wps</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">sort</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">数据结构</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">概率论</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">根轨迹</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">信号分析</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color3">补码</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color3">权限</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">软硬件</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color3">标定</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">加速度</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">anaconda</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">雅克比矩阵</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color3">伪逆</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">机器人</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">efficiency</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">网络基础</a>
+    </li>
+    
+    <div class="clearfix"></div>
+</div>
+
+    
+    <div id="local-search-result">
+
+    </div>
+    
+    <nav id="title-list-nav">
+        
+        <a  class="Linux "
+           href="/2019/09/30/FTP配置和使用/"
+           data-tag="数据传输"
+           data-author="" >
+            <span class="post-title" title="FTP配置和使用">FTP配置和使用</span>
+            <span class="post-date" title="2019-09-30 20:45:12">2019/09/30</span>
+        </a>
+        
+        <a  class="Blog "
+           href="/2019/10/01/Github-SSH-Key避免Hexo部署输入密码/"
+           data-tag="blog,ssh,hexo"
+           data-author="" >
+            <span class="post-title" title="Github SSH Key避免Hexo部署输入密码">Github SSH Key避免Hexo部署输入密码</span>
+            <span class="post-date" title="2019-10-01 16:19:16">2019/10/01</span>
+        </a>
+        
+        <a  class="ROS "
+           href="/2020/12/27/GitHub的raw-githubusercontent-com无法链接/"
+           data-tag="DNS"
+           data-author="" >
+            <span class="post-title" title="GitHub的raw.githubusercontent.com无法链接">GitHub的raw.githubusercontent.com无法链接</span>
+            <span class="post-date" title="2020-12-27 17:57:04">2020/12/27</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/11/02/Linux-正则表达式/"
+           data-tag="正则表达式"
+           data-author="" >
+            <span class="post-title" title="Linux 正则表达式">Linux 正则表达式</span>
+            <span class="post-date" title="2019-11-02 09:22:39">2019/11/02</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2020/05/12/Linux-Qt5-ROS配置Qwtplot3d/"
+           data-tag="Qt,ROS"
+           data-author="" >
+            <span class="post-title" title="Linux + Qt5 + ROS配置Qwtplot3d">Linux + Qt5 + ROS配置Qwtplot3d</span>
+            <span class="post-date" title="2020-05-12 20:09:33">2020/05/12</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/10/02/Linux进程管理/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="Linux进程管理">Linux进程管理</span>
+            <span class="post-date" title="2019-10-02 09:28:29">2019/10/02</span>
+        </a>
+        
+        <a  class="Blog "
+           href="/2019/07/14/Markdown语法/"
+           data-tag="blog,program"
+           data-author="" >
+            <span class="post-title" title="Markdown语法">Markdown语法</span>
+            <span class="post-date" title="2019-07-14 16:44:31">2019/07/14</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/02/03/QT坐标系统/"
+           data-tag="qt"
+           data-author="" >
+            <span class="post-title" title="QT坐标系统 ">QT坐标系统 </span>
+            <span class="post-date" title="2020-02-03 17:31:33">2020/02/03</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/02/01/QT事件/"
+           data-tag="qt"
+           data-author="" >
+            <span class="post-title" title="QT事件">QT事件</span>
+            <span class="post-date" title="2020-02-01 21:46:32">2020/02/01</span>
+        </a>
+        
+        <a  class="ROS "
+           href="/2019/12/21/ROS遇到的问题/"
+           data-tag="ROS"
+           data-author="" >
+            <span class="post-title" title="ROS遇到的问题">ROS遇到的问题</span>
+            <span class="post-date" title="2019-12-21 11:54:38">2019/12/21</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/10/05/ROS中CMakeLists-txt/"
+           data-tag="ROS"
+           data-author="" >
+            <span class="post-title" title="ROS中CMakeLists.txt">ROS中CMakeLists.txt</span>
+            <span class="post-date" title="2019-10-05 19:25:10">2019/10/05</span>
+        </a>
+        
+        <a  class="ROS "
+           href="/2019/10/07/ROS记录/"
+           data-tag="NodeHandle"
+           data-author="" >
+            <span class="post-title" title="ROS记录">ROS记录</span>
+            <span class="post-date" title="2019-10-07 11:32:36">2019/10/07</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/10/01/SAMBA服务简单搭建/"
+           data-tag="文件共享"
+           data-author="" >
+            <span class="post-title" title="SAMBA服务简单搭建">SAMBA服务简单搭建</span>
+            <span class="post-date" title="2019-10-01 21:00:55">2019/10/01</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2019/10/06/c++记录/"
+           data-tag="c++"
+           data-author="" >
+            <span class="post-title" title="c++记录">c++记录</span>
+            <span class="post-date" title="2019-10-06 16:35:06">2019/10/06</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/02/05/c-pragma-once/"
+           data-tag="c++"
+           data-author="" >
+            <span class="post-title" title="c++ #pragma once">c++ #pragma once</span>
+            <span class="post-date" title="2020-02-05 09:59:27">2020/02/05</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2019/11/16/c-函数指针/"
+           data-tag="c++"
+           data-author="" >
+            <span class="post-title" title="c++函数指针">c++函数指针</span>
+            <span class="post-date" title="2019-11-16 16:51:52">2019/11/16</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/02/22/c-string与c风格字符串/"
+           data-tag="字符串"
+           data-author="" >
+            <span class="post-title" title="c++ string与c风格字符串">c++ string与c风格字符串</span>
+            <span class="post-date" title="2020-02-22 15:08:52">2020/02/22</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/10/03/gdb调试/"
+           data-tag="gdb"
+           data-author="" >
+            <span class="post-title" title="gdb调试">gdb调试</span>
+            <span class="post-date" title="2019-10-03 09:09:21">2019/10/03</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/01/22/c-中argc-argv理解/"
+           data-tag="c++,c"
+           data-author="" >
+            <span class="post-title" title="c++中argc argv理解">c++中argc argv理解</span>
+            <span class="post-date" title="2020-01-22 17:27:07">2020/01/22</span>
+        </a>
+        
+        <a  class="Blog "
+           href="/2019/10/06/hexo博客和gitbook配置/"
+           data-tag="blog,hexo,gitbook"
+           data-author="" >
+            <span class="post-title" title="hexo博客和gitbook配置">hexo博客和gitbook配置</span>
+            <span class="post-date" title="2019-10-06 08:36:02">2019/10/06</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/07/16/git基本使用/"
+           data-tag="git"
+           data-author="" >
+            <span class="post-title" title="git基本使用">git基本使用</span>
+            <span class="post-date" title="2019-07-16 17:36:13">2019/07/16</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/11/02/make宏编译/"
+           data-tag="make"
+           data-author="" >
+            <span class="post-title" title="make宏编译">make宏编译</span>
+            <span class="post-date" title="2019-11-02 22:32:22">2019/11/02</span>
+        </a>
+        
+        <a  class="Software "
+           href="/2019/10/24/matlab-绘图/"
+           data-tag="matlab"
+           data-author="" >
+            <span class="post-title" title="matlab 绘图">matlab 绘图</span>
+            <span class="post-date" title="2019-10-24 09:52:50">2019/10/24</span>
+        </a>
+        
+        <a  class="Software "
+           href="/2019/11/30/mathtype常用配置/"
+           data-tag="equation"
+           data-author="" >
+            <span class="post-title" title="mathtype常用配置">mathtype常用配置</span>
+            <span class="post-date" title="2019-11-30 21:39:27">2019/11/30</span>
+        </a>
+        
+        <a  class="Software "
+           href="/2019/10/24/matlab中常见问题/"
+           data-tag="matlab"
+           data-author="" >
+            <span class="post-title" title="matlab中常见问题">matlab中常见问题</span>
+            <span class="post-date" title="2019-10-24 19:46:53">2019/10/24</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/04/21/mysql/"
+           data-tag="mysql"
+           data-author="" >
+            <span class="post-title" title="mysql">mysql</span>
+            <span class="post-date" title="2020-04-21 23:15:25">2020/04/21</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/12/12/pyhton-代码规范/"
+           data-tag="代码规范"
+           data-author="" >
+            <span class="post-title" title="pyhton 代码规范">pyhton 代码规范</span>
+            <span class="post-date" title="2020-12-12 17:01:28">2020/12/12</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/11/10/python-装饰器/"
+           data-tag="python"
+           data-author="" >
+            <span class="post-title" title="python 装饰器">python 装饰器</span>
+            <span class="post-date" title="2020-11-10 14:00:30">2020/11/10</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/05/22/python基础/"
+           data-tag="python"
+           data-author="" >
+            <span class="post-title" title="python基础">python基础</span>
+            <span class="post-date" title="2020-05-22 16:52:49">2020/05/22</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2019/11/22/qt纪要/"
+           data-tag="qt"
+           data-author="" >
+            <span class="post-title" title="qt记录">qt记录</span>
+            <span class="post-date" title="2019-11-22 22:23:21">2019/11/22</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/09/29/ssh远程登录/"
+           data-tag="ssh"
+           data-author="" >
+            <span class="post-title" title="ssh远程登录">ssh远程登录</span>
+            <span class="post-date" title="2019-09-29 12:13:36">2019/09/29</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/09/29/ubuntu小技巧/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="ubuntu小技巧">ubuntu小技巧</span>
+            <span class="post-date" title="2019-09-29 21:11:37">2019/09/29</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/09/29/shell和下载工具/"
+           data-tag="shell,下载工具"
+           data-author="" >
+            <span class="post-title" title="shell和下载工具">shell和下载工具</span>
+            <span class="post-date" title="2019-09-29 12:27:00">2019/09/29</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/07/14/ubuntu系统配置/"
+           data-tag="software,ubuntu"
+           data-author="" >
+            <span class="post-title" title="ubuntu系统配置">ubuntu系统配置</span>
+            <span class="post-date" title="2019-07-14 20:17:42">2019/07/14</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2020/01/09/ubuntu配置grub-指定默认内核/"
+           data-tag="grub"
+           data-author="" >
+            <span class="post-title" title="ubuntu配置grub,指定默认内核">ubuntu配置grub,指定默认内核</span>
+            <span class="post-date" title="2020-01-09 15:30:29">2020/01/09</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/11/23/ubuntu解压文件名字无法显示中文-中文乱码/"
+           data-tag="编码"
+           data-author="" >
+            <span class="post-title" title="ubuntu解压文件名字无法显示中文(中文乱码)">ubuntu解压文件名字无法显示中文(中文乱码)</span>
+            <span class="post-date" title="2019-11-23 11:23:52">2019/11/23</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/09/30/vim常用命令/"
+           data-tag="vim"
+           data-author="" >
+            <span class="post-title" title="vim常用命令">vim常用命令</span>
+            <span class="post-date" title="2019-09-30 14:59:28">2019/09/30</span>
+        </a>
+        
+        <a  class="Software "
+           href="/2019/12/04/word参考文献交叉引用/"
+           data-tag="word"
+           data-author="" >
+            <span class="post-title" title="word参考文献交叉引用">word参考文献交叉引用</span>
+            <span class="post-date" title="2019-12-04 08:32:08">2019/12/04</span>
+        </a>
+        
+        <a  class="Software "
+           href="/2019/12/14/word排版/"
+           data-tag="matlab绘图"
+           data-author="" >
+            <span class="post-title" title="word排版">word排版</span>
+            <span class="post-date" title="2019-12-14 21:39:40">2019/12/14</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2019/12/08/位姿变换矩阵左乘和右乘理解/"
+           data-tag="机器人学,位姿变换"
+           data-author="" >
+            <span class="post-title" title="位姿变换矩阵左乘和右乘理解">位姿变换矩阵左乘和右乘理解</span>
+            <span class="post-date" title="2019-12-08 11:49:49">2019/12/08</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2019/11/30/傅里叶变换理解/"
+           data-tag="傅里叶变换"
+           data-author="" >
+            <span class="post-title" title="傅里叶变换理解">傅里叶变换理解</span>
+            <span class="post-date" title="2019-11-30 19:38:48">2019/11/30</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2021/07/04/卡尔曼滤波/"
+           data-tag="卡尔曼滤波"
+           data-author="" >
+            <span class="post-title" title="卡尔曼滤波">卡尔曼滤波</span>
+            <span class="post-date" title="2021-07-04 10:21:23">2021/07/04</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2020/11/25/四元数/"
+           data-tag="四元数"
+           data-author="" >
+            <span class="post-title" title="四元数">四元数</span>
+            <span class="post-date" title="2020-11-25 15:36:23">2020/11/25</span>
+        </a>
+        
+        <a  class="Systems "
+           href="/2019/07/21/多系统启动盘制作/"
+           data-tag="重装系统"
+           data-author="" >
+            <span class="post-title" title="多系统启动盘制作">多系统启动盘制作</span>
+            <span class="post-date" title="2019-07-21 15:18:56">2019/07/21</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/11/14/多线程/"
+           data-tag="多线程"
+           data-author="" >
+            <span class="post-title" title="多线程">多线程</span>
+            <span class="post-date" title="2020-11-14 21:07:02">2020/11/14</span>
+        </a>
+        
+        <a  class="Software "
+           href="/2019/10/20/实用小技巧汇总/"
+           data-tag="ps"
+           data-author="" >
+            <span class="post-title" title="实用小技巧汇总">实用小技巧汇总</span>
+            <span class="post-date" title="2019-10-20 19:12:25">2019/10/20</span>
+        </a>
+        
+        <a  class="Software "
+           href="/2019/10/07/常用软件快捷键/"
+           data-tag="快捷键,simulink,clion,world,excel"
+           data-author="" >
+            <span class="post-title" title="常用软件快捷键">常用软件快捷键</span>
+            <span class="post-date" title="2019-10-07 19:57:38">2019/10/07</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2019/12/30/惯性张量/"
+           data-tag="机器人学"
+           data-author="" >
+            <span class="post-title" title="惯性张量">惯性张量</span>
+            <span class="post-date" title="2019-12-30 21:39:22">2019/12/30</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2019/12/27/拉氏变换/"
+           data-tag="自动控制原理"
+           data-author="" >
+            <span class="post-title" title="拉氏变换">拉氏变换</span>
+            <span class="post-date" title="2019-12-27 14:43:06">2019/12/27</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/12/22/ubuntu下wps缺少字体/"
+           data-tag="wps"
+           data-author="" >
+            <span class="post-title" title="ubuntu下wps缺少字体">ubuntu下wps缺少字体</span>
+            <span class="post-date" title="2019-12-22 11:34:17">2019/12/22</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/03/16/排序算法/"
+           data-tag="sort"
+           data-author="" >
+            <span class="post-title" title="排序算法">排序算法</span>
+            <span class="post-date" title="2020-03-16 15:37:00">2020/03/16</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/02/15/数据结构c/"
+           data-tag="数据结构"
+           data-author="" >
+            <span class="post-title" title="数据结构c++">数据结构c++</span>
+            <span class="post-date" title="2020-02-15 09:20:59">2020/02/15</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2021/01/16/机械臂动力学/"
+           data-tag="机器人学"
+           data-author="" >
+            <span class="post-title" title="机械臂动力学">机械臂动力学</span>
+            <span class="post-date" title="2021-01-16 13:50:54">2021/01/16</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2019/08/31/样本方差分母为什么是n-1/"
+           data-tag="概率论"
+           data-author="" >
+            <span class="post-title" title="样本方差分母为什么是n-1">样本方差分母为什么是n-1</span>
+            <span class="post-date" title="2019-08-31 12:40:25">2019/08/31</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2020/03/28/根轨迹/"
+           data-tag="根轨迹"
+           data-author="" >
+            <span class="post-title" title="根轨迹">根轨迹</span>
+            <span class="post-date" title="2020-03-28 17:02:54">2020/03/28</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2019/07/18/正交函数/"
+           data-tag="信号分析"
+           data-author="" >
+            <span class="post-title" title="正交函数">正交函数</span>
+            <span class="post-date" title="2019-07-18 20:17:03">2019/07/18</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/03/13/理解补码/"
+           data-tag="补码"
+           data-author="" >
+            <span class="post-title" title="理解补码">理解补码</span>
+            <span class="post-date" title="2020-03-13 07:31:28">2020/03/13</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/09/30/用户权限管理/"
+           data-tag="权限"
+           data-author="" >
+            <span class="post-title" title="用户权限管理">用户权限管理</span>
+            <span class="post-date" title="2019-09-30 23:22:20">2019/09/30</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2020/11/12/电脑小问题记录/"
+           data-tag="软硬件"
+           data-author="" >
+            <span class="post-title" title="电脑小问题记录">电脑小问题记录</span>
+            <span class="post-date" title="2020-11-12 08:43:35">2020/11/12</span>
+        </a>
+        
+        <a  class="ROS "
+           href="/2020/12/26/相机标定/"
+           data-tag="标定"
+           data-author="" >
+            <span class="post-title" title="相机标定">相机标定</span>
+            <span class="post-date" title="2020-12-26 14:54:40">2020/12/26</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2019/09/01/矩生成函数/"
+           data-tag="概率论"
+           data-author="" >
+            <span class="post-title" title="矩生成函数">矩生成函数</span>
+            <span class="post-date" title="2019-09-01 15:01:28">2019/09/01</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2020/01/13/科式加速度/"
+           data-tag="加速度"
+           data-author="" >
+            <span class="post-title" title="科式加速度">科式加速度</span>
+            <span class="post-date" title="2020-01-13 10:28:27">2020/01/13</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2020/11/10/解决libapr-1-so-0：对‘uuid-generate-UUID-1-0’未定义的引用/"
+           data-tag="anaconda"
+           data-author="" >
+            <span class="post-title" title="解决conda和ros库不兼容问题,libapr-1.so.0：对‘uuid_generate@UUID_1.0’未定义的引用">解决conda和ros库不兼容问题,libapr-1.so.0：对‘uuid_generate@UUID_1.0’未定义的引用</span>
+            <span class="post-date" title="2020-11-10 11:05:40">2020/11/10</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2020/02/19/雅克比矩阵零空间/"
+           data-tag="雅克比矩阵,伪逆"
+           data-author="" >
+            <span class="post-title" title="雅克比矩阵零空间">雅克比矩阵零空间</span>
+            <span class="post-date" title="2020-02-19 11:10:14">2020/02/19</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2020/11/23/逆运动学/"
+           data-tag="机器人"
+           data-author="" >
+            <span class="post-title" title="逆运动学">逆运动学</span>
+            <span class="post-date" title="2020-11-23 13:37:45">2020/11/23</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2019/10/16/高斯分布/"
+           data-tag="概率论"
+           data-author="" >
+            <span class="post-title" title="高斯分布">高斯分布</span>
+            <span class="post-date" title="2019-10-16 13:30:27">2019/10/16</span>
+        </a>
+        
+        <a  class="Software "
+           href="/2019/11/30/高效工具/"
+           data-tag="efficiency"
+           data-author="" >
+            <span class="post-title" title="高效工具">高效工具</span>
+            <span class="post-date" title="2019-11-30 22:07:24">2019/11/30</span>
+        </a>
+        
+        <a  class="Internet "
+           href="/2019/12/15/网络基础/"
+           data-tag="网络基础"
+           data-author="" >
+            <span class="post-title" title="网络基础">网络基础</span>
+            <span class="post-date" title="2019-12-15 22:24:56">2019/12/15</span>
+        </a>
+        
+    </nav>
+</div>
+    </div>
+    <div class="hide-list">
+        <div class="semicircle">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div class="post">
+    <div class="pjax">
+        <article id="post-c++记录" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">c++记录</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            
+                <a href="javascript:" data-rel="Program">Program</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            
+            <a href="javascript:" class="color4">c++</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+        创建时间:<time class="date" title='更新时间: 2023-07-09 07:10:11'>2019-10-06 16:35</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读:<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#g-编译"><span class="toc-text">g++编译</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#常用选项"><span class="toc-text">常用选项</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#enum-枚举类型"><span class="toc-text">enum 枚举类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#左值-右值"><span class="toc-text">左值 右值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#变量初始化"><span class="toc-text">变量初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#限定符"><span class="toc-text">限定符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#存储类"><span class="toc-text">存储类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运算符优先级"><span class="toc-text">运算符优先级</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lambda-函数与表达式"><span class="toc-text">lambda 函数与表达式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#qt中的lambda表达式"><span class="toc-text">qt中的lambda表达式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#指向指针的指针"><span class="toc-text">指向指针的指针</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#虚继承"><span class="toc-text">虚继承</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运算符重载"><span class="toc-text">运算符重载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#虚函数"><span class="toc-text">虚函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#c-STL"><span class="toc-text">c++ STL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件和流"><span class="toc-text">文件和流</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#文件输入输出流"><span class="toc-text">文件输入输出流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串输入输出流"><span class="toc-text">字符串输入输出流</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异常处理"><span class="toc-text">异常处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#异常的使用"><span class="toc-text">异常的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#exit函数"><span class="toc-text">exit函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#类型转换"><span class="toc-text">类型转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#继承和组合"><span class="toc-text">继承和组合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#随机数发生器"><span class="toc-text">随机数发生器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#待续…"><span class="toc-text">待续…</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#动态内存"><span class="toc-text">动态内存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#命名空间"><span class="toc-text">命名空间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#模板"><span class="toc-text">模板</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#预处理器"><span class="toc-text">预处理器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#信号处理"><span class="toc-text">信号处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多线程"><span class="toc-text">多线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见bug"><span class="toc-text">常见bug</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#const-constexpr"><span class="toc-text">const constexpr</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#遇到的问题"><span class="toc-text">遇到的问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#引用"><span class="toc-text">引用</span></a>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- @import "[TOC]" {cmd="toc" depthFrom=2 depthTo=3 orderedList=false} -->
+<!-- code_chunk_output -->
+<ul>
+<li><a href="#g编译">g++编译</a><ul>
+<li><a href="#常用选项">常用选项</a></li>
+</ul>
+</li>
+<li><a href="#enum-枚举类型">enum 枚举类型</a></li>
+<li><a href="#左值-右值">左值 右值</a></li>
+<li><a href="#变量初始化">变量初始化</a></li>
+<li><a href="#限定符">限定符</a></li>
+<li><a href="#存储类">存储类</a></li>
+<li><a href="#运算符优先级">运算符优先级</a></li>
+<li><a href="#lambda-函数与表达式">lambda 函数与表达式</a><ul>
+<li><a href="#qt中的lambda表达式">qt中的lambda表达式</a></li>
+</ul>
+</li>
+<li><a href="#指向指针的指针">指向指针的指针</a></li>
+<li><a href="#虚继承">虚继承</a></li>
+<li><a href="#运算符重载">运算符重载</a></li>
+<li><a href="#虚函数">虚函数</a></li>
+<li><a href="#c-stl">c++ STL</a></li>
+<li><a href="#文件和流">文件和流</a><ul>
+<li><a href="#文件输入输出流">文件输入输出流</a></li>
+<li><a href="#字符串输入输出流">字符串输入输出流</a></li>
+</ul>
+</li>
+<li><a href="#异常处理">异常处理</a><ul>
+<li><a href="#异常的使用">异常的使用</a></li>
+<li><a href="#exit函数">exit函数</a></li>
+</ul>
+</li>
+<li><a href="#类型转换">类型转换</a></li>
+<li><a href="#继承和组合">继承和组合</a></li>
+<li><a href="#随机数发生器">随机数发生器</a></li>
+<li><a href="#待续"><strong>待续…</strong></a></li>
+<li><a href="#动态内存">动态内存</a></li>
+<li><a href="#命名空间">命名空间</a></li>
+<li><a href="#模板">模板</a></li>
+<li><a href="#预处理器">预处理器</a></li>
+<li><a href="#信号处理">信号处理</a></li>
+<li><a href="#多线程">多线程</a></li>
+<li><a href="#常见bug">常见bug</a></li>
+</ul>
+<!-- /code_chunk_output -->
+<h2 id="g-编译"><a href="#g-编译" class="headerlink" title="g++编译"></a>g++编译</h2><pre><code>g++ -g -Wall -std=c++11 main.cpp
+</code></pre><h3 id="常用选项"><a href="#常用选项" class="headerlink" title="常用选项"></a>常用选项</h3><pre><code>-ansi    只支持 ANSI 标准的 C 语法。这一选项将禁止 GNU C 的某些特色， 例如 asm 或 typeof 关键词。
+-c    只编译并生成目标文件。
+-DMACRO    以字符串&quot;1&quot;定义 MACRO 宏。
+-DMACRO=DEFN    以字符串&quot;DEFN&quot;定义 MACRO 宏。
+-E    只运行 C 预编译器。
+-g    生成调试信息。GNU 调试器可利用该信息。
+-IDIRECTORY    指定额外的头文件搜索路径DIRECTORY。
+-LDIRECTORY    指定额外的函数库搜索路径DIRECTORY。
+-lLIBRARY    连接时搜索指定的函数库LIBRARY。
+-m486    针对 486 进行代码优化。
+-o    FILE 生成指定的输出文件。用在生成可执行文件时。
+-O0    不进行优化处理。
+-O    或 -O1 优化生成代码。
+-O2    进一步优化。
+-O3    比 -O2 更进一步优化，包括 inline 函数。
+-shared    生成共享目标文件。通常用在建立共享库时。
+-static    禁止使用共享连接。
+-UMACRO    取消对 MACRO 宏的定义。
+-w    不生成任何警告信息。
+-Wall    生成所有警告信息。  
+</code></pre><h2 id="enum-枚举类型"><a href="#enum-枚举类型" class="headerlink" title="enum 枚举类型"></a>enum 枚举类型</h2><p>可以和switch语句很好结合      </p>
+<ol>
+<li><p>声明 enumType 为新的数据类型，称为<strong>枚举</strong>(enumeration) 可用来声明这种类型的变量,就像int a;<br>Monday等为符号常量，<strong>枚举量</strong>，默认0-6<br>也可以定义的类型的时候定义变量(还可以顺带初始化)      </p>
+<pre><code> enum enumType {Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday};
+ enum enumType {Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday}Weekday = Monday;
+</code></pre></li>
+<li><p>枚举量赋值给非枚举量，因为枚举量是符号常量，赋值编译器自动把枚举量转换为int</p>
+<pre><code> int a = Monday;
+ int a = Monday + 1;
+</code></pre></li>
+<li><p>非枚举量强制类型转换 赋值给枚举量</p>
+<pre><code> Weekday = enumType(2);  #但要注意**不要超出枚举取值范围**，超出了不会报错，但是得不到想要的结果
+</code></pre></li>
+<li><p>自定义枚举常量的值， 这里Monday、Wednesday均被定义为1，则Tuesday=2，Thursday、Friday、Saturday、Sunday的值默认分别为2、3、4、5</p>
+<pre><code> enum enumType {Monday=1, Tuesday, Wednesday=1, Thursday, Friday, Saturday, Sunday};
+</code></pre><p>注意：指定的值是<strong>整数</strong>,<strong>未被初始化的枚举值的值默认将比其前面的枚举值大1</strong>,<strong>枚举量的值可以相同</strong>        </p>
+</li>
+<li><p>强类型枚举<br>传统c++问题：暴露在外层作用域，如果有相同枚举常量不行</p>
+<pre><code> enum Side{Right,Left};
+ enum Thing{Wrong,Right};
+
+ #强枚举类型 只能使用 Enumeration::VAL1，单独的VAL1没有意义
+ enum class Enumeration{
+  VAL1,
+  VAL2,
+ };
+</code></pre></li>
+</ol>
+<h2 id="左值-右值"><a href="#左值-右值" class="headerlink" title="左值 右值"></a>左值 右值</h2><ul>
+<li><strong>左值(lvalue)</strong>：指向内存位置的表达式被称为左值表达式。可以出现在赋值号的左边和右边。 如变量</li>
+<li><strong>右值(rvalue)</strong>：存储在内存中某些地址的数值。不能对其进行赋值表达式，只能出现在赋值号右边。如数值型字面值 10</li>
+</ul>
+<h2 id="变量初始化"><a href="#变量初始化" class="headerlink" title="变量初始化"></a>变量初始化</h2><ol>
+<li>局部变量：定义时系统不会对其初始化，需要自行初始化</li>
+<li>全局变量：系统自动初始化为下列值</li>
+</ol>
+<ul>
+<li>int        0</li>
+<li>char        ‘\0’</li>
+<li>float        0</li>
+<li>double    0</li>
+<li>pointer    NULL</li>
+</ul>
+<h2 id="限定符"><a href="#限定符" class="headerlink" title="限定符"></a>限定符</h2><p>限定符    含义</p>
+<ul>
+<li>const    类型的对象在程序执行期间不能被修改改变。</li>
+<li><strong>volatile</strong> 告诉编译器不需要优化volatile声明的变量，让程序可以直接从内存中读取变量。<br>对于一般的变量编译器会对变量进行优化，将内存中的变量值放在寄存器中以加快读写效率，<br>比如编译器发现两次从i读取数据代码之间没有对i操作，优化结果就是直接用上次读到的值，(变量是寄存器变量或者端口数据时容易出错)<br>用了volatile生成的汇编代码就会重新从i的地址读取数据</li>
+</ul>
+<pre><code>    volatile int i=10;  
+    int a = i;  
+    ...  
+    // 其他代码，并未明确告诉编译器，对 i 进行过操作  
+    int b = i;  
+</code></pre><h2 id="存储类"><a href="#存储类" class="headerlink" title="存储类"></a>存储类</h2><ol>
+<li><strong>auto</strong> 声明变量时根据初始化表达式自动推断该变量的类型、声明函数时函数返回值的占位符。使用少c++11已删除</li>
+<li><strong>register</strong> 变量<strong>可能</strong>在寄存器中，取决于硬件和实现的限制。如果在寄存器中，则不能进行<strong>一元&amp;</strong>运算，因为没有内存位置。用于需要快速访问的量</li>
+<li><p><strong>static</strong> 修饰全局变量：作用域限制在声明它的文件内。 局部变量：保持局部变量的值，只初始化一次</p>
+<ol>
+<li>static数据成员存储在程序静态存储区，独立于该类的任意对象，类对象和类都可以调用</li>
+<li>static数据成员必须在<strong>类外初始化</strong>，不能在类中</li>
+<li>static const int 可以在类定义内部初始化 其他string double 不可以</li>
+</ol>
+</li>
+<li><strong>extern</strong> 提供一个全局变量引用，使用 ‘extern’ 时，对于无法初始化的变量，会把变量名指向一个之前定义过的存储位置。通常用于多个文件夹共享全局变量</li>
+<li><strong>mutable</strong> 使用类对象，mutable成员可以通过const成员函数修改</li>
+<li><strong>thread_local</strong> 使用 thread_local 说明符声明的变量仅可在它在其上创建的线程上访问。 变量在创建线程时创建，并在销毁线程时销毁。 每个线程都有其自己的变量副本。</li>
+</ol>
+<h2 id="运算符优先级"><a href="#运算符优先级" class="headerlink" title="运算符优先级"></a>运算符优先级</h2><p>~ : 二进制补码运算<br><img src="/2019/10/06/c++记录/运算符优先级.png" alt="运算符优先级"></p>
+<h2 id="lambda-函数与表达式"><a href="#lambda-函数与表达式" class="headerlink" title="lambda 函数与表达式"></a>lambda 函数与表达式</h2><p>匿名函数</p>
+<pre><code>[capture](parameters)-&gt;return-type{body}
+</code></pre><p>在Lambda表达式内可以访问当前作用域的变量，这是Lambda表达式的闭包（Closure）行为。可以通过前面的[]来指定：</p>
+<pre><code>    []      // 沒有定义任何变量。使用未定义变量会引发错误。
+    [x, &amp;y] // x以传值方式传入（默认），y以引用方式传入。
+    [&amp;]     // 任何被使用到的外部变量都隐式地以引用方式加以引用。
+    [=]     // 任何被使用到的外部变量都隐式地以传值方式加以引用。 一旦传值 就是常量
+    [&amp;, x]  // x显式地以传值方式加以引用。其余变量以引用方式加以引用。
+    [=, &amp;z] // z显式地以引用方式加以引用。其余变量以传值方式加以引用。
+
+    //常值传递 copy一份 之后不变
+    int a=10;
+    auto func2 = [&amp;]{return a + 1;};
+    cout &lt;&lt; func1() &lt;&lt; endl;
+    a++;
+    cout &lt;&lt; func1() &lt;&lt; endl;
+
+    //mutable更改变量值
+    int a=10;
+    cout &lt;&lt; [=]()mutable{return ++a;}() &lt;&lt; endl;  //总是一个const函数，不能在函数体内修改非静态成员变量,这里是修改拷贝的参数,参数本身没有改变
+</code></pre><ol>
+<li>捕捉器，按值传递，相当于在表达式定义那一刻，表达式内就copy了一份变量，而且<strong>值永远不变</strong>，即使外部变量变了，这也不变</li>
+<li>想在表达式内部修改变量的值，添加<strong>mutable</strong> </li>
+</ol>
+<h3 id="qt中的lambda表达式"><a href="#qt中的lambda表达式" class="headerlink" title="qt中的lambda表达式"></a>qt中的lambda表达式</h3><pre><code>QObject::connect(&amp;newspaper, static_cast&lt;void (Newspaper:: *)(const QString &amp;)&gt;(&amp;Newspaper::newPaper),
+                [=](const QString &amp;name) 
+                { /* Your code here. */ }
+                );
+</code></pre><p>这里实际函数调用的参数是从信号过来的所以不需要再赋值,下面就是调用匿名函数,a赋值为4</p>
+<pre><code>[](int a){cout &lt;&lt; a}(4)                    
+</code></pre><h2 id="指向指针的指针"><a href="#指向指针的指针" class="headerlink" title="指向指针的指针"></a>指向指针的指针</h2><pre><code>//函数如果要改变值就传入指针或这引用,要改变指针就得传入指针的指针,因为在函数参数传递是调用拷贝构造函数进行复制
+int **var;   **var
+</code></pre><h2 id="虚继承"><a href="#虚继承" class="headerlink" title="虚继承"></a>虚继承</h2><p>菱形继承 子类多重拷贝：浪费空间，二义性<br>class B C 都继承自class A， 而class D继承自 B和C</p>
+<pre><code>class A {virtual ~A()}    // 有的析构函数不是虚函数
+class B : virtual public A;
+class C : virtual public A;
+class D : public B, public A;
+</code></pre><p>B C继承了A的数据成员和指向A的指针<br>D继承了B C的数据成员和分别指向B C的指针</p>
+<h2 id="运算符重载"><a href="#运算符重载" class="headerlink" title="运算符重载"></a>运算符重载</h2><pre><code>classname operator++();   //前缀自增
+classname operator++(int);  //后缀自增 加了int形参区分，形参是0，但在函数体内用不到
+</code></pre><p>-&gt;类成员访问运算符重载 返回类型必须是指针或者类对象 </p>
+<pre><code>class Ptr{
+   //...
+   X * operator-&gt;();
+};
+void f(Ptr p )
+{
+   p-&gt;m = 10 ; // (p.operator-&gt;())-&gt;m = 10
+}
+</code></pre><h2 id="虚函数"><a href="#虚函数" class="headerlink" title="虚函数"></a>虚函数</h2><p>= 0 告诉编译器，函数没有主体，下面的虚函数是纯虚函数。</p>
+<pre><code>virtual int area() = 0;  
+</code></pre><h2 id="c-STL"><a href="#c-STL" class="headerlink" title="c++ STL"></a>c++ STL</h2><ul>
+<li>Containers(容器)    deque list vector map</li>
+<li>Algorithms(算法)</li>
+<li>iterators(迭代器)    vector<int>::iterator v = vec.begin(); v++; 返回指向向量开头的迭代器   </int></li>
+</ul>
+<h2 id="文件和流"><a href="#文件和流" class="headerlink" title="文件和流"></a>文件和流</h2><p>如果一个数字太大,无法使用 setprecision 指定的有效数位数来打印,则许多系统会以科学表示法的方式打印.<br>比如setprecision(5), 145678.99 输出 1.4568e+005</p>
+<p>为了让浮点输出以固定点或小数点表示法显示,使用流操作符fixed,结合setprecision(2)表示小数点后显示的位数</p>
+<pre><code>log_file &lt;&lt; std::fixed &lt;&lt; std::setprecision(8) &lt;&lt; force_sensor_val(0) &lt;&lt; std::endl;
+</code></pre><h3 id="文件输入输出流"><a href="#文件输入输出流" class="headerlink" title="文件输入输出流"></a>文件输入输出流</h3><ol>
+<li><p>fstream ofstream ifstream</p>
+<pre><code> void open(const char *filename, ios::openmode mode);   //文件流对象的成员函数
+</code></pre><p> 打开模式</p>
+<ul>
+<li>ios::app    追加模式。所有写入都追加到文件末尾。</li>
+<li>ios::ate    文件打开后定位到文件末尾。</li>
+<li>ios::in    打开文件用于读取。</li>
+<li>ios::out    打开文件用于写入。</li>
+<li>ios::trunc    如果该文件已经存在，其内容将在打开文件之前被截断，即把文件长度设为0。</li>
+<li><p>ios::binary   二进制方式打开，默认打开为文本方式</p>
+<p>常用函数</p>
+<p>  getline(cin, string);   //当然也可以是 fileOgject从文件 ，cin是从键盘  好用 但是可能读取不到最后一行，如果最后一行没有回车<br>  fileObject.getline(buf, size);</p>
+</li>
+</ul>
+</li>
+<li><p>文件位置 istream成员函数seekg  ostream成员函数seekp</p>
+<pre><code> fileObject.seekg(n);    //定位到第n个字节    
+ fileObject.seekg(n, ios::cur);    //当前位置后移n字节
+ fileObject.seekg(n, ios::end);    //末尾向前n字节
+ fileObject.seekg(0, ios::end);    //末尾
+</code></pre></li>
+<li><p>cin.ignore(),默认参数cin.ignore(1,EOF),完整版本是 cin.ignore(int n, char a)<br>从输入流 (cin) 中提取字符，提取的字符被忽略 (ignore)，不被使用。<br>每抛弃一个字符，它都要计数和比较字符：如果计数值达到 n 或者被抛弃的字符是 a，<br>则 cin.ignore()函数执行终止；否则，它继续等待。<br>它的一个常用功能就是用来清除以回车结束的输入缓冲区的内容，<br>消除上一次输入对下一次输入的影响。比如可以这么用：cin.ignore(1024,’\n’)，<br>通常把第一个参数设置得足够大，这样实际上总是只有第二个参数 \n 起作用，<br>所以这一句就是把回车(包括回车)之前的所以字符从输入缓冲(流)中清除出去。</p>
+<pre><code> int a,b;
+ cout&lt;&lt;&quot;input a:&quot;;
+ cin&gt;&gt;a;
+ cin.ignore(1024, &#39;\n&#39;);
+ cout&lt;&lt;&quot;input b:&quot;;
+ cin&gt;&gt;b;
+</code></pre></li>
+</ol>
+<h3 id="字符串输入输出流"><a href="#字符串输入输出流" class="headerlink" title="字符串输入输出流"></a>字符串输入输出流</h3><p><sstream>直接对内存而不是对文件和标准输出(设备)进行操作</sstream></p>
+<p>stringstream istringstream   ostringstream<br>同样可以使用seekp()移动写指针 seekg()重定位读指针</p>
+<pre><code>//整数转字符串
+#include &lt;sstream&gt;
+
+std::ostringstream oss;
+int name_suffix = 1;
+oss &lt;&lt; name_suffix;
+oss.str();       //返回一个新的string对象，替换内置的stringbuf
+
+// 设置输出精度,cout默认是6位有效数字
+cout.precision(12); //设置为12位有效数字
+printf(&quot;%.12f&quot;,val);  //小数点后12位有效数字
+</code></pre><p>另一种数字转字符串可参考<a href="https://blog.csdn.net/chavo0/article/details/51038397" target="_blank" rel="noopener">【C++】int转换为string的两种方法（to_string、字符串流）</a><br>这是c++11新增的内容</p>
+<pre><code>std::to_string(int val)   
+</code></pre><p>字符串转数字</p>
+<pre><code>std::stoi(std::string str);  // c++ 11 标准           
+</code></pre><h2 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h2><ol>
+<li><p>抛出异常<br> 关键字throw将创建程序抛出对象的拷贝,然后包含throw的函数返回了这个对象(即使函数返回值没有这个对象),<br> 异常导致程序返回的地方和正常return返回的地方不一样.异常发生之前创建的局部对象也将析构(栈反解)</p>
+<pre><code> throw &quot;Division by zero condition!&quot;;   //类型为const char* 的异常 catch(const char* msg)
+ try{throw x;}catch(T&amp; e){}   //可以抛出任意,包括内置类型 int,double...,后面用相应的类型来捕获.通常抛出异常创建的类    
+</code></pre></li>
+<li><p>捕获异常:<br> <strong>异常处理器catch必须紧跟try之后,catch只会匹配第一个</strong>,然后系统认为此异常已经处理了,不会继续查找下去,如果还想在抛,就必须throw</p>
+<p> 如果没有任何一个层次的异常处理器匹配到异常,terminate()函数调用,在<exception>内,</exception></p>
+<pre><code> try
+ {
+    // 保护代码
+ }catch( ExceptionName e )    //捕获任何异常  (...)
+ {
+   // 处理 ExceptionName 异常的代码
+   throw;  //可以选择继续上抛,但是要保证这个throw仍然在try语句中(可以是上一层函数的try) 异常对象的所有信息被保留
+ }
+</code></pre><p> <img src="/2019/10/06/c++记录/异常图.png" alt="异常层次图"><br> <img src="/2019/10/06/c++记录/异常表.png" alt="异常说明"></p>
+</li>
+<li>异常安全<br> stack的pop()函数没有返回值,很重要的原因就是stack必须保证异常安全,如果为了得到返回值而调用复制构造函数,函数确抛出异常<br> 导致没有获得栈顶元素,而且栈定指针下移了一个,这是不安全的,所以分成两步.        </li>
+<li>assert() 断言语句 用于开发阶段调试 #define NDEBUG 使其在最终发行软件中失效</li>
+<li><p>定义自己的异常 最好从runtime_error或者logic_error继承(exception两个最主要的派生类)<br>不要直接从exception继承(没有提供一个参数类型为std::string的构造函数)</p>
+<pre><code> class MyError : public runtime_error{
+ public:
+     MyError(const string&amp; msg = &quot;&quot;) : runtime_error(msg){}
+ };
+
+ int main(){
+     try{
+         throw MyError(&quot;my message&quot;);
+     } catch (MyError &amp; x){
+         cout&lt;&lt; x.what()&lt;&lt;endl;
+     }
+ } 
+</code></pre><h3 id="异常的使用"><a href="#异常的使用" class="headerlink" title="异常的使用"></a>异常的使用</h3></li>
+<li>尽量使用引用来捕获异常<ul>
+<li>避免不必要的对象拷贝</li>
+<li>派生类对象被当做基类对象捕获时,避免对象切割,损失信息</li>
+</ul>
+</li>
+<li>构造函数抛出异常时,必须注意对象内部的指针和它的清理方式</li>
+<li>不要在析构函数中抛出异常<ul>
+<li>析构函数会在抛出其他异常的过程中别调用,避免析构函数抛出异常或者使用可能触发异常的语句(栈反解),导致程序调用teminate()</li>
+<li>如果析构函数可能抛出异常,在析构函数内部编写try,catch,必须自己处理异常,不能抛出</li>
+</ul>
+</li>
+<li>避免悬挂指针(野指针)<br> 构造函数抛出异常,而内部又有指针,因为指针没有析构函数,造成资源无法释放,可以使用智能指针,shared_ptr来处理指向堆内存的指针</li>
+<li>处理简单错误尽量不用异常处理,只需要显示消息然后退出程序就可以了,然后把清理工作交给操作系统<br> cout&lt;&lt;”error message”&lt;&lt;endl;exit(1);             </li>
+</ol>
+<h3 id="exit函数"><a href="#exit函数" class="headerlink" title="exit函数"></a>exit函数</h3><pre><code>void exit(int value);  // 位于&lt;cstdlib&gt;中
+exit(0);  //表示正常退出 退出整个进程.main函数要求返回值为int,在main中的exit相当于return
+</code></pre><h2 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h2><ul>
+<li>转换很有用，但是在某些情况下，它强制编译器把一个数据看成比他实际更大的类型，占用更多空间，可能会破坏其他数据</li>
+<li>转换就是告诉编译器”忘记类型检查　把它看成其他类型”　编译器不会执行类型检查　引入了漏洞，程序出了问题，首先想到类型转换</li>
+</ul>
+<p>查看变量类型</p>
+<pre><code>#include &lt;typeinfo&gt;
+std::cout&lt;&lt;typeid(var).name()&lt;&lt;std::endl;
+</code></pre><ol>
+<li><p>C风格</p>
+<pre><code> int a = 200;
+ long b = (long)a;
+ long c = long(a);  //类似于函数调用
+</code></pre></li>
+<li><p>c++显式转换<br>比较容易发现转换的位置，定位bug</p>
+<p> static_cast</p>
+<pre><code> int a = 200;
+ long b = static_cast&lt;long&gt;(a);  //
+ static_cast&lt;void (QSpinBox::*)(int)&gt;(&amp;QSpinBox::valueChanged);  //qt 函数指针
+</code></pre><p> const_cast   const 到非const volatile 到非volatile</p>
+<pre><code> const int i=0;
+ int* j = const_cast&lt;int*&gt;(&amp;i);   // 不用转换是不能将赋值给非const指针
+
+ volatile int k=0;
+ int* u = const_cast&lt;int*&gt;(&amp;k);     
+</code></pre></li>
+</ol>
+<h2 id="继承和组合"><a href="#继承和组合" class="headerlink" title="继承和组合"></a>继承和组合</h2><ol>
+<li><p>构造函数初始化列表<br>针对问题：新类的构造函数没有权利访问子对象的私有数据成员，所以不能直接对他们初始化</p>
+<pre><code> //Bar是基类，m是MyType的一个成员对象
+ MyType::MyType(int i): Bar(i),m(i+1){//...}
+</code></pre></li>
+</ol>
+<ul>
+<li>自动析构函数调用：虽然常常需要在初始化列表中显式构造函数调用，但是不需要做显式的析构函数调用，因为对于任何类型只有一个析构函数，并且不屈任何参数</li>
+<li>构造函数调用次序是由成员对象在类中声明的次序决定。如果由　初始化列表的次序确定，则会有两个不同构造函数有两种不同调用构造函数顺序，那么析构函数不知道如何逆序调用。</li>
+</ul>
+<h2 id="随机数发生器"><a href="#随机数发生器" class="headerlink" title="随机数发生器"></a>随机数发生器</h2><pre><code>#include &lt;cstdlib&gt;
+#include &lt;iostream&gt;
+#include &lt;ctime&gt;
+
+// time(0) 返回一个和时间相关的的数作为随机数种子,如果不设置或者设置一样的数那么运行产生的随机数都一样
+srand(time(0));   
+rand();           // 获取随机数 线性同余法 不是真的随机数 N(j+1) = (A*N(j)+B)(mod M)
+</code></pre><p><a href="https://zh.wikipedia.org/wiki/%E7%B7%9A%E6%80%A7%E5%90%8C%E9%A4%98%E6%96%B9%E6%B3%95" target="_blank" rel="noopener">线性同余法</a> </p>
+<h2 id="待续…"><a href="#待续…" class="headerlink" title="待续…"></a><strong>待续…</strong></h2><h2 id="动态内存"><a href="#动态内存" class="headerlink" title="动态内存"></a>动态内存</h2><h2 id="命名空间"><a href="#命名空间" class="headerlink" title="命名空间"></a>命名空间</h2><h2 id="模板"><a href="#模板" class="headerlink" title="模板"></a>模板</h2><h2 id="预处理器"><a href="#预处理器" class="headerlink" title="预处理器"></a>预处理器</h2><h2 id="信号处理"><a href="#信号处理" class="headerlink" title="信号处理"></a>信号处理</h2><h2 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h2><h2 id="常见bug"><a href="#常见bug" class="headerlink" title="常见bug"></a>常见bug</h2><ol>
+<li>有返回值的函数一定记得最后有个<code>return</code>返回需要的值,<strong>建议有返回值函数先写return语句占位置</strong></li>
+</ol>
+<h1 id="const-constexpr"><a href="#const-constexpr" class="headerlink" title="const constexpr"></a>const constexpr</h1><ul>
+<li>const：大致意思是说我承诺不改变这个值，主要用于说明接口，这样变量传递给函数就不担心变量会在函数内被修改了,编译器负责确认并执行const的承诺。</li>
+<li>constexpr：大致意思是在编译时求值，主要用于说明常量，作用是允许数据置于只读内存以及提升性能。</li>
+</ul>
+<p>constexpr的好处：</p>
+<ul>
+<li>是一种很强的约束，更好地保证程序的正确语义不被破坏。</li>
+<li>编译器可以在编译期对constexpr的代码进行非常大的优化，比如将用到的constexpr表达式都直接替换成最终结果等。</li>
+<li>相比宏来说，没有额外的开销，但更安全可靠。</li>
+</ul>
+<h1 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h1><ol>
+<li><p>不同vector 的iterator不能混用</p>
+<p> 迭代器(Iterator)是一个对象，它的工作是遍历并选择序列中的对象，<br> 它提供了一种访问一个容器(container)对象中的各个元素，<br> 而又不必暴露该对象内部细节的方法。通过迭代器，<br> 开发人员不需要了解容器底层的结构，就可以实现对容器的遍历。</p>
+<p> 指针用来遍历<strong>连续存储结构</strong>,迭代器针对容器(不管底层数据结构是否连续),提供堆容器遍历的方法</p>
+<p> 下面这种方式出错,不能简单得把iterator当成一个索引      </p>
+<pre><code> vector&lt;int&gt;::iterator index_vec_1 = find(vec_1.begin(), vec_1.end(), val);
+ //出错
+ vector&lt;int&gt;::iterator vec_2_new(vec_2.begin(), index_vec_1);  
+ // 正确
+ vector&lt;int&gt;::iterator vec_1_new(vec_1.begin(), index_vec_1);
+ vector&lt;int&gt;::iterator vec_2_new(vec_2.begin(), vec_1_new.size());
+</code></pre></li>
+<li><p>/usr/lib64/libstdc++.so.6: error adding symbols: DSO missing from command line<br> 在链接程序的时候链接-lstdc++(在target_link_libraries中增加 stdc++)         </p>
+</li>
+<li><p>对象初始化使用{}<br> 参考<a href="https://stackoverflow.com/questions/3413050/initializing-stdtuple-from-initializer-list" target="_blank" rel="noopener">问题Initializing std::tuple from initializer list</a></p>
+<p> 主要涉及到</p>
+<ul>
+<li><p><strong>initializer_list<t></t></strong> is a homogeneous collection (all members must be of the same type, so not relevant for std::tuple)</p>
+</li>
+<li><p><strong>Uniform initialization</strong> is where curly brackets are used in order to construct all kinds of objects; arrays, PODs and classes with constructors. Which also has the benefit of solving the most vexing parse)</p>
+<pre><code>  struct A { 
+  explicit A(int) {}
+  };
+
+  A a0 = 3;
+  // Error: conversion from &#39;int&#39; to non-scalar type &#39;A&#39; requested
+
+  A a1 = {3}; 
+  // Error: converting to &#39;const A&#39; from initializer list would use 
+  // explicit constructor &#39;A::A(int)&#39;
+
+  A a2(3); // OK C++98 style
+  A a3{3}; // OK C++0x Uniform initialization
+</code></pre></li>
+</ul>
+</li>
+</ol>
+<h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol>
+<li><a href="https://blog.csdn.net/Bruce_0712/article/details/54984371" target="_blank" rel="noopener">C++之enum枚举量声明、定义、使用与枚举类详解</a></li>
+<li><a href="https://www.runoob.com/cplusplus/cpp-tutorial.html" target="_blank" rel="noopener">C++ 教程</a></li>
+<li><a href="https://blog.csdn.net/zyx_0604/article/details/80689673" target="_blank" rel="noopener">C++中volatile关键字的使用详解</a></li>
+<li><a href="https://www.cnblogs.com/yyxt/p/4802688.html" target="_blank" rel="noopener">c++中static数据成员，static成员函数</a></li>
+<li><a href="https://blog.csdn.net/iloveyousunna/article/details/78532398" target="_blank" rel="noopener">c++中lambda表达式的用法</a></li>
+<li><a href="https://blog.csdn.net/bxw1992/article/details/77726390" target="_blank" rel="noopener">C++中虚继承的作用及底层实现原理</a></li>
+<li><a href="https://blog.csdn.net/qq_22274565/article/details/78719951" target="_blank" rel="noopener">关于constexpr与const</a></li>
+<li><a href="https://www.cnblogs.com/wodehao0808/p/3623590.html" target="_blank" rel="noopener">C++中的const和constexpr</a></li>
+<li><a href="https://blog.csdn.net/Dove_Knowledge/article/details/71023512?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task" target="_blank" rel="noopener">迭代器(Iterator)</a></li>
+</ol>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 yangbenbo_whu@qq.com </span>
+    </div>
+</article>
+
+
+
+<div class="article_copyright">
+    <p><span class="copy-title">文章标题:</span>c++记录</p>
+    
+    <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="杨本泊">杨本泊</a></p>
+    <p><span class="copy-title">发布时间:</span>2019-10-06, 16:35:06</p>
+    <p><span class="copy-title">最后更新:</span>2023-07-09, 07:10:11</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/10/06/c++记录/" title="c++记录">http://yangbenbo.github.io/2019/10/06/c++记录/</a>
+    <p>
+        <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+    </p>
+</div>
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">©2016-2019 yang</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full"><span class="min "></span></button>
+<button class="post-toc-menu"><span class="post-toc-menu-icons"></span></button>
+<div class="post-toc"><span class="post-toc-title">目录</span>
+    <div class="post-toc-content">
+
+    </div>
+</div>
+<a class="" id="rocket" href="javascript:void(0)"></a>
+    </div>
+</div>
+<div class="acParent"></div>
+
+</body>
+<script src="//cdn.bootcss.com/jquery.pjax/2.0.1/jquery.pjax.min.js"></script>
+
+<script src="/js/script.js?v=1" ></script>
+<script>
+    var img_resize = 'default';
+    /*作者、标签的自动补全*/
+    $(function () {
+        $('.search').AutoComplete({
+            'data': ['#数据传输','#blog','#ssh','#hexo','#DNS','#正则表达式','#Qt','#ROS','#program','#qt','#NodeHandle','#文件共享','#c++','#字符串','#gdb','#c','#gitbook','#git','#make','#matlab','#equation','#mysql','#代码规范','#python','#shell','#下载工具','#software','#ubuntu','#grub','#编码','#vim','#word','#matlab绘图','#机器人学','#位姿变换','#傅里叶变换','#卡尔曼滤波','#四元数','#重装系统','#多线程','#ps','#快捷键','#simulink','#clion','#world','#excel','#自动控制原理','#wps','#sort','#数据结构','#概率论','#根轨迹','#信号分析','#补码','#权限','#软硬件','#标定','#加速度','#anaconda','#雅克比矩阵','#伪逆','#机器人','#efficiency','#网络基础',],
+            'itemHeight': 20,
+            'width': 418
+        }).AutoComplete('show');
+    })
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $(".post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+        $('pre code').each(function(){
+            var lines = $(this).text().split('\n').length - 1, widther='';
+            if (lines>99) {
+                widther = 'widther'
+            }
+            var $numbering = $('<ul/>').addClass('pre-numbering ' + widther).attr("unselectable","on");
+            $(this).addClass('has-numbering ' + widther)
+                    .parent()
+                    .append($numbering);
+            for(var i=1;i<=lines;i++){
+                $numbering.append($('<li/>').text(i));
+            }
+        });
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<style>
+    pre{
+        position: relative;
+        margin-bottom: 24px;
+        border-radius: 10px;
+        border: 1px solid #e2dede;
+        background: #FFF;
+        overflow: hidden;
+    }
+    code.has-numbering{
+        margin-left: 30px;
+    }
+    code.has-numbering.widther{
+        margin-left: 35px;
+    }
+    .pre-numbering{
+        margin: 0px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 20px;
+        padding: 0.5em 3px 0.7em 5px;
+        border-right: 1px solid #C3CCD0;
+        text-align: right;
+        color: #AAA;
+        background-color: #fafafa;
+    }
+    .pre-numbering.widther {
+        width: 35px;
+    }
+</style>
+
+<!--自定义样式设置-->
+<style>
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+    .post .pjax article .article-entry>ol, .post .pjax article .article-entry>ul, .post .pjax article>ol, .post .pjax article>ul{
+        border: #e2dede solid 1px;
+        border-radius: 10px;
+        padding: 10px 32px 10px 56px;
+    }
+    .post .pjax article .article-entry li>ol, .post .pjax article .article-entry li>ul,.post .pjax article li>ol, .post .pjax article li>ul{
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    .post .pjax article .article-entry>ol>li, .post .pjax article .article-entry>ul>li,.post .pjax article>ol>li, .post .pjax article>ul>li{
+        margin-bottom: auto;
+        margin-left: auto;
+    }
+    .post .pjax article .article-entry li>ol>li, .post .pjax article .article-entry li>ul>li,.post .pjax article li>ol>li, .post .pjax article li>ul>li{
+        margin-bottom: auto;
+        margin-left: auto;
+    }
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+    .post .pjax article blockquote {
+        padding: 10px 20px;
+        background-color: white;
+        border: none;
+        border-left: 4px solid #42b983;
+        border-right: 4px solid #42b983;
+        border-radius: 10px;
+    }
+    
+
+    /*文章列表背景图*/
+    
+    .nav-right:before {
+        content: ' ';
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.1;
+        background: url("http://img.xiangzhangshugongyi.com/FlSExUGfRSaqxkK5v42CpuI-tXAL.jpg");
+        background-repeat: no-repeat;
+        background-position: 50% 0;
+        -ms-background-size: cover;
+        -o-background-size: cover;
+        -moz-background-size: cover;
+        -webkit-background-size: cover;
+        background-size: cover;
+    }
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>

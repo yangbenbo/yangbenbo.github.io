@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <title>ROS中CMakeLists.txt | yangbenbo&#39;s blog</title>
+  <meta name="keywords" content=" ROS ">
+  <meta name="description" content="ROS中CMakeLists.txt | yangbenbo&#39;s blog">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="个人简介杨本泊， 武汉大学先进机器人与智能控制实验室 机器人算法开发 喜欢研究新兴技术和未来发展方向。 最近更新博客 读书 联系方式 QQ : 2519130844 邮箱 : yangbenbo@whu.edu.cn">
+<meta property="og:type" content="website">
+<meta property="og:title" content="博主">
+<meta property="og:url" content="http://yangbenbo.github.io/about/index.html">
+<meta property="og:site_name" content="yangbenbo&#39;s blog">
+<meta property="og:description" content="个人简介杨本泊， 武汉大学先进机器人与智能控制实验室 机器人算法开发 喜欢研究新兴技术和未来发展方向。 最近更新博客 读书 联系方式 QQ : 2519130844 邮箱 : yangbenbo@whu.edu.cn">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2023-07-09T08:38:00.867Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="博主">
+<meta name="twitter:description" content="个人简介杨本泊， 武汉大学先进机器人与智能控制实验室 机器人算法开发 喜欢研究新兴技术和未来发展方向。 最近更新博客 读书 联系方式 QQ : 2519130844 邮箱 : yangbenbo@whu.edu.cn">
+
+
+<link rel="icon" href="/img/weiZhuang.png">
+
+<link href="/css/style.css?v=1" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1" rel="stylesheet">
+
+<link href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+<link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="/js/jquery.autocomplete.min.js?v=1"></script>
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+<script src="/js/iconfont.js?v=1"></script>
+
+</head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="false">
+  <input class="theme_blog_path" value>
+</div>
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/" class="avatar_target">
+    <img class="avatar" src="/img/weiZhuang.png" />
+</a>
+<div class="author">
+    <span>杨本泊</span>
+</div>
+
+<div class="icon">
+    
+        
+        <a title="rss" href="/atom.xml" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-rss"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="github" href="https://github.com/yangbenbo" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-github"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+    
+        
+    
+        
+    
+        
+        <a title="oschina" href="https://my.oschina.net/" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-oschina"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+    
+        
+        <a title="email" href="mailto:yangbenbo@whu.edu.cn" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-email"></use>
+                </svg>
+            
+        </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li><div class="all active">全部文章<small>(68)</small></div></li>
+    
+        
+            
+            <li><div data-rel="Linux">Linux<small>(20)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="Blog">Blog<small>(3)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="ROS">ROS<small>(4)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="Program">Program<small>(16)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="Software">Software<small>(8)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="Math">Math<small>(15)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="Systems">Systems<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="Internet">Internet<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+    
+    
+    
+    
+    </div>
+    <div><a style="border-right: 1px solid #fff; width: 49%"  class="about site_url"  href="/about">关于</a><a style="width: 50%"  class="friends">友链</a></div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="68">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="back-title-list"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="http://yelog.org/">叶落阁</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <form onkeydown="if(event.keyCode==13){return false;}">
+        <input class="search" type="text" placeholder="以 in: 开头进行全文搜索" autocomplete="off"id="local-search-input" >
+        <i class="cross"></i>
+        <span>
+            <label for="tagswitch">Tags:</label>
+            <input id="tagswitch" type="checkbox" style="display: none" />
+            <i id="tagsWitchIcon"></i>
+        </span>
+    </form>
+    <div class="tags-list">
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">数据传输</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">blog</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">ssh</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">hexo</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">DNS</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">正则表达式</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color3">Qt</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">ROS</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color3">program</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color3">qt</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">NodeHandle</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">文件共享</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">c++</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">字符串</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">gdb</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color2">c</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color3">gitbook</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">git</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">make</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color2">matlab</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">equation</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">mysql</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">代码规范</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color2">python</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">shell</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">下载工具</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">software</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color2">ubuntu</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">grub</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color3">编码</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">vim</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">word</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">matlab绘图</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">机器人学</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">位姿变换</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">傅里叶变换</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">卡尔曼滤波</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">四元数</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">重装系统</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">多线程</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color3">ps</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">快捷键</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">simulink</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">clion</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">world</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">excel</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color2">自动控制原理</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">wps</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">sort</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">数据结构</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">概率论</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">根轨迹</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">信号分析</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color3">补码</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color3">权限</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">软硬件</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color3">标定</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">加速度</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">anaconda</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">雅克比矩阵</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color3">伪逆</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">机器人</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">efficiency</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">网络基础</a>
+    </li>
+    
+    <div class="clearfix"></div>
+</div>
+
+    
+    <div id="local-search-result">
+
+    </div>
+    
+    <nav id="title-list-nav">
+        
+        <a  class="Linux "
+           href="/2019/09/30/FTP配置和使用/"
+           data-tag="数据传输"
+           data-author="" >
+            <span class="post-title" title="FTP配置和使用">FTP配置和使用</span>
+            <span class="post-date" title="2019-09-30 20:45:12">2019/09/30</span>
+        </a>
+        
+        <a  class="Blog "
+           href="/2019/10/01/Github-SSH-Key避免Hexo部署输入密码/"
+           data-tag="blog,ssh,hexo"
+           data-author="" >
+            <span class="post-title" title="Github SSH Key避免Hexo部署输入密码">Github SSH Key避免Hexo部署输入密码</span>
+            <span class="post-date" title="2019-10-01 16:19:16">2019/10/01</span>
+        </a>
+        
+        <a  class="ROS "
+           href="/2020/12/27/GitHub的raw-githubusercontent-com无法链接/"
+           data-tag="DNS"
+           data-author="" >
+            <span class="post-title" title="GitHub的raw.githubusercontent.com无法链接">GitHub的raw.githubusercontent.com无法链接</span>
+            <span class="post-date" title="2020-12-27 17:57:04">2020/12/27</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/11/02/Linux-正则表达式/"
+           data-tag="正则表达式"
+           data-author="" >
+            <span class="post-title" title="Linux 正则表达式">Linux 正则表达式</span>
+            <span class="post-date" title="2019-11-02 09:22:39">2019/11/02</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2020/05/12/Linux-Qt5-ROS配置Qwtplot3d/"
+           data-tag="Qt,ROS"
+           data-author="" >
+            <span class="post-title" title="Linux + Qt5 + ROS配置Qwtplot3d">Linux + Qt5 + ROS配置Qwtplot3d</span>
+            <span class="post-date" title="2020-05-12 20:09:33">2020/05/12</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/10/02/Linux进程管理/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="Linux进程管理">Linux进程管理</span>
+            <span class="post-date" title="2019-10-02 09:28:29">2019/10/02</span>
+        </a>
+        
+        <a  class="Blog "
+           href="/2019/07/14/Markdown语法/"
+           data-tag="blog,program"
+           data-author="" >
+            <span class="post-title" title="Markdown语法">Markdown语法</span>
+            <span class="post-date" title="2019-07-14 16:44:31">2019/07/14</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/02/03/QT坐标系统/"
+           data-tag="qt"
+           data-author="" >
+            <span class="post-title" title="QT坐标系统 ">QT坐标系统 </span>
+            <span class="post-date" title="2020-02-03 17:31:33">2020/02/03</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/02/01/QT事件/"
+           data-tag="qt"
+           data-author="" >
+            <span class="post-title" title="QT事件">QT事件</span>
+            <span class="post-date" title="2020-02-01 21:46:32">2020/02/01</span>
+        </a>
+        
+        <a  class="ROS "
+           href="/2019/12/21/ROS遇到的问题/"
+           data-tag="ROS"
+           data-author="" >
+            <span class="post-title" title="ROS遇到的问题">ROS遇到的问题</span>
+            <span class="post-date" title="2019-12-21 11:54:38">2019/12/21</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/10/05/ROS中CMakeLists-txt/"
+           data-tag="ROS"
+           data-author="" >
+            <span class="post-title" title="ROS中CMakeLists.txt">ROS中CMakeLists.txt</span>
+            <span class="post-date" title="2019-10-05 19:25:10">2019/10/05</span>
+        </a>
+        
+        <a  class="ROS "
+           href="/2019/10/07/ROS记录/"
+           data-tag="NodeHandle"
+           data-author="" >
+            <span class="post-title" title="ROS记录">ROS记录</span>
+            <span class="post-date" title="2019-10-07 11:32:36">2019/10/07</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/10/01/SAMBA服务简单搭建/"
+           data-tag="文件共享"
+           data-author="" >
+            <span class="post-title" title="SAMBA服务简单搭建">SAMBA服务简单搭建</span>
+            <span class="post-date" title="2019-10-01 21:00:55">2019/10/01</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2019/10/06/c++记录/"
+           data-tag="c++"
+           data-author="" >
+            <span class="post-title" title="c++记录">c++记录</span>
+            <span class="post-date" title="2019-10-06 16:35:06">2019/10/06</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/02/05/c-pragma-once/"
+           data-tag="c++"
+           data-author="" >
+            <span class="post-title" title="c++ #pragma once">c++ #pragma once</span>
+            <span class="post-date" title="2020-02-05 09:59:27">2020/02/05</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2019/11/16/c-函数指针/"
+           data-tag="c++"
+           data-author="" >
+            <span class="post-title" title="c++函数指针">c++函数指针</span>
+            <span class="post-date" title="2019-11-16 16:51:52">2019/11/16</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/02/22/c-string与c风格字符串/"
+           data-tag="字符串"
+           data-author="" >
+            <span class="post-title" title="c++ string与c风格字符串">c++ string与c风格字符串</span>
+            <span class="post-date" title="2020-02-22 15:08:52">2020/02/22</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/10/03/gdb调试/"
+           data-tag="gdb"
+           data-author="" >
+            <span class="post-title" title="gdb调试">gdb调试</span>
+            <span class="post-date" title="2019-10-03 09:09:21">2019/10/03</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/01/22/c-中argc-argv理解/"
+           data-tag="c++,c"
+           data-author="" >
+            <span class="post-title" title="c++中argc argv理解">c++中argc argv理解</span>
+            <span class="post-date" title="2020-01-22 17:27:07">2020/01/22</span>
+        </a>
+        
+        <a  class="Blog "
+           href="/2019/10/06/hexo博客和gitbook配置/"
+           data-tag="blog,hexo,gitbook"
+           data-author="" >
+            <span class="post-title" title="hexo博客和gitbook配置">hexo博客和gitbook配置</span>
+            <span class="post-date" title="2019-10-06 08:36:02">2019/10/06</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/07/16/git基本使用/"
+           data-tag="git"
+           data-author="" >
+            <span class="post-title" title="git基本使用">git基本使用</span>
+            <span class="post-date" title="2019-07-16 17:36:13">2019/07/16</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/11/02/make宏编译/"
+           data-tag="make"
+           data-author="" >
+            <span class="post-title" title="make宏编译">make宏编译</span>
+            <span class="post-date" title="2019-11-02 22:32:22">2019/11/02</span>
+        </a>
+        
+        <a  class="Software "
+           href="/2019/10/24/matlab-绘图/"
+           data-tag="matlab"
+           data-author="" >
+            <span class="post-title" title="matlab 绘图">matlab 绘图</span>
+            <span class="post-date" title="2019-10-24 09:52:50">2019/10/24</span>
+        </a>
+        
+        <a  class="Software "
+           href="/2019/11/30/mathtype常用配置/"
+           data-tag="equation"
+           data-author="" >
+            <span class="post-title" title="mathtype常用配置">mathtype常用配置</span>
+            <span class="post-date" title="2019-11-30 21:39:27">2019/11/30</span>
+        </a>
+        
+        <a  class="Software "
+           href="/2019/10/24/matlab中常见问题/"
+           data-tag="matlab"
+           data-author="" >
+            <span class="post-title" title="matlab中常见问题">matlab中常见问题</span>
+            <span class="post-date" title="2019-10-24 19:46:53">2019/10/24</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/04/21/mysql/"
+           data-tag="mysql"
+           data-author="" >
+            <span class="post-title" title="mysql">mysql</span>
+            <span class="post-date" title="2020-04-21 23:15:25">2020/04/21</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/12/12/pyhton-代码规范/"
+           data-tag="代码规范"
+           data-author="" >
+            <span class="post-title" title="pyhton 代码规范">pyhton 代码规范</span>
+            <span class="post-date" title="2020-12-12 17:01:28">2020/12/12</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/11/10/python-装饰器/"
+           data-tag="python"
+           data-author="" >
+            <span class="post-title" title="python 装饰器">python 装饰器</span>
+            <span class="post-date" title="2020-11-10 14:00:30">2020/11/10</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/05/22/python基础/"
+           data-tag="python"
+           data-author="" >
+            <span class="post-title" title="python基础">python基础</span>
+            <span class="post-date" title="2020-05-22 16:52:49">2020/05/22</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2019/11/22/qt纪要/"
+           data-tag="qt"
+           data-author="" >
+            <span class="post-title" title="qt记录">qt记录</span>
+            <span class="post-date" title="2019-11-22 22:23:21">2019/11/22</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/09/29/ssh远程登录/"
+           data-tag="ssh"
+           data-author="" >
+            <span class="post-title" title="ssh远程登录">ssh远程登录</span>
+            <span class="post-date" title="2019-09-29 12:13:36">2019/09/29</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/09/29/ubuntu小技巧/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="ubuntu小技巧">ubuntu小技巧</span>
+            <span class="post-date" title="2019-09-29 21:11:37">2019/09/29</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/09/29/shell和下载工具/"
+           data-tag="shell,下载工具"
+           data-author="" >
+            <span class="post-title" title="shell和下载工具">shell和下载工具</span>
+            <span class="post-date" title="2019-09-29 12:27:00">2019/09/29</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/07/14/ubuntu系统配置/"
+           data-tag="software,ubuntu"
+           data-author="" >
+            <span class="post-title" title="ubuntu系统配置">ubuntu系统配置</span>
+            <span class="post-date" title="2019-07-14 20:17:42">2019/07/14</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2020/01/09/ubuntu配置grub-指定默认内核/"
+           data-tag="grub"
+           data-author="" >
+            <span class="post-title" title="ubuntu配置grub,指定默认内核">ubuntu配置grub,指定默认内核</span>
+            <span class="post-date" title="2020-01-09 15:30:29">2020/01/09</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/11/23/ubuntu解压文件名字无法显示中文-中文乱码/"
+           data-tag="编码"
+           data-author="" >
+            <span class="post-title" title="ubuntu解压文件名字无法显示中文(中文乱码)">ubuntu解压文件名字无法显示中文(中文乱码)</span>
+            <span class="post-date" title="2019-11-23 11:23:52">2019/11/23</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/09/30/vim常用命令/"
+           data-tag="vim"
+           data-author="" >
+            <span class="post-title" title="vim常用命令">vim常用命令</span>
+            <span class="post-date" title="2019-09-30 14:59:28">2019/09/30</span>
+        </a>
+        
+        <a  class="Software "
+           href="/2019/12/04/word参考文献交叉引用/"
+           data-tag="word"
+           data-author="" >
+            <span class="post-title" title="word参考文献交叉引用">word参考文献交叉引用</span>
+            <span class="post-date" title="2019-12-04 08:32:08">2019/12/04</span>
+        </a>
+        
+        <a  class="Software "
+           href="/2019/12/14/word排版/"
+           data-tag="matlab绘图"
+           data-author="" >
+            <span class="post-title" title="word排版">word排版</span>
+            <span class="post-date" title="2019-12-14 21:39:40">2019/12/14</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2019/12/08/位姿变换矩阵左乘和右乘理解/"
+           data-tag="机器人学,位姿变换"
+           data-author="" >
+            <span class="post-title" title="位姿变换矩阵左乘和右乘理解">位姿变换矩阵左乘和右乘理解</span>
+            <span class="post-date" title="2019-12-08 11:49:49">2019/12/08</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2019/11/30/傅里叶变换理解/"
+           data-tag="傅里叶变换"
+           data-author="" >
+            <span class="post-title" title="傅里叶变换理解">傅里叶变换理解</span>
+            <span class="post-date" title="2019-11-30 19:38:48">2019/11/30</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2021/07/04/卡尔曼滤波/"
+           data-tag="卡尔曼滤波"
+           data-author="" >
+            <span class="post-title" title="卡尔曼滤波">卡尔曼滤波</span>
+            <span class="post-date" title="2021-07-04 10:21:23">2021/07/04</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2020/11/25/四元数/"
+           data-tag="四元数"
+           data-author="" >
+            <span class="post-title" title="四元数">四元数</span>
+            <span class="post-date" title="2020-11-25 15:36:23">2020/11/25</span>
+        </a>
+        
+        <a  class="Systems "
+           href="/2019/07/21/多系统启动盘制作/"
+           data-tag="重装系统"
+           data-author="" >
+            <span class="post-title" title="多系统启动盘制作">多系统启动盘制作</span>
+            <span class="post-date" title="2019-07-21 15:18:56">2019/07/21</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/11/14/多线程/"
+           data-tag="多线程"
+           data-author="" >
+            <span class="post-title" title="多线程">多线程</span>
+            <span class="post-date" title="2020-11-14 21:07:02">2020/11/14</span>
+        </a>
+        
+        <a  class="Software "
+           href="/2019/10/20/实用小技巧汇总/"
+           data-tag="ps"
+           data-author="" >
+            <span class="post-title" title="实用小技巧汇总">实用小技巧汇总</span>
+            <span class="post-date" title="2019-10-20 19:12:25">2019/10/20</span>
+        </a>
+        
+        <a  class="Software "
+           href="/2019/10/07/常用软件快捷键/"
+           data-tag="快捷键,simulink,clion,world,excel"
+           data-author="" >
+            <span class="post-title" title="常用软件快捷键">常用软件快捷键</span>
+            <span class="post-date" title="2019-10-07 19:57:38">2019/10/07</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2019/12/30/惯性张量/"
+           data-tag="机器人学"
+           data-author="" >
+            <span class="post-title" title="惯性张量">惯性张量</span>
+            <span class="post-date" title="2019-12-30 21:39:22">2019/12/30</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2019/12/27/拉氏变换/"
+           data-tag="自动控制原理"
+           data-author="" >
+            <span class="post-title" title="拉氏变换">拉氏变换</span>
+            <span class="post-date" title="2019-12-27 14:43:06">2019/12/27</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/12/22/ubuntu下wps缺少字体/"
+           data-tag="wps"
+           data-author="" >
+            <span class="post-title" title="ubuntu下wps缺少字体">ubuntu下wps缺少字体</span>
+            <span class="post-date" title="2019-12-22 11:34:17">2019/12/22</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/03/16/排序算法/"
+           data-tag="sort"
+           data-author="" >
+            <span class="post-title" title="排序算法">排序算法</span>
+            <span class="post-date" title="2020-03-16 15:37:00">2020/03/16</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/02/15/数据结构c/"
+           data-tag="数据结构"
+           data-author="" >
+            <span class="post-title" title="数据结构c++">数据结构c++</span>
+            <span class="post-date" title="2020-02-15 09:20:59">2020/02/15</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2021/01/16/机械臂动力学/"
+           data-tag="机器人学"
+           data-author="" >
+            <span class="post-title" title="机械臂动力学">机械臂动力学</span>
+            <span class="post-date" title="2021-01-16 13:50:54">2021/01/16</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2019/08/31/样本方差分母为什么是n-1/"
+           data-tag="概率论"
+           data-author="" >
+            <span class="post-title" title="样本方差分母为什么是n-1">样本方差分母为什么是n-1</span>
+            <span class="post-date" title="2019-08-31 12:40:25">2019/08/31</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2020/03/28/根轨迹/"
+           data-tag="根轨迹"
+           data-author="" >
+            <span class="post-title" title="根轨迹">根轨迹</span>
+            <span class="post-date" title="2020-03-28 17:02:54">2020/03/28</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2019/07/18/正交函数/"
+           data-tag="信号分析"
+           data-author="" >
+            <span class="post-title" title="正交函数">正交函数</span>
+            <span class="post-date" title="2019-07-18 20:17:03">2019/07/18</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/03/13/理解补码/"
+           data-tag="补码"
+           data-author="" >
+            <span class="post-title" title="理解补码">理解补码</span>
+            <span class="post-date" title="2020-03-13 07:31:28">2020/03/13</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/09/30/用户权限管理/"
+           data-tag="权限"
+           data-author="" >
+            <span class="post-title" title="用户权限管理">用户权限管理</span>
+            <span class="post-date" title="2019-09-30 23:22:20">2019/09/30</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2020/11/12/电脑小问题记录/"
+           data-tag="软硬件"
+           data-author="" >
+            <span class="post-title" title="电脑小问题记录">电脑小问题记录</span>
+            <span class="post-date" title="2020-11-12 08:43:35">2020/11/12</span>
+        </a>
+        
+        <a  class="ROS "
+           href="/2020/12/26/相机标定/"
+           data-tag="标定"
+           data-author="" >
+            <span class="post-title" title="相机标定">相机标定</span>
+            <span class="post-date" title="2020-12-26 14:54:40">2020/12/26</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2019/09/01/矩生成函数/"
+           data-tag="概率论"
+           data-author="" >
+            <span class="post-title" title="矩生成函数">矩生成函数</span>
+            <span class="post-date" title="2019-09-01 15:01:28">2019/09/01</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2020/01/13/科式加速度/"
+           data-tag="加速度"
+           data-author="" >
+            <span class="post-title" title="科式加速度">科式加速度</span>
+            <span class="post-date" title="2020-01-13 10:28:27">2020/01/13</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2020/11/10/解决libapr-1-so-0：对‘uuid-generate-UUID-1-0’未定义的引用/"
+           data-tag="anaconda"
+           data-author="" >
+            <span class="post-title" title="解决conda和ros库不兼容问题,libapr-1.so.0：对‘uuid_generate@UUID_1.0’未定义的引用">解决conda和ros库不兼容问题,libapr-1.so.0：对‘uuid_generate@UUID_1.0’未定义的引用</span>
+            <span class="post-date" title="2020-11-10 11:05:40">2020/11/10</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2020/02/19/雅克比矩阵零空间/"
+           data-tag="雅克比矩阵,伪逆"
+           data-author="" >
+            <span class="post-title" title="雅克比矩阵零空间">雅克比矩阵零空间</span>
+            <span class="post-date" title="2020-02-19 11:10:14">2020/02/19</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2020/11/23/逆运动学/"
+           data-tag="机器人"
+           data-author="" >
+            <span class="post-title" title="逆运动学">逆运动学</span>
+            <span class="post-date" title="2020-11-23 13:37:45">2020/11/23</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2019/10/16/高斯分布/"
+           data-tag="概率论"
+           data-author="" >
+            <span class="post-title" title="高斯分布">高斯分布</span>
+            <span class="post-date" title="2019-10-16 13:30:27">2019/10/16</span>
+        </a>
+        
+        <a  class="Software "
+           href="/2019/11/30/高效工具/"
+           data-tag="efficiency"
+           data-author="" >
+            <span class="post-title" title="高效工具">高效工具</span>
+            <span class="post-date" title="2019-11-30 22:07:24">2019/11/30</span>
+        </a>
+        
+        <a  class="Internet "
+           href="/2019/12/15/网络基础/"
+           data-tag="网络基础"
+           data-author="" >
+            <span class="post-title" title="网络基础">网络基础</span>
+            <span class="post-date" title="2019-12-15 22:24:56">2019/12/15</span>
+        </a>
+        
+    </nav>
+</div>
+    </div>
+    <div class="hide-list">
+        <div class="semicircle">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div class="post">
+    <div class="pjax">
+        <article id="post-ROS中CMakeLists-txt" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">ROS中CMakeLists.txt</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            
+                <a href="javascript:" data-rel="Linux">Linux</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            
+            <a href="javascript:" class="color4">ROS</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+        创建时间:<time class="date" title='更新时间: 2023-07-09 07:10:11'>2019-10-05 19:25</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读:<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#概述"><span class="toc-text">概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#整体结构"><span class="toc-text">整体结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#软件版本"><span class="toc-text">软件版本</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#软件包名称"><span class="toc-text">软件包名称</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#查找相关CMake包"><span class="toc-text">查找相关CMake包</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#find-package作用"><span class="toc-text">find-package作用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#cmake-中的find-package"><span class="toc-text">cmake 中的find_package</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么Catkin包是组件形式"><span class="toc-text">为什么Catkin包是组件形式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Boost库"><span class="toc-text">　Boost库</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#catkin-package"><span class="toc-text">　catkin_package()</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#指定构建目标"><span class="toc-text">指定构建目标</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#包含路径和库"><span class="toc-text">包含路径和库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#可执行目标"><span class="toc-text">可执行目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#库目标"><span class="toc-text">库目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#target-link-libraries"><span class="toc-text">target_link_libraries</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#消息、服务和响应"><span class="toc-text">消息、服务和响应</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#使用条件"><span class="toc-text">使用条件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#例子"><span class="toc-text">例子</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#问题"><span class="toc-text">问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CMake"><span class="toc-text">CMake</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装与测试"><span class="toc-text">安装与测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为顶层目标增加一个依赖"><span class="toc-text">为顶层目标增加一个依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#补充"><span class="toc-text">补充</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#生成自己的package供别人调用"><span class="toc-text">生成自己的package供别人调用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装升级cmake"><span class="toc-text">安装升级cmake</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#引用"><span class="toc-text">引用</span></a></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>CMake构建系统通过ROS包中的CMakeList.txt来构建软件包。<br>在catkin 项目中，CMakeList.txt 符合标准的vanilla CMakeList.txt 格式，但稍微有点不同。</p>
+<h1 id="整体结构"><a href="#整体结构" class="headerlink" title="整体结构"></a>整体结构</h1><ol>
+<li>所需CMake版本(cmake_minimum_required)</li>
+<li>软件包名称(project())</li>
+<li>查找构建所需的其他CMake / Catkin软件包(find_package())</li>
+<li>启用Python模块支持(catkin_python_setup())</li>
+<li>消息/服务/动作生成器(add_message_files()，add_service_files()，add_action_files())</li>
+<li>生成消息/服务/动作等自定义消息(generate_messages())</li>
+<li>指定包的构建信息输出(catkin_package())</li>
+<li>要建立的库/可执行文件(add_library()/ add_executable()/ target_link_libraries())</li>
+<li>测试(catkin_add_gtest())</li>
+<li>安装规则(install())</li>
+</ol>
+<h1 id="软件版本"><a href="#软件版本" class="headerlink" title="软件版本"></a>软件版本</h1><pre><code>cmake_minimum_required(VERSION 2.8.3)
+</code></pre><h1 id="软件包名称"><a href="#软件包名称" class="headerlink" title="软件包名称"></a>软件包名称</h1><p>可通过变量${PROJECT_NAME}来引用项目名称</p>
+<pre><code>project(robot_brain) 
+</code></pre><h1 id="查找相关CMake包"><a href="#查找相关CMake包" class="headerlink" title="查找相关CMake包"></a>查找相关CMake包</h1><p>指明构建package需要的包，使用catkin_make，所以catkin是必备依赖,在此基础上可能需要其他的包</p>
+<pre><code>find_package(catkin REQUIRED)   
+
+find_package(catkin REQUIRED COMPONENTS nodelet)  #第一种方式 合并写
+
+find_package(catkin REQUIRED)   # 第二种方式 分开写
+find_package(nodelet REQUIRED)
+</code></pre><h2 id="find-package作用"><a href="#find-package作用" class="headerlink" title="find-package作用"></a>find-package作用</h2><p> 如果CMake通过find_package找到一个包，则会自动生成有关包所在路径的CMake环境变量，<br> 环境变量描述了包中头文件的位置，源文件的位置，包所依赖的库文件位置。<br> 这些变量名称以&lt; PACKAGE NAME &gt;_&lt; PROPERTY &gt;的形式出现：</p>
+<ul>
+<li>&lt; NAME &gt;_FOUND - 如果找到库，则设置为true，否则为false</li>
+<li>&lt; NAME &gt; _INCLUDE_DIRS或 _INCLUDES - 这个包输出的头文件目录</li>
+<li>&lt; NAME &gt; _LIBRARIES或 _LIBS - 由包导出的库</li>
+<li>&lt; NAME &gt; _DEFINITIONS - ?</li>
+<li>…</li>
+</ul>
+<h3 id="cmake-中的find-package"><a href="#cmake-中的find-package" class="headerlink" title="cmake 中的find_package"></a>cmake 中的find_package</h3><ul>
+<li><p>模块模式.属于精简格式,搜索所有名为Find<package>.cmake的文件，这些文件的路径由变量由安装CMake时指定的CMAKE_MODULE_PATH变量指定.如果查找到了该文件，它会被CMake读取并被处理.如果没有，然后再查看它自己的模块目录/usr/share/cmake-3.5/Modules/(具体值通过在CMakeLists.txt中写message(${CMAKE_ROOT})输出).这称为模块模式.<br>查看包</package></p>
+<pre><code>  cmake --help-module-list # 双击Tab会有提示   
+  cmake --help-module FindBZip2     #查看Bzip2的帮助
+
+  # 输出如下,可知道对应头文件和源文件变量名
+  FindBZip2
+  ---------
+
+  Try to find BZip2
+
+  Once done this will define
+
+  ::
+
+   BZIP2_FOUND - system has BZip2
+   BZIP2_INCLUDE_DIR - the BZip2 include directory
+   BZIP2_LIBRARIES - Link these to use BZip2
+   BZIP2_NEED_PREFIX - this is set if the functions are prefixed with BZ2_
+   BZIP2_VERSION_STRING - the version of BZip2 found (since CMake 2.8.8)
+</code></pre></li>
+<li><p>配置模式.没有找到任何模块就会进入配置模式.试图查找一个由待查找的包提供的配置文件的位置。查找<package>Config.cmake或者<package全小写>-config.cmake<br>搜索路径包括,比如ros内部定义了CMAKE_PREFIX_PATH=/opt/ros/kinetic/share</package全小写></package></p>
+<pre><code> &lt;package&gt;_DIR
+ CMAKE_PREFIX_PATH
+ CMAKE_FRAMEWORK_PATH
+ CMAKE_APPBUNDLE_PATH
+</code></pre></li>
+</ul>
+<p>编译第三方库如软件时需要知道头文件路径(gcc的-I参数),库文件路径(gcc的-L参数),库文件名字(gcc的-l参数)</p>
+<p>比如在CMakeList.txt中</p>
+<pre><code>include_directiories(/usr/include/curl)
+target_link_libraries(myprogram path/curl.so)
+</code></pre><p>借助cmake提供的finder,使用cmake的Modules目录下的FindCURL.cmake，相应的CMakeList.txt 文件：</p>
+<pre><code>find_package(CURL REQUIRED)
+include_directories(${CURL_INCLUDE_DIR})
+target_link_libraries(curltest ${CURL_LIBRARY})
+</code></pre><h2 id="为什么Catkin包是组件形式"><a href="#为什么Catkin包是组件形式" class="headerlink" title="为什么Catkin包是组件形式"></a>为什么Catkin包是组件形式</h2><p>Catkin的包并不是catkin的真正组成部分。而catkin采用CMake的组件功能，主要是为了节省打字时间。</p>
+<pre><code>#这种方式 会把组件中的包对应的include路径、库导出到catkin前缀的变量中，
+#例如catkin_INCLUDE_DIRS包含多个包的路径
+find_package（catkin REQUIRED COMPONENTS nodelet）
+
+find_package(nodelet REQUIRED)  # 而这种方式 路径和库不会导入catkin变量，而是nodelet_INCLUDE_DIRS之类的
+</code></pre><h2 id="Boost库"><a href="#Boost库" class="headerlink" title="　Boost库"></a>　Boost库</h2><p>如果使用C ++和Boost，则需要用find_package()来找Boost库，并指定Boost中的组件。如果想使用Boost线程，就可以写成：</p>
+<pre><code>find_package（Boost REQUIRED COMPONENTS thread）
+</code></pre><h1 id="catkin-package"><a href="#catkin-package" class="headerlink" title="　catkin_package()"></a>　catkin_package()</h1><p>将catkin特定的信息输出到构建系统上，用于生成pkg配置文件以及CMake文件        </p>
+<ul>
+<li>INCLUDE_DIRS - 导出包的include路径</li>
+<li>LIBRARIES - 导出项目中的库</li>
+<li>CATKIN_DEPENDS - 该项目依赖的其他catkin项目</li>
+<li>DEPENDS - 该项目所依赖的非catkin CMake项目。</li>
+<li><p>CFG_EXTRAS - 其他配置选项</p>
+<pre><code>  catkin_package(
+     INCLUDE_DIRS include
+     LIBRARIES ${PROJECT_NAME}　　　
+     CATKIN_DEPENDS roscpp nodelet
+     DEPENDS eigen opencv)
+</code></pre><p>这表示包文件夹中的文件夹“include”是导出头文件的地方。<br>${PROJECT_NAME}根据project中的内容生成，此处是robot_brain<br>“roscpp”+“nodelet”是用来构建/运行此程序包的catkin包，<br>而“eigen”+“opencv”是用于构建/运行此程序包的非catkin包。 </p>
+</li>
+</ul>
+<h1 id="指定构建目标"><a href="#指定构建目标" class="headerlink" title="指定构建目标"></a>指定构建目标</h1><h2 id="包含路径和库"><a href="#包含路径和库" class="headerlink" title="包含路径和库"></a>包含路径和库</h2><ol>
+<li>include_directories()</li>
+</ol>
+<p>参数应该是调用find_package调用时生成的* _INCLUDE_DIRS变量。<br>如果使用catkin和Boost，那么include_directories()调用应该如下所示：</p>
+<pre><code>include_directories(include ${Boost_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
+</code></pre><p>第一个参数“include”表示包中的include /目录也是路径的一部分。</p>
+<ol>
+<li>link_directories()</li>
+</ol>
+<p>用于添加额外的库路径，但通常不推荐这样做，因为 所有catkin和CMake软件包在find_packaged时都会自动添加链接信息。<br>只需写target_link_libraries()中就可以了。但真要写，就按照下面那样来写：</p>
+<pre><code>link_directories(~/my_libs)
+</code></pre><h2 id="可执行目标"><a href="#可执行目标" class="headerlink" title="可执行目标"></a>可执行目标</h2><p>生成可执行程序对应的源文件</p>
+<pre><code>add_executable(myProgram src/main.cpp src/some_file.cpp)
+</code></pre><h2 id="库目标"><a href="#库目标" class="headerlink" title="库目标"></a>库目标</h2><p>默认的catkin编译产生的共享库</p>
+<pre><code>add_library(${PROJECT_NAME} ${${PROJECT_NAME}_SRCS})　　#指定要构建的库
+</code></pre><h2 id="target-link-libraries"><a href="#target-link-libraries" class="headerlink" title="target_link_libraries"></a>target_link_libraries</h2><p>指定可执行目标链接的库。 通常在add_executable()调用之后完成。<br>如果找不到ros，则添加$ {catkin_LIBRARIES}。</p>
+<pre><code>target_link_libraries(&lt;executableTargetName&gt;, &lt;lib1&gt;, &lt;lib2&gt;, ... &lt;libN&gt;)
+</code></pre><p>大多数情况中不需要使用link_directories()，因为find_package()自动拉入。  </p>
+<h1 id="消息、服务和响应"><a href="#消息、服务和响应" class="headerlink" title="消息、服务和响应"></a>消息、服务和响应</h1><h2 id="使用条件"><a href="#使用条件" class="headerlink" title="使用条件"></a>使用条件</h2><pre><code># CMakeLists.txt
+find_package(catkin REQUIRED COMPONENTS message_generation ...)
+add_message_files(...)
+add_service_files(...)
+add_action_files(...)
+generate_messages(...)
+catkin_package(
+ ...
+ CATKIN_DEPENDS message_runtime ...
+ ...)
+
+# package.xml文件中加上 
+&lt;build_depend&gt;message_generation&lt;/build_depend&gt;
+&lt;run_depend&gt;message_runtime&lt;/run_depend&gt;
+</code></pre><ol>
+<li><p>如果构建的对象依赖于其他包提供的消息/服务/动作的头文件,<br>则需要向目标catkin_EXPORTED_TARGETS添加明确的依赖关系,以便它们以正确的顺序构建。     </p>
+<pre><code> add_dependencies(some_target ${catkin_EXPORTED_TARGETS})  # 通常是find_package中找到的包导出的对象
+</code></pre></li>
+<li><p>如果构建的对象依赖自己包定义的消息或服务</p>
+<pre><code> add_dependencies(some_target ${${PROJECT_NAME}_EXPORTED_TARGETS})
+</code></pre><p> 具体的变量包含的内容可以通过<code>message ${${PROJECT_NAME}_EXPORTED_TARGETS}</code>查看             </p>
+</li>
+</ol>
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>现在有两个依赖于std_msgs和sensor_msgs的消息MyMessage1.msg和MyMessage2.msg，<br>还有一个自定义服务MyService.srv, message_program是使用这些消息和服务的指令，<br>以及生成不使用自定义消息、服务的程序 do_not_use_local_messages_program 不使用，<br>那么CMakeLists.txt应该写成：</p>
+<pre><code># 构建时依赖项
+find_package(catkin REQUIRED COMPONENTS          
+             message_generation 
+             std_msgs 
+
+# 声明要构建哪些消息
+add_message_files(FILES
+                  MyMessage1.msg
+                  MyMessage2.msg)
+
+# 声明构建哪些服务
+add_service_files(FILES
+                  MyService.srv)
+
+# 声明生成上述消息、服务需要依赖的消息以及服务
+generate_messages(DEPENDENCIES 
+                    std_msgs 
+                    sensor_msgs)
+
+# 声明运行时依赖项
+catkin_package(CATKIN_DEPENDS 
+                message_runtime 
+                std_msgs sensor_msgs)
+
+# 声明构建生成的可执行文件名称以及依赖项
+add_executable(message_program src/main.cpp)
+add_dependencies(message_program ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+# 声明构建不需要使用自定义消息、服务的可执行文件
+add_executable(does_not_use_local_messages_program src/main.cpp)
+add_dependencies(does_not_use_local_messages_program ${catkin_EXPORTED_TARGETS})
+</code></pre><h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><ol>
+<li>之前用矩阵运算c++库:Armadillo 直接作为catkin组件时找不到库</li>
+</ol>
+<p>解决方案：find_package() 把Armadillo单独拿出来 后面需要的地方链接到库 </p>
+<pre><code>find_package(Armadillo 5.4 REQUIRED)
+target_link_libraries(tp_gmr_node ${catkin_LIBRARIES} ${ARMADILLO_LIBRARIES})
+</code></pre><h1 id="CMake"><a href="#CMake" class="headerlink" title="CMake"></a>CMake</h1><p>下面主要讲CMake对应CMakelists.txt中对应内容,和ROS无光</p>
+<h2 id="安装与测试"><a href="#安装与测试" class="headerlink" title="安装与测试"></a>安装与测试</h2><p>安装MathFuncitons到${CMAKE_INSTALL_PREFIX}/bin,安装MathFunctions.h到${CMAKE_INSTALL_PREFIX}/include.其实就是拷贝文件<br>${CMAKE_INSTALL_PREFIX}在ubuntu系统上默认是/usr/local</p>
+<pre><code>install (TARGETS MathFunctions DESTINATION bin)
+install (FILES MathFunctions.h DESTINATION include)
+</code></pre><p>下面部分ROS和cmake规则是一样的,只是安装到的位置不一样,比如cmake指定相对于${CMAKE_INSTALL_PREFIX}下的bin,只需要替换变量即可</p>
+<ol>
+<li><p>安装工程中的目标(targets,即库和可执行文件).对于动态库不是DLL的平台对应的含义如下代码.DLL平台(给予Windows的系统),动态库的DLL部分被当做一个RUNTIME目标而对应的导出库被当做是一个ARCHIVE目标.</p>
+<pre><code> install(TARGETS your_library your_other_library
+         ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}   # Static libraries and DLL (Windows) .lib stubs
+         LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}   # Non-DLL shared libraries and modules
+         RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION})   # Executable targets and DLL (Windows) style shared libraries
+</code></pre></li>
+<li><p>安装库使用的头文件(函数调用接口)</p>
+<pre><code> install(DIRECTORY include/${PROJECT_NAME}/
+         DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})
+</code></pre></li>
+<li><p>如果文件夹内有不需要安装的如这里是svn仓库,可以排除.svn</p>
+<pre><code> install(DIRECTORY include/${PROJECT_NAME}/
+         DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+         PATTERN &quot;.svn&quot; EXCLUDE)
+</code></pre></li>
+<li><p>安装后文件权限.使用源文件权限确保python脚本的可执行权限</p>
+<pre><code> install(
+     DIRECTORY scripts/
+     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+     USE_SOURCE_PERMISSIONS  # 使用源文件权限
+ )                
+</code></pre></li>
+</ol>
+<p>终端运行<code>make install</code> 安装文件,如果没有权限则需要切换为管理员</p>
+<p>测试可以在CMakeLists.txt中编写</p>
+<pre><code>include(CTest)
+
+# does the application run 
+# 第一个参数是测试的提示 第二个参数的可执行程序 第三个参数是程序带的参数 
+add_test (TutorialRuns Tutorial 25)
+
+# does it sqrt of 25
+add_test (TutorialComp25 Tutorial 25)
+set_tests_properties (TutorialComp25 PROPERTIES PASS_REGULAR_EXPRESSION &quot;25 is 5&quot;)
+
+# does it handle negative numbers
+add_test (TutorialNegative Tutorial -25)
+set_tests_properties (TutorialNegative PROPERTIES PASS_REGULAR_EXPRESSION &quot;-25 is 0&quot;)
+
+# does it handle small numbers
+add_test (TutorialSmall Tutorial 0.0001)
+set_tests_properties (TutorialSmall PROPERTIES PASS_REGULAR_EXPRESSION &quot;0.0001 is 0.01&quot;)
+
+# does the usage message work?
+add_test (TutorialUsage Tutorial)
+set_tests_properties (TutorialUsage PROPERTIES PASS_REGULAR_EXPRESSION &quot;Usage:.*number&quot;)
+</code></pre><p>然后终端运行<code>make test</code>即可测试程序</p>
+<h2 id="为顶层目标增加一个依赖"><a href="#为顶层目标增加一个依赖" class="headerlink" title="为顶层目标增加一个依赖"></a>为顶层目标增加一个依赖</h2><p>让一个顶层目标依赖于其他的顶层目标。一个顶层目标是由命令ADD_EXECUTABLE，ADD_LIBRARY，或者ADD_CUSTOM_TARGET产生的目标。<br>为这些命令的输出引入依赖性可以保证某个目标在其他的目标之前被构建。</p>
+<p>如下是在构建目标时使用了ROS中自定义的消息和服务的文件,增加依赖可以确保构建目标之前先生成对应的头文件</p>
+<pre><code>add_dependencies(your_program ${catkin_EXPORTED_TARGETS})
+add_dependencies(your_library ${catkin_EXPORTED_TARGETS})
+</code></pre><h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><pre><code>add_compile_options(-Wall -Wextra)  # -Wall 打开编译输出警告 -Wextra打印一些额外的警告 是gcc的编译参数
+</code></pre><h2 id="生成自己的package供别人调用"><a href="#生成自己的package供别人调用" class="headerlink" title="生成自己的package供别人调用"></a>生成自己的package供别人调用</h2><p>待补充</p>
+<h2 id="安装升级cmake"><a href="#安装升级cmake" class="headerlink" title="安装升级cmake"></a>安装升级cmake</h2><pre><code>pip install cmake --upgrade
+</code></pre><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol>
+<li><a href="http://wiki.ros.org/catkin/CMakeLists.txt#Finding_Dependent_CMake_Packages" target="_blank" rel="noopener">catkin CMakeLists.txt</a></li>
+<li><a href="https://gearyyoung.gitbooks.io/cmake-api/content/" target="_blank" rel="noopener">cmake-api</a></li>
+<li><a href="https://github.com/chaneyzorn/CMake-tutorial" target="_blank" rel="noopener">CMake-tutorial</a></li>
+<li><a href="https://blog.csdn.net/u013243710/article/details/35795841" target="_blank" rel="noopener">ROS中的CMakeLists.txt</a></li>
+<li><a href="https://blog.csdn.net/turboian/article/details/74604052" target="_blank" rel="noopener">ROS下的CMakeList.txt编写</a></li>
+<li><a href="https://blog.csdn.net/haluoluo211/article/details/80559341?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.add_param_isCf&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.add_param_isCf" target="_blank" rel="noopener">cmake教程4(find_package使用)</a></li>
+<li><a href="https://blog.csdn.net/cui918/article/details/53187643" target="_blank" rel="noopener">GCC 警告选项 -Werror</a></li>
+<li><a href="https://docs.ros.org/en/api/catkin/html/howto/format2/index.html" target="_blank" rel="noopener">Package format 2</a></li>
+<li><a href="https://stackoverflow.com/questions/49859457/how-to-reinstall-the-latest-cmake-version" target="_blank" rel="noopener">How to reinstall the latest cmake version?</a></li>
+</ol>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 yangbenbo_whu@qq.com </span>
+    </div>
+</article>
+
+
+
+<div class="article_copyright">
+    <p><span class="copy-title">文章标题:</span>ROS中CMakeLists.txt</p>
+    
+    <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="杨本泊">杨本泊</a></p>
+    <p><span class="copy-title">发布时间:</span>2019-10-05, 19:25:10</p>
+    <p><span class="copy-title">最后更新:</span>2023-07-09, 07:10:11</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/10/05/ROS中CMakeLists-txt/" title="ROS中CMakeLists.txt">http://yangbenbo.github.io/2019/10/05/ROS中CMakeLists-txt/</a>
+    <p>
+        <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+    </p>
+</div>
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">©2016-2019 yang</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full"><span class="min "></span></button>
+<button class="post-toc-menu"><span class="post-toc-menu-icons"></span></button>
+<div class="post-toc"><span class="post-toc-title">目录</span>
+    <div class="post-toc-content">
+
+    </div>
+</div>
+<a class="" id="rocket" href="javascript:void(0)"></a>
+    </div>
+</div>
+<div class="acParent"></div>
+
+</body>
+<script src="//cdn.bootcss.com/jquery.pjax/2.0.1/jquery.pjax.min.js"></script>
+
+<script src="/js/script.js?v=1" ></script>
+<script>
+    var img_resize = 'default';
+    /*作者、标签的自动补全*/
+    $(function () {
+        $('.search').AutoComplete({
+            'data': ['#数据传输','#blog','#ssh','#hexo','#DNS','#正则表达式','#Qt','#ROS','#program','#qt','#NodeHandle','#文件共享','#c++','#字符串','#gdb','#c','#gitbook','#git','#make','#matlab','#equation','#mysql','#代码规范','#python','#shell','#下载工具','#software','#ubuntu','#grub','#编码','#vim','#word','#matlab绘图','#机器人学','#位姿变换','#傅里叶变换','#卡尔曼滤波','#四元数','#重装系统','#多线程','#ps','#快捷键','#simulink','#clion','#world','#excel','#自动控制原理','#wps','#sort','#数据结构','#概率论','#根轨迹','#信号分析','#补码','#权限','#软硬件','#标定','#加速度','#anaconda','#雅克比矩阵','#伪逆','#机器人','#efficiency','#网络基础',],
+            'itemHeight': 20,
+            'width': 418
+        }).AutoComplete('show');
+    })
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $(".post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+        $('pre code').each(function(){
+            var lines = $(this).text().split('\n').length - 1, widther='';
+            if (lines>99) {
+                widther = 'widther'
+            }
+            var $numbering = $('<ul/>').addClass('pre-numbering ' + widther).attr("unselectable","on");
+            $(this).addClass('has-numbering ' + widther)
+                    .parent()
+                    .append($numbering);
+            for(var i=1;i<=lines;i++){
+                $numbering.append($('<li/>').text(i));
+            }
+        });
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<style>
+    pre{
+        position: relative;
+        margin-bottom: 24px;
+        border-radius: 10px;
+        border: 1px solid #e2dede;
+        background: #FFF;
+        overflow: hidden;
+    }
+    code.has-numbering{
+        margin-left: 30px;
+    }
+    code.has-numbering.widther{
+        margin-left: 35px;
+    }
+    .pre-numbering{
+        margin: 0px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 20px;
+        padding: 0.5em 3px 0.7em 5px;
+        border-right: 1px solid #C3CCD0;
+        text-align: right;
+        color: #AAA;
+        background-color: #fafafa;
+    }
+    .pre-numbering.widther {
+        width: 35px;
+    }
+</style>
+
+<!--自定义样式设置-->
+<style>
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+    .post .pjax article .article-entry>ol, .post .pjax article .article-entry>ul, .post .pjax article>ol, .post .pjax article>ul{
+        border: #e2dede solid 1px;
+        border-radius: 10px;
+        padding: 10px 32px 10px 56px;
+    }
+    .post .pjax article .article-entry li>ol, .post .pjax article .article-entry li>ul,.post .pjax article li>ol, .post .pjax article li>ul{
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    .post .pjax article .article-entry>ol>li, .post .pjax article .article-entry>ul>li,.post .pjax article>ol>li, .post .pjax article>ul>li{
+        margin-bottom: auto;
+        margin-left: auto;
+    }
+    .post .pjax article .article-entry li>ol>li, .post .pjax article .article-entry li>ul>li,.post .pjax article li>ol>li, .post .pjax article li>ul>li{
+        margin-bottom: auto;
+        margin-left: auto;
+    }
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+    .post .pjax article blockquote {
+        padding: 10px 20px;
+        background-color: white;
+        border: none;
+        border-left: 4px solid #42b983;
+        border-right: 4px solid #42b983;
+        border-radius: 10px;
+    }
+    
+
+    /*文章列表背景图*/
+    
+    .nav-right:before {
+        content: ' ';
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.1;
+        background: url("http://img.xiangzhangshugongyi.com/FlSExUGfRSaqxkK5v42CpuI-tXAL.jpg");
+        background-repeat: no-repeat;
+        background-position: 50% 0;
+        -ms-background-size: cover;
+        -o-background-size: cover;
+        -moz-background-size: cover;
+        -webkit-background-size: cover;
+        background-size: cover;
+    }
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>

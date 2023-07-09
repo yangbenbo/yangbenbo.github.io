@@ -1,0 +1,1603 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <title>shell和下载工具 | yangbenbo&#39;s blog</title>
+  <meta name="keywords" content=" shell , 下载工具 ">
+  <meta name="description" content="shell和下载工具 | yangbenbo&#39;s blog">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="个人简介杨本泊， 武汉大学先进机器人与智能控制实验室 机器人算法开发 喜欢研究新兴技术和未来发展方向。 最近更新博客 读书 联系方式 QQ : 2519130844 邮箱 : yangbenbo@whu.edu.cn">
+<meta property="og:type" content="website">
+<meta property="og:title" content="博主">
+<meta property="og:url" content="http://yangbenbo.github.io/about/index.html">
+<meta property="og:site_name" content="yangbenbo&#39;s blog">
+<meta property="og:description" content="个人简介杨本泊， 武汉大学先进机器人与智能控制实验室 机器人算法开发 喜欢研究新兴技术和未来发展方向。 最近更新博客 读书 联系方式 QQ : 2519130844 邮箱 : yangbenbo@whu.edu.cn">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2023-07-09T08:38:00.867Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="博主">
+<meta name="twitter:description" content="个人简介杨本泊， 武汉大学先进机器人与智能控制实验室 机器人算法开发 喜欢研究新兴技术和未来发展方向。 最近更新博客 读书 联系方式 QQ : 2519130844 邮箱 : yangbenbo@whu.edu.cn">
+
+
+<link rel="icon" href="/img/weiZhuang.png">
+
+<link href="/css/style.css?v=1" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1" rel="stylesheet">
+
+<link href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+<link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="/js/jquery.autocomplete.min.js?v=1"></script>
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+<script src="/js/iconfont.js?v=1"></script>
+
+</head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="false">
+  <input class="theme_blog_path" value>
+</div>
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/" class="avatar_target">
+    <img class="avatar" src="/img/weiZhuang.png" />
+</a>
+<div class="author">
+    <span>杨本泊</span>
+</div>
+
+<div class="icon">
+    
+        
+        <a title="rss" href="/atom.xml" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-rss"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="github" href="https://github.com/yangbenbo" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-github"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+    
+        
+    
+        
+    
+        
+        <a title="oschina" href="https://my.oschina.net/" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-oschina"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+    
+        
+        <a title="email" href="mailto:yangbenbo@whu.edu.cn" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-email"></use>
+                </svg>
+            
+        </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li><div class="all active">全部文章<small>(68)</small></div></li>
+    
+        
+            
+            <li><div data-rel="Linux">Linux<small>(20)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="Blog">Blog<small>(3)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="ROS">ROS<small>(4)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="Program">Program<small>(16)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="Software">Software<small>(8)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="Math">Math<small>(15)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="Systems">Systems<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="Internet">Internet<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+    
+    
+    
+    
+    </div>
+    <div><a style="border-right: 1px solid #fff; width: 49%"  class="about site_url"  href="/about">关于</a><a style="width: 50%"  class="friends">友链</a></div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="68">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="back-title-list"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="http://yelog.org/">叶落阁</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <form onkeydown="if(event.keyCode==13){return false;}">
+        <input class="search" type="text" placeholder="以 in: 开头进行全文搜索" autocomplete="off"id="local-search-input" >
+        <i class="cross"></i>
+        <span>
+            <label for="tagswitch">Tags:</label>
+            <input id="tagswitch" type="checkbox" style="display: none" />
+            <i id="tagsWitchIcon"></i>
+        </span>
+    </form>
+    <div class="tags-list">
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">数据传输</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">blog</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">ssh</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">hexo</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">DNS</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">正则表达式</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color3">Qt</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">ROS</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color3">program</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color3">qt</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">NodeHandle</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">文件共享</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">c++</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">字符串</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">gdb</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color2">c</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color3">gitbook</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">git</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">make</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color2">matlab</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">equation</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">mysql</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">代码规范</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color2">python</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">shell</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">下载工具</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">software</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color2">ubuntu</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">grub</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color3">编码</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">vim</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">word</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">matlab绘图</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">机器人学</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">位姿变换</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">傅里叶变换</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">卡尔曼滤波</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">四元数</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">重装系统</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">多线程</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color3">ps</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">快捷键</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">simulink</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">clion</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">world</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">excel</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color2">自动控制原理</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">wps</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">sort</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">数据结构</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">概率论</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">根轨迹</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">信号分析</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color3">补码</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color3">权限</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">软硬件</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color3">标定</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">加速度</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">anaconda</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">雅克比矩阵</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color3">伪逆</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">机器人</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">efficiency</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">网络基础</a>
+    </li>
+    
+    <div class="clearfix"></div>
+</div>
+
+    
+    <div id="local-search-result">
+
+    </div>
+    
+    <nav id="title-list-nav">
+        
+        <a  class="Linux "
+           href="/2019/09/30/FTP配置和使用/"
+           data-tag="数据传输"
+           data-author="" >
+            <span class="post-title" title="FTP配置和使用">FTP配置和使用</span>
+            <span class="post-date" title="2019-09-30 20:45:12">2019/09/30</span>
+        </a>
+        
+        <a  class="Blog "
+           href="/2019/10/01/Github-SSH-Key避免Hexo部署输入密码/"
+           data-tag="blog,ssh,hexo"
+           data-author="" >
+            <span class="post-title" title="Github SSH Key避免Hexo部署输入密码">Github SSH Key避免Hexo部署输入密码</span>
+            <span class="post-date" title="2019-10-01 16:19:16">2019/10/01</span>
+        </a>
+        
+        <a  class="ROS "
+           href="/2020/12/27/GitHub的raw-githubusercontent-com无法链接/"
+           data-tag="DNS"
+           data-author="" >
+            <span class="post-title" title="GitHub的raw.githubusercontent.com无法链接">GitHub的raw.githubusercontent.com无法链接</span>
+            <span class="post-date" title="2020-12-27 17:57:04">2020/12/27</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/11/02/Linux-正则表达式/"
+           data-tag="正则表达式"
+           data-author="" >
+            <span class="post-title" title="Linux 正则表达式">Linux 正则表达式</span>
+            <span class="post-date" title="2019-11-02 09:22:39">2019/11/02</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2020/05/12/Linux-Qt5-ROS配置Qwtplot3d/"
+           data-tag="Qt,ROS"
+           data-author="" >
+            <span class="post-title" title="Linux + Qt5 + ROS配置Qwtplot3d">Linux + Qt5 + ROS配置Qwtplot3d</span>
+            <span class="post-date" title="2020-05-12 20:09:33">2020/05/12</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/10/02/Linux进程管理/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="Linux进程管理">Linux进程管理</span>
+            <span class="post-date" title="2019-10-02 09:28:29">2019/10/02</span>
+        </a>
+        
+        <a  class="Blog "
+           href="/2019/07/14/Markdown语法/"
+           data-tag="blog,program"
+           data-author="" >
+            <span class="post-title" title="Markdown语法">Markdown语法</span>
+            <span class="post-date" title="2019-07-14 16:44:31">2019/07/14</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/02/03/QT坐标系统/"
+           data-tag="qt"
+           data-author="" >
+            <span class="post-title" title="QT坐标系统 ">QT坐标系统 </span>
+            <span class="post-date" title="2020-02-03 17:31:33">2020/02/03</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/02/01/QT事件/"
+           data-tag="qt"
+           data-author="" >
+            <span class="post-title" title="QT事件">QT事件</span>
+            <span class="post-date" title="2020-02-01 21:46:32">2020/02/01</span>
+        </a>
+        
+        <a  class="ROS "
+           href="/2019/12/21/ROS遇到的问题/"
+           data-tag="ROS"
+           data-author="" >
+            <span class="post-title" title="ROS遇到的问题">ROS遇到的问题</span>
+            <span class="post-date" title="2019-12-21 11:54:38">2019/12/21</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/10/05/ROS中CMakeLists-txt/"
+           data-tag="ROS"
+           data-author="" >
+            <span class="post-title" title="ROS中CMakeLists.txt">ROS中CMakeLists.txt</span>
+            <span class="post-date" title="2019-10-05 19:25:10">2019/10/05</span>
+        </a>
+        
+        <a  class="ROS "
+           href="/2019/10/07/ROS记录/"
+           data-tag="NodeHandle"
+           data-author="" >
+            <span class="post-title" title="ROS记录">ROS记录</span>
+            <span class="post-date" title="2019-10-07 11:32:36">2019/10/07</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/10/01/SAMBA服务简单搭建/"
+           data-tag="文件共享"
+           data-author="" >
+            <span class="post-title" title="SAMBA服务简单搭建">SAMBA服务简单搭建</span>
+            <span class="post-date" title="2019-10-01 21:00:55">2019/10/01</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2019/10/06/c++记录/"
+           data-tag="c++"
+           data-author="" >
+            <span class="post-title" title="c++记录">c++记录</span>
+            <span class="post-date" title="2019-10-06 16:35:06">2019/10/06</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/02/05/c-pragma-once/"
+           data-tag="c++"
+           data-author="" >
+            <span class="post-title" title="c++ #pragma once">c++ #pragma once</span>
+            <span class="post-date" title="2020-02-05 09:59:27">2020/02/05</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2019/11/16/c-函数指针/"
+           data-tag="c++"
+           data-author="" >
+            <span class="post-title" title="c++函数指针">c++函数指针</span>
+            <span class="post-date" title="2019-11-16 16:51:52">2019/11/16</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/02/22/c-string与c风格字符串/"
+           data-tag="字符串"
+           data-author="" >
+            <span class="post-title" title="c++ string与c风格字符串">c++ string与c风格字符串</span>
+            <span class="post-date" title="2020-02-22 15:08:52">2020/02/22</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/10/03/gdb调试/"
+           data-tag="gdb"
+           data-author="" >
+            <span class="post-title" title="gdb调试">gdb调试</span>
+            <span class="post-date" title="2019-10-03 09:09:21">2019/10/03</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/01/22/c-中argc-argv理解/"
+           data-tag="c++,c"
+           data-author="" >
+            <span class="post-title" title="c++中argc argv理解">c++中argc argv理解</span>
+            <span class="post-date" title="2020-01-22 17:27:07">2020/01/22</span>
+        </a>
+        
+        <a  class="Blog "
+           href="/2019/10/06/hexo博客和gitbook配置/"
+           data-tag="blog,hexo,gitbook"
+           data-author="" >
+            <span class="post-title" title="hexo博客和gitbook配置">hexo博客和gitbook配置</span>
+            <span class="post-date" title="2019-10-06 08:36:02">2019/10/06</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/07/16/git基本使用/"
+           data-tag="git"
+           data-author="" >
+            <span class="post-title" title="git基本使用">git基本使用</span>
+            <span class="post-date" title="2019-07-16 17:36:13">2019/07/16</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/11/02/make宏编译/"
+           data-tag="make"
+           data-author="" >
+            <span class="post-title" title="make宏编译">make宏编译</span>
+            <span class="post-date" title="2019-11-02 22:32:22">2019/11/02</span>
+        </a>
+        
+        <a  class="Software "
+           href="/2019/10/24/matlab-绘图/"
+           data-tag="matlab"
+           data-author="" >
+            <span class="post-title" title="matlab 绘图">matlab 绘图</span>
+            <span class="post-date" title="2019-10-24 09:52:50">2019/10/24</span>
+        </a>
+        
+        <a  class="Software "
+           href="/2019/11/30/mathtype常用配置/"
+           data-tag="equation"
+           data-author="" >
+            <span class="post-title" title="mathtype常用配置">mathtype常用配置</span>
+            <span class="post-date" title="2019-11-30 21:39:27">2019/11/30</span>
+        </a>
+        
+        <a  class="Software "
+           href="/2019/10/24/matlab中常见问题/"
+           data-tag="matlab"
+           data-author="" >
+            <span class="post-title" title="matlab中常见问题">matlab中常见问题</span>
+            <span class="post-date" title="2019-10-24 19:46:53">2019/10/24</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/04/21/mysql/"
+           data-tag="mysql"
+           data-author="" >
+            <span class="post-title" title="mysql">mysql</span>
+            <span class="post-date" title="2020-04-21 23:15:25">2020/04/21</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/12/12/pyhton-代码规范/"
+           data-tag="代码规范"
+           data-author="" >
+            <span class="post-title" title="pyhton 代码规范">pyhton 代码规范</span>
+            <span class="post-date" title="2020-12-12 17:01:28">2020/12/12</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/11/10/python-装饰器/"
+           data-tag="python"
+           data-author="" >
+            <span class="post-title" title="python 装饰器">python 装饰器</span>
+            <span class="post-date" title="2020-11-10 14:00:30">2020/11/10</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/05/22/python基础/"
+           data-tag="python"
+           data-author="" >
+            <span class="post-title" title="python基础">python基础</span>
+            <span class="post-date" title="2020-05-22 16:52:49">2020/05/22</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2019/11/22/qt纪要/"
+           data-tag="qt"
+           data-author="" >
+            <span class="post-title" title="qt记录">qt记录</span>
+            <span class="post-date" title="2019-11-22 22:23:21">2019/11/22</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/09/29/ssh远程登录/"
+           data-tag="ssh"
+           data-author="" >
+            <span class="post-title" title="ssh远程登录">ssh远程登录</span>
+            <span class="post-date" title="2019-09-29 12:13:36">2019/09/29</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/09/29/ubuntu小技巧/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="ubuntu小技巧">ubuntu小技巧</span>
+            <span class="post-date" title="2019-09-29 21:11:37">2019/09/29</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/09/29/shell和下载工具/"
+           data-tag="shell,下载工具"
+           data-author="" >
+            <span class="post-title" title="shell和下载工具">shell和下载工具</span>
+            <span class="post-date" title="2019-09-29 12:27:00">2019/09/29</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/07/14/ubuntu系统配置/"
+           data-tag="software,ubuntu"
+           data-author="" >
+            <span class="post-title" title="ubuntu系统配置">ubuntu系统配置</span>
+            <span class="post-date" title="2019-07-14 20:17:42">2019/07/14</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2020/01/09/ubuntu配置grub-指定默认内核/"
+           data-tag="grub"
+           data-author="" >
+            <span class="post-title" title="ubuntu配置grub,指定默认内核">ubuntu配置grub,指定默认内核</span>
+            <span class="post-date" title="2020-01-09 15:30:29">2020/01/09</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/11/23/ubuntu解压文件名字无法显示中文-中文乱码/"
+           data-tag="编码"
+           data-author="" >
+            <span class="post-title" title="ubuntu解压文件名字无法显示中文(中文乱码)">ubuntu解压文件名字无法显示中文(中文乱码)</span>
+            <span class="post-date" title="2019-11-23 11:23:52">2019/11/23</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/09/30/vim常用命令/"
+           data-tag="vim"
+           data-author="" >
+            <span class="post-title" title="vim常用命令">vim常用命令</span>
+            <span class="post-date" title="2019-09-30 14:59:28">2019/09/30</span>
+        </a>
+        
+        <a  class="Software "
+           href="/2019/12/04/word参考文献交叉引用/"
+           data-tag="word"
+           data-author="" >
+            <span class="post-title" title="word参考文献交叉引用">word参考文献交叉引用</span>
+            <span class="post-date" title="2019-12-04 08:32:08">2019/12/04</span>
+        </a>
+        
+        <a  class="Software "
+           href="/2019/12/14/word排版/"
+           data-tag="matlab绘图"
+           data-author="" >
+            <span class="post-title" title="word排版">word排版</span>
+            <span class="post-date" title="2019-12-14 21:39:40">2019/12/14</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2019/12/08/位姿变换矩阵左乘和右乘理解/"
+           data-tag="机器人学,位姿变换"
+           data-author="" >
+            <span class="post-title" title="位姿变换矩阵左乘和右乘理解">位姿变换矩阵左乘和右乘理解</span>
+            <span class="post-date" title="2019-12-08 11:49:49">2019/12/08</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2019/11/30/傅里叶变换理解/"
+           data-tag="傅里叶变换"
+           data-author="" >
+            <span class="post-title" title="傅里叶变换理解">傅里叶变换理解</span>
+            <span class="post-date" title="2019-11-30 19:38:48">2019/11/30</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2021/07/04/卡尔曼滤波/"
+           data-tag="卡尔曼滤波"
+           data-author="" >
+            <span class="post-title" title="卡尔曼滤波">卡尔曼滤波</span>
+            <span class="post-date" title="2021-07-04 10:21:23">2021/07/04</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2020/11/25/四元数/"
+           data-tag="四元数"
+           data-author="" >
+            <span class="post-title" title="四元数">四元数</span>
+            <span class="post-date" title="2020-11-25 15:36:23">2020/11/25</span>
+        </a>
+        
+        <a  class="Systems "
+           href="/2019/07/21/多系统启动盘制作/"
+           data-tag="重装系统"
+           data-author="" >
+            <span class="post-title" title="多系统启动盘制作">多系统启动盘制作</span>
+            <span class="post-date" title="2019-07-21 15:18:56">2019/07/21</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/11/14/多线程/"
+           data-tag="多线程"
+           data-author="" >
+            <span class="post-title" title="多线程">多线程</span>
+            <span class="post-date" title="2020-11-14 21:07:02">2020/11/14</span>
+        </a>
+        
+        <a  class="Software "
+           href="/2019/10/20/实用小技巧汇总/"
+           data-tag="ps"
+           data-author="" >
+            <span class="post-title" title="实用小技巧汇总">实用小技巧汇总</span>
+            <span class="post-date" title="2019-10-20 19:12:25">2019/10/20</span>
+        </a>
+        
+        <a  class="Software "
+           href="/2019/10/07/常用软件快捷键/"
+           data-tag="快捷键,simulink,clion,world,excel"
+           data-author="" >
+            <span class="post-title" title="常用软件快捷键">常用软件快捷键</span>
+            <span class="post-date" title="2019-10-07 19:57:38">2019/10/07</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2019/12/30/惯性张量/"
+           data-tag="机器人学"
+           data-author="" >
+            <span class="post-title" title="惯性张量">惯性张量</span>
+            <span class="post-date" title="2019-12-30 21:39:22">2019/12/30</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2019/12/27/拉氏变换/"
+           data-tag="自动控制原理"
+           data-author="" >
+            <span class="post-title" title="拉氏变换">拉氏变换</span>
+            <span class="post-date" title="2019-12-27 14:43:06">2019/12/27</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/12/22/ubuntu下wps缺少字体/"
+           data-tag="wps"
+           data-author="" >
+            <span class="post-title" title="ubuntu下wps缺少字体">ubuntu下wps缺少字体</span>
+            <span class="post-date" title="2019-12-22 11:34:17">2019/12/22</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/03/16/排序算法/"
+           data-tag="sort"
+           data-author="" >
+            <span class="post-title" title="排序算法">排序算法</span>
+            <span class="post-date" title="2020-03-16 15:37:00">2020/03/16</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/02/15/数据结构c/"
+           data-tag="数据结构"
+           data-author="" >
+            <span class="post-title" title="数据结构c++">数据结构c++</span>
+            <span class="post-date" title="2020-02-15 09:20:59">2020/02/15</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2021/01/16/机械臂动力学/"
+           data-tag="机器人学"
+           data-author="" >
+            <span class="post-title" title="机械臂动力学">机械臂动力学</span>
+            <span class="post-date" title="2021-01-16 13:50:54">2021/01/16</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2019/08/31/样本方差分母为什么是n-1/"
+           data-tag="概率论"
+           data-author="" >
+            <span class="post-title" title="样本方差分母为什么是n-1">样本方差分母为什么是n-1</span>
+            <span class="post-date" title="2019-08-31 12:40:25">2019/08/31</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2020/03/28/根轨迹/"
+           data-tag="根轨迹"
+           data-author="" >
+            <span class="post-title" title="根轨迹">根轨迹</span>
+            <span class="post-date" title="2020-03-28 17:02:54">2020/03/28</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2019/07/18/正交函数/"
+           data-tag="信号分析"
+           data-author="" >
+            <span class="post-title" title="正交函数">正交函数</span>
+            <span class="post-date" title="2019-07-18 20:17:03">2019/07/18</span>
+        </a>
+        
+        <a  class="Program "
+           href="/2020/03/13/理解补码/"
+           data-tag="补码"
+           data-author="" >
+            <span class="post-title" title="理解补码">理解补码</span>
+            <span class="post-date" title="2020-03-13 07:31:28">2020/03/13</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2019/09/30/用户权限管理/"
+           data-tag="权限"
+           data-author="" >
+            <span class="post-title" title="用户权限管理">用户权限管理</span>
+            <span class="post-date" title="2019-09-30 23:22:20">2019/09/30</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2020/11/12/电脑小问题记录/"
+           data-tag="软硬件"
+           data-author="" >
+            <span class="post-title" title="电脑小问题记录">电脑小问题记录</span>
+            <span class="post-date" title="2020-11-12 08:43:35">2020/11/12</span>
+        </a>
+        
+        <a  class="ROS "
+           href="/2020/12/26/相机标定/"
+           data-tag="标定"
+           data-author="" >
+            <span class="post-title" title="相机标定">相机标定</span>
+            <span class="post-date" title="2020-12-26 14:54:40">2020/12/26</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2019/09/01/矩生成函数/"
+           data-tag="概率论"
+           data-author="" >
+            <span class="post-title" title="矩生成函数">矩生成函数</span>
+            <span class="post-date" title="2019-09-01 15:01:28">2019/09/01</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2020/01/13/科式加速度/"
+           data-tag="加速度"
+           data-author="" >
+            <span class="post-title" title="科式加速度">科式加速度</span>
+            <span class="post-date" title="2020-01-13 10:28:27">2020/01/13</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2020/11/10/解决libapr-1-so-0：对‘uuid-generate-UUID-1-0’未定义的引用/"
+           data-tag="anaconda"
+           data-author="" >
+            <span class="post-title" title="解决conda和ros库不兼容问题,libapr-1.so.0：对‘uuid_generate@UUID_1.0’未定义的引用">解决conda和ros库不兼容问题,libapr-1.so.0：对‘uuid_generate@UUID_1.0’未定义的引用</span>
+            <span class="post-date" title="2020-11-10 11:05:40">2020/11/10</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2020/02/19/雅克比矩阵零空间/"
+           data-tag="雅克比矩阵,伪逆"
+           data-author="" >
+            <span class="post-title" title="雅克比矩阵零空间">雅克比矩阵零空间</span>
+            <span class="post-date" title="2020-02-19 11:10:14">2020/02/19</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2020/11/23/逆运动学/"
+           data-tag="机器人"
+           data-author="" >
+            <span class="post-title" title="逆运动学">逆运动学</span>
+            <span class="post-date" title="2020-11-23 13:37:45">2020/11/23</span>
+        </a>
+        
+        <a  class="Math "
+           href="/2019/10/16/高斯分布/"
+           data-tag="概率论"
+           data-author="" >
+            <span class="post-title" title="高斯分布">高斯分布</span>
+            <span class="post-date" title="2019-10-16 13:30:27">2019/10/16</span>
+        </a>
+        
+        <a  class="Software "
+           href="/2019/11/30/高效工具/"
+           data-tag="efficiency"
+           data-author="" >
+            <span class="post-title" title="高效工具">高效工具</span>
+            <span class="post-date" title="2019-11-30 22:07:24">2019/11/30</span>
+        </a>
+        
+        <a  class="Internet "
+           href="/2019/12/15/网络基础/"
+           data-tag="网络基础"
+           data-author="" >
+            <span class="post-title" title="网络基础">网络基础</span>
+            <span class="post-date" title="2019-12-15 22:24:56">2019/12/15</span>
+        </a>
+        
+    </nav>
+</div>
+    </div>
+    <div class="hide-list">
+        <div class="semicircle">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div class="post">
+    <div class="pjax">
+        <article id="post-shell和下载工具" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">shell和下载工具</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            
+                <a href="javascript:" data-rel="Linux">Linux</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            
+            <a href="javascript:" class="color1">shell</a>
+            
+            <a href="javascript:" class="color5">下载工具</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+        创建时间:<time class="date" title='更新时间: 2023-07-09 07:10:11'>2019-09-29 12:27</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读:<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SHELL"><span class="toc-text">SHELL</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SHELL常用符号"><span class="toc-text">SHELL常用符号</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#进阶"><span class="toc-text">进阶</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#shell编程"><span class="toc-text">shell编程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#运行shell脚本"><span class="toc-text">运行shell脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#变量"><span class="toc-text">变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字符串"><span class="toc-text">字符串</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#引号规则"><span class="toc-text">引号规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用命令"><span class="toc-text">常用命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组"><span class="toc-text">数组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注释"><span class="toc-text">注释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参数传递"><span class="toc-text">参数传递</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基本运算"><span class="toc-text">基本运算</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#test命令和"><span class="toc-text">test命令和[</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#函数"><span class="toc-text">函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重定向"><span class="toc-text">重定向</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#即时脚本-here-document"><span class="toc-text">即时脚本 here document</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#禁止输出"><span class="toc-text">禁止输出</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件包含"><span class="toc-text">文件包含</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#变量键盘读取、阵列与宣告-read-array-declare"><span class="toc-text">变量键盘读取、阵列与宣告:read, array, declare</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#exit-trap"><span class="toc-text">exit trap</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用命令-1"><span class="toc-text">常用命令</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#bash"><span class="toc-text">bash</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#下载工具"><span class="toc-text">下载工具</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#引用"><span class="toc-text">引用</span></a></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="SHELL"><a href="#SHELL" class="headerlink" title="SHELL"></a>SHELL</h1><p>shell 是一个命令解释器 而不是一门编程语言<br><strong>空格</strong>用来分隔命令和传递给它的参数(或用来分隔命令的两个参数)</p>
+<p>~/.bash_history 记录的是前一次登入以前所执行过的指令, 而至于这一次登入所执行的指令都被暂<br>存在内存中,当你成功的注销系统后,该指令记忆才会记录到 .bash_history 当中,如果开启多个bash,则最后登出的bash会把前面的覆盖<br>可以使用<a href="http://linux.vbird.org/linux_basic/0440processcontrol.php#background" target="_blank" rel="noopener">job control</a><br>在一个bash完成工作,主要是前景和背景</p>
+<pre><code>history #列出近期使用的历史命令
+!66  #执行第 66 笔指令
+!!   #执行上一个指令，本例中亦即 !66
+!al  #执行最近以 al 为开头的指令(上头列出的第 67 个)
+</code></pre><h1 id="SHELL常用符号"><a href="#SHELL常用符号" class="headerlink" title="SHELL常用符号"></a>SHELL常用符号</h1><pre><code>echo $SHELL      
+env |grep SHELL
+sh  #可进入shell 
+echo $?  #上个指令回传值 上条指令成功为0
+
+1. * 通用符号，可以表示任意一个字符（包括空字符）或多个字符组成的字符串  ls -l /bin/e*
+2. ? 类似*，但是只能表示单个字符
+3. [] 制定被显示内容的范围 ls [a-c] 显示a 、b 、c文件夹
+4. ！排除符号 用来指定被屏蔽的部分，需要与[]一起使用  ls [!a-c]  不显示a、b、c文件夹
+5. ; 分隔符号，多个命令分隔  ls;ls -l
+6. ` 命令替代符，成对出现，包含的内容在shell中表示一条命令，并且会被执行，这不是单引号 echo `ls -l`  将命令的结果显示出来 
+7. # 注释符号
+</code></pre><h1 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h1><ol>
+<li><p>别名</p>
+<pre><code> # 事实上 .bashrc 是一个shell脚本文件，在用户登录到系统自动运行，可以把想让系统启动时运行的任务写进去
+ alias hs=&#39;hexo clean &amp;&amp; hexo g &amp;&amp; hexo s&#39;  # 注意等号前后无空格  别名相当与快捷键
+ alias   #查看所有命令的别名
+ unalias command #取消
+</code></pre><p> 终端上快捷键stty -a 查看,set 设置,有bash一般不用设置</p>
+<ul>
+<li>Ctrl + C    终止目前的命令</li>
+<li>Ctrl + D    输入结束 (EOF)，例如邮件结束的时候；</li>
+<li>Ctrl + M    就是 Enter 啦！</li>
+<li>Ctrl + S    暂停萤幕的输出</li>
+<li>Ctrl + Q    恢復萤幕的输出</li>
+<li>Ctrl + U    在提示字元下，將整列命令刪除</li>
+<li>Ctrl + Z    『暂停』目前的命令<br>使用 vim 时，若不小心按了 [ctrl]+s 则画面会被冻结。你可以使用 [ctrl]+q 来解除冻结</li>
+</ul>
+</li>
+<li><p>重定向 &gt; 输入（覆盖）  &gt;&gt; 输入追加  &lt; 输出  &lt;&lt; 立即文档(here document)</p>
+<pre><code> ls -l &gt; test.txt  # 把ls 的结果写入test.txt中
+ cat &lt;&lt; EOF      #告诉Shell从键盘接受输入 EOF作为结束，然后查看输入内容
+</code></pre></li>
+<li><p>管道  “|”<br> 管线命令仅会处理 standard output，对於 standard error output 会予以忽略</p>
+<pre><code> ls -l |grep test
+</code></pre></li>
+<li><p>网络</p>
+<pre><code> nmap -sn 10.1.1.1-255   #扫描局域网        
+</code></pre></li>
+</ol>
+<h1 id="shell编程"><a href="#shell编程" class="headerlink" title="shell编程"></a>shell编程</h1><h2 id="运行shell脚本"><a href="#运行shell脚本" class="headerlink" title="运行shell脚本"></a>运行shell脚本</h2><ol>
+<li><p>./test.sh</p>
+<pre><code> #! /bin/bash   # 告诉系统解释此脚本文件的shell程序
+</code></pre></li>
+<li>/bin/bash test.sh   #这种方式不需要在第一行指定解释器　写了也没用</li>
+</ol>
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><ul>
+<li>局部变量</li>
+<li>环境变量</li>
+<li>shell变量 由shell程序设置的特殊变量。shell变量中有一部分是环境变量，有一部分是局部变量</li>
+</ul>
+<p>等号两边不能有空格</p>
+<pre><code>your_name=&quot;runoob.com&quot;   
+echo $your_name
+echo ${your_name}　　　# 最好加上括号
+echo $$         # $本身也是变量 代表当前程序的pid
+
+myUrl=&quot;http://www.google.com&quot;
+readonly myUrl      # 只读变量
+
+unset myUrl         #　删除变量
+</code></pre><p>环境变量RANDOM,产生随机数0~32767,(15位),想产生0~9的数值用declare宣告数值类型</p>
+<pre><code>declare -i number=$RANDOM*10/32768 ; 
+</code></pre><h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><h3 id="引号规则"><a href="#引号规则" class="headerlink" title="引号规则"></a>引号规则</h3><ol>
+<li>“” 阻止shell对大多数特殊字符(例如#)进行解释　但是$ ` “　仍然保持其特殊含义</li>
+<li><p>‘’ 阻止shell对所有字符进行解释 所有字符都会原样输出</p>
+<p>   单引号字串中不能出现单独一个的单引号（对单引号使用转义符后也不行），但可成对出现，作为字符串拼接使用。</p>
+</li>
+<li>`` 倒引号括起来一个shell　命令时，这个命令将会执行　结果作为这个表达式的值</li>
+</ol>
+<p>很多时候建议使用$(uname -r) 的形式获取变量或表达式的值,比``清晰,如</p>
+<pre><code>cd /lib/modules/$(uname -r)/kernel       
+</code></pre><p>字符串变量最好加上”” 清晰度</p>
+<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><ol>
+<li><p>字符串拼接</p>
+<pre><code> your_name=&quot;runoob&quot;
+ # 使用双引号拼接
+ greeting=&quot;hello, &quot;$your_name&quot; !&quot;
+ greeting_1=&quot;hello, ${your_name} !&quot;
+ echo $greeting  $greeting_1
+ # 使用单引号拼接
+ greeting_2=&#39;hello, &#39;$your_name&#39; !&#39;      #　注意　单引号拼接　
+ greeting_3=&#39;hello, ${your_name} !&#39;
+ echo $greeting_2  $greeting_3    
+</code></pre></li>
+<li><p>获取字符串长度</p>
+<pre><code> string=&quot;abcd&quot;
+ echo $(#string)  # 输出４
+</code></pre></li>
+<li><p>提取子字符串</p>
+<pre><code> string=&quot;runoob is a great site&quot;
+ echo ${string:1:4} # 输出 unoo
+</code></pre></li>
+<li><p>查找子字符串</p>
+<pre><code> string=&quot;runoob is a great site&quot;
+ echo `expr index &quot;$string&quot; io`  # 输出 4  查找字符　i || o 位置
+</code></pre></li>
+<li>删除和替换<br> <img src="/2019/09/29/shell和下载工具/delete_replace.png" alt="删除和替换"><br> <img src="/2019/09/29/shell和下载工具/var_test.png" alt="测试和替换">    </li>
+<li><p>其他常用命令</p>
+<ul>
+<li>字元转换命令： tr, col, join, paste, expand</li>
+<li>分割命令： split</li>
+<li>参数代换： xargs        </li>
+</ul>
+</li>
+</ol>
+<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><pre><code>array_name=(value0 value1 value2 value3)   
+echo ${array_name[@]}   # 获取数组中所有元素　@  
+
+length=$(#arrar_name[@])    # 数组元素个数
+length=$(#arrar_name[*])    # 数组元素个数
+length=$(#arrar_name[n])    #　单个元素长度
+</code></pre><h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><pre><code># 单行注释　　可以把一块代码定义成函数　达到多行注释
+
+# 多行注释
+:&lt;&lt;EOF
+注释内容...
+注释内容...
+注释内容...
+EOF 
+
+# EOF 可以使用其他符号
+:&lt;&lt;!
+注释内容...
+注释内容...
+注释内容...
+!  
+</code></pre><h2 id="参数传递"><a href="#参数传递" class="headerlink" title="参数传递"></a>参数传递</h2><pre><code> $0　脚本自己的名字
+ $1　第一个参数
+ $2　第二个参数
+ ...
+ ${13} 第13个参数
+
+ $# 参数的个数
+ $* 以一个单字符串显示所有向脚本传递的参数。
+    如&quot;$*&quot;用「&quot;」括起来的情况、以&quot;$1 $2 … $n&quot;的形式输出所有参数。
+ $@ 与$*相同，但是使用时加引号，并在引号中返回每个参数。
+    如&quot;$@&quot;用「&quot;」括起来的情况、以&quot;$1&quot; &quot;$2&quot; … &quot;$n&quot; 的形式输出所有参数。
+</code></pre><p>$* 和 $@区别:</p>
+<ul>
+<li>相同点：都是引用所有参数。</li>
+<li>不同点：只有在双引号中体现出来。假设在脚本运行时写了三个参数 1、2、3，，则 “ * “ 等价于 “1 2 3”（传递了一个参数），而 “@” 等价于 “1” “2” “3”（传递了三个参数）。</li>
+</ul>
+<h2 id="基本运算"><a href="#基本运算" class="headerlink" title="基本运算"></a>基本运算</h2><p>计算表达式的值</p>
+<pre><code>num=$[ $num + 1 ]
+expr 1 + 2
+let num=$num+1  # 用于计算整数表达式的值
+
+val=`expr $a \* $b`   #等号两边没有空格 乘法
+[ $a == $b ]  # 注意有空格
+</code></pre><p>字符串运算符</p>
+<pre><code>a=&quot;abc&quot;
+[ -z $a ]   #检测字符串长度是否为0 是 true
+[ -n &quot;$a&quot; ] #字符串长度是否为0 不为0 true
+[ $a ]      #检测字符串是否非空 不为孔 true  
+</code></pre><p>注意:<strong>判断非空是用了双引号</strong><br><strong>字符串比较时 == 可以用 = 替代</strong><br>文件测试运算符<br><img src="/2019/09/29/shell和下载工具/文件测试.png" alt="文件测试">   </p>
+<h3 id="test命令和"><a href="#test命令和" class="headerlink" title="test命令和["></a>test命令和[</h3><p>if语句不执行任何判断 实际接收一个程序名作为参数,依据程序返回值判断执行相应的语句</p>
+<pre><code>if ./testscript 0   ## 如果返回值为0
+</code></pre><p>if通常两种方式</p>
+<pre><code>if test &quot;$password&quot; = &quot;join&quot;      
+if [ &quot;$password&quot; = &quot;join&quot; ]
+</code></pre><p>while有时可以不用test</p>
+<pre><code>while test $number -le 100
+
+while read n    # 每条指令都有返回值 可以利用 read 读取到键盘输入返回0 ctrl+D出入文件结束符则返回非0 通常是1
+</code></pre><p>for语句 </p>
+<pre><code>for i in 1 2 3
+for i in `seq 3`    # 1 2 3 注意是反引号                 
+</code></pre><ol>
+<li>字符串比较</li>
+<li>文件测试</li>
+<li>数字比较 只能比较整数</li>
+</ol>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p>$? 获得上一条语句返回值 </p>
+<ul>
+<li><p>如果函数没有明确指定返回值 则是最后一条语句运算结果 0 为true 1 为false </p>
+</li>
+<li><p>仅对其上一条指令负责，一旦函数返回后其返回值没有立即保存入参数，那么其返回值将不再能通过 $? 获得。</p>
+</li>
+</ul>
+<h2 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h2><p>一般情况下，每个 Unix/Linux 命令运行时都会打开三个文件：</p>
+<ul>
+<li>标准输入文件(stdin)：stdin的文件描述符为0，Unix程序默认从stdin读取数据。</li>
+<li>标准输出文件(stdout)：stdout 的文件描述符为1，Unix程序默认向stdout输出数据。</li>
+<li><p>标准错误文件(stderr)：stderr的文件描述符为2，Unix程序会向stderr流中写入错误信息。</p>
+<pre><code>  command 2 &gt; file    # 错误文件重定向到file 
+  command &gt; file 2&gt;&amp;1 # stdout和stderr合并到file 放在&gt;后面的&amp;，表示重定向的目标不是一个文件，而是一个文件描述符
+  tee file   # 双重导向 往下级传输的同时输出一份到屏幕  
+</code></pre><h3 id="即时脚本-here-document"><a href="#即时脚本-here-document" class="headerlink" title="即时脚本 here document"></a>即时脚本 here document</h3><p>基本形式</p>
+<pre><code>  command &lt;&lt; delimiter
+      document
+  delimiter
+</code></pre></li>
+</ul>
+<p>例子</p>
+<pre><code>    $ wc -l &lt;&lt; EOF
+        欢迎来到
+        菜鸟教程
+        www.runoob.com
+    EOF 
+</code></pre><h3 id="禁止输出"><a href="#禁止输出" class="headerlink" title="禁止输出"></a>禁止输出</h3><p>如果希望执行某个命令，但又不希望在屏幕上显示输出结果，那么可以将输出重定向到 /dev/null：</p>
+<pre><code>command &gt; /dev/null
+command &gt; /dev/null 2&gt;&amp;1
+</code></pre><h2 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h2><p>两种方式 都不需要执行权限就可以</p>
+<pre><code>. filename   # 注意点号(.)和文件名中间有一空格
+
+source filename   # 这种方式也可以
+</code></pre><p>source命令可以让一个脚本强行影响其父shell环境<br>export命令可以让脚本影响其子shell<br>    export EDITOR=’gedit’      </p>
+<p>运行一个shell脚本时会启动另一个命令解释器.<br>每个shell脚本有效地运行在父shell(parent shell)的一个子进程里。.<br>这个父shell是指在一个控制终端或在一个xterm窗口中给你命令指示符的进程.</p>
+<pre><code>export | grep ROS   #查看ROS相关的bash变量
+</code></pre><h2 id="变量键盘读取、阵列与宣告-read-array-declare"><a href="#变量键盘读取、阵列与宣告-read-array-declare" class="headerlink" title="变量键盘读取、阵列与宣告:read, array, declare"></a>变量键盘读取、阵列与宣告:read, array, declare</h2><ol>
+<li><p>read:读取键盘输入</p>
+<pre><code> read -p &quot;Please keyin your name: &quot; -t 30 named
+</code></pre></li>
+</ol>
+<ul>
+<li>read接受变量名为参数 从标准输入接收到的信息储存 如果没有提供变量 则储存在<strong>REPLY</strong></li>
+<li><p>用作输出一段内容后暂停</p>
+<pre><code>  echo &quot;press enter to continue&quot;
+  read
+</code></pre></li>
+</ul>
+<ol>
+<li><p>declare / typeset:宣告变量类型</p>
+<pre><code> declare [-aixr] variable
+ 选项与参数：
+ -a  ：將后面名为 variable 的变数定义成为阵列 (array) 类型
+ -i  ：將后面名为 variable 的变数定义成为整数数字 (integer) 类型
+ -x  ：用法与 export 一样，就是將后面的 variable 变成环境变数；
+ -r  ：將变数设定成为 readonly 类型，该变数不可被更改內容，也不能 unset
+</code></pre><p> 注意:变量类型预设为<strong>字符串</strong>,1+2不会计算,除非申明为integer;bash只能进行整数运算,1/3=0                </p>
+</li>
+</ol>
+<h2 id="exit-trap"><a href="#exit-trap" class="headerlink" title="exit trap"></a>exit trap</h2><p>exit 返回信号<br>trap 捕捉信号<br>    trap ‘echo “goodbye”; exit’ EXIT    # 捕捉退出        </p>
+<h2 id="常用命令-1"><a href="#常用命令-1" class="headerlink" title="常用命令"></a>常用命令</h2><ol>
+<li>cut 指定的方式分割行</li>
+<li>diff 比较文件差异</li>
+<li>sort 按照字母排序(不改变源文件)</li>
+<li>uniq 对<strong>已经排好序</strong>的输入删除重复的行</li>
+<li>tr   按照制定方式对字符进行替换</li>
+<li>wc   (word counts) 统计文中字节 单词 行的数量</li>
+<li><p>substr 从字符中提取一部分 必须搭配expr进行求值</p>
+<pre><code> expr substr &quot;hello world&quot; 1 5   # hello  起始位置从1开始算
+</code></pre></li>
+<li>seq 产生一个整数序列 </li>
+</ol>
+<h1 id="bash"><a href="#bash" class="headerlink" title="bash"></a>bash</h1><ol>
+<li>type cd 查询是否为内建命令 </li>
+<li><p>常用组合键</p>
+<pre><code> [ctrl]+u/[ctrl]+k 从光标处向前删除指令串  及向后删除指令串 
+ [ctrl]+a/[ctrl]+e 让光标移动到整个指令串的最前面  或最后面  home end也可以
+</code></pre></li>
+</ol>
+<h1 id="下载工具"><a href="#下载工具" class="headerlink" title="下载工具"></a>下载工具</h1><ul>
+<li>apt</li>
+<li>wget</li>
+<li><p>Transmission   #种子下载</p>
+<pre><code>  wget  -r -np -nd http://10.143.2.9/packages/      递归下载 不遍历父目录  不在本地重新创建目录
+  wget  -r -np -nd --accept=cpp http://10.143.2.9/packages/      递归下载 不遍历父目录  不在本地重新创建目录 扩展名为cpp的文件
+  wget -i filename.txt      URL地址放在filename.txt文件，自动下载所有文件
+  wget -c  ...  断点续传
+</code></pre></li>
+</ul>
+<h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol>
+<li><a href="https://www.runoob.com/linux/linux-shell.html" target="_blank" rel="noopener">Shell 教程</a></li>
+</ol>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 yangbenbo_whu@qq.com </span>
+    </div>
+</article>
+
+
+
+<div class="article_copyright">
+    <p><span class="copy-title">文章标题:</span>shell和下载工具</p>
+    
+    <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="杨本泊">杨本泊</a></p>
+    <p><span class="copy-title">发布时间:</span>2019-09-29, 12:27:00</p>
+    <p><span class="copy-title">最后更新:</span>2023-07-09, 07:10:11</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/09/29/shell和下载工具/" title="shell和下载工具">http://yangbenbo.github.io/2019/09/29/shell和下载工具/</a>
+    <p>
+        <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+    </p>
+</div>
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">©2016-2019 yang</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full"><span class="min "></span></button>
+<button class="post-toc-menu"><span class="post-toc-menu-icons"></span></button>
+<div class="post-toc"><span class="post-toc-title">目录</span>
+    <div class="post-toc-content">
+
+    </div>
+</div>
+<a class="" id="rocket" href="javascript:void(0)"></a>
+    </div>
+</div>
+<div class="acParent"></div>
+
+</body>
+<script src="//cdn.bootcss.com/jquery.pjax/2.0.1/jquery.pjax.min.js"></script>
+
+<script src="/js/script.js?v=1" ></script>
+<script>
+    var img_resize = 'default';
+    /*作者、标签的自动补全*/
+    $(function () {
+        $('.search').AutoComplete({
+            'data': ['#数据传输','#blog','#ssh','#hexo','#DNS','#正则表达式','#Qt','#ROS','#program','#qt','#NodeHandle','#文件共享','#c++','#字符串','#gdb','#c','#gitbook','#git','#make','#matlab','#equation','#mysql','#代码规范','#python','#shell','#下载工具','#software','#ubuntu','#grub','#编码','#vim','#word','#matlab绘图','#机器人学','#位姿变换','#傅里叶变换','#卡尔曼滤波','#四元数','#重装系统','#多线程','#ps','#快捷键','#simulink','#clion','#world','#excel','#自动控制原理','#wps','#sort','#数据结构','#概率论','#根轨迹','#信号分析','#补码','#权限','#软硬件','#标定','#加速度','#anaconda','#雅克比矩阵','#伪逆','#机器人','#efficiency','#网络基础',],
+            'itemHeight': 20,
+            'width': 418
+        }).AutoComplete('show');
+    })
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $(".post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+        $('pre code').each(function(){
+            var lines = $(this).text().split('\n').length - 1, widther='';
+            if (lines>99) {
+                widther = 'widther'
+            }
+            var $numbering = $('<ul/>').addClass('pre-numbering ' + widther).attr("unselectable","on");
+            $(this).addClass('has-numbering ' + widther)
+                    .parent()
+                    .append($numbering);
+            for(var i=1;i<=lines;i++){
+                $numbering.append($('<li/>').text(i));
+            }
+        });
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<style>
+    pre{
+        position: relative;
+        margin-bottom: 24px;
+        border-radius: 10px;
+        border: 1px solid #e2dede;
+        background: #FFF;
+        overflow: hidden;
+    }
+    code.has-numbering{
+        margin-left: 30px;
+    }
+    code.has-numbering.widther{
+        margin-left: 35px;
+    }
+    .pre-numbering{
+        margin: 0px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 20px;
+        padding: 0.5em 3px 0.7em 5px;
+        border-right: 1px solid #C3CCD0;
+        text-align: right;
+        color: #AAA;
+        background-color: #fafafa;
+    }
+    .pre-numbering.widther {
+        width: 35px;
+    }
+</style>
+
+<!--自定义样式设置-->
+<style>
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+    .post .pjax article .article-entry>ol, .post .pjax article .article-entry>ul, .post .pjax article>ol, .post .pjax article>ul{
+        border: #e2dede solid 1px;
+        border-radius: 10px;
+        padding: 10px 32px 10px 56px;
+    }
+    .post .pjax article .article-entry li>ol, .post .pjax article .article-entry li>ul,.post .pjax article li>ol, .post .pjax article li>ul{
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    .post .pjax article .article-entry>ol>li, .post .pjax article .article-entry>ul>li,.post .pjax article>ol>li, .post .pjax article>ul>li{
+        margin-bottom: auto;
+        margin-left: auto;
+    }
+    .post .pjax article .article-entry li>ol>li, .post .pjax article .article-entry li>ul>li,.post .pjax article li>ol>li, .post .pjax article li>ul>li{
+        margin-bottom: auto;
+        margin-left: auto;
+    }
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+    .post .pjax article blockquote {
+        padding: 10px 20px;
+        background-color: white;
+        border: none;
+        border-left: 4px solid #42b983;
+        border-right: 4px solid #42b983;
+        border-radius: 10px;
+    }
+    
+
+    /*文章列表背景图*/
+    
+    .nav-right:before {
+        content: ' ';
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.1;
+        background: url("http://img.xiangzhangshugongyi.com/FlSExUGfRSaqxkK5v42CpuI-tXAL.jpg");
+        background-repeat: no-repeat;
+        background-position: 50% 0;
+        -ms-background-size: cover;
+        -o-background-size: cover;
+        -moz-background-size: cover;
+        -webkit-background-size: cover;
+        background-size: cover;
+    }
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>

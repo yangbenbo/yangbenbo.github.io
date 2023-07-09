@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>yangbenbo&#39;s blog</title>
+  
+  <subtitle>人生在勤，不索何获</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://yangbenbo.github.io/"/>
+  <updated>2023-07-08T23:10:12.034Z</updated>
+  <id>http://yangbenbo.github.io/</id>
+  
+  <author>
+    <name>杨本泊</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>卡尔曼滤波</title>
+    <link href="http://yangbenbo.github.io/2021/07/04/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/"/>
+    <id>http://yangbenbo.github.io/2021/07/04/卡尔曼滤波/</id>
+    <published>2021-07-04T02:21:23.000Z</published>
+    <updated>2023-07-08T23:10:12.034Z</updated>
+    
+    <content type="html"><![CDATA[<!-- @import "[TOC]" {cmd="toc" depthFrom=2 depthTo=3 orderedList=false} --><!-- code_chunk_output --><ul><li><a href="#卡尔曼滤波基本原理">卡尔曼滤波基本原理</a></li><li><a href="#理论推导">理论推导</a><ul><li><a href="#高斯分布融合">高斯分布融合</a></li><li><a href="#计算值和测量值融合">计算值和测量值融合</a></li></ul></li><li><a href="#引用">引用</a></li></ul><!-- /code_chunk_output --><h2 id="卡尔曼滤波基本原理"><a href="#卡尔曼滤波基本原理" class="headerlink" title="卡尔曼滤波基本原理"></a>卡尔曼滤波基本原理</h2><p>现实中存在很多不确定性：</p><ul><li>不存在完美的数学模型</li><li>系统的扰动不可控，也很难建模</li><li>测量的传感器存在误差</li></ul><p>卡尔曼滤波就是融合同一值的多个不确定性得到更准确的值，这里可以是模型计算值和测量值融合。参考知乎解释<a href="https://www.zhihu.com/question/23971601/answer/26254459" target="_blank" rel="noopener">如何通俗并尽可能详细地解释卡尔曼滤波？ - Kent Zeng的回答</a></p><p>用两个传感器同时测一个数值，最终结果可以取平均值，如果其中一个传感器更准确，取加权平均，加权的系数根据两个传感器的噪声分布（高斯分布）确定。实际中是数学模型计算出一个值，传感器测量出一个值，把这个两个值进行高斯分布的融合，得到的值的概率分布的方差更小（数据更准确）</p><h2 id="理论推导"><a href="#理论推导" class="headerlink" title="理论推导"></a>理论推导</h2><h3 id="高斯分布融合"><a href="#高斯分布融合" class="headerlink" title="高斯分布融合"></a>高斯分布融合</h3><p>两个一维高斯分布的融合就是概率的乘积然后归一化。一维高斯分布方程为$\mathcal{N}(x, \mu, \sigma)=\frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{(z-\mu)^{2} }{2 \sigma^{2}} }$。融合得到</p><script type="math/tex; mode=display">{\cal N}\left( {x,{\mu _0},{\sigma _0}} \right) \cdot {\cal N}\left( {x,{\mu _1},{\sigma _1}} \right) = {\cal N}\left( {x,{\mu ^\prime },{\sigma ^\prime }} \right)</script><p>其中</p><script type="math/tex; mode=display">{\mu ^\prime } = {\mu _0} + { {\sigma _0^2\left( { {\mu _1} - {\mu _0} } \right)} \over {\sigma _0^2 + \sigma _1^2} }</script><script type="math/tex; mode=display">{\sigma ^{\prime 2} } = \sigma _0^2 - { {\sigma _0^4} \over {\sigma _0^2 + \sigma _1^2} }</script><p>令${\bf{k}} = { {\sigma _0^2} \over {\sigma _0^2 + \sigma _1^2}}$则有</p><script type="math/tex; mode=display">{\mu ^\prime } = {\mu _0} + {\bf{k} }\left( { {\mu _1} - {\mu _0} } \right)</script><script type="math/tex; mode=display">{\sigma ^{\prime 2} } = \sigma _0^2 - {\bf{k} }\sigma _0^2</script><p>写成矩阵形式</p><script type="math/tex; mode=display">\begin{array}{l}\mathbf{K}=\Sigma_{0}\left(\Sigma_{0}+\Sigma_{1}\right)^{-1} \\\vec{\mu}^{\prime}=\overrightarrow{\mu_{0}}+\mathbf{K}\left(\overrightarrow{\mu_{1}}-\overrightarrow{\mu_{0}}\right) \\\Sigma^{\prime}=\Sigma_{0}-\mathbf{K} \Sigma_{0}\end{array}</script><p>其中$\mathbf{K}$为卡尔曼增益。</p><h3 id="计算值和测量值融合"><a href="#计算值和测量值融合" class="headerlink" title="计算值和测量值融合"></a>计算值和测量值融合</h3><p>连续系统的状态空间方程</p><script type="math/tex; mode=display">{ {\dot X}_t} = A{X_x} + B{U_t}</script><script type="math/tex; mode=display">{Z_t} = H{X_t}</script><p>其中$X$为系统的状态，$U$为系统的输入，$Z$传感器测量值，$H$状态到测量值的转换举证，由于传感器示数和状态的单位或者刻度不一样，$H$可能不是单位举证。</p><p>转换为离散形式，具体转换过程就叙述了，注意不是简单的替换，这里只是为了方便说明。</p><ol><li><p>计算值</p><script type="math/tex; mode=display">{X_k} = A{X_{k - 1}} + B{U_k} + {w_{k - 1}}</script><script type="math/tex; mode=display">{Z_k} = H{X_k}</script><p> 其中$w = {\cal N}(0,Q)$是由于模型不确定性和干扰带来的过程噪音</p><p> 设$Cov({X_k}) = {P_k}$为${X_k}$的协方差矩阵，又认为$U$的的协方差为0，并且和状态无关，过程噪声和状态也没有关系，则有${P_k} = A{P_{k - 1}}{A^{\rm{T}}}$<br> 所以就算值的协方差矩阵为</p><script type="math/tex; mode=display">Cov({Z_k}) = H{P_k}{H^{\rm{T}}}</script><p> 综上，计算值的概率分布为</p><script type="math/tex; mode=display">({\mu _0},{\Sigma _0}) = {\cal N}({H_k}{X_k},{H_k}{P_k}{H_k}^{\rm{T}})</script></li><li><p>测量值<br> 测量值的概率分布为，<script type="math/tex">({\mu _1},{\Sigma _1}) = {\cal N}({Z_k},{R_k})</script><br> 其中$R$为传感的噪声的方差</p></li><li><p>融合计算值和测量值<br> 借助上面高斯分布融合公式得到如下公式，用估计值作为计算值迭代求解下次估计值，初始状态估计值的均值的协方差可以大概给一个，会随着迭代次增加接近真实值。</p><script type="math/tex; mode=display">{\bf{\hat K}} = {P_k}H_k^T{\left( { {H_k}{P_k}H_k^T + {R_k} } \right)^{ - 1} }</script><script type="math/tex; mode=display">{ {\hat X}_k} = {X_k} + {\bf{\hat K} }\left( { {Z_k} - {H_k}{X_k} } \right)</script><script type="math/tex; mode=display">{ {\hat P}_k} = {P_k} - {\bf{\hat K} }{H_k}{P_k}</script></li></ol><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ol><li><a href="https://space.bilibili.com/230105574/channel/detail?cid=139198" target="_blank" rel="noopener">卡尔曼滤波器 视频详解</a></li><li><a href="http://www.bzarg.com/p/how-a-kalman-filter-works-in-pictures/" target="_blank" rel="noopener">How a Kalman filter works, in pictures</a></li><li><a href="https://blog.csdn.net/u010720661/article/details/63253509?utm_medium=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-6.control" target="_blank" rel="noopener">详解卡尔曼滤波原理</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;!-- @import &quot;[TOC]&quot; {cmd=&quot;toc&quot; depthFrom=2 depthTo=3 orderedList=false} --&gt;
+&lt;!-- code_chunk_output --&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#卡尔曼滤波基本原理&quot;&gt;卡尔曼滤波基
+      
+    
+    </summary>
+    
+      <category term="Math" scheme="http://yangbenbo.github.io/categories/Math/"/>
+    
+    
+      <category term="卡尔曼滤波" scheme="http://yangbenbo.github.io/tags/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>机械臂动力学</title>
+    <link href="http://yangbenbo.github.io/2021/01/16/%E6%9C%BA%E6%A2%B0%E8%87%82%E5%8A%A8%E5%8A%9B%E5%AD%A6/"/>
+    <id>http://yangbenbo.github.io/2021/01/16/机械臂动力学/</id>
+    <published>2021-01-16T05:50:54.000Z</published>
+    <updated>2023-07-08T23:10:12.070Z</updated>
+    
+    <content type="html"><![CDATA[<!-- @import "[TOC]" {cmd="toc" depthFrom=2 depthTo=3 orderedList=false} --><!-- code_chunk_output --><ul><li><a href="#机械臂动力学">机械臂动力学</a><ul><li><a href="#牛顿欧拉递推动力学">牛顿欧拉递推动力学</a></li></ul></li></ul><!-- /code_chunk_output --><h2 id="机械臂动力学"><a href="#机械臂动力学" class="headerlink" title="机械臂动力学"></a>机械臂动力学</h2><p>动力学主要研究:</p><ul><li>已知轨迹点求期望的关机力矩,用于机械臂控制</li><li>已知力矩求机械臂运动的轨迹点,用于仿真</li></ul><h3 id="牛顿欧拉递推动力学"><a href="#牛顿欧拉递推动力学" class="headerlink" title="牛顿欧拉递推动力学"></a>牛顿欧拉递推动力学</h3><p>牛顿欧拉递推动力学是一种高效的动力学计算方法</p><h4 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h4><ul><li>${ }^{B} V_{Q}$: $Q$点在坐标系$\{B\}$中求导并表示</li><li>${ }^A({ }^{B} V_{Q})$: $Q$点在坐标系$\{B\}$中求导并在坐标系$\{A\}$中表示</li><li>$v_c = { }^{U} V_{CORG}$: 坐标系$\{C\}$原点在常见坐标系$\{U\}$中求导并表示</li><li>${ }^{A} v_c = { }^B_A R { }^{U} V_{CORG}$: 坐标系$\{C\}$原点在常见坐标系$\{U\}$中求导并表示</li><li>${ }^{A} \Omega_{B}$: 坐标系$\{B\}$相对于坐标系$\{A\}$的旋转角速度</li><li>$w_c = { }^{U} \Omega_{C}$: 坐标系$\{C\}$相对于世界坐标系$\{U\}$的旋转角速度</li><li>${}^Aw_c = {}^A_UR{ }^{U} \Omega_{C}$: 坐标系$\{C\}$相对于世界坐标系$\{U\}$的旋转角速度在坐标系$\{A\}$中的表示</li></ul><h4 id="刚体线速度-线加速度"><a href="#刚体线速度-线加速度" class="headerlink" title="刚体线速度/线加速度"></a>刚体线速度/线加速度</h4><p>坐标系$\{A\}$固定,$\{B\}$与$\{A\}$的原点重合,则$\{B\}$中一点$Q$的速度为:</p><script type="math/tex; mode=display">{ }^{A} V_{Q}={ }_{B}^{A} R^{B} V_{Q}+{ }^{A} \Omega_{B} \times{ }_{B}^{A} R^{B} Q</script><p>扩展到原点不重合:</p><script type="math/tex; mode=display">{ }^{A} V_{Q}={}^AV_Q + { }_{B}^{A} R^{B} V_{Q}+{ }^{A} \Omega_{B} \times{ }_{B}^{A} R^{B} Q</script><p>求导得:</p><script type="math/tex; mode=display">\begin{aligned}{ }^{A} V_{Q}={ }^{A} \dot{V}_{B O R G} &+{ }_{B}^{A} R^{B} \dot{V}_{Q}+2^{A} \Omega_{B} \times{ }_{B}^{A} R^{B} V_{Q}+{ }^{A} \dot{\Omega}_{B} \times{ }_{B}^{A} R^{B} Q \\&+{ }^{A} \Omega_{B} \times\left({ }^{A} \Omega_{B} \times{ }_{B}^{A} R^{B} Q\right)\end{aligned}</script><p>此式子可根据不同情况进行简化,比如${}^BQ$是常量时${ }^{B} V_{Q}={ }^{B} \dot{V}_{Q}=0$</p><h4 id="角速度-角加速度"><a href="#角速度-角加速度" class="headerlink" title="角速度/角加速度"></a>角速度/角加速度</h4><p>$\{B\}$相对于于$\{A\}$的角速度${}^A\Omega_B$,$\{C\}$相对于于$\{B\}$的角速度${}^B\Omega_C$,则有</p><script type="math/tex; mode=display">{ }^{A} \Omega_{C}={ }^{A} \Omega_{B}+{ }_{B}^{A} R^{B} \Omega_{C}</script><p>求导得:</p><script type="math/tex; mode=display">{ }^{A} \dot{\Omega}_{C}={ }^{A} \dot{\Omega}_{B}+{ }_{B}^{A} R^{B} \dot{\Omega}_{C}+{ }^{A} \Omega_{B} \times{ }_{B}^{A} R^{B} \Omega_{C}</script><h4 id="连杆速度传递"><a href="#连杆速度传递" class="headerlink" title="连杆速度传递"></a>连杆速度传递</h4><p>机械臂关节坐标系如图所示<br><img src="/2021/01/16/机械臂动力学/连杆速度传递.png" alt="连杆速度传递(图片来自Introduction to Robotics:Mechanics and Control)"></p><ol><li><p>直接采用前面推论进行替换得到最终的表达式<br> 角速度/角加速度推导</p><ul><li><p>坐标系$\{A\}$替换为坐标系$\{0\}$(世界坐标系),$\{B\}$替换为$\{i\}$,$\{Q\}$替换为$\{i+1\}$(可在$Q$点建立一个坐标系)</p></li><li><p>替换完之后左乘矩阵${}^{i+1}_0R$即可得到最终表达时</p><p>线速度/线加速度推导</p></li><li><p>坐标系$\{A\}$替换为坐标系$\{0\}$(世界坐标系),$\{B\}$替换为$\{i\}$,$\{C\}$替换为$\{i+1\}$</p></li><li><p>替换完之后左乘矩阵${}^{i+1}_0R$即可得到最终表达时</p></li></ul></li><li><p>直接求导推导<br> 世界坐标系下角速度:连杆的角速度等于上一个连杆的角速度加上由于关节转动带来的角速度</p><script type="math/tex; mode=display"> \boldsymbol{\omega}_{i+1}=\boldsymbol{\omega}_{i}+\dot{\boldsymbol{\theta}}_{i+1} \boldsymbol{z}_{i+1}</script><p> 求导然后左乘${}^{i+1}_0R$即可得到角加速度表达式,借助公式${}^0_i \dot{\boldsymbol{R}} = {}^0 \omega_{i} \times {}^0_i\boldsymbol{R}$</p><script type="math/tex; mode=display"> { }^{i+1} \dot{\omega}_{i+1}={ }_{i}^{i+1} R^{i} \dot{\omega}_{i}+{ }_{i}^{i+1} R^{i} \omega_{i} \times \dot{\theta}_{i+1}{ }^{i+1} \hat{z}_{i+1}+\ddot{\theta}_{i+1}{ }^{i+1} \hat{z}_{i+1}</script><p> 同理世界坐标系下线速度:连杆的线速度等于上一个连杆的线速度,上一个连杆转动带来的线速度,以及关节平移(移动关节才有)带来的速度之和</p><script type="math/tex; mode=display"> \boldsymbol{v}_{i+1}=\boldsymbol{v}_{i}+\boldsymbol{\omega}_{i} \times ({}^0_iR{}^i\boldsymbol{p}_{i+1})+\dot{\boldsymbol{d}}_{i+1} \boldsymbol{z}_{i+1}</script><p> ${}^0_iR{}^i\boldsymbol{p}_{i+1}$表示连杆坐标系$\{i\}$原点到$\{i+1\}$原点向量在世界坐标系下的表示<br> 求导即可得到线加速度关系,注意如果是移动关节,那么$\boldsymbol{p}_{i+1}$也是变化的所以才会有公式里面的倍数2,对应科式加速度</p><script type="math/tex; mode=display"> \begin{aligned} { }^{i+1} \dot{v}_{i+1} &={ }_{i}^{i+1} R\left({ }^{i} \dot{\omega}_{i} \times{ }^{i} P_{i+1}+{ }^{i} \omega_{i} \times\left({ }^{i} \omega_{i} \times{ }^{i} P_{i+1}\right)+{ }^{i} \dot{v}_{i}\right) \\ &+2^{i+1} \omega_{i+1} \times \dot{d}_{i+1}{ }^{i+1} \hat{z}_{i+1}+\ddot{d}_{i+1}{ }^{i+1} \hat{z}_{i+1} \end{aligned}</script><p> 也可以根据绝对加速度=相对加速度+牵连加速度+科式加速度来计算,在之前的文章<a href="/2020/01/13/科式加速度/" title="科式加速度">科式加速度</a>中有提到过<br> 质心的加速度更明显一点</p><script type="math/tex; mode=display"> {}^i \dot{v}_{C_{i}}={}^i\dot{\omega}_{i} \times^{i} P_{C_{i}}+{ }^{i} \omega_{i} \times\left({ }^{i} \omega_{i} \times { }^{i} P_{C_{i}}\right)+^{i} \dot{v}_{i}</script></li></ol><h4 id="连杆力-力矩传递"><a href="#连杆力-力矩传递" class="headerlink" title="连杆力/力矩传递"></a>连杆力/力矩传递</h4><p>不考虑重力,利用平衡方程递推关节力矩</p><script type="math/tex; mode=display">\begin{array}{l}F_{i}=m \dot{v}_{c_{i}} \\N_{i}=^{c_{i}} I \dot{\omega}_{i}+\omega_{i} \times^{c_{i}} I \omega_{i}\end{array}</script><p>得到转动关节递推算法:<br>外推:1-&gt;5:<br>${}^{i+1}  \omega_{i+1}={ }_{i}^{i+1} R^{i} \omega_{i}+\dot{\theta}_{i+1}^{i+1} \hat{Z}_{i+1}$<br>${ }^{i+1} \dot{\omega}_{i+1} ={ }_{i}^{i+1} R^{i} \dot{\omega}_{i}+{ }_{i}^{i+1} R^{i} \omega_{i} \times \dot{\theta}_{i+1}^{i+1} \hat{Z}_{i+1}+\ddot{\theta}_{i+1}^{i+1} \hat{Z}_{i+1}$<br>${ }^{i+1} \dot{v}_{i+1} ={ }_{i}^{i+1} R\left({ }^{i} \dot{\omega}_{i} \times{ }^{i} P_{i+1}+{ }^{i} \omega_{i} \times\left({ }^{i} \omega_{i} \times{ }^{i} P_{i+1}\right)+{ }^{i} \dot{v}_{i}\right)$<br>${ }^{i+1} \dot{v}_{C_{i+1}} ={ }^{i+1} \dot{\omega}_{i+1} \times{ }^{i+1} P_{C_{i+1}}+{ }^{i+1} \omega_{i+1} \times\left({ }^{i+1} \omega_{i+1} \times{ }^{i+1} P_{C_{i+1}}\right)+{ }^{i+1} \dot{v}_{i+1} $<br>${ }^{i+1} F_{i+1} =m_{i+1}{ }^{i+1} \dot{v}_{C_{i+1}}$<br>${ }^{i+1} N_{i+1} ={}^{C_{i+1}} I_{i+1}{ }^{i+1} \dot{\omega}_{i+1}+{ }^{i+1} \omega_{i+1} \times {}^{C_{i+1}} I_{i+1}{ }^{i+1} \omega_{i+1}$</p><p>内推:6-&gt;1<br>${}^i f_{i}={ }_{i+1}^{i} R^{i+1} f_{i+1}+{ }^{i} F_{i}$<br>${ }^{i} n_{i}={ }^{i} N_{i}+{ }_{i+1}^{i} R^{i+1} n_{i+1}+{ }^{i} P_{C_{i}} \times{ }^{i} F_{i}+{ }^{i} P_{i+1} \times{ }_{i+1}^{i} R^{i+1} f_{i+1}$<br>$\tau_{i}={ }^{i} n_{i}^{T} i \hat{Z}_{i}$</p><p>考虑重力:令${ }^{0} \dot{v}_{0}=G$,其中$G$与重力大小相等,方向相反,等价于机器人以1g的加速度向上做加速运动</p><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li>机器人学导论(Introduction to Robotics:Mechanics and Control)</li><li><a href="https://mp.weixin.qq.com/s?__biz=MzI1MTA3MjA2Nw==&amp;mid=2650215895&amp;idx=1&amp;sn=98163c17bc650fc26c7dd2b52cede55c&amp;chksm=f1fb2efbc68ca7ed54b5c4c8ef33a2a02f27fe0dbb168a47d7550bdae2d1e22fd0950810169c&amp;mpshare=1&amp;scene=1&amp;srcid=01164QqSklrW7oMLuaaQ3E3v&amp;sharer_sharetime=1610778773411&amp;sharer_shareid=e4ca836a049d31ddd8c4060a9b422e51&amp;exportkey=A0RunuAtEUc1BIRp1U8qEPs%3D&amp;pass_ticket=fSV9aDHJ8qPwgo9Tg8KgiZWwCQ1rLqEqLnyLTx1rWWkQ12bzO4ZqXXrvKB6W%2FXxk&amp;wx_header=0#rd" target="_blank" rel="noopener">干货 | 机械臂的动力学（一）：牛顿欧拉法</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;!-- @import &quot;[TOC]&quot; {cmd=&quot;toc&quot; depthFrom=2 depthTo=3 orderedList=false} --&gt;
+&lt;!-- code_chunk_output --&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#机械臂动力学&quot;&gt;机械臂动力学&lt;/a
+      
+    
+    </summary>
+    
+      <category term="Math" scheme="http://yangbenbo.github.io/categories/Math/"/>
+    
+    
+      <category term="机器人学" scheme="http://yangbenbo.github.io/tags/%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%AD%A6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>GitHub的raw.githubusercontent.com无法链接</title>
+    <link href="http://yangbenbo.github.io/2020/12/27/GitHub%E7%9A%84raw-githubusercontent-com%E6%97%A0%E6%B3%95%E9%93%BE%E6%8E%A5/"/>
+    <id>http://yangbenbo.github.io/2020/12/27/GitHub的raw-githubusercontent-com无法链接/</id>
+    <published>2020-12-27T09:57:04.000Z</published>
+    <updated>2023-07-08T23:10:11.923Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="无法使用rosdep-update更新"><a href="#无法使用rosdep-update更新" class="headerlink" title="无法使用rosdep update更新"></a>无法使用rosdep update更新</h2><p><code>rosdep update</code>报错</p><pre><code>&lt;urlopen error &lt;urlopen error [Errno 111] Connection refused&gt; (https://raw.githubusercontent.com/ros/rosdistro/master/index-v4.yaml)&gt;</code></pre><p>排查问题<br><code>ping</code>延迟太小了,国外服务器不可能延迟这么低,应该是本地的ip</p><pre><code>ping raw.githubusercontent.com      64 bytes from localhost (127.0.0.1): icmp_seq=1 ttl=64 time=0.030 ms64 bytes from localhost (127.0.0.1): icmp_seq=2 ttl=64 time=0.036 ms64 bytes from localhost (127.0.0.1): icmp_seq=3 ttl=64 time=0.025 ms</code></pre><p>进入<a href="https://www.ipaddress.com/" target="_blank" rel="noopener">https://www.ipaddress.com/</a>,输入githubusercontent.com,得到<br>199.232.96.133,发现<code>ping</code>延迟很高,说明这才是真正的ip</p><pre><code>ping 199.232.96.13364 bytes from 199.232.96.133: icmp_seq=1 ttl=42 time=239 ms64 bytes from 199.232.96.133: icmp_seq=2 ttl=42 time=267 ms64 bytes from 199.232.96.133: icmp_seq=3 ttl=42 time=287 ms</code></pre><p>说明是DNS解析ip地址出了问题</p><p>解决方案:</p><ol><li><p>把真是ip写入host</p><pre><code> sudo gedit /etc/hosts # 增加一行   199.232.96.133 raw.githubusercontent.com</code></pre></li><li><p>修改DNS解析</p><pre><code> sudo gedit /etc/resolv.conf # 增加两行 nameserver 8.8.8.8 #google域名服务器 nameserver 8.8.4.4 #google域名服务器</code></pre><p> 进入这个文件发现提示不建议修改<strong>DO NOT EDIT THIS FILE BY HAND — YOUR CHANGES WILL BE OVERWRITTEN</strong><br> 不过也能用,之后再研究一下ubuntu DNS解析的内容</p></li></ol><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ol><li><a href="https://www.cnblogs.com/xyann/p/12738326.html" target="_blank" rel="noopener">GitHub的raw.githubusercontent.com无法链接</a></li><li><a href="https://blog.csdn.net/mrh1714348719/article/details/103803110" target="_blank" rel="noopener">ubuntu安装ROS进行到rosdep update时出现错误，如ERROR: unable to process source …</a></li><li><a href="http://hshsh.me/post/2016-08-09-ubuntu-14.04-dnsmasq/" target="_blank" rel="noopener">Ubuntu14.04上DNS引发的血案</a>            </li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;无法使用rosdep-update更新&quot;&gt;&lt;a href=&quot;#无法使用rosdep-update更新&quot; class=&quot;headerlink&quot; title=&quot;无法使用rosdep update更新&quot;&gt;&lt;/a&gt;无法使用rosdep update更新&lt;/h2&gt;&lt;p&gt;&lt;c
+      
+    
+    </summary>
+    
+      <category term="ROS" scheme="http://yangbenbo.github.io/categories/ROS/"/>
+    
+    
+      <category term="DNS" scheme="http://yangbenbo.github.io/tags/DNS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>相机标定</title>
+    <link href="http://yangbenbo.github.io/2020/12/26/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A/"/>
+    <id>http://yangbenbo.github.io/2020/12/26/相机标定/</id>
+    <published>2020-12-26T06:54:40.000Z</published>
+    <updated>2023-07-08T23:10:12.086Z</updated>
+    
+    <content type="html"><![CDATA[<!-- @import "[TOC]" {cmd="toc" depthFrom=2 depthTo=3 orderedList=false} --><!-- code_chunk_output --><ul><li><a href="#相机内参标定">相机内参标定</a><ul><li><a href="#kalib">kalib</a></li><li><a href="#camera-calibration">camera-calibration</a></li></ul></li><li><a href="#相机外参标定手眼标定">相机外参标定(手眼标定)</a><ul><li><a href="#franka-realsense-标定">franka realsense 标定</a></li></ul></li><li><a href="#引用">引用</a></li></ul><!-- /code_chunk_output --><h2 id="相机内参标定"><a href="#相机内参标定" class="headerlink" title="相机内参标定"></a>相机内参标定</h2><p>主要有两种方式</p><ul><li><a href="http://wiki.ros.org/camera_calibration/Tutorials/StereoCalibration" target="_blank" rel="noopener">camera-calibration</a></li><li><a href="https://github.com/ethz-asl/kalibr" target="_blank" rel="noopener">kalibr</a></li></ul><h3 id="kalib"><a href="#kalib" class="headerlink" title="kalib"></a>kalib</h3><ol><li><p>生成标定棋格盘</p><p> 可以使用<a href="https://github.com/ethz-asl/kalibr/wiki/calibration-targets" target="_blank" rel="noopener">kalibr_create_target_pdf</a></p><p> 查看帮助</p><pre><code> kalibr_create_target_pdf --h kalibr_create_target_pdf --type apriltag --nx [NUM_COLS] --ny [NUM_ROWS] --tsize [TAG_WIDTH_M] --tspace [TAG_SPACING_PERCENT]</code></pre><p> 生成A4纸棋盘内部角点个数6x7棋盘格,边长0.030m,打印的时候选择实际大小,否则打印出来的格子可能比较小.可能需要安装模块<code>sudo apt-get install python-pyx</code></p><pre><code>  kalibr_create_target_pdf --type checkerboard --nx 6 --ny 7 --csx 0.030 --csy 0.030</code></pre></li></ol><ol><li><p>录制bag包<br> 首先运行相机驱动</p><p> 可以更改相机话题和频率</p><pre><code> rosrun topic_tools throttle messages /camera/color/image_raw 4.0 /color</code></pre><p> 录制图像</p><pre><code> rosbag record -O camd435 /color</code></pre></li><li><p>标定<br> 一种是使用<code>kalibr_calibrate_cameras</code>标定</p><p> 生成<code>checkerboard.yaml</code>文件</p><pre><code> target_type: &#39;checkerboard&#39; #gridtype targetCols: 6               #number of internal chessboard corners targetRows: 7               #number of internal chessboard corners rowSpacingMeters: 0.03      #size of one chessboard square [m] colSpacingMeters: 0.03      #size of one chessboard square [m]</code></pre><p> 标定</p><pre><code> kalibr_calibrate_cameras --target path/to/checkerboard.yaml --bag path/to/camd435i.bag --models pinhole-equi --topics /color --show-extractio</code></pre><hr><p> 另一种是使用matlab工具箱标定</p><pre><code> %% 读取bag文件 bag = rosbag(&#39;camd435.bag&#39;); geometry_message = select(bag,&#39;Topic&#39;,&#39;/color&#39;); data = readMessages(geometry_message); imshow(readImage(data{1, 1}));  % 显示图片 % 保存图片 for i = 1 : length(data)     im_data = readImage(data{i, 1});         imwrite(im_data, [num2str(i), &#39;.png&#39;]); end %% matlab 工具箱Camera Calibrator(在app里面搜索然后导入图片) 标定后可以生成代码</code></pre></li></ol><h3 id="camera-calibration"><a href="#camera-calibration" class="headerlink" title="camera-calibration"></a>camera-calibration</h3><ol><li><p>安装标定包</p><pre><code> sudo apt-get install ros-kinetic-camera-calibration</code></pre></li><li><p>运行标定程序<br> 会有一个GUI方便操作,将棋盘对着相机朝着左/右/上/下/前/后移动，还需要倾斜棋盘。绿色填满之后点击CALIBRATE按钮,需要等几分钟. 生成的文件在<code>/tmp/calibrationdata.tar.gz</code>中</p><pre><code> rosrun camera_calibration cameracalibrator.py --size 6x7 --square 0.03 image:=/image_raw camera:=/camera</code></pre></li><li><p>获取标定结果</p><pre><code> cd /tmp tar -xvzf calibrationdata.tar.gz mv ost.txt ost.ini # 得到camera.yaml rosrun camera_calibration_parsers convert ost.ini camera.yaml</code></pre></li></ol><h2 id="相机外参标定-手眼标定"><a href="#相机外参标定-手眼标定" class="headerlink" title="相机外参标定(手眼标定)"></a>相机外参标定(手眼标定)</h2><p>这篇文章的图片已经解释的很清楚了<a href="https://blog.csdn.net/yaked/article/details/77161160?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.control&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.control" target="_blank" rel="noopener">机器人手眼标定Ax=xB（eye to hand和eye in hand）及平面九点法标定</a></p><ol><li>eye-in-hand<br> 两次运动,机器人底座和标定板的位恣关系不变,求解相机和机器人末端的位姿关系<br> <img src="/2020/12/26/相机标定/eye-in-hand.png" alt="eye-in-hand">    </li><li>eye-on-base<br> 两次运动,机器人末端和标定板的位恣关系不变,求解相机和机器人基座之间的位恣关系<br> <img src="/2020/12/26/相机标定/eye-on-base.png" alt="eye-on-base"></li></ol><h3 id="franka-realsense-标定"><a href="#franka-realsense-标定" class="headerlink" title="franka realsense 标定"></a>franka realsense 标定</h3><p>主要使用了三个包:</p><ul><li><a href="https://github.com/pal-robotics/aruco_ros" target="_blank" rel="noopener">aruco_ros</a>, 相机获取二维码位恣,二维码可通过<a href="https://chev.me/arucogen/" target="_blank" rel="noopener">ArUco markers generator!</a>生成,记得一定要选择<em>Original ArUco</em><br>ID和size根据需要选择,这两个参数在之后的launch文件中使用,这里选用的是ID:582,size:50</li><li><a href="https://github.com/IFL-CAMP/easy_handeye" target="_blank" rel="noopener">easy_handeye</a>, 结合moveit标定的包</li><li><a href="https://github.com/IntelRealSense/realsense-ros" target="_blank" rel="noopener">realsense-ros</a>, realsense ros驱动</li></ul><p>则有标定launch文件如下,标定后得到camera_link到panda_link0的位恣变换,然后在launch文件中使用tf2_ros中的static_transform_publisher发布出来即可使用</p><pre><code>    &lt;?xml version=&quot;1.0&quot; ?&gt;    &lt;launch&gt;        &lt;!--  franka --&gt;        &lt;arg name=&quot;robot_ip&quot; default=&quot;192.168.10.102&quot;/&gt;        &lt;arg name=&quot;move_group&quot; default=&quot;panda_arm&quot; /&gt;        &lt;arg name=&quot;robot_base_frame&quot; default=&quot;panda_link0&quot;/&gt;        &lt;arg name=&quot;robot_effector_frame&quot; default=&quot;panda_EE&quot;/&gt;        &lt;!--  marker  --&gt;        &lt;arg name=&quot;markerId&quot;        default=&quot;582&quot;/&gt;        &lt;arg name=&quot;markerSize&quot;      default=&quot;0.05&quot;/&gt;    &lt;!-- in m --&gt;        &lt;arg name=&quot;marker_frame&quot;    default=&quot;aruco_marker_frame&quot;/&gt;        &lt;arg name=&quot;ref_frame&quot;       default=&quot;camera_link&quot;/&gt;  &lt;!-- leave empty and the pose will be published wrt param parent_name --&gt;        &lt;arg name=&quot;camera_frame&quot;    default=&quot;camera_color_optical_frame&quot;/&gt;        &lt;arg name=&quot;corner_refinement&quot; default=&quot;LINES&quot; /&gt; &lt;!-- NONE, HARRIS, LINES, SUBPIX --&gt;        &lt;!--  launch franka  --&gt;        &lt;include file=&quot;$(find franka_control)/launch/franka_control.launch&quot;&gt;            &lt;arg name=&quot;robot_ip&quot; value=&quot;$(arg robot_ip)&quot; /&gt;            &lt;arg name=&quot;load_gripper&quot; value=&quot;true&quot; /&gt;        &lt;/include&gt;        &lt;include file=&quot;$(find panda_moveit_config)/launch/panda_moveit.launch&quot;&gt;            &lt;arg name=&quot;load_gripper&quot; value=&quot;true&quot; /&gt;        &lt;/include&gt;        &lt;!--  panda_link0 to world TF  --&gt;        &lt;node pkg=&quot;tf2_ros&quot; type=&quot;static_transform_publisher&quot; name=&quot;virtual_joint_broadcaster_1&quot; args=&quot;0 0 0 0 0 0 world panda_link0&quot; /&gt;        &lt;!--  realsense  --&gt;        &lt;include file=&quot;$(find realsense2_camera)/launch/rs_camera.launch&quot;/&gt;        &lt;!--  marker  --&gt;        &lt;node pkg=&quot;aruco_ros&quot; type=&quot;single&quot; name=&quot;aruco_single&quot;&gt;            &lt;remap from=&quot;/camera_info&quot; to=&quot;/camera/color/camera_info&quot; /&gt;            &lt;remap from=&quot;/image&quot; to=&quot;/camera/color/image_raw&quot; /&gt;            &lt;param name=&quot;image_is_rectified&quot; value=&quot;True&quot;/&gt;            &lt;param name=&quot;marker_size&quot;        value=&quot;$(arg markerSize)&quot;/&gt;            &lt;param name=&quot;marker_id&quot;          value=&quot;$(arg markerId)&quot;/&gt;            &lt;param name=&quot;reference_frame&quot;    value=&quot;$(arg ref_frame)&quot;/&gt;   &lt;!-- frame in which the marker pose will be refered --&gt;            &lt;param name=&quot;camera_frame&quot;       value=&quot;$(arg camera_frame)&quot;/&gt;            &lt;param name=&quot;marker_frame&quot;       value=&quot;$(arg marker_frame)&quot; /&gt;            &lt;param name=&quot;corner_refinement&quot;  value=&quot;$(arg corner_refinement)&quot; /&gt;        &lt;/node&gt;        &lt;node pkg=&quot;image_view&quot; type=&quot;image_view&quot; name=&quot;iamge_view&quot; args=&quot;image:=/aruco_single/result&quot; /&gt;        &lt;!--  easy hand eye calibrate  --&gt;        &lt;include file=&quot;$(find easy_handeye)/launch/calibrate.launch&quot;&gt;            &lt;arg name=&quot;eye_on_hand&quot; value=&quot;false&quot;/&gt;            &lt;arg name=&quot;move_group&quot; value=&quot;$(arg move_group)&quot; /&gt;            &lt;!-- fill in the following parameters according to your robot&#39;s published tf frames --&gt;            &lt;arg name=&quot;robot_base_frame&quot; value=&quot;$(arg robot_base_frame)&quot;/&gt;            &lt;arg name=&quot;robot_effector_frame&quot; value=&quot;$(arg robot_effector_frame)&quot;/&gt;            &lt;!-- fill in the following parameters according to your tracking system&#39;s published tf frames --&gt;            &lt;arg name=&quot;tracking_base_frame&quot; value=&quot;$(arg ref_frame)&quot;/&gt;            &lt;arg name=&quot;tracking_marker_frame&quot; value=&quot;$(arg marker_frame)&quot;/&gt;        &lt;/include&gt;    &lt;/launch&gt;</code></pre><p>遇到的问题:</p><ol><li><p>import cv2的版本不对(<code>pip3 install opencv-python</code> <code>pip install opencv-contrib-python</code> 安装位置在~/.local下)</p><pre><code> # 查看cv2的路径 发现对的cv2在~/.local下 import cv2 help(cv2)  # 是cv2.so文件 可以通过locate定位(根据需要进行updatedb) # 查看python path信息 import sys sys.path    # &#39;/opt/ros/kinetic/lib/python2.7/dist-packages&#39;在前面, 而对的cv2在~/.local,排在后面 # 在需要用到cv2的地方如下处理即可 import sys sys.path.remove(&#39;/opt/ros/kinetic/lib/python2.7/dist-packages&#39;) import cv2 sys.path.append(&#39;/opt/ros/kinetic/lib/python2.7/dist-packages&#39;)</code></pre></li><li><p>无法显示rqt_gui界面的gui操作框<br>可能是由于conda环境冲突,切换回系统对应的环境就可以了(最开始是把libqt5*卸载之后再安装依赖就可以,之后发现还是得切换回之前的环境)</p></li><li><p>相机对反光敏感<br> 相机外参标定好之后在rviz中查看点云,人站在相机正前方走动会产生其它地方的点云(机械臂附近),造成干扰</p></li></ol><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ol><li><a href="https://blog.csdn.net/yaked/article/details/77161160?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.control&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.control" target="_blank" rel="noopener">机器人手眼标定Ax=xB（eye to hand和eye in hand）及平面九点法标定</a></li><li><a href="https://mp.weixin.qq.com/s/nJx1dlpBXaL2_iT_J4W5Kg" target="_blank" rel="noopener">3D 视觉之手眼标定</a></li><li><a href="https://blog.csdn.net/qq_34935373/article/details/103727968" target="_blank" rel="noopener">通过ROS控制真实机械臂(15) —- 视觉抓取之手眼标定</a></li><li><a href="https://blog.csdn.net/AnChenliang_1002/article/details/109775356" target="_blank" rel="noopener">Inter Realsense D435i标定过程步骤记录（超详细）</a></li><li><a href="https://blog.csdn.net/qq_42688495/article/details/107640826" target="_blank" rel="noopener">视觉SLAM | RealsenseD435i相机标定</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;!-- @import &quot;[TOC]&quot; {cmd=&quot;toc&quot; depthFrom=2 depthTo=3 orderedList=false} --&gt;
+&lt;!-- code_chunk_output --&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#相机内参标定&quot;&gt;相机内参标定&lt;/a
+      
+    
+    </summary>
+    
+      <category term="ROS" scheme="http://yangbenbo.github.io/categories/ROS/"/>
+    
+    
+      <category term="标定" scheme="http://yangbenbo.github.io/tags/%E6%A0%87%E5%AE%9A/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>pyhton 代码规范</title>
+    <link href="http://yangbenbo.github.io/2020/12/12/pyhton-%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/"/>
+    <id>http://yangbenbo.github.io/2020/12/12/pyhton-代码规范/</id>
+    <published>2020-12-12T09:01:28.000Z</published>
+    <updated>2023-07-08T23:10:11.970Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="编码风格"><a href="#编码风格" class="headerlink" title="编码风格"></a>编码风格</h2><ol><li>缩进<br> 缩进必须使用4个空格，而不是tab，否则容易出现pylint:<code>bad-indentation.</code><br> vscode可以将tab转化为空格<br> F1 -&gt; 输入indentation space -&gt; 回车  (查看是空格还是tab可以通过选中对应行或者全选)</li></ol><h2 id="c-vscode-自动格式化"><a href="#c-vscode-自动格式化" class="headerlink" title="c++  vscode 自动格式化"></a>c++  vscode 自动格式化</h2><ul><li><p>设置 -&gt; 搜索 clang format -&gt; 在Clang_format_path 中输入</p><pre><code>  { BasedOnStyle: Google, UseTab: Never, IndentWidth: 4, TabWidth: 4, BreakBeforeBraces: Custom, AllowShortIfStatementsOnASingleLine: false, IndentCaseLabels: false, ColumnLimit: 100, AccessModifierOffset: -3 }</code></pre></li><li>设置 -&gt; 搜索 save format -&gt; 勾选Format on Save</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;编码风格&quot;&gt;&lt;a href=&quot;#编码风格&quot; class=&quot;headerlink&quot; title=&quot;编码风格&quot;&gt;&lt;/a&gt;编码风格&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;缩进&lt;br&gt; 缩进必须使用4个空格，而不是tab，否则容易出现pylint:&lt;code&gt;bad-indentat
+      
+    
+    </summary>
+    
+      <category term="Program" scheme="http://yangbenbo.github.io/categories/Program/"/>
+    
+    
+      <category term="代码规范" scheme="http://yangbenbo.github.io/tags/%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>四元数</title>
+    <link href="http://yangbenbo.github.io/2020/11/25/%E5%9B%9B%E5%85%83%E6%95%B0/"/>
+    <id>http://yangbenbo.github.io/2020/11/25/四元数/</id>
+    <published>2020-11-25T07:36:23.000Z</published>
+    <updated>2023-07-08T23:10:12.035Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="四元数"><a href="#四元数" class="headerlink" title="四元数"></a>四元数</h1><p>四元数是由爱尔兰数学家威廉·卢云·哈密顿在1843年创立出的数学概念.速度更快、提供平滑插值、有效避免万向锁问题、存储空间较小.</p><script type="math/tex; mode=display">q=a+b i+c j+d k \quad(a, b, c, d \in \mathbb{R})</script><p>其中</p><script type="math/tex; mode=display">i^{2}=j^{2}=k^{2}=i j k=-1</script><h2 id="罗德里格旋转公式-Rodrigues’-rotation-formula"><a href="#罗德里格旋转公式-Rodrigues’-rotation-formula" class="headerlink" title="罗德里格旋转公式(Rodrigues’ rotation formula)"></a>罗德里格旋转公式(Rodrigues’ rotation formula)</h2><p>罗德里格旋转公式是在给定转轴和旋转角度后,旋转一个向量的有效算法.公式如下,具体推导参考图片(<a href="https://commons.wikimedia.org/w/index.php?curid=43943835" target="_blank" rel="noopener">By Maschen - Own work, CC0</a>)</p><p><img src="/2020/11/25/四元数/rodrigues_rotation_formula.svg" alt="rodrigues rotation formula"></p><script type="math/tex; mode=display">\mathbf{v}_{\mathrm{rot}}=\mathbf{v} \cos \theta+(\mathbf{k} \times \mathbf{v}) \sin \theta+\mathbf{k}(\mathbf{k} \cdot \mathbf{v})(1-\cos \theta)</script><h2 id="四元数基本运算"><a href="#四元数基本运算" class="headerlink" title="四元数基本运算"></a>四元数基本运算</h2><ul><li><p>模长</p><script type="math/tex; mode=display">  \|q\|=\sqrt{a^{2}+b^{2}+c^{2}+d^{2}}</script></li><li><p>加减法</p><script type="math/tex; mode=display">  q_{1} \pm q_{2}=[s \pm t, \mathbf{v} \pm \mathbf{u}]</script></li><li><p>乘法<br>  对任意四元数 $q_{1}=[s, \mathbf{v}], q_{2}=[t, \mathbf{u}]$ 有</p><script type="math/tex; mode=display">  q_{1} q_{2}=[s t-\mathbf{v} \cdot \mathbf{u}, s \mathbf{u}+t \mathbf{v}+\mathbf{v} \times \mathbf{u}]</script></li><li><p>逆</p><script type="math/tex; mode=display">  q^{-1}=\frac{q^{*}}{\|q\|^{2}}</script><script type="math/tex; mode=display">  q_{1}^{*} q_{2}^{*}=\left(q_{2} q_{1}\right)^{*}</script></li><li><p>旋转公式</p><script type="math/tex; mode=display">  v^{\prime}=q v q^{*}=q v q^{-1}</script><p>  可借助罗德里格旋转公式,分别对垂直旋转轴和平行旋转轴的向量进行旋转.</p><p>  或者借助$\mathbf{a} \times(\mathbf{b} \times \mathbf{c})=(\mathbf{a} \cdot \mathbf{c}) \mathbf{b}-(\mathbf{a} \cdot \mathbf{b}) \mathbf{c}$直接推导</p><script type="math/tex; mode=display">  q v q^{*}=[0, \cos (\theta) \mathbf{v}+(1-\cos (\theta))(\mathbf{u} \cdot \mathbf{v}) \mathbf{u}+\sin (\theta)(\mathbf{u} \times \mathbf{v})]</script><p>  注意:可以证明<strong>即使v不是实部为0的纯四元数,旋转公式所得结果的向量部分也相同</strong></p></li></ul><h2 id="双倍覆盖"><a href="#双倍覆盖" class="headerlink" title="双倍覆盖"></a>双倍覆盖</h2><p>四元数q与-q表示同一个旋转,轴正方向旋转$\theta $,与反方向旋转$2\pi  - \theta $等价</p><h2 id="四元数插值"><a href="#四元数插值" class="headerlink" title="四元数插值"></a>四元数插值</h2><ol><li><p>两个四元数之间中间变换<br> 两个四元数之间的中间变换可以通过对空间中一个向量的变换来理解.<br> 四元数${q_0}$到${q_1}$的变换</p><script type="math/tex; mode=display"> \begin{aligned} \Delta q &=q_{1} q_{0}^{*} \\ &=\left[\cos \left(\theta_{1}\right), \sin \left(\theta_{1}\right) \mathbf{u}_{1}\right]\left[\cos \left(\theta_{0}\right),-\sin \left(\theta_{0}\right) \mathbf{u}_{0}\right] \\ &=\left[\cos \left(\theta_{0}\right) \cos \left(\theta_{1}\right)-\left(\sin \left(\theta_{1}\right) \mathbf{u}_{1}\right) \cdot\left(-\sin \left(\theta_{0}\right) \mathbf{u}_{0}\right), \ldots\right] \\ &=\left[\cos \left(\theta_{0}\right) \cos \left(\theta_{1}\right)+\left(\sin \left(\theta_{1}\right) \mathbf{u}_{1}\right) \cdot\left(\sin \left(\theta_{0}\right) \mathbf{u}_{0}\right), \ldots\right] \end{aligned}</script><p> $\Delta q$的角度看实部就可以了,实部就是两个四元数的点乘${q_0} \cdot {q_1}$的结果,由于两个都是单位四元数,所以中间变换$\Delta q$在三维空间中实际旋转的角度就是两个四元数之间夹角的两倍</p></li><li><p>常用插值算法</p><ul><li>正规化线性插值（Normalized Linear Interpolation）,沿着直线进行差值,在差值角度比较大会出现角速度不均匀</li><li><p>球面线性插值 ( Spherical Linear Interpolation), 最常用的姿态差值算法, 运算会多一点,较慢, 小角度通常选用Nlerp,效果差不多, 还能避免除以0的错误, 实际算法中可以检测四元数之间的夹角, 小角度用Nlerp,大角度用Slerp</p><p><strong>同时由于双倍覆盖的问题,在进行姿态插值时需要先计算两个四元数之间夹角是否大于90°,如果大于可以把其中一个四元素反转,即-q</strong>       </p></li></ul></li></ol><h2 id="四元数在不同坐标系下变换"><a href="#四元数在不同坐标系下变换" class="headerlink" title="四元数在不同坐标系下变换"></a>四元数在不同坐标系下变换</h2><ol><li><p>求${q}$姿态对应坐标系下z轴在极坐标系下的表示如下,只需要把全局坐标系中z轴(0,0,1)进行对应变换就可以(同旋转矩阵一样,可以理解为旋转算子或者姿态)</p><script type="math/tex; mode=display">q \cdot z \cdot {q^ * }</script></li><li><p>求两个四元素之间的中间变换对应的轴,比如${q_1}$到${q_0}$,</p><p> ${q_0}q_1^*$,然后取出旋转轴就可以.如果想把轴转换到${q_0}$坐标系下,则旋转回来再提取轴</p><p> 另外在<a href="https://github.com/frankaemika/franka_ros/blob/kinetic-devel/franka_example_controllers/src/cartesian_impedance_example_controller.cpp" target="_blank" rel="noopener">franka程序</a>    中看到换了成了$q_0^ * {q_1}$ ,然后增加负号并旋转变换到基坐标系下,这里推导<strong>只针对向量部分</strong>,即旋转轴,借助前面的结论<strong>普通四元数与纯四元数使用旋转公式后向量部分同</strong><br> 这里还使用了单位四元数的共轭就是逆,即把向量部分取负号</p><script type="math/tex; mode=display">{q_0}( - q_0^ * {q_1})q_0^ *  = {q_0}{(q_0^ * {q_1})^{ - 1}}q_0^ *  = {q_0}q_1^ * {q_0}q_0^ *  = {q_0}q_1^ *</script></li></ol><h2 id="四元数可视化"><a href="#四元数可视化" class="headerlink" title="四元数可视化"></a>四元数可视化</h2><p>参考3blue1brown的教程,四元数变换可以理解为对四维空间的变换然后投影到三维空间成我们见到的.</p><p>变换的形象理解是拉伸和旋转,考虑一个四元数对另一个四元数的作用(变换),简单理解就是对四元数的基1,i,j,k作用看效果</p><ul><li>把位于原点的1拉伸到四元数乘子所在位置</li><li>绕轴旋转对应的角度</li></ul><p>文章:<a href="https://eater.net/quaternions" target="_blank" rel="noopener">Visualizing quaternions</a></p><p>视频:</p><ul><li><a href="https://www.bilibili.com/video/BV1SW411y7W1?from=search&amp;seid=14501682529068922403" target="_blank" rel="noopener">四元数的可视化</a></li><li><a href="https://www.bilibili.com/video/BV1Lt411U7og?from=search&amp;seid=14501682529068922403" target="_blank" rel="noopener">四元数和三维转动，可互动的探索式视频（请看链接）</a></li></ul><h2 id="重点参考"><a href="#重点参考" class="headerlink" title="重点参考"></a>重点参考</h2><p>文章内有对四元数的详细介绍,四元数插值部分也讲得非常清楚</p><div class="row">    <embed src="quaternion.pdf" width="100%" height="550" type="application/pdf"></div><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ol><li><a href="https://zh.wikipedia.org/wiki/%E5%9B%9B%E5%85%83%E6%95%B8" target="_blank" rel="noopener">四元数</a></li><li><a href="https://zh.wikipedia.org/wiki/%E7%BD%97%E5%BE%B7%E9%87%8C%E6%A0%BC%E6%97%8B%E8%BD%AC%E5%85%AC%E5%BC%8F" target="_blank" rel="noopener">罗德里格旋转公式</a></li><li><a href="https://mp.weixin.qq.com/s?__biz=MzI1MTA3MjA2Nw==&amp;mid=2650216092&amp;idx=1&amp;sn=7f99fc0bc70293a3c5719ca864ece4ca&amp;chksm=f1fb2db0c68ca4a674760ce8c8bda1c3c4c6bcace1def7bb6eb132bc14c916669fb736377296&amp;mpshare=1&amp;scene=23&amp;srcid=1125JzIIUJ2yJphL2dc91Yay&amp;sharer_sharetime=1606291414222&amp;sharer_shareid=e4ca836a049d31ddd8c4060a9b422e51#rd" target="_blank" rel="noopener">干货 | 欧拉角，四元数？晕头转向的空间姿态表示法（下篇）</a></li><li><a href="https://krasjet.github.io/quaternion/" target="_blank" rel="noopener">quaternion by krasjet</a></li><li><a href="https://www.qiujiawei.com/understanding-quaternions/" target="_blank" rel="noopener">Understanding Quaternions 中文翻译《理解四元数》</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;四元数&quot;&gt;&lt;a href=&quot;#四元数&quot; class=&quot;headerlink&quot; title=&quot;四元数&quot;&gt;&lt;/a&gt;四元数&lt;/h1&gt;&lt;p&gt;四元数是由爱尔兰数学家威廉·卢云·哈密顿在1843年创立出的数学概念.速度更快、提供平滑插值、有效避免万向锁问题、存储空间较小.&lt;/
+      
+    
+    </summary>
+    
+      <category term="Math" scheme="http://yangbenbo.github.io/categories/Math/"/>
+    
+    
+      <category term="四元数" scheme="http://yangbenbo.github.io/tags/%E5%9B%9B%E5%85%83%E6%95%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>逆运动学</title>
+    <link href="http://yangbenbo.github.io/2020/11/23/%E9%80%86%E8%BF%90%E5%8A%A8%E5%AD%A6/"/>
+    <id>http://yangbenbo.github.io/2020/11/23/逆运动学/</id>
+    <published>2020-11-23T05:37:45.000Z</published>
+    <updated>2023-07-08T23:10:12.125Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="逆运动学"><a href="#逆运动学" class="headerlink" title="逆运动学"></a>逆运动学</h1><p>逆运动学是已知机械臂末端的位姿求解关节角度的过程,通常有两种方法:</p><ul><li>解析法.使用代数或者几何法求解,可以求得当前位姿对应的所有解,需要选择离当前位置最近的关节角解缺点是机械臂需要满足一定的要求.</li><li>优化法.把问题转化为优化问题(很多问题都可以转化为优化问题),缺点是只能获得一个解,耗时相对较长</li></ul><h2 id="优化法"><a href="#优化法" class="headerlink" title="优化法"></a>优化法</h2><ol><li><p>雅克比逆(牛顿-拉夫森法, Newton-Raphson Method)<br> 逆运动学就是求解方程$f(\theta)=0$,目标是找到关节坐标满足$x_{d}-f\left(\theta_{d}\right)=0$,使用泰勒展开,即</p><script type="math/tex; mode=display"> x_{d}=f\left(\theta_{d}\right)=f\left(\theta_{0}\right)+\underbrace{\left.\frac{\partial f}{\partial \theta}\right|_{\theta_{0}}}_{J\left(\theta_{0}\right)} \underbrace{\left(\theta_{d}-\theta_{0}\right)}_{\Delta \theta}+\mathrm{h.o.t.}</script><p> 只保留泰勒级数到第一项,简化为</p><script type="math/tex; mode=display"> J\left(\theta_{0}\right) \Delta \theta=x_{d}-f\left(\theta_{0}\right)</script><p> 如果作则雅克比矩阵可逆,则有</p><script type="math/tex; mode=display"> \Delta \theta=J^{-1}\left(\theta_{0}\right)\left(x_{d}-f\left(\theta_{0}\right)\right)</script><p> 如果正向运行学$f(\theta)$是$\theta$的线性函数,泰勒级数没有高阶项,新的估计值$\theta_{1}=\theta_{0}+\Delta \theta$精确满足运动学方程,<br> 相反,如果运动学是非线性函数,那么新的估计值将会更接近真实值,迭代不断重复,直到$\theta$收敛,如下图所示<br> <img src="/2020/11/23/逆运动学/niudun.png" alt="牛顿-拉夫森法"><br> 如果逆运动学存在多组解,则只会找到最近的解.在实际使用中,矩阵求逆很耗费计算资源,通常是借鉴$A x=b$,使用矩阵的LU分解.</p><p> 如果雅克比不可逆,则使用矩阵伪逆(Moore-Penrose),伪逆求法:</p><ul><li>SVD分解, 然后求逆</li><li>行满秩,右逆 $J^{\dagger}=J^{T}\left(J J^{T}\right)^{-1}$</li><li><p>列满秩,左逆 $J^{\dagger}=\left(J^{T} J\right)^{-1} J^{T}$<br>使用伪逆得到的解不会精确满足方程,但从最小二乘的层面会尽可能接近这个条件,求线性方程组或者拟合的时候经常用到.伪逆推导就是求解</p><script type="math/tex; mode=display">\begin{array}{c}\min _{\dot{q}}\|\dot{q}\|^{2} \\\text {subject to } \dot{x}=J \dot{q}\end{array}</script><p>然后使用<strong>拉格朗日乘数法（Lagrange Multiplier）</strong> 变成</p><script type="math/tex; mode=display">\min _{\dot{q}} \frac{1}{2}\|\dot{q}\|^{2}+\lambda^{T}(\dot{x}-J \dot{q})</script><p>分别对两个变量求导等与0得到两个方程求解就得到了右伪逆.<br>顺带说一下雅克比的零空间(null space),把关节速度投影到”零空间内”,对末端运动没有影响,公式如下,可以参考我的另一篇文章<a href="/2020/02/19/雅克比矩阵零空间/" title="雅克比矩阵零空间">雅克比矩阵零空间</a>    </p><script type="math/tex; mode=display">\forall \dot{q}_{0}, J\left(I-J^{+} J\right) \dot{q}_{0}=0</script><p>上述方法只是针对机械臂的末端位置求解,如果增加姿态,则不能只是直接简单相减,使用雅克比我们可以先求出末端的线速度和角速度(物体的速度旋量)</p><p>首先计算相对物体坐标系的期望位形</p><script type="math/tex; mode=display">T_{b d}\left(\theta_{i}\right)=T_{s b}^{-1}\left(\theta_{i}\right) T_{s d}=T_{b s}\left(\theta_{i}\right) T_{s d}</script><p>其中b指代body,即当前末端位恣,d指代destination.然后使用矩阵对数求解旋量</p><script type="math/tex; mode=display">\left[\mathcal{V}_{b}\right]=\log T_{b d}\left(\theta_{i}\right)</script><p>然后迭代求解</p><script type="math/tex; mode=display">\theta_{i+1}=\theta_{i}+J_{b}^{\dagger}\left(\theta_{i}\right) \mathcal{V}_{b}</script><p>注意这里使用的是物体雅克比(Body Jacobian)和对应的物体运动旋量(Body Twist),如果使用空间雅克比和空间运动旋量需要转换一下,$\mathcal{V}_{s}=\left[\mathrm{Ad}_{T_{s b}}\right] \mathcal{V}_{b}$</p><p>雅克比逆的方法也可以理解从当前点到目标点的速度,然后用雅克比逆求解关节角速度,使用到下一个关节角度的叠加,<br>只是这种理解关节角度角度变化不能太大,否则雅克比不准(和关节构型有关,是变化的)</p></li></ul></li><li><p>雅克比转置(梯度下降法)<br> 逆解的目标是当前的位置距离目标位置尽可能近,转化为一个最小值问题</p><script type="math/tex; mode=display"> \min _{q} \frac{1}{2}\left\|x_{d}-x_{c}\right\|^{2}</script><p> 这里有系数只是为了求导后没有系数,不影响结果,将当前位置带入方程得</p><script type="math/tex; mode=display"> \min _{q} \frac{1}{2}\left\|x_{d}-f(q)\right\|^{2}</script><p> 这个时候可以使用梯度下降法,每一步都沿着下降最快的方向走,方向为梯度的反方向</p><script type="math/tex; mode=display"> \begin{aligned} \Delta q &=-\alpha \nabla\left(\frac{1}{2}\left\|x_{d}-f(q)\right\|^{2}\right) \\ &=\alpha\left(\left(x_{d}-x\right)^{T} \frac{\partial f(q)}{\partial q}\right)^{T} \\ &=\alpha J^{T}\left(x_{d}-x\right)=\alpha J^{T} \Delta x \end{aligned}</script><p> 其中$\alpha$是梯度下降法的一个系数,步长(step size)或这学习效率(learning rate).步长太大导致”走过头”甚至多绕弯路,<br> 最终迭代速度慢(甚至无法收敛),步长太小导致迭代速度太慢.</p><p> 雅克比转置方法不需要求逆,不过收敛速度反而慢一点,使用这个方法控制机械臂,离end effector较远的关节常常需要输出更大的扭矩。</p></li><li><p>阻尼最小二平方法(DLS, Damped Least Square)<br> 雅克比奇异导致关节速度过大,这显然是我们不希望看到的,现在也有很多避奇异的方法,DLS就是一种限制关节速度的方法,<br> 这时我们需要最小化的目标是</p><script type="math/tex; mode=display"> \|J \Delta \theta-\overrightarrow{\mathrm{e}}\|^{2}+\lambda^{2}\|\Delta \theta\|^{2}</script><p> 即把关节变化量放进最小化的目标函数,方程可等价于</p><script type="math/tex; mode=display"> \left\|\left(\begin{array}{c} J \\ \lambda I \end{array}\right) \Delta \theta-\left(\begin{array}{c} \overrightarrow{\mathrm{e}} \\ 0 \end{array}\right)\right\|</script><p> 借鉴线性方程组$A x=b$求解(伪逆)</p><script type="math/tex; mode=display"> \left(\begin{array}{c} J \\ \lambda I \end{array}\right)^{T}\left(\begin{array}{c} J \\ \lambda I \end{array}\right) \Delta \boldsymbol{\theta}=\left(\begin{array}{c} J \\ \lambda I \end{array}\right)^{T}\left(\begin{array}{l} \overrightarrow{\mathbf{e}} \\ \mathbf{0} \end{array}\right)</script><p> 进而得到</p><script type="math/tex; mode=display"> \left(J^{T} J+\lambda^{2} I\right) \Delta \boldsymbol{\theta}=J^{T} \overrightarrow{\mathbf{e}}</script><p> 由于左侧矩阵非奇异,则有</p><script type="math/tex; mode=display"> \Delta \boldsymbol{\theta}=\left(J^{T} J+\lambda^{2} I\right)^{-1} J^{T} \overrightarrow{\mathbf{e}}</script><p> 同时有$\left(J^{T} J+\lambda^{2} I\right)^{-1} J^{T}=J^{T}\left(J J^{T}+\lambda^{2} I\right)^{-1}$ 可以左右两侧同时乘$J^{T} J+\lambda^{2} I$<br> 则有</p><script type="math/tex; mode=display"> \Delta \boldsymbol{\theta}=J^{T}\left(J J^{T}+\lambda^{2} I\right)^{-1} \overrightarrow{\mathbf{e}}</script><p> 这就是DLS方法的迭代方程</p><p> 在编程实现中,通常是直接处理雅克比矩阵奇异值分解后对奇异值操作,这是等效的,首先奇异值分解</p><script type="math/tex; mode=display"> J=U D V^{T}</script><p> 然后化简得到</p><script type="math/tex; mode=display">{J^T}{\left( {J{J^T} + {\lambda ^2}I} \right)^{ - 1}} = V{D^T}{\left( {D{D^T} + {\lambda ^2}I} \right)^{ - 1}}{U^T} = VE{U^T}</script><p> 从这里可以看出E为对称矩阵,而且值为(雅克比矩阵svd分解后奇异值为$\sigma_$,求逆之后为倒数)</p><script type="math/tex; mode=display"> e_{i, i}=\frac{\sigma_{i}}{\sigma_{i}^{2}+\lambda^{2}}</script><p> 所以一种比较简单的方式就是直接处理奇异值,<a href="https://github.com/CentroEPiaggio/kuka-lwr/blob/master/lwr_controllers/include/utils/pseudo_inversion.h" target="_blank" rel="noopener">kuka-lwr</a>就是这样处理的</p></li></ol><p>总结: DLS方法可以看成是两种方法的结合,<br>当$\lambda$很小时,根据SVD分解奇异值可以看出来就是牛顿-拉夫森法(矩阵逆),<br>当$\lambda$很大, $J{J^T}$为对阵矩阵,可以分解为<script type="math/tex">J{J^T} = Q\Lambda {Q^T}</script>,由于分解后的特征值相对$\lambda$ 很小,则最后直接成为下式,其实就是前面的梯度法  </p><script type="math/tex; mode=display">\Delta \boldsymbol{\theta}=J^{T}\left(\lambda^{2} \right)^{-1} \overrightarrow{\mathbf{e}}</script><p>逆解参考Samuel R. Buss的Introduction to Inverse Kinematics with Jacobian Transpose, Pseudoinverse and Damped Least Squares methods<br><div class="row">    <embed src="iksurvey.pdf" width="100%" height="550" type="application/pdf"></div></p><h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><p>使用<a href="https://bitbucket.org/traclabs/trac_ik/src/master/" target="_blank" rel="noopener">trac-ik</a>求解motoman逆运动学的时候容易求到距离当前关节较远的位置<br>通过判断关节角度差来决定是否需要重新逆解即可</p><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://mp.weixin.qq.com/s?__biz=MzI1MTA3MjA2Nw==&amp;mid=402440005&amp;idx=1&amp;sn=6fd6f3dab8d2a5859100b8d432b4bc57&amp;chksm=7bf084694c870d7fc3cda2050951d2464f2bf8d3a3fe53a5793b8c4853e7907f64d2f61c252e&amp;mpshare=1&amp;scene=1&amp;srcid=1122bJnzmLv4PJaTr2MAtKsn&amp;sharer_sharetime=1606046642935&amp;sharer_shareid=e4ca836a049d31ddd8c4060a9b422e51&amp;exportkey=Ax1h1mIg50AJIvm3eB93%2F%2B8%3D&amp;pass_ticket=743iIudUQdHJurJUc1%2FU%2BuO2n%2BhM2POPvesFLxsz0kQoyT9aMsZyAJAdiewBumEC&amp;wx_header=0#rd" target="_blank" rel="noopener">干货 | “逆运动学”——从操作空间到关节空间（上篇）</a></li><li><a href="https://mp.weixin.qq.com/s?__biz=MzI1MTA3MjA2Nw==&amp;mid=402732106&amp;idx=1&amp;sn=49072186c7c893a6e09801f11e8ffd78&amp;chksm=740d0f66437a86702b645b1e9a79d809e9c5feae53bdbbf39a81932c163c5bf1643f0da193ae&amp;mpshare=1&amp;scene=1&amp;srcid=1122mBBiPmcRYHdHnoQr8iQ9&amp;sharer_sharetime=1606046650729&amp;sharer_shareid=e4ca836a049d31ddd8c4060a9b422e51&amp;exportkey=A1IFM3SHYDEbQt4WRKd233w%3D&amp;pass_ticket=743iIudUQdHJurJUc1%2FU%2BuO2n%2BhM2POPvesFLxsz0kQoyT9aMsZyAJAdiewBumEC&amp;wx_header=0#rd" target="_blank" rel="noopener">干货 | “逆运动学”——从操作空间到关节空间（下篇）</a></li><li><a href="http://hades.mech.northwestern.edu/index.php/Modern_Robotics" target="_blank" rel="noopener">MODERN ROBOTICS MECHANICS, PLANNING, AND CONTROL</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;逆运动学&quot;&gt;&lt;a href=&quot;#逆运动学&quot; class=&quot;headerlink&quot; title=&quot;逆运动学&quot;&gt;&lt;/a&gt;逆运动学&lt;/h1&gt;&lt;p&gt;逆运动学是已知机械臂末端的位姿求解关节角度的过程,通常有两种方法:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;解析法.使用代数或者几何法求解
+      
+    
+    </summary>
+    
+      <category term="Math" scheme="http://yangbenbo.github.io/categories/Math/"/>
+    
+    
+      <category term="机器人" scheme="http://yangbenbo.github.io/tags/%E6%9C%BA%E5%99%A8%E4%BA%BA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>多线程</title>
+    <link href="http://yangbenbo.github.io/2020/11/14/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
+    <id>http://yangbenbo.github.io/2020/11/14/多线程/</id>
+    <published>2020-11-14T13:07:02.000Z</published>
+    <updated>2023-07-08T23:10:12.050Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="c-使用线程注意事项"><a href="#c-使用线程注意事项" class="headerlink" title="c++ 使用线程注意事项"></a>c++ 使用线程注意事项</h2><ol><li><p>限定符避免编译器优化<br> <a href="/2019/10/06/c++记录/" title="参考限定符部分">参考限定符部分</a>,不过没用好像也没什么问题   </p><pre><code> // 线程操作对象需要增加volatile,避免编译器优化(直接从变量地址读取而不是上次的值) volatile int val;</code></pre></li><li><p>锁同一个对象需要同一个锁,如全局变量或类对象        </p><pre><code> std::mutex mut   //构造函数加锁,析构函数解锁,避免程序意外终止结果没来得及解锁 lock_guard&lt;mutex&gt; lock (mut);  </code></pre></li><li><p>sleep_for,线程休眠指定时间后唤醒,不过由于线程调度等原因,实际睡眠时间可能更长</p><pre><code> std::this_thread::sleep_for( std::chrono::milliseconds(2000) );        </code></pre></li><li>线程销毁 <ul><li>thread::join()调用后,调用它的线程会被block，直到线程的执行被完成.如果一个c++线程对象销毁时还可以join就会抛出异常</li><li>thread::detach()函数被调用后,执行的线程从线程对象中被分离,已不再被一个线程对象所表达—这是两个独立的事情.</li><li>执行到析构函数时要么join,要么detach线程</li></ul></li></ol><h2 id="c-11院子操作-atomic-operation"><a href="#c-11院子操作-atomic-operation" class="headerlink" title="c++11院子操作(atomic operation)"></a>c++11院子操作(atomic operation)</h2><p>所谓的原子操作，取的就是“原子是最小的、不可分割的最小个体”的意义.确保同一时刻只有唯一的线程对指定的全局资源进行访问,<br>类似互斥锁,但是原子操作更加接近底层，因而效率更高.</p><p>使用非常简单,只是类型不一样,且不用加锁就能保证线程访问的安全性,类型包括atomic_bool,atomic_int等常用简单类型</p><pre><code>#include &lt;atomic&gt;      atomic_long total(0);total++;</code></pre><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ol><li><a href="https://blog.csdn.net/fawdlstty/article/details/49492197?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.add_param_isCf&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.add_param_isCf" target="_blank" rel="noopener">C++11：多线程与锁</a></li><li><a href="https://blog.csdn.net/fengbingchun/article/details/73521630?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.add_param_isCf&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.add_param_isCf" target="_blank" rel="noopener">C++11中std::mutex的使用</a></li><li><a href="https://blog.csdn.net/xibeichengf/article/details/71173543?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.add_param_isCf&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.add_param_isCf" target="_blank" rel="noopener">thread中join和detach的区别</a></li><li><a href="https://blog.csdn.net/yockie/article/details/8838686?utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.control&amp;depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.control" target="_blank" rel="noopener">C++11中的原子操作（atomic operation）</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;c-使用线程注意事项&quot;&gt;&lt;a href=&quot;#c-使用线程注意事项&quot; class=&quot;headerlink&quot; title=&quot;c++ 使用线程注意事项&quot;&gt;&lt;/a&gt;c++ 使用线程注意事项&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;限定符避免编译器优化&lt;br&gt; &lt;a href=&quot;/
+      
+    
+    </summary>
+    
+      <category term="Program" scheme="http://yangbenbo.github.io/categories/Program/"/>
+    
+    
+      <category term="多线程" scheme="http://yangbenbo.github.io/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>电脑小问题记录</title>
+    <link href="http://yangbenbo.github.io/2020/11/12/%E7%94%B5%E8%84%91%E5%B0%8F%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/"/>
+    <id>http://yangbenbo.github.io/2020/11/12/电脑小问题记录/</id>
+    <published>2020-11-12T00:43:35.000Z</published>
+    <updated>2023-07-08T23:10:12.085Z</updated>
+    
+    <content type="html"><![CDATA[<p>电脑的问题有时候是硬件问题,需要细心排查</p><h2 id="电脑无法正常启动"><a href="#电脑无法正常启动" class="headerlink" title="电脑无法正常启动"></a>电脑无法正常启动</h2><ol><li>电脑上电之后马上自己断电,如此反复<br> 把线头紧一下,内存条拿下来擦一下就可以了,可能是线头送了或者之前打扫的时候灰尘太大影响的主板</li><li>双系统电脑开机之后没有ubuntu grub启动项选项,直接进入ubuntu,进系统前显示屏一直没有信号输入<br> 电脑显示器插头松了.另一种可能是需要把内存条拿下来擦一下    </li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;电脑的问题有时候是硬件问题,需要细心排查&lt;/p&gt;
+&lt;h2 id=&quot;电脑无法正常启动&quot;&gt;&lt;a href=&quot;#电脑无法正常启动&quot; class=&quot;headerlink&quot; title=&quot;电脑无法正常启动&quot;&gt;&lt;/a&gt;电脑无法正常启动&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;电脑上电之后马上自己断电
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://yangbenbo.github.io/categories/Linux/"/>
+    
+    
+      <category term="软硬件" scheme="http://yangbenbo.github.io/tags/%E8%BD%AF%E7%A1%AC%E4%BB%B6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>python 装饰器</title>
+    <link href="http://yangbenbo.github.io/2020/11/10/python-%E8%A3%85%E9%A5%B0%E5%99%A8/"/>
+    <id>http://yangbenbo.github.io/2020/11/10/python-装饰器/</id>
+    <published>2020-11-10T06:00:30.000Z</published>
+    <updated>2023-07-08T23:10:11.971Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="python装饰器-property"><a href="#python装饰器-property" class="headerlink" title="python装饰器 @property"></a>python装饰器 @property</h2><p>绑定属性时有时候我们只想只读类的属性值,或者有限制的更改类的属性值</p><p>可以使用get()和set()方法,但是略显复杂,使用装饰器可以更简单,python内置的@property装饰器负责把方法变成属性调用</p><pre><code>class Student(object):    @property    def score(self):        return self._score    @score.setter    def score(self, value):        if not isinstance(value, int):            raise ValueError(&#39;score must be an integer!&#39;)        if value &lt; 0 or value &gt; 100:            raise ValueError(&#39;score must between 0 ~ 100!&#39;)        self._score = value</code></pre><p>把getter方法变成属性时只需要@property,@score.setter负责把setter方法变成属性赋值,对于只读属性可只定义getter方法</p><p><strong>这种方式对于单个值设置只读是很有帮助的,但是对于列表,numpy数组等就无法防止对列表中单个数据的修改</strong></p><pre><code>import numpy as npclass testnp(object):    def __init__(self):        self._data = [1, 1]        self._npdata = np.asarray([1, 1, 1])    @property    def data(self):        return self._data    @property    def npdata(self):        return self._npdata        # return self.get_readOnly_view(self._npdata)    def get_readOnly_view(self, data):        res = data.view()        res.flags.writeable = False        return restest = testnp()print &quot;初始值:&quot;print test.dataprint test.npdatadata = test.datanpdata = test.npdata# 测试赋值前# 可以单独修改# test.data[0] = 10 # 原始数据修改 [10,1]# test.npdata[0] = 10     # 原始数据修改 [10, 1, 1]# 整体无法修改# test.data = [10,10] # AttributeError: can&#39;t set attribute# test.npdata = np.asarray([10, 10, 10])  # AttributeError: can&#39;t set attribute# 测试赋值后# 新变量整体操作不影响# data = [10,10]  # 原始数据保留# npdata = np.asarray([10, 10, 10])   # 原始数据保留# 新变量操作元素改变数据# data[0] = 10    #   原始数据修改 [10, 1]# npdata[0] = 10  # 原始数据修改 [10, 1, 1]</code></pre><p>使用@property</p><ul><li>只作用于赋值前的数据.如果赋值给新变量,那么新变量可以再赋值,不过不会影响到原始数据(新变量是一个新的对象)</li><li>只能作用于整个变量.对于列表和<code>numpy</code>数组,能够防止对于整体数据的修改,如果对列表中元素修改会修改到原始数据,不论是赋值前后</li></ul><p>从装饰器也可以看出来返回的值就是对象数据本身,虽然整体值不让改,但是元素的值可以改;</p><ul><li>list:python中一般会使用写时复制功能,所以新变量赋值再更改之后就是另一个变量,和之前的数据没有关系,变量名可以看成是指向了另一块内存区域</li><li>numpy数组:numpy自身优化了效率,需要调用<code>numpy.copy</code>才能深度拷贝成为另一个变量,否则即使赋值给变量,对新变量的操作还是对同一块内存区域的操作</li></ul><p>解决办法:</p><ul><li>列表可以返回一个拷贝<code>return self._data[:]</code>,如果数据量大是很不利的</li><li>numpy可以返回一个只读属性的view,见上面测试代码.为了利用@property把获取数据的方法变成属性使用,可以直接把返回的只读numpy数组使用@property再次封装.这样整体和单独变量都不会被修改,如果需要修改,那么深度拷贝返回值即可<code>numpy.copy(test.npdata)</code></li></ul><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ol><li><a href="https://www.liaoxuefeng.com/wiki/1016959663602400/1017502538658208" target="_blank" rel="noopener">廖雪峰python教程 使用@property</a></li><li><a href="https://stackoverflow.com/questions/60810463/is-this-a-correct-way-to-create-a-read-only-view-of-a-numpy-array" target="_blank" rel="noopener">Is this a correct way to create a read-only view of a numpy array?</a>          </li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;python装饰器-property&quot;&gt;&lt;a href=&quot;#python装饰器-property&quot; class=&quot;headerlink&quot; title=&quot;python装饰器 @property&quot;&gt;&lt;/a&gt;python装饰器 @property&lt;/h2&gt;&lt;p&gt;绑定属性
+      
+    
+    </summary>
+    
+      <category term="Program" scheme="http://yangbenbo.github.io/categories/Program/"/>
+    
+    
+      <category term="python" scheme="http://yangbenbo.github.io/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>解决conda和ros库不兼容问题,libapr-1.so.0：对‘uuid_generate@UUID_1.0’未定义的引用</title>
+    <link href="http://yangbenbo.github.io/2020/11/10/%E8%A7%A3%E5%86%B3libapr-1-so-0%EF%BC%9A%E5%AF%B9%E2%80%98uuid-generate-UUID-1-0%E2%80%99%E6%9C%AA%E5%AE%9A%E4%B9%89%E7%9A%84%E5%BC%95%E7%94%A8/"/>
+    <id>http://yangbenbo.github.io/2020/11/10/解决libapr-1-so-0：对‘uuid-generate-UUID-1-0’未定义的引用/</id>
+    <published>2020-11-10T03:05:40.000Z</published>
+    <updated>2023-07-08T23:10:12.124Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="主要是因为conda和ros兼容的问题"><a href="#主要是因为conda和ros兼容的问题" class="headerlink" title="主要是因为conda和ros兼容的问题"></a>主要是因为conda和ros兼容的问题</h2><ol><li>问题关键词： <strong>libapr-1.so.0</strong>和<strong>uuid</strong></li><li><p>locate第一个关键词: </p><pre><code> $ locate libapr-1.so.0  /usr/lib/x86_64-linux-gnu/libapr-1.so.0 /usr/lib/x86_64-linux-gnu/libapr-1.so.0.5.2</code></pre></li><li><p>查看该库对第二个关键字的依赖包位置</p><pre><code> $ ldd /usr/lib/x86_64-linux-gnu/libapr-1.so.0 |grep uuid libuuid.so.1 =&gt; /lib/x86_64-linux-gnu/libuuid.so.1 (0x00007f3588aab000)</code></pre><p> 这是ros系统所使用的库依赖，报错是因为anaconda中也有libuuid.so.1,但是版本不同</p></li><li><p>locate第二个关键词</p><pre><code>$ locate libuuid.so.1  /home/yang/anaconda3/envs/franka/lib/libuuid.so.1/home/yang/anaconda3/envs/franka/lib/libuuid.so.1.0.0/home/yang/anaconda3/lib/libuuid.so.1/home/yang/anaconda3/lib/libuuid.so.1.0.0/home/yang/anaconda3/pkgs/libuuid-1.0.3-h1bed415_2/lib/libuuid.so.1/home/yang/anaconda3/pkgs/libuuid-1.0.3-h1bed415_2/lib/libuuid.so.1.0.0/lib/i386-linux-gnu/libuuid.so.1/lib/i386-linux-gnu/libuuid.so.1.3.0/lib/x86_64-linux-gnu/libuuid.so.1/lib/x86_64-linux-gnu/libuuid.so.1.3.0/snap/core/10126/lib/x86_64-linux-gnu/libuuid.so.1/snap/core/10126/lib/x86_64-linux-gnu/libuuid.so.1.3.0/snap/core/10185/lib/x86_64-linux-gnu/libuuid.so.1/snap/core/10185/lib/x86_64-linux-gnu/libuuid.so.1.3.0</code></pre><p>可以看出,ros使用的是/lib/x86_64-linux-gnu/libuuid.so.1,由于anaconda的存在,我使用的库是/home/yang/anaconda3/envs/franka/lib/libuuid.so.1<br>对比两个版本</p><pre><code>$ ll /lib/x86_64-linux-gnu/ |grep uuid   lrwxrwxrwx  1 root root      16 Jan 27  2020 libuuid.so.1 -&gt; libuuid.so.1.3.0-rw-r--r--  1 root root   18976 Jan 27  2020 libuuid.so.1.3.0$ ll ~/anaconda3/envs/franka/lib |grep uuid-rw-rw-r--  3 yang yang    26398 Jan 12  2018 libuuid.a-rwxrwxr-x  1 yang yang      978 Nov  9 16:05 libuuid.la*lrwxrwxrwx  1 yang yang       16 Nov  9 16:05 libuuid.so -&gt; libuuid.so.1.0.0*lrwxrwxrwx  1 root root       34 Nov 10 09:35 libuuid.so.1 -&gt; libuuid.so.1.0.0*-rwxrwxr-x  3 yang yang    18472 Jan 12  2018 libuuid.so.1.0.0*可以看出系统库是1.3.0版本,anaconda使用的是1.0.0版本</code></pre></li><li><p>把anaconda库链接到系统的库(比较简单,可以先把anaconda对应库备份一下,也可以考虑升级anaconda对应库,但是我没找到)</p><pre><code> mv ~/anaconda3/envs/franka/lib/libuuid.so.1 ~/anaconda3/envs/franka/lib/libuuid.so.1.back        sudo ln -s /lib/x86_64-linux-gnu/libuuid.so.1 ~/anaconda3/envs/franka/lib/libuuid.so.1</code></pre></li></ol><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ol><li><a href="https://blog.csdn.net/qq_36013249/article/details/103311001" target="_blank" rel="noopener">解决libapr-1.so.0：对‘uuid_generate@UUID_1.0’未定义的引用</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;主要是因为conda和ros兼容的问题&quot;&gt;&lt;a href=&quot;#主要是因为conda和ros兼容的问题&quot; class=&quot;headerlink&quot; title=&quot;主要是因为conda和ros兼容的问题&quot;&gt;&lt;/a&gt;主要是因为conda和ros兼容的问题&lt;/h2&gt;&lt;ol&gt;
+
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://yangbenbo.github.io/categories/Linux/"/>
+    
+    
+      <category term="anaconda" scheme="http://yangbenbo.github.io/tags/anaconda/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>python基础</title>
+    <link href="http://yangbenbo.github.io/2020/05/22/python%E5%9F%BA%E7%A1%80/"/>
+    <id>http://yangbenbo.github.io/2020/05/22/python基础/</id>
+    <published>2020-05-22T08:52:49.000Z</published>
+    <updated>2023-07-08T23:10:11.972Z</updated>
+    
+    <content type="html"><![CDATA[<p>很多简单模块容易忘,在此记录一下</p><h2 id="基础操作"><a href="#基础操作" class="headerlink" title="基础操作"></a>基础操作</h2><ol><li><p>查看帮助文档</p><pre><code> import os # 主要有3中类型 ,也可以针对具体函数 dir(os) help(os)  os.__doc__</code></pre></li><li><p>查看变量内存地址</p><pre><code> # 需要注意有时候变量的复制是浅拷贝,地址相同的 # 使用pybullet获取机械臂位置就是这样,机械臂运动之后地址才变了 print(id(object))</code></pre></li><li><p>查看当前路径</p><pre><code> import os os.getcwd()</code></pre></li><li><p>copy模块</p><ul><li><p>注意python具有即时复制的功能</p><pre><code>  a = 1  b = a  print(id(a), id(b))  b = 2  print(id(a), id(b))</code></pre></li><li><p>有些模块如numpy没有特别设置不会深拷贝,通常配合copy.deepcopy()</p></li></ul></li><li><p>python3中@<br> 矩阵乘法</p><pre><code> Op    Precedence/associativity    Methods @    Same as *                    __matmul__, __rmatmul__ @=    n/a                            __imatmul__</code></pre></li><li><p>numpy数组交换行列</p><pre><code> a = np.array([[1,2,3],[2,3,4],[1,6,5], [9,3,4]]) a[:,[1,0,2]]</code></pre></li></ol><h2 id="安装模块"><a href="#安装模块" class="headerlink" title="安装模块"></a>安装模块</h2><ol><li><p>常用安装命令</p><pre><code> # 安装 conda环境可以使用conda install xxx pip install package_name pip install package_name==package_version # 更新 pip install -U package_name # 显示模块的信息 pip show package_name # 查看对应包简单信息 pip list |grep package_name # 卸载建议这种方式,不会会有残留文件(针对pip install -e .) pip uninstall package_name  </code></pre></li><li><p>pip install -e . VS python setup.py install</p><pre><code> Editable   pip                    setup.py yes        pip install -e .       python setup.py develop     no         pip install .          python setup.py install   </code></pre></li></ol><ul><li><p>可编辑模式安装(develop,可以在当前文件基础上修改)</p><p>这种方式会在site-packages下创建一个文件指向项目目录,并不会复制对应代码;<br>在项目根目录(setup.py所在)会生成egg-info 文件夹包含这个包的主要信息;<br>查看sys.path会发现里面多了一个项目根目录的路径</p><pre><code>  pip install -e /path/to/your/setup.py  # 项目根目录                  </code></pre></li><li>install 这种方式会在site-packages生成egg文件,里面包含对应的函数和模块,无法修改</li></ul><h2 id="python2和3用法区别"><a href="#python2和3用法区别" class="headerlink" title="python2和3用法区别"></a>python2和3用法区别</h2><ol><li><p>super函数<br> super() 函数是用于调用父类(超类)的一个方法。<br> super() 是用来解决多重继承问题的，直接用类名调用父类方法在使用单继承的时候没问题，但是如果使用多继承，会涉及到查找顺序（MRO）、重复调用（钻石继承）等种种问题。</p><p> python3 可以使用直接使用 super().xxx 代替 super(Class, self).xxx :</p><pre><code> #!/usr/bin/python # -*- coding: UTF-8 -*- class A(object):   # Python2.x 记得继承 object     def add(self, x):          y = x+1          print(y) class B(A):     def add(self, x):         super(B, self).add(x)  # python3 直接super().add(x) b = B() b.add(2)  # 3</code></pre></li></ol><h2 id="pybullet-结合-ROS"><a href="#pybullet-结合-ROS" class="headerlink" title="pybullet 结合 ROS"></a>pybullet 结合 ROS</h2><p>将pybullet中获取的图像通过变换获得对应的点云图<br><div class="row">    <embed src="OPGL_pointcloud.pdf" width="100%" height="550" type="application/pdf"></div></p><ol><li><p>Image  numpy array to sensor_msgs/Image</p><pre><code> from cv_bridge import CvBridge import numpy as np from sensor_msgs.msg import Image # 确保能都找到正确的opencv2的位置 import sys sys.path.remove(&#39;/opt/ros/kinetic/lib/python2.7/dist-packages&#39;) import cv2 rgb_np_arr, depth_np_arr, seg_mask_np_arr, point_cloud = self.camera.get_camera_frame() bridge = CvBridge() image_message = bridge.cv2_to_imgmsg(rgb_np_arr[:, :, [2, 1, 0, 3]].astype(&#39;uint8&#39;))  # default bgra8</code></pre></li><li><p>Pointcloud numpy to sensor_msgs/PointCloud2     </p><pre><code> import ros_numpy import numpy as np from sensor_msgs.msg import PointCloud2, PointField number = point_cloud.shape[0] * point_cloud.shape[1] point_cloud_arr = point_cloud.reshape([number, 3]) data = np.zeros(number, dtype=[     (&#39;x&#39;, np.float32),     (&#39;y&#39;, np.float32),     (&#39;z&#39;, np.float32) ]) data[&#39;x&#39;] = point_cloud_arr[:, 0] data[&#39;y&#39;] = point_cloud_arr[:, 1] data[&#39;z&#39;] = point_cloud_arr[:, 2] cloud_msg = ros_numpy.msgify(PointCloud2, data) cloud_msg.header.frame_id = &quot;map&quot;</code></pre></li><li><p>pointcloud from image deepth<br> reshape 默认是按行排列, 按列需要order=’F’</p><p> 矩阵求逆 np.linalg.inv(x)</p><p> 矩阵乘积 np.matmul(a, b)</p><pre><code> stepX = 10 stepY = 10 pointCloud = np.empty([np.int(self.img_height/stepY), np.int(self.img_width/stepX), 4]) projectionMatrix = np.asarray(self.projection_matrix).reshape([4,4],order=&#39;F&#39;) viewMatrix = np.asarray(view_matrix).reshape([4,4],order=&#39;F&#39;) tran_pix_world = np.linalg.inv(np.matmul(projectionMatrix, viewMatrix)) for h in range(0, self.img_height, stepY):     for w in range(0, self.img_width, stepX):         x = (2*w - self.img_width)/self.img_width         y = -(2*h - self.img_height)/self.img_height  # be careful！ deepth and its corresponding position         z = 2*depth_np_arr[h,w] - 1         pixPos = np.asarray([x, y, z, 1])         position = np.matmul(tran_pix_world, pixPos)         pointCloud[np.int(h/stepY),np.int(w/stepX),:] = position / position[3]          </code></pre></li></ol><h2 id="python代码中查看当前编译器版本"><a href="#python代码中查看当前编译器版本" class="headerlink" title="python代码中查看当前编译器版本"></a>python代码中查看当前编译器版本</h2><pre><code>import sysprint(sys.version)  # python2      </code></pre><h2 id="脚本中指定编译器"><a href="#脚本中指定编译器" class="headerlink" title="脚本中指定编译器"></a>脚本中指定编译器</h2><p>相当于写死了python3路径;</p><pre><code>#!/usr/bin/python3</code></pre><p>去环境设置寻找python3目录,推荐这种写法</p><pre><code>#!/usr/bin/env python3      </code></pre><h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><ol><li><p>ImportError: cannot import name ‘PackageFinder’</p><pre><code> curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py &amp;&amp; python get-pip.py</code></pre></li></ol><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ol><li><a href="https://www.jb51.cc/python/241778.html" target="_blank" rel="noopener">在virtualenv中设置：<code>pip install -e .</code> vs <code>python setup.py install</code></a></li><li><a href="https://www.jianshu.com/p/9a54e9f3e059" target="_blank" rel="noopener">如何将自己的Python程序打包—setuptools详解</a></li><li><a href="https://blog.csdn.net/qq_35356840/article/details/88557912" target="_blank" rel="noopener">Python Numpy 如何交换两行和两列</a></li><li><a href="http://ksimek.github.io/2012/08/22/extrinsic/" target="_blank" rel="noopener">Dissecting the Camera Matrix, Part 2: The Extrinsic Matrix</a></li><li><a href="https://zhuanlan.zhihu.com/p/73034007" target="_blank" rel="noopener">OpenGL投影矩阵(Projection Matrix)构造方法</a></li><li><a href="https://solarianprogrammer.com/2013/05/22/opengl-101-matrices-projection-view-model/" target="_blank" rel="noopener">OpenGL 101: Matrices - projection, view, model</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;很多简单模块容易忘,在此记录一下&lt;/p&gt;
+&lt;h2 id=&quot;基础操作&quot;&gt;&lt;a href=&quot;#基础操作&quot; class=&quot;headerlink&quot; title=&quot;基础操作&quot;&gt;&lt;/a&gt;基础操作&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;查看帮助文档&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; import
+      
+    
+    </summary>
+    
+      <category term="Program" scheme="http://yangbenbo.github.io/categories/Program/"/>
+    
+    
+      <category term="python" scheme="http://yangbenbo.github.io/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux + Qt5 + ROS配置Qwtplot3d</title>
+    <link href="http://yangbenbo.github.io/2020/05/12/Linux-Qt5-ROS%E9%85%8D%E7%BD%AEQwtplot3d/"/>
+    <id>http://yangbenbo.github.io/2020/05/12/Linux-Qt5-ROS配置Qwtplot3d/</id>
+    <published>2020-05-12T12:09:33.000Z</published>
+    <updated>2023-07-08T23:10:11.925Z</updated>
+    
+    <content type="html"><![CDATA[<p>qwtplot3D是一个Qt第三方库,在OpenGL基础上封装了一层可以用来三维绘图.</p><h2 id="Qt项目使用QwtPlot3d"><a href="#Qt项目使用QwtPlot3d" class="headerlink" title="　Qt项目使用QwtPlot3d"></a>　Qt项目使用QwtPlot3d</h2><ol><li>安装OpenGL(QwtPlot3d需要OpenGL作为基础)<br> 这一步网上很多教程,我之前装过,这里略过</li><li><p>下载QwtPlot3d压缩包两种选择,建议选a</p><p> a. 下载分支<a href="https://sourceforge.net/p/qwtplot3d/code/HEAD/tree/branches/multiple_curves_0_2_x/" target="_blank" rel="noopener">multiple_curves_0_2_x</a> 可以一个画面绘制多个图形</p><p> b. 下载<a href="https://sourceforge.net/projects/qwtplot3d/" target="_blank" rel="noopener">qwt-plot3d</a> <a href="https://blog.csdn.net/eastonwoo/article/details/37658141" target="_blank" rel="noopener">修改参考</a></p><p> 第一种方式顺利编译</p><p> 第二种方式,出现的问题 </p><pre><code> ‘gluErrorString’ was not declared in this scope err = gluErrorString(errcode);</code></pre><p> 解决方式</p><pre><code>    在include/qwt3d_openglhelper.h这个文件里添加 #include &lt;GL/glu.h&gt;    打开 qwtplot3d.pro , 在最前面输入下面这一句  LIBS += -lGLU            </code></pre></li><li><p>打开qwtplot3d.pro, 选择Release</p><p> 两种方式都可以编译后在编译文件夹找到4个libqwtplot3d.so*文件</p><p> 复制这四个文件到存放lib文件的目录,可以自己指定,我的是</p><pre><code> /opt/qt59/lib/x86_64-linux-gnu/qtcreator/</code></pre></li><li><p>打开qwtplot3d/examples/simpleplot/simpleplot.pro</p><pre><code> # 将第一句改为这二句 其实就是指定刚才生成的动态链接库的位置 # 其实把库文件放在原本指定的位置../../lib也可以编译成功 unix:LIBS += -lqwtplot3d -L../../lib unix:LIBS += -L/opt/qt59/lib/x86_64-linux-gnu/qtcreator/ -lqwtplot3d</code></pre><p> 其他项目使用需要生成的库文件.so 以及头文件 .h(qwtplot3d/include下),<br> simpleplot只用指定库是因为项目中指定了头文件位置</p><p> 运行程序如下<br> <img src="/2020/05/12/Linux-Qt5-ROS配置Qwtplot3d/simpleplot_mult.png" alt="simpleplot">    </p></li></ol><h2 id="ROS-CmakeLists-txt使用QwtPlot3d"><a href="#ROS-CmakeLists-txt使用QwtPlot3d" class="headerlink" title="ROS CmakeLists.txt使用QwtPlot3d"></a>ROS CmakeLists.txt使用QwtPlot3d</h2><pre><code># 把头文件拷贝到include/qwt 下并包含include_directories(${catkin_INCLUDE_DIRS}    include/qwt)# 寻找OpenGL 这是底层库find_package(Qt5 COMPONENTS Core Widgets OpenGL REQUIRED)# 设置库文件路径set(QT_LIBRARIES Qt5::Widgets Qt5::OpenGL)#added# 生成可执行程序并链接库add_executable(qwtdemo  src/traj_graph.cpp)target_link_libraries(qwtdemo ${QT_LIBRARIES} ${catkin_LIBRARIES}    qwtplot3d ) </code></pre><p><strong>特别注意:</strong></p><pre><code>file(GLOB_RECURSE QT_MOC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINKS    include/qtgui/*.hpp include/qtgui/*.h    )        </code></pre><p>这一句如果直接使用<em>.h,则会在建立的包内匹配</em>h(include src…),b方式即使把提供头文件包含进来也没问题,<br>a方式出错 需要排除qwtplot3d提供的头文件 这里我新建了一个文件include/qwt</p><pre><code>#  a方式出错 error: undefined reference to `Qwt3D::SurfacePlot::setResolution(int)&#39;/home/yang/project/cam/test/build/qtgui/include/qwt/moc_qwt3d_surfaceplot.cpp:78: error: undefined reference to `Qwt3D::SurfacePlot::setResolution(int)&#39;</code></pre><p>注意到上面只处理了头文件包含,对于库文件有多种处理方式,库文件又分为静态库和动态库,可参考<a href="https://www.zhihu.com/question/20484931/answer/69553616" target="_blank" rel="noopener">Linux 中的动态链接库和静态链接库是干什么的？</a></p><ol><li><p>指定相对位置(推荐,成功率高)</p><pre><code> # 把库文件.so复制到项目内与src同级目录lib, 然后在CmakeLists.txt指定相对位置 LINK_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/lib)   ## 添加动态库路径</code></pre></li><li><p>指定绝对位置</p><pre><code> # CmakeLists.txt 添加库文件路径(之前存放的路径) LINK_DIRECTORIES(/opt/qt59/lib/x86_64-linux-gnu/qtcreator/)   ## 添加动态库路径</code></pre></li><li><p>添加路径到变量LD_LIBRARY_PATH</p><pre><code> # ~/.bashrc 下添加下面这句,然后重开终端启动qtcreator 但是我没成功 export LD_LIBRARY_PATH=/opt/qt59/lib/x86_64-linux-gnu/qtcreator:${LD_LIBRARY_PATH}</code></pre></li><li><p>修改/etc/ld.so.conf,添加路径,运行sudo ldconfig命令</p><p> 这是一个系统动态链接库路径配置文件,我尝试过/etc/ld.so.conf 添加库文件路径<br> 以及在指定的目录下增加XXX.conf都不行,最后是直接拷贝到包含的一个目录下成功的(/usr/lib/x86_64-linux-gnu/)</p></li></ol><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ol><li><a href="https://blog.csdn.net/qq_41800188/article/details/87891586" target="_blank" rel="noopener">Ubuntu Linux 16.04 LTS + Qt5.5.1 + Qwtplot3d配置安装</a></li><li><a href="https://blog.csdn.net/EastonWoo/article/details/37658141" target="_blank" rel="noopener">QT5 r 加入qwtplot3d 三维库</a></li><li><a href="https://blog.csdn.net/zxh2075/article/details/54629318?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase" target="_blank" rel="noopener">linux下添加动态链接库路径的方法</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;qwtplot3D是一个Qt第三方库,在OpenGL基础上封装了一层可以用来三维绘图.&lt;/p&gt;
+&lt;h2 id=&quot;Qt项目使用QwtPlot3d&quot;&gt;&lt;a href=&quot;#Qt项目使用QwtPlot3d&quot; class=&quot;headerlink&quot; title=&quot;　Qt项目使用QwtP
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://yangbenbo.github.io/categories/Linux/"/>
+    
+    
+      <category term="Qt" scheme="http://yangbenbo.github.io/tags/Qt/"/>
+    
+      <category term="ROS" scheme="http://yangbenbo.github.io/tags/ROS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>mysql</title>
+    <link href="http://yangbenbo.github.io/2020/04/21/mysql/"/>
+    <id>http://yangbenbo.github.io/2020/04/21/mysql/</id>
+    <published>2020-04-21T15:15:25.000Z</published>
+    <updated>2023-07-08T23:10:11.969Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="常用语句"><a href="#常用语句" class="headerlink" title="常用语句"></a>常用语句</h2><pre><code>-- 显示数据库show databases;-- 显示表格show tables;-- 创建一个名称为car的数据库。create database car;-- 使用数据库 caruse car;-- 删除数据库car-- drop database car;-- 显示表格内容select * from tableName;-- 创建表create table brand (id int primary key auto_increment, factory varchar(255), name varchar(255), price int, sum int, sell int, last int);-- 删除brand表-- drop table brand;-- 插入数据insert into brand(factory,name,price,sum, sell, last) values(&#39;一汽大众&#39;, &#39;奥迪A6&#39;, 36, 50, 8, 42);-- 更新数据-- update brand set sell=5 , last=70 where factory=&#39;上海大众&#39; and name=&#39;桑塔纳&#39;;</code></pre><h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><h3 id="无法插入中文"><a href="#无法插入中文" class="headerlink" title="无法插入中文"></a>无法插入中文</h3><ol><li><p>临时修改</p><ul><li><p>查看客户端 编码字符 状态</p><pre><code>  status;  // Client characterset: utf8  #Server characterset 和 Db     characterset 都是utf8</code></pre></li><li><p>查看所有编码字符</p><pre><code>  show variables like&#39;%char%&#39;;</code></pre></li><li><p>修改设置(gbk 也是支持中文)            </p><pre><code>  set character_set_database=utf8;  set character_set_server=utf8;</code></pre></li></ul></li><li><p>永久修改修改配置文件</p><ul><li><p>针对未创建的表</p><pre><code>  sudo vim /etc/mysql/my.cnf  # 末尾添加  [client]  default-character-set=utf8  [mysqld]  character-set-server=utf8</code></pre><p>  /etc/init.d/mysql restart  #重启服务</p></li><li><p>针对已经创建的表</p><pre><code>  alter table `tablename` convert to character set utf8;</code></pre></li></ul></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;常用语句&quot;&gt;&lt;a href=&quot;#常用语句&quot; class=&quot;headerlink&quot; title=&quot;常用语句&quot;&gt;&lt;/a&gt;常用语句&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;-- 显示数据库
+show databases;
+
+-- 显示表格
+show tables;
+
+-- 创建一
+      
+    
+    </summary>
+    
+      <category term="Program" scheme="http://yangbenbo.github.io/categories/Program/"/>
+    
+    
+      <category term="mysql" scheme="http://yangbenbo.github.io/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>根轨迹</title>
+    <link href="http://yangbenbo.github.io/2020/03/28/%E6%A0%B9%E8%BD%A8%E8%BF%B9/"/>
+    <id>http://yangbenbo.github.io/2020/03/28/根轨迹/</id>
+    <published>2020-03-28T09:02:54.000Z</published>
+    <updated>2023-07-08T23:10:12.074Z</updated>
+    
+    <content type="html"><![CDATA[<!-- @import "[TOC]" {cmd="toc" depthFrom=2 depthTo=3 orderedList=false} --><!-- code_chunk_output --><ul><li><a href="#根轨迹定义">根轨迹定义</a></li><li><a href="#根轨迹准则">根轨迹准则</a></li><li><a href="#应用">应用</a></li><li><a href="#引用">引用</a></li></ul><!-- /code_chunk_output --><h2 id="根轨迹定义"><a href="#根轨迹定义" class="headerlink" title="根轨迹定义"></a>根轨迹定义</h2><p>一个基本的反馈系统传递函数为</p><script type="math/tex; mode=display">\frac{Y(s)}{R(s)}=\mathcal{T}(s)=\frac{D_{c}(s) G(s)}{1+D_{c}(s) G(s) H(s)}</script><p>极点为分母等于0时对应的根,换一种方式,求解根在K从0到无穷大对应的轨迹,<br>就可以得到不同K下系统的极点,从而得到系统的脉冲响应函数</p><script type="math/tex; mode=display">1+K L(s)=0 \text { where } L(s)=\frac{b(s)}{a(s)}</script><p><img src="/2020/03/28/根轨迹/close-loop.png" alt="close-loop"></p><p>根轨迹不局限于系统增益K,也可以求解相对于任何在特征方程中线性的参数的根轨迹</p><p>比如在求解K=1是不同c下的根轨迹</p><script type="math/tex; mode=display">1+G(s)=1+\frac{1}{s(s+c)}</script><script type="math/tex; mode=display">1+c \frac{s}{s^{2}+1}=0</script><h2 id="根轨迹准则"><a href="#根轨迹准则" class="headerlink" title="根轨迹准则"></a>根轨迹准则</h2><p>L(s)</p><ul><li>b(s) 极点个数为n 用x表示</li><li>a(s) 零点个数为m 用o表示</li></ul><ol><li><p>n条根轨迹从L(s)极点出发,m条轨迹终止于L(s)零点;<br>n&gt;m,则有n-m条根轨迹从极点指向无穷,反之m-n条轨迹从无穷指向零点</p><p> 从根轨迹公式 $a(s)+K b(s)=0$ 可以得出K=0时,a(s)=0,即为L(s)的极点,K趋向于无穷时,b(s)=0,为L(s)的零点</p></li><li><p>根轨迹在实轴上从左往右奇数点左边有根轨迹.</p><p> 根轨迹方程的一种表示 $L(s)=-\frac{1}{K}$ 从复数相位看左边的相位=右边的相位=180°</p><ul><li>用$\psi_{i}$表示零点对应项在复平面上任意一点对应的相角度,即零点指向对应点构成向量的角度</li><li><p>用$\phi_{i}$表示极点对应项在复平面上任意一点对应的相角度,即极点点指向对应点构成向量的角度</p><script type="math/tex; mode=display">\sum \psi_{i}-\sum \phi_{i}=180^{\circ}+360^{\circ}(l-1)</script><p>为保证相位不难理解实轴上根轨迹需要在奇数点左边<br><img src="/2020/03/28/根轨迹/measureing phase.png" alt="example"></p></li></ul></li><li><p>对于很大的s和K,n-m条根轨迹的渐近线为从实轴上中心点 $s=\alpha$出发的射线,射线角度 $\phi_{l}$ </p><script type="math/tex; mode=display">\begin{aligned} \phi_{l} &=\frac{180^{\circ}+360^{\circ}(l-1)}{n-m}, \quad l=1,2, \ldots, n-m \\ \alpha &=\frac{\sum p_{i}-\sum z_{i}}{n-m} \end{aligned}</script><p> 当K很大时变换根轨迹方程</p><script type="math/tex; mode=display">1+K \frac{\Pi_{i=1}^{m}\left(s-z_{i}\right)}{(s-\alpha)^{n-m} \Pi_{i=1}^{m}\left(s-z_{i}\right)}=0</script><p> 从而得到</p><script type="math/tex; mode=display">\begin{aligned} &(n-m) \alpha+\sum z_{i}=\sum p_{i}\\ &\alpha=\frac{\sum p_{i}-\sum z_{i}}{n-m} \end{aligned}</script></li><li><p>一或多个极点从一个点离开的方向</p><script type="math/tex; mode=display">q \phi_{l, d e p}=\sum \psi_{i}-\sum \phi_{i}-180^{\circ}-360^{\circ}(l-1)</script><p> 可以用一个很靠近极点的点来推导角度,到达零点的方向也可类似推导</p><script type="math/tex; mode=display">q \psi_{l, a r r}=\sum \phi_{i}-\sum \psi_{i}+180^{\circ}+360^{\circ}(l-1)</script><p> 可用于靠近虚轴方向的判断,看是否忘复平面左边走</p></li><li><p>同一个点可以有q个根,从点离开的方向</p><script type="math/tex; mode=display">\frac{180^{\circ}+360^{\circ}(l-1)}{q}</script></li></ol><h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><script type="math/tex; mode=display">H(s)=\frac{s-z}{s-p}</script><ul><li>超前补偿器:|z|&lt;|p|</li><li>滞后补偿器:|p|&lt;|z|<br>可以看补偿器的伯德图来理解</li></ul><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ol><li>Feedback Control of Dynamic Systems by Gene F. Franklin</li><li><a href="https://www.bilibili.com/video/BV1JJ411i7ph?t=498" target="_blank" rel="noopener">DR_CAN自动控制原理</a>         </li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;!-- @import &quot;[TOC]&quot; {cmd=&quot;toc&quot; depthFrom=2 depthTo=3 orderedList=false} --&gt;
+&lt;!-- code_chunk_output --&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#根轨迹定义&quot;&gt;根轨迹定义&lt;/a&gt;&lt;
+      
+    
+    </summary>
+    
+      <category term="Math" scheme="http://yangbenbo.github.io/categories/Math/"/>
+    
+    
+      <category term="根轨迹" scheme="http://yangbenbo.github.io/tags/%E6%A0%B9%E8%BD%A8%E8%BF%B9/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>排序算法</title>
+    <link href="http://yangbenbo.github.io/2020/03/16/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/"/>
+    <id>http://yangbenbo.github.io/2020/03/16/排序算法/</id>
+    <published>2020-03-16T07:37:00.000Z</published>
+    <updated>2023-07-08T23:10:12.067Z</updated>
+    
+    <content type="html"><![CDATA[<p>常用的排序算法:冒泡,归并,快排</p><h1 id="快排"><a href="#快排" class="headerlink" title="快排"></a>快排</h1><p>快速排序采用分治策略:找到一个轴点,比它小的放在左侧,大的放在右侧,不断划分</p><p>最坏情况O(n^2),大多数情况下平均效率O(nlogn),常系数比其它的小,实际的平均运行时间比同类的更少.<br>但是快速排序无法保证数据之间的相对次序(主要针对重复元素)</p><pre><code>#include &lt;cstdlib&gt;#include &lt;iostream&gt;using namespace std;// [lo hi) sorttemplate &lt;typename T&gt;int partition(T arr[], int lo, int hi){    int index = lo + rand()%(hi-lo);//    swap arr[lo] and arr[index]    T mi = arr[index];    arr[index] = arr[lo];    arr[lo] = mi;    hi--;  // point to last data    // &lt; 勤于交换 相对于&lt;=更好,能较为均衡划分     while(lo &lt; hi){        while(lo &lt; hi){            if(mi &lt; arr[hi]){ hi--; }            else{arr[lo++] = arr[hi]; break;}        }        while(lo &lt; hi){            if(arr[lo] &lt; mi){lo++; }            else{arr[hi--] = arr[lo]; break;}        }    }    arr[lo] = mi;    return lo;}template &lt;typename T&gt;void quicksort(T arr[], int length, int lo, int hi){//    judge the input    if(hi &lt; lo || hi - lo &gt; length|| arr == NULL){        cout &lt;&lt; &quot;invalid input&quot;;        exit(1);    }    if(hi-lo &lt; 2)        return;//    partition and sort    int middle = partition(arr, lo, hi);    quicksort(arr, length, lo, middle);    quicksort(arr, length, middle+1, hi);}// overridetemplate &lt;typename T&gt;void quicksort(T arr[], int length){    quicksort(arr, length, 0, length);}</code></pre><h1 id="归并"><a href="#归并" class="headerlink" title="归并"></a>归并</h1><p>从中间分成两部分,然后分别排序,最后归并<br>每一层递归消耗时间稳定在$\Theta(n)$,共有$\Theta\left(\log _{2} n\right)$层,共计$\Theta(\text {n} 1 \text {ogn})$</p><pre><code>template &lt;typename T&gt;void merge(T arr[], int lo, int middle, int hi){    int len_l = middle - lo;    int len_r = hi - middle;    T *temp_left = new T[len_l];    for(int i=0;i&lt;len_l;i++){temp_left[i] = arr[lo+i]; }    T *temp_right = arr + middle;    T *glo_arr = arr + lo;    for(int i=0,j=0,k=0;j&lt; len_l || k &lt; len_r;){        if(j &lt; len_l &amp;&amp; (temp_left[j] &lt;= temp_right[k] || k == len_r)){glo_arr[i++] = temp_left[j++];}        if(k &lt; len_r &amp;&amp; (temp_right[k] &lt; temp_left[j] || j == len_l)){glo_arr[i++] = temp_right[k++];}    }    delete [] temp_left;}template &lt;typename T&gt;void mergesort(T arr[], int length, int lo, int hi){//    judge the input    if(hi-lo &gt; length || hi&lt;lo){        cout&lt;&lt; &quot;invalid input&quot;;        exit(1);    }    if(hi - lo &lt; 2)        return;    int middle = (lo + hi)&gt;&gt;1;    mergesort(arr, length, lo, middle);    mergesort(arr, length, middle, hi);    merge(arr, lo, middle, hi);}template &lt;typename T&gt;void mergesort(T arr[], int length){    mergesort(arr, length, 0, length);}     </code></pre><h1 id="冒泡"><a href="#冒泡" class="headerlink" title="冒泡"></a>冒泡</h1><p>复杂度O(n^2)</p><pre><code>template &lt;typename T&gt;void bubblesort(T arr[], int length){    for(int i=0;i&lt;length-1;i++){        for(int j=0;j&lt;length-1-i;j++){            if(arr[j] &gt; arr[j+1]){                T temp = arr[j];                arr[j] = arr[j+1];                arr[j+1] = temp;            }        }    }}  </code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;常用的排序算法:冒泡,归并,快排&lt;/p&gt;
+&lt;h1 id=&quot;快排&quot;&gt;&lt;a href=&quot;#快排&quot; class=&quot;headerlink&quot; title=&quot;快排&quot;&gt;&lt;/a&gt;快排&lt;/h1&gt;&lt;p&gt;快速排序采用分治策略:找到一个轴点,比它小的放在左侧,大的放在右侧,不断划分&lt;/p&gt;
+&lt;p&gt;
+      
+    
+    </summary>
+    
+      <category term="Program" scheme="http://yangbenbo.github.io/categories/Program/"/>
+    
+    
+      <category term="sort" scheme="http://yangbenbo.github.io/tags/sort/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>理解补码</title>
+    <link href="http://yangbenbo.github.io/2020/03/13/%E7%90%86%E8%A7%A3%E8%A1%A5%E7%A0%81/"/>
+    <id>http://yangbenbo.github.io/2020/03/13/理解补码/</id>
+    <published>2020-03-12T23:31:28.000Z</published>
+    <updated>2023-07-08T23:10:12.080Z</updated>
+    
+    <content type="html"><![CDATA[<p>这里取8位有符号数来说明</p><h1 id="原码-反码-补码"><a href="#原码-反码-补码" class="headerlink" title="原码,反码,补码"></a>原码,反码,补码</h1><p>这里针对有符号数</p><ul><li>原码:最高位表示符号,整数为0,负数为1,其余部分为数绝对值的二进制表示.如-3 表示为1000 0011</li><li>反码:正数反码为本身,负数,保留符号位,其余位取反</li><li>补码:整数补码为本身,负数,保留符号位,其余为取反加1</li><li>形式值:将符号位作为实际含义,1000 0001 原码表示-1 ,形式值表示2^7+2^0 (考虑符号位) </li></ul><p>计算机的加减乘除是最基本的运算,需要设计得尽可能简单,设计的初衷就是想用一种编码实现加减 <strong>a-b = a+(-b)</strong></p><ol><li><p>原码,人脑最容易理解的方式,但是计算机不同,需要额外处理符号位是很麻烦,<br> 1-1=0000 0001(原)+1000 0001(原)=1000 0010(原)=-2 这是不符号运算的</p></li><li><p>反码,原码1000 0110 的补码是1111 1001.可以看出负数的补码(形式值)与自身的绝对值之和为1111 1111 (255)<br>这里只看数值运算,结合整数的补码就是本身,反码的实质就是取余运算 %1111 1111 (mod 255),理解可结合下面<a href="https://zh.wikipedia.org/wiki/%E5%8F%8D%E7%A0%81" target="_blank" rel="noopener">这张图</a><br> <img src="/2020/03/13/理解补码/fanma.png" alt="反码"><br> 还有一种理解:不看符号位,对于数值部分取反之后和之前和恒为0111 1111,可以看出是对数值部分取余即%0111 1111(%127).</p><p> 反码存在的问题,</p><ol><li>0 的表示有两种,浪费了一个二进制数 0000 0000(原) 1000 0000(原) 反码分别是0000 0000 和 1111 1111</li><li>无法保证减法运算,如 2-1 = 0000 0010(反) + 1111 1110(反) = 0000 0000(原)<br> 1-1 之类是对的1111 1111(反) = 1000 0000(原) </li></ol></li><li><p>补码,同反码一样,不过多了+1,相当于%256 (1000 0000)</p><ol><li>引入加1之后巧妙解决了0的表示问题,0000 0000(原) 和1000 0000(原)对应的补码都是0000 0000(补)<br> 那现在用1000 0000表示什么数呢? 1000 0000(补) + 0000 0001(补)=1000 0001(补)=1111 1111(原)=-127<br> 所以用1000 0000表示-128,没有对应的原码和反码 所以8为有符号二进制为[-128,127]</li><li><p>保证了减法运算,这里用了<a href="https://zh.wikipedia.org/wiki/%E5%90%8C%E9%A4%98" target="_blank" rel="noopener">同余的性质</a>  </p><script type="math/tex; mode=display">\left.\begin{array}{l}a \equiv b(\bmod m) \\c \equiv d(\bmod m)\end{array}\right\} \Rightarrow\left\{\begin{array}{c}a \pm c \equiv b \pm d(\bmod m) \\a c \equiv b d(\bmod m)\end{array}\right.</script><p> 如(2-1)%256 = (2 + (-1))%256 = (2+(-1%256)) %256 = 1 最后一步%256 是通过高位溢出达到的</p></li><li><p>用补码的第二种解释%128,解释为什么负数补码的补码就是负数本身,因为保留了符号位,数值部分两次取余%128%128为本身<br> 如给定1000 0001(原),则取补码为1111 1111(补),再求补码1000 0001</p></li><li><p>但是为什么反码不对呢?反码也是取余,主要是因为反码0的两种表示方式值相差1</p><p> 0+1 = 1000 0000(原) + 0000 0001(原)=1111 1111(反)+0000 0001(反)=0000 0000=0<br> 即0+1=0;这才是问题所在,0的两种表达方式导致了溢出处理有问题</p></li></ol></li></ol><h1 id="补码性质"><a href="#补码性质" class="headerlink" title="补码性质"></a>补码性质</h1><p>写这里是因为一道剑指offer的题解,很精妙:<a href="https://www.nowcoder.com/profile/9536154/codeBookDetail?submissionId=17465787" target="_blank" rel="noopener">输入一个整数,输出该数二进制表示中1的个数.其中负数用补码表示.</a></p><p>首先需要说明的是数在计算机中存储是用补码的形式</p><p>针对a-1的问题</p><ol><li>首先看正数,a-1 就是a的二进制从右至左第一位1借位,对应位变0,右边的都变成1 如0000 1100 - 1 = 0000 1011</li><li>负数,还是要用到同余 (a-1)%256 = ((a%256)-1)%256 如(-5-1)%256 等式左边=250=右边=1111 1010-1=1111 1001 同正数一样<br><strong>总的来说补码表示的数可以直接按照正数的加减法来运算(包括-1),这也是补码设计的初衷:统一加减法</strong>即计算机运算直接用补码的形式值来计算,输出转换为原码就可以了</li></ol><p>注意:负数右移或者/2左边补1,最小的数是-1(即1111 1111),所以在求一个数有多少位1时不要动这个数,而是移动取的位,比如a &amp; b,是把b左移,而不是把原数右移</p><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ol><li><a href="https://blog.csdn.net/zl10086111/article/details/80907428" target="_blank" rel="noopener">原码、反码、补码知识详细讲解（此作者是我找到的讲的最细最明白的一个）</a></li><li><a href="https://zh.wikipedia.org/wiki/%E4%BA%8C%E8%A3%9C%E6%95%B8" target="_blank" rel="noopener">维基百科:补码</a></li><li><a href="https://zh.wikipedia.org/wiki/%E5%90%8C%E9%A4%98" target="_blank" rel="noopener">同余</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;这里取8位有符号数来说明&lt;/p&gt;
+&lt;h1 id=&quot;原码-反码-补码&quot;&gt;&lt;a href=&quot;#原码-反码-补码&quot; class=&quot;headerlink&quot; title=&quot;原码,反码,补码&quot;&gt;&lt;/a&gt;原码,反码,补码&lt;/h1&gt;&lt;p&gt;这里针对有符号数&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;原码:最
+      
+    
+    </summary>
+    
+      <category term="Program" scheme="http://yangbenbo.github.io/categories/Program/"/>
+    
+    
+      <category term="补码" scheme="http://yangbenbo.github.io/tags/%E8%A1%A5%E7%A0%81/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>c++ string与c风格字符串</title>
+    <link href="http://yangbenbo.github.io/2020/02/22/c-string%E4%B8%8Ec%E9%A3%8E%E6%A0%BC%E5%AD%97%E7%AC%A6%E4%B8%B2/"/>
+    <id>http://yangbenbo.github.io/2020/02/22/c-string与c风格字符串/</id>
+    <published>2020-02-22T07:08:52.000Z</published>
+    <updated>2023-07-08T23:10:11.958Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><p>字符串实际上是使用 null 字符 ‘\0’ 终止的一维字符数组，大小比单词多一个</p><p>不需要把 null 字符放在字符串常量的末尾。C++ 编译器会在初始化数组时，自动把 ‘\0’ 放在字符串的末尾。</p><p>建议使用c++ string</p><pre><code>char greeting[6] = {&#39;H&#39;, &#39;e&#39;, &#39;l&#39;, &#39;l&#39;, &#39;o&#39;, &#39;\0&#39;}; char greeting[] = &quot;Hello&quot;;  </code></pre><h3 id="c-操作c风格字符串"><a href="#c-操作c风格字符串" class="headerlink" title="c++操作c风格字符串"></a>c++操作c风格字符串</h3><p>复制,连接,查找,比较,<strong>需要#include \<cstring\></cstring\></strong></p><p><strong>strlen(s1)获得的长度不包含空字符’\0’,string类的length()也是一样,</strong></p><pre><code>#include &lt;cstring&gt;  strcpy(s1, s2);   //复制字符串 s2 到字符串 s1strcat(s1, s2);     //连接字符串 s2 到字符串 s1 的末尾strlen(s1);         //返回字符串 s1 的长度 不包含空字符&#39;\0&#39;strcmp(s1, s2);     //如果 s1 和 s2 是相同的，则返回 0；如果 s1&lt;s2 则返回值小于 0；如果 s1&gt;s2 则返回值大于 0strchr(s1, ch);     //返回一个指针，指向字符串 s1 中字符 ch 的第一次出现的位置strstr(s1, s2);     //返回一个指针，指向字符串 s1 中字符串 s2 的第一次出现的位置</code></pre><h3 id="string"><a href="#string" class="headerlink" title="string"></a>string</h3><p>c++ 支持上述所有操作,并增加了功能</p><pre><code> append() -- 在字符串的末尾添加字符 直接用str1+str2也可以 find() -- 在字符串中查找字符串 insert() -- 插入字符 length() -- 返回字符串的长度 不包含空字符&#39;\0&#39; replace() -- 替换字符串 substr() -- 返回某个子字符串 ...</code></pre><h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><ol><li><p>常量字符串不能修改<br> <strong>p指向常量字符串(位于常量存储区),内容不能修改</strong>    </p><pre><code> // p a存放在栈区,&quot;string&quot;字面值存放在常量区 char *p = &quot;string&quot;; //可以访问单个字符p[2] 不能直接更改p[2] = &#39;I&#39; char a[] = &quot;string&quot;; //这里字符数组会把&quot;string&quot;拷贝到栈区,可以直接更改a[2] = &#39;I&#39; </code></pre><p> 一、程序的内存分配</p><ul><li>栈区(stack)：由编译器自动分配释放，存放函数的参数值，局部变量值等；</li><li>堆区(heap)：一般由程序员分配释放，若程序员不释放，程序结束时可能由操作系统OS回收。注意它与数据结构中的堆是两回事，<strong>分配方式倒是类似于链表</strong>； （malloc,new,free,delete）</li><li>全局区(静态区 static)：全局变量和静态变量的存储是放在一块的，初始化的全局变量和静态变量在一块区域，未初始化的全局变量和未初始化的静态变量在相邻的另一块区域。程序结束后由系统释放；</li><li>文字常量区：常量字符串就是放在这里，程序结束后由系统释放；</li><li><p>程序代码区：存放函数体的二进制代码。</p><p>栈区系统分配,速度快,但是程序员无法控制;堆区用起来方便,但是速度慢,容易产生内存碎片</p></li></ul></li></ol><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ol><li><a href="https://blog.csdn.net/Castiellee929/article/details/88628617" target="_blank" rel="noopener">char *p = “abcdefg”； 常量字符串”abcdefg”位于静态存储区，通过p不能修改该字符串常量</a>    </li><li><a href="https://blog.csdn.net/dongfanglanyi/article/details/81386752?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task" target="_blank" rel="noopener">char *p = “abcd”; 和 char a[] = “abcd”的区别</a>    </li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;字符串&quot;&gt;&lt;a href=&quot;#字符串&quot; class=&quot;headerlink&quot; title=&quot;字符串&quot;&gt;&lt;/a&gt;字符串&lt;/h2&gt;&lt;p&gt;字符串实际上是使用 null 字符 ‘\0’ 终止的一维字符数组，大小比单词多一个&lt;/p&gt;
+&lt;p&gt;不需要把 null 字符放在字符串
+      
+    
+    </summary>
+    
+      <category term="Program" scheme="http://yangbenbo.github.io/categories/Program/"/>
+    
+    
+      <category term="字符串" scheme="http://yangbenbo.github.io/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>雅克比矩阵零空间</title>
+    <link href="http://yangbenbo.github.io/2020/02/19/%E9%9B%85%E5%85%8B%E6%AF%94%E7%9F%A9%E9%98%B5%E9%9B%B6%E7%A9%BA%E9%97%B4/"/>
+    <id>http://yangbenbo.github.io/2020/02/19/雅克比矩阵零空间/</id>
+    <published>2020-02-19T03:10:14.000Z</published>
+    <updated>2023-07-08T23:10:12.132Z</updated>
+    
+    <content type="html"><![CDATA[<p>先来看广义逆阵</p><h1 id="广义逆阵"><a href="#广义逆阵" class="headerlink" title="广义逆阵"></a>广义逆阵</h1><p>广义逆也称为伪逆（pseudoinverse），有些时候，伪逆特指摩尔－彭若斯广义逆(M-P逆)。</p><h2 id="种类"><a href="#种类" class="headerlink" title="种类"></a>种类</h2><p>彭若斯条件</p><script type="math/tex; mode=display">\begin{aligned}&A A^{\mathrm{g}} A=A\\&A^{\mathrm{g}} A A^{\mathrm{g}}=A^{g}\\&\left(A A^{\mathrm{g}}\right)^{\mathrm{T}}=A A^{\mathrm{g}}\\&\left(A^{\mathrm{g}} A\right)^{\mathrm{T}}=A^{\mathrm{g}} A\end{aligned}</script><p>若<script type="math/tex">{A^{\rm{g}}}</script>满足条件1,则为A的广义逆阵;满足条件1和2,则为A的广义反身逆阵;<br>4个条件都满足则为摩尔-彭若斯逆(M-P逆)</p><p>除此之外还有其他广义逆阵包括左侧逆阵,右侧逆阵等</p><h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p>求解线性方程组  </p><script type="math/tex; mode=display">\eqalign{  & Ax = b  \cr   & x = {A^{\rm{g}}}b + \left[ {I - {A^{\rm{g}}}A} \right]w \cr}</script><h2 id="M-P逆"><a href="#M-P逆" class="headerlink" title="M-P逆"></a>M-P逆</h2><p>任意矩阵都存在M-P逆,且唯一,是应用最广泛的一种逆矩阵</p><p>计算方法</p><ol><li><p>满秩分解</p><script type="math/tex; mode=display"> \begin{aligned} \mathbf{A}=\mathbf{B C}, \mathbf{B} \in \mathbf{C}^{n \times r}, \mathbf{C} \in \mathbf{C}^{r \times n}, & \operatorname{rank}(\mathbf{B})=\operatorname{rank}(\mathbf{C})=r \\ \mathbf{A}^{+}=\mathbf{C}^{\mathrm{H}}\left(\mathbf{C} \mathbf{C}^{\mathrm{H}}\right)^{-1}\left(\mathbf{B}^{\mathrm{H}} \mathbf{B}\right)^{-1} \mathbf{B}^{\mathrm{H}} \end{aligned}</script></li><li><p>奇异值分解svd</p><script type="math/tex; mode=display"> \begin{aligned} &A=U\left(\begin{array}{ll} {\Delta} & {0} \\ {0} & {0} \end{array}\right) V^{H}\\ &A^{+}=V\left(\begin{array}{cc} {\Delta^{-1}} & {0} \\ {0} & {0} \end{array}\right)^{\mathrm{H}} U^{H} \end{aligned}</script></li></ol><h1 id="雅克比矩阵零空间"><a href="#雅克比矩阵零空间" class="headerlink" title="雅克比矩阵零空间"></a>雅克比矩阵零空间</h1><p>雅克比矩阵是关节空间到笛卡尔空间(机械臂末端)的映射,求解方程得</p><script type="math/tex; mode=display">\matrix{   {\delta x = J\delta q} \hfill  \cr    {\delta q = {J^\# }\delta x + \left[ {I - {J^\# }J} \right]\delta {q_0}} \hfill  \cr  }</script><p>其中<script type="math/tex">{J^\# }</script>为J的伪逆矩阵,从这里可以看出对于冗余机械臂(此时雅克比矩阵具有零空间)<br>可以在保证末端位置不变的情况下关节运动</p><h2 id="冗余机械臂关节空间力矩"><a href="#冗余机械臂关节空间力矩" class="headerlink" title="冗余机械臂关节空间力矩"></a>冗余机械臂关节空间力矩</h2><p>推导过程在pdf已经很详细了,这里摘取结论,资料出自<a href="https://cs.stanford.edu/groups/manips/teaching/cs327a/" target="_blank" rel="noopener">Advanced Robotic Manipulation</a><br><img src="/2020/02/19/雅克比矩阵零空间/redundancy.png" alt="冗余机械臂关节空间和任务空间"><br><img src="/2020/02/19/雅克比矩阵零空间/velocity_force.png" alt="velocity_force"></p><p>这里需要注意的是关节空间线性方程组求解时选择不同伪逆会有不同结果在pdf里面推导出来的逆是为了保证在对应零空间施加关节力矩不会影响操作空间加速度</p><p><strong>不清楚的是<a href="https://github.com/frankaemika/franka_ros/blob/kinetic-devel/franka_example_controllers/src/cartesian_impedance_example_controller.cpp" target="_blank" rel="noopener">franka笛卡尔空间阻抗控制</a><br>以及这里使用的<a href="https://github.com/frankaemika/franka_ros/blob/kinetic-devel/franka_example_controllers/include/franka_example_controllers/pseudo_inversion.h" target="_blank" rel="noopener">矩阵求伪逆</a>多了一个参数的作用</strong></p><div class="row">    <embed src="Redundancy-19.pdf" width="100%" height="550" type="application/pdf"></div><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ol><li><a href="https://zh.wikipedia.org/zh/%E5%B9%BF%E4%B9%89%E9%80%86%E9%98%B5#cite_note-James-4" target="_blank" rel="noopener">维基百科:广义逆阵</a></li><li><a href="https://blog.csdn.net/u013528298/article/details/80558315" target="_blank" rel="noopener">雅克比矩阵零空间</a></li><li><a href="https://studywolf.wordpress.com/2013/09/17/robot-control-5-controlling-in-the-null-space/" target="_blank" rel="noopener">ROBOT CONTROL PART 5: CONTROLLING IN THE NULL SPACE</a></li><li><a href="https://blog.csdn.net/u013528298/article/details/79952949" target="_blank" rel="noopener">冗余机器人以及雅克比伪逆矩阵</a></li><li><a href="https://cs.stanford.edu/groups/manips/teaching/cs327a/" target="_blank" rel="noopener">斯坦福课程:Advanced Robotic Manipulation</a></li><li>书籍:矩阵论 杨明 刘先忠 华中科技大学出版社</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;先来看广义逆阵&lt;/p&gt;
+&lt;h1 id=&quot;广义逆阵&quot;&gt;&lt;a href=&quot;#广义逆阵&quot; class=&quot;headerlink&quot; title=&quot;广义逆阵&quot;&gt;&lt;/a&gt;广义逆阵&lt;/h1&gt;&lt;p&gt;广义逆也称为伪逆（pseudoinverse），有些时候，伪逆特指摩尔－彭若斯广义逆(M-P逆
+      
+    
+    </summary>
+    
+      <category term="Math" scheme="http://yangbenbo.github.io/categories/Math/"/>
+    
+    
+      <category term="雅克比矩阵" scheme="http://yangbenbo.github.io/tags/%E9%9B%85%E5%85%8B%E6%AF%94%E7%9F%A9%E9%98%B5/"/>
+    
+      <category term="伪逆" scheme="http://yangbenbo.github.io/tags/%E4%BC%AA%E9%80%86/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>数据结构c++</title>
+    <link href="http://yangbenbo.github.io/2020/02/15/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84c/"/>
+    <id>http://yangbenbo.github.io/2020/02/15/数据结构c/</id>
+    <published>2020-02-15T01:20:59.000Z</published>
+    <updated>2023-07-08T23:10:12.068Z</updated>
+    
+    <content type="html"><![CDATA[<p>常用复杂度:常数,对数,线性,多项式,指数.<br>O(1),O(logn)、O(sqrt(n))、O(n)、O(nlogn)、O(n^2)、和O(2^n)</p><h1 id="输入规模"><a href="#输入规模" class="headerlink" title="输入规模"></a>输入规模</h1><p>对算法复杂度的界定都是相对于输入规模而言.</p><p>严格地说,所谓待计算问题的输入规模,应严格定义为“用以描述输入所需的空间规模”。</p><ol><li><p>例子</p><pre><code> int countOnes(unsigned int n) { //统计整数n癿二迕刢展开中数位1癿总数：O(logn)     int ones = 0; //计数器复位     while (0 &lt; n) { //在n缩减至0乀前，反复地         ones += (1 &amp; n); //检查最低位，若为1则计数         n &gt;&gt;= 1; //右秱一位     }     return ones; //迒回计数 } //等效亍glibc癿内置函数int __builtin_popcount (unsigned int n)</code></pre><p> 现对于n本身数值来说,复杂度为log(n);相对于n的二进制展开的宽度$r=1+\left\lfloor\log _{2} n\right\rfloor$(向下取整),则复杂度为O(r)</p><p> 这里选择后一种表达方式O(r),前一种称为伪对数复杂度        </p></li></ol><h1 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h1><p>Fibonacci数:线性递归</p><pre><code>__int64 fib(int n, __int64&amp; prev) { //计算Fibonacci数列第n顷(线性逑弻版):入口形式fib(n, prev)    if (0 == n) //若刡达逑弻基,则        { prev = 1; return 0; } //直接叏值:fib(-1) = 1, fib(0) = 0        else { //否则        __int64 prevPrev; prev = fib(n - 1, prevPrev); //逑弻计算前两顷        return prevPrev + prev; //其和即为正解      }} //用辅劣发量记弽前一顷,迒回数列癿弼前顷,O(n)</code></pre><p>原二分递归版本中对应于fib(n - 2)的另一次递归,在这里被省略掉了。其对应<br>的解答,可借助形式参数的机制,通过变量prevPrev“调阅”此前的记录直接获得。</p><p>更高效的方式是迭代,这里注意对已经计算出来的变量进行调阅的方式</p><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol><li><a href="https://www.xuetangx.com/courses/course-v1:TsinghuaX+30240184+sp/about?jwt_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvd25lciI6Im5ld194dWV0YW5neCIsInVzZXJfaWQiOjEwODMzMjMzfQ.wmH12o6YjppbHX4TzGdkpjfJHPmG4xSjHlZUBenKAOM&amp;owner=new_xuetangx" target="_blank" rel="noopener">数据结构(c++语言版)第三版_邓俊辉</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;常用复杂度:常数,对数,线性,多项式,指数.&lt;br&gt;O(1),O(logn)、O(sqrt(n))、O(n)、O(nlogn)、O(n^2)、和O(2^n)&lt;/p&gt;
+&lt;h1 id=&quot;输入规模&quot;&gt;&lt;a href=&quot;#输入规模&quot; class=&quot;headerlink&quot; title
+      
+    
+    </summary>
+    
+      <category term="Program" scheme="http://yangbenbo.github.io/categories/Program/"/>
+    
+    
+      <category term="数据结构" scheme="http://yangbenbo.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+  </entry>
+  
+</feed>
